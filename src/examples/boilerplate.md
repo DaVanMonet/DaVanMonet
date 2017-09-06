@@ -1,7 +1,7 @@
 ﻿---
 title: Boilerplate example
 guid: 50eaa9ef-80a1-4b59-9df2-ef126c99aeb2
----
+----
 ## Boilerplate example
 This file is an example of how you should structure your documentation
 

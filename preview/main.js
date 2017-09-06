@@ -52,7 +52,7 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 				items:
 				[
 					{
-						name:"home",
+						name:"Home",
 						href:"/",
 						type:"link"
 					}
@@ -60,7 +60,7 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 			},
 			maincontent:
 			{
-				content:"<h1>Welcome</h1><p>Use the navigation to see the content</p>"
+				content:"<h1>Welcome</h1><p class='intro-p'>Use the navigation to see the content</p>"
 			},
 			projectConfig:{},
 			indexData:{},
@@ -83,7 +83,7 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 					var cleanedContent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+3,filecontent.length);
 
 					//console.log(filecontent);
-					
+
 					window["a"] = filecontent;
 					let contentInfo = this.pageLookup[sourcepath];
 					let compiledContent = marked(cleanedContent, { sanitize: false });
@@ -147,6 +147,6 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 			}
 		}
 	  });
-	
-	
+
+
 	});

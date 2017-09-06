@@ -5,12 +5,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="lib/highlight.js@9.12.0/github.css"/>
+	<link rel="stylesheet" href="style.css"/>
 	<title>Preview</title>
 	<!-- <script src="lib/vue@2.4.2/vue.js" defer></script>
 	<script src="lib/lodash@4.16.0/lodash.js" defer></script>
 	<script src="lib/marked@0.3.6/marked.js" defer></script>
 	<script src="main.js" defer></script> -->
-	
+
 	<script data-main="main" src="/lib/require.js@2.3.5/require.min.js"></script>
 </head>
 <body>
@@ -28,23 +29,24 @@
 
 <script type="text/x-template" id="vuetemplate-navigation">
 	<nav>
-		<div v-for="item in navigation.items">
-			<strong 
+		<ul>
+		<li v-for="item in navigation.items">
+			<strong
 				v-if="item.type == 'directory'">{{item.name}}</strong>
-			<a 
+			<a
 				v-if="item.type == 'link'"
 				v-bind:href="item.href">{{item.name}}</a>
-			<a 
+			<a
 				v-if="item.type == 'page'"
-				v-bind:href="item.filepath | formatFilepathUrl(sourceDirectory)" 
+				v-bind:href="item.filepath | formatFilepathUrl(sourceDirectory)"
 				v-on:click="onPageClick"
 				>{{item.name}}</a>
-		</div>
+		</li>
+	</ul>
 	</nav>
 </script>
 <script type="text/x-template" id="vuetemplate-maincontent">
 <div class="maincontent">
-
 	<div class="maincontent" v-html="content.content"></div>
 	<div v-if="content.guid">{{content.guid}}</div>
 </div>
