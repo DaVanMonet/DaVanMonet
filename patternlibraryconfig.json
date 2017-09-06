@@ -1,0 +1,43 @@
+{	
+	"directories":
+	{
+		"src":"./src",
+		"dest":"./build/css"
+	},
+	"indexingOptions":
+	{
+		"output":"./contentindex.json",
+		"keysToOutput":["title","guid"]
+	},
+	"compilation":
+	{
+		"compilers":
+		[
+			{
+				"taskname":"less",
+				"target":".less",
+				"compile":true,
+				"compileIndividualFiles":true
+			},
+			{
+				"taskname":"sass",
+				"target":".scss",
+				"compile":true,
+				"compileIndividualFiles":true
+			}
+		],
+		"sourceMaps":true
+	},
+	"preview":
+	{
+		"websiteport":9001
+	},
+	"developmentOptions":
+	{
+		"livereloadport":1234
+	},
+	"structure": 
+	[
+		{ "title": "Examples", "path":"examples" }
+	]
+}

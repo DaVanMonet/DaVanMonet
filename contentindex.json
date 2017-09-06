@@ -1,0 +1,17 @@
+{
+	"structure": [
+		{
+			"title": "Examples",
+			"path": "examples",
+			"items": [
+				{
+					"filename": "boilerplate.md",
+					"filepath": "./src/examples/boilerplate.md",
+					"title": "Boilerplate example",
+					"guid": "50eaa9ef-80a1-4b59-9df2-ef126c99aeb2"
+				}
+			],
+			"count": 1
+		}
+	]
+}
