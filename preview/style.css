@@ -1,69 +1,155 @@
-body {
-  margin: 0;
-  font-family: 'calibri';
+/****** CSS color variables *****/
+
+:root {
+  --dark-primary-color: #0097A7;
+  --default-primary-color: #00BCD4;
+  --light-primary-color:  #B2EBF2;
+  --text-primary-color: #FFFFFF;
+  --accent-color: #607D8B;
+  --primary-text-color: #212121;
+  --secondary-text-color: #757575;
+  --divider-color: #BDBDBD;
 }
 
-h1 {
+/****** Main styles ******/
+.preview-h1 {
   text-align: center;
   margin-left: 0;
   font-size: 50px;
-  border-bottom: 2px solid #e3e3e4;
-  width: 15%;
-  display: block;
+  border-bottom: 2px solid var(--divider-color);
+  width: 20%;
+  display: inline-block;
   margin-left: auto;
   margin-right: auto;
 }
 
 h2 {
- margin-left: 100px;
  margin-top: 50px;
  font-size: 30px;
 }
 
-.intro-p {
+.preview-intro-p {
   text-align: center;
   margin-left: 0;
+  margin-top: 0;
+  font-size: 20px;
 }
 
 p {
-  margin-left: 120px;
   font-size: 20px;
 }
 
+/**** An hr line is coming from somewhere, don't know why/where ****/
 hr {
   display: none;
 }
+/****/
 
-nav {
-  text-align: center;
+code {
+  max-width: 50%;
   display: block;
-  background-color: #D4EFFC;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.preview-body {
+  margin: 0;
+  font-family: 'calibri';
+}
+
+.preview-header {
+  display: block;
+  background-color: var(--default-primary-color);
   font-size: 20px;
   padding: 25px;
+  border-bottom: 5px solid var(--dark-primary-color);
 }
 
-nav ul {
-  padding: 0;
-  margin: 0;
-}
+/****** Nav styles *******/
 
-nav li {
+.preview-nav {
   display: inline-block;
-  list-style-type: none;
-  margin-right: 10px; 
 }
 
-nav a {
+.preview-nav li {
   display: inline-block;
   text-decoration: none;
   font-size: 25px;
-  background-color: #9D9D9D;
-  color: #ffffff;
+  color: var(--text-primary-color);
   padding: 10px;
 }
 
-code {
-  max-width: 30%;
-  display: block;
-  margin-left: 100px;
+.preview-header-logo {
+  border: 2px solid white;
+  width: 60px;
+  border-radius: 5px;
+  font-size: 30px!important;
+  margin-right: 30px;
 }
+
+.preview-misc-links {
+  max-width: 100%;
+  float: right;
+  margin-right: 30px;
+  margin-top: 20px;
+}
+
+.preview-github-logo {
+  height: auto;
+  display: inline-block;
+  width: 50px;
+  max-width: 50%;
+  float: right;
+}
+
+.preview-version {
+  display: inline-block;
+  margin-right: 20px;
+  color: var(--secondary-text-color);
+}
+
+.preview-container {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.preview-maincontent {
+  width: 85%;
+  display: inline-block;
+  text-align: center;
+}
+
+.preview-side-nav {
+  width: 15%;
+  display: inline-block;
+  float: left;
+  position: sticky;
+}
+
+.preview-side-nav ul {
+  padding: 0;
+  font-size: 20px;
+  list-style-type: none;
+  margin-left: 50px;
+  border-right: 1px var(--divider-color) solid;
+  padding-right: 20px;
+}
+
+.preview-side-nav li {
+  padding-bottom: 10px;
+}
+
+.preview-side-nav a, a:link, a:visited, a:focus, a:hover, a:active {
+  text-decoration:none;
+}
+
+.preview-side-nav a, a:link, a:visited {
+color: var(--secondary-text-color);
+}
+
+.preview-side-nav a:focus, a:hover{
+  color: var(--dark-primary-color);
+}
+
+/******* Media Queries *******/

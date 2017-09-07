@@ -52,7 +52,7 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 				items:
 				[
 					{
-						name:"Home",
+						name:"Introduction",
 						href:"/",
 						type:"link"
 					}
@@ -60,7 +60,7 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 			},
 			maincontent:
 			{
-				content:"<h1>Welcome</h1><p class='intro-p'>Use the navigation to see the content</p>"
+				content:"<h1 class='preview-h1'>Welcome</h1><p class='preview-intro-p'>Use the navigation to see the content</p>"
 			},
 			projectConfig:{},
 			indexData:{},
@@ -147,6 +147,4 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 			}
 		}
 	  });
-
-
 	});
