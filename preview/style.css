@@ -1,4 +1,4 @@
-/****** CSS color variables *****/
+/****** CSS variables *****/
 
 :root {
   --dark-primary-color: #0097A7;
@@ -12,9 +12,15 @@
 }
 
 /****** Main styles ******/
+
+.preview-body {
+  margin: 0;
+  font-family: 'Calibri', sans-serif;
+  font-size: 20px;
+}
+
 .preview-h1 {
   text-align: center;
-  margin-left: 0;
   font-size: 50px;
   border-bottom: 2px solid var(--divider-color);
   width: 20%;
@@ -35,10 +41,6 @@ h2 {
   font-size: 20px;
 }
 
-p {
-  font-size: 20px;
-}
-
 /**** An hr line is coming from somewhere, don't know why/where ****/
 hr {
   display: none;
@@ -52,11 +54,6 @@ code {
   margin-right: auto;
 }
 
-.preview-body {
-  margin: 0;
-  font-family: 'calibri';
-}
-
 .preview-header {
   display: block;
   background-color: var(--default-primary-color);
@@ -67,11 +64,13 @@ code {
 
 /****** Nav styles *******/
 
-.preview-nav {
+.preview-header-nav {
   display: inline-block;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
-.preview-nav li {
+.preview-header-nav a {
   display: inline-block;
   text-decoration: none;
   font-size: 25px;
@@ -79,12 +78,15 @@ code {
   padding: 10px;
 }
 
+.preview-header-nav a:focus, .preview-header-nav a:hover{
+  color: var(--dark-primary-color);
+}
+
 .preview-header-logo {
-  border: 2px solid white;
-  width: 60px;
-  border-radius: 5px;
-  font-size: 30px!important;
-  margin-right: 30px;
+  width: 80px;
+  margin-left: 30px;
+  margin-top: 20px;
+  float: left;
 }
 
 .preview-misc-links {
@@ -118,6 +120,8 @@ code {
   width: 85%;
   display: inline-block;
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .preview-side-nav {
@@ -140,16 +144,109 @@ code {
   padding-bottom: 10px;
 }
 
-.preview-side-nav a, a:link, a:visited, a:focus, a:hover, a:active {
+ .preview-side-nav a, .preview-side-nav a:link, .preview-side-nav a:visited,
+ .preview-side-nav a:focus, .preview-side-nav a:hover, .preview-side-nav a:active {
   text-decoration:none;
 }
 
-.preview-side-nav a, a:link, a:visited {
+.preview-side-nav a, .preview-side-nav a:link, .preview-side-nav a:visited {
 color: var(--secondary-text-color);
 }
 
-.preview-side-nav a:focus, a:hover{
+.preview-side-nav a:focus, .preview-side-nav a:hover{
   color: var(--dark-primary-color);
 }
 
 /******* Media Queries *******/
+
+@media screen and (max-width: 1024px) {
+  .preview-side-nav {
+    width: 25%;
+    top: 0;
+  }
+
+  .preview-misc-links {
+    margin-right: 100px;
+  }
+
+  .preview-maincontent {
+      display: block;
+      width: 75%;
+  }
+
+  h2:first-of-type {
+    margin-top: 0px;
+    padding-top: 25px;
+  }
+
+  code {
+    max-width: 70%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .preview-maincontent {
+    max-width: 50%;
+    position: sticky;
+  }
+
+  h2 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .preview-version {
+    display: none;
+  }
+
+  .preview-github-logo {
+    margin-top: -75px;
+    margin-right: -80px;
+    width: 180px;
+  }
+
+  .preview-h1 {
+    width: 50%;
+    text-align: center;
+  }
+
+  code {
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+
+  .preview-side-nav {
+    display: none;
+  }
+
+  .preview-header-nav {
+    padding: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  .preview-header-nav a {
+    font-size: 18px;
+  }
+
+  .preview-github-logo {
+    display: none;
+  }
+
+  .preview-header-logo {
+    display: block;
+    margin-left: 40%;
+  }
+
+  .maincontent {
+    max-width: 100%;
+  }
+
+  .preview-h1 {
+    width: 100%;
+    text-align: center;
+  }
+}
