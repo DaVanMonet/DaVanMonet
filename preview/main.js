@@ -1,5 +1,3 @@
-
-
 require.config({
 	paths:
 	{
@@ -9,61 +7,70 @@ require.config({
 		'gray-matter':'lib/gray-matter@3.0.0/index',
 		'highlight':'lib/highlight.js@9.12.0/highlight.min',
 		'jquery':'lib/jquery@3.2.1/jquery.min',
+		'less':'lib/less@2.7.2/less.min',
 	}
 });
 
-
-define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highlight) =>
+define(["vue","less","jquery","marked","highlight"], (Vue,less, $, marked, highlight) =>
 {
+	(async () =>
+	{
+		const configrequest = await fetch('./patternlibraryconfig.json');
+		let config = await configrequest.json();
+		
+		if(config.developmentenvironment && config.developmentenvironment.livereloadport)
+		{
+			$('<script src="//localhost:'+ config.developmentenvironment.livereloadport +'/livereload.js"></script>').appendTo('body');
+		}
+	})();
+
 
 	Vue.component('maincontent', {
 		template: '#vuetemplate-maincontent',
 		props: ['content']
 	});
+
 	Vue.component('navigation', {
 		template: '#vuetemplate-navigation',
-		props: ['navigation', 'sourceDirectory'],
+		props: ['navigation', 'sourceDirectory']
+	});
+	Vue.component('navigation-list', {
+		template: '#vuetemplate-navigationlist',
+		props: ['items', 'sourceDirectory', 'level'],
 		filters:
 		{
-			formatFilepathUrl:function(filepath,sourceDirectory)
-			{
-				let url = filepath.replace(sourceDirectory,"");
-				url = url.replace(".md","");
-				return "#" +url;
-			}
+			// formatFilepathUrl:function(filepath,sourceDirectory)
+			// {
+			// 	let url = filepath.replace(sourceDirectory,"");
+			// 	url = url.replace(".md","");
+			// 	return "#" +url;
+			// }
 		},
 		methods:
 		{
 			onPageClick:function(event)
 			{
 				let href = event.target.attributes.href.value;
-				this.$parent.loadPage(href);
+				this.$root.loadPage(href);
 			}
 		}
 	});
 
 	var app = new Vue({
-		el: '#app',
+		el: '#davanmonet-app',
 		data:
 		{
 			configLoaded:false,
 			navigation:
 			{
-				items:
-				[
-					{
-						name:"Introduction",
-						href:"/",
-						type:"link"
-					}
-				]
+				items:[]
 			},
 			maincontent:
 			{
 				content:"<h1 class='preview-h1'>Welcome</h1><p class='preview-intro-p'>Use the navigation to see the content</p>"
 			},
 			projectConfig:{},
-			indexData:{},
+			indexStructure:{},
 			pageLookup:{}
 		},
 		created: function ()
@@ -75,14 +82,12 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 			loadPage:function(href)
 			{
 				let sourcepath = this.projectConfig.directories.src + href.replace("#","") + ".md";
-				console.log('href', href)
-				console.log('sourcepath',sourcepath )
 				fetch(sourcepath).then(res => res.text()).then(filecontent =>
 				{
 					//Clean filecontent, remove all content before the second "---"
-					var cleanedContent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+3,filecontent.length);
-
-					//console.log(filecontent);
+					var cleanedContent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+7,filecontent.length);
+					
+					//console.log(cleanedContent);
 
 					window["a"] = filecontent;
 					let contentInfo = this.pageLookup[sourcepath];
@@ -101,13 +106,10 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 			{
 				fetch('./patternlibraryconfig.json').then(res => res.json()).then(config =>
 				{
-					fetch(config.indexingOptions.output).then(res => res.json()).then(indexdata =>
+					fetch(config.indexing.output).then(res => res.json()).then(indexStructure =>
 					{
 						this.projectConfig = config;
-						this.indexData = indexdata;
-						// console.log('config',config)
-						// console.log('indexdata',indexdata)
-						// console.log('this',this)
+						this.indexStructure = indexStructure;
 						this.parseIndexForNavigation();
 						this.configLoaded = true;
 					});
@@ -115,35 +117,11 @@ define(["vue","jquery","lodash","marked","highlight"], (Vue, $, _, marked, highl
 			},
 			parseIndexForNavigation:function()
 			{
-				this.indexData.structure.forEach((directory) =>
+				const hash = window.location.hash;
+				if(hash.indexOf("#/") !== -1)
 				{
-					if(directory.count > 0)
-					{
-						this.navigation.items.push(
-						{
-							"name": directory.title + " ("+ directory.count +")",
-							"type":"directory",
-						});
-					}
-					directory.items.forEach((item) =>
-					{
-						this.pageLookup[item.filepath] = {
-							"name": item.title,
-							"type":"page",
-							"guid":item.guid,
-							"filepath":item.filepath,
-							"filename":item.filename
-						};
-						this.navigation.items.push(
-							{
-								"name": item.title,
-								"type":"page",
-								"guid":item.guid,
-								"filepath":item.filepath,
-								"filename":item.filename
-							});
-					});
-				});
+					this.loadPage(hash);
+				}
 			}
 		}
 	  });

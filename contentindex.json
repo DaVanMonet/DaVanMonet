@@ -2,34 +2,79 @@
 	"structure": [
 		{
 			"title": "Examples",
-			"path": "examples",
+			"shortpath": "examples",
+			"longpath": "./src/examples",
 			"items": [
 				{
 					"filename": "boilerplate.md",
-					"filepath": "./src/examples/boilerplate.md",
+					"filepath": "examples/boilerplate.md",
+					"shortpath": "examples/boilerplate",
+					"longpath": "./src/examples/boilerplate.md",
+					"type": "file",
 					"title": "Boilerplate example",
+					"guid": "50eaa9ef-80a1-4b59-9df2-ef126c99aeb2"
+				}
+			],
+			"filecount": 1,
+			"directorycount": 0,
+			"type": "directory",
+			"description": "lorem ipsum"
+		},
+		{
+			"title": "Components",
+			"shortpath": "components",
+			"longpath": "./src/components",
+			"items": [
+				{
+					"filename": "examplecomponent.md",
+					"filepath": "components/examplecomponent.md",
+					"shortpath": "components/examplecomponent",
+					"longpath": "./src/components/examplecomponent.md",
+					"type": "file",
+					"title": "Example component",
 					"guid": "50eaa9ef-80a1-4b59-9df2-ef126c99aeb2"
 				},
 				{
-					"filename": "button.md",
-					"filepath": "./src/examples/button.md",
-					"title": "Button example",
-					"guid": "06e7bb84-04ec-49a2-868c-5cd499e04753"
-				},
-				{
-					"filename": "header.md",
-					"filepath": "./src/examples/header.md",
-					"title": "Header example",
-					"guid": "1defec00-28c7-4b51-9a2d-11b3a6cf25ec"
-				},
-				{
-					"filename": "sidebar.md",
-					"filepath": "./src/examples/sidebar.md",
-					"title": "Sidebar example",
-					"guid": "eb69af6a-9a4c-4853-89db-87182fa19131"
+					"title": "Buttons",
+					"shortpath": "components/buttons",
+					"longpath": "./src/components/buttons",
+					"items": [
+						{
+							"filename": "primary.md",
+							"filepath": "components/buttons/primary.md",
+							"shortpath": "components/buttons/primary",
+							"longpath": "./src/components/buttons/primary.md",
+							"type": "file",
+							"title": "Primary button",
+							"guid": "31495b40-9492-40e4-86e3-1e06bfc40171"
+						},
+						{
+							"filename": "secondary.md",
+							"filepath": "components/buttons/secondary.md",
+							"shortpath": "components/buttons/secondary",
+							"longpath": "./src/components/buttons/secondary.md",
+							"type": "file",
+							"title": "Secondary button",
+							"guid": "ad6ae427-11f7-4702-8a58-c523db96dcdb"
+						}
+					],
+					"filecount": 2,
+					"directorycount": 0,
+					"type": "directory"
 				}
 			],
-			"count": 4
+			"filecount": 1,
+			"directorycount": 1,
+			"type": "directory"
+		},
+		{
+			"title": "Layouts title",
+			"shortpath": "layouts",
+			"longpath": "./src/layouts",
+			"items": [],
+			"filecount": 0,
+			"directorycount": 0,
+			"type": "directory"
 		}
 	]
 }

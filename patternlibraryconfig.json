@@ -4,7 +4,7 @@
 		"src":"./src",
 		"dest":"./build/css"
 	},
-	"indexingOptions":
+	"indexing":
 	{
 		"output":"./contentindex.json",
 		"keysToOutput":["title","guid"]
@@ -32,12 +32,14 @@
 	{
 		"websiteport":9001
 	},
-	"developmentOptions":
+	"developmentenvironment":
 	{
 		"livereloadport":1234
 	},
 	"structure": 
 	[
-		{ "title": "Examples", "path":"examples" }
+		{ "title": "Examples", "path":"examples" },
+		{ "title": "Components", "path":"components" },
+		{ "title": "Layouts title", "path":"layouts" }
 	]
 }

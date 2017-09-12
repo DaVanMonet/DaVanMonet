@@ -1,0 +1,184 @@
+/****** CSS variables *****/
+
+:root {
+	--dark-primary-color: #0097A7;
+	--default-primary-color: #00BCD4;
+	--light-primary-color: #B2EBF2;
+	--text-primary-color: #FFFFFF;
+	--accent-color: #607D8B;
+	--primary-text-color: #212121;
+	--secondary-text-color: #757575;
+	--divider-color: #BDBDBD;
+	--page-maxwidth: 1180px;
+}
+
+@GridGap:2.4rem;
+@Font : 'Calibri', sans-serif;
+@SidebarWidthDesktop:24rem;
+@HeaderHeightDesktop:8.7rem;
+
+/****** Main styles ******/
+
+html
+{
+	font-size: 62.5%;
+	margin:0;
+	padding:0;
+	height: 100%;
+	width:100%;
+}
+body
+{
+	margin:0;
+	padding:0;
+	height: 100%;
+}
+* {
+	box-sizing: border-box;
+}
+
+
+
+.davanmonet-app {
+	// display: grid;
+	// grid-template-columns: 1fr 3fr;
+	// grid-gap: 0;
+	height: 100%;
+	font-size:0;
+	overflow: hidden;
+}
+
+/****** Header *******/
+
+.davanmonet-header {
+	//grid-column: ~"1 / -1";
+	width:100%;
+	background-color: var(--default-primary-color);
+	font-size: 2rem;
+	padding: @GridGap @GridGap @GridGap/2 @GridGap;
+	border-bottom: 5px solid var(--dark-primary-color);
+	overflow: hidden;
+	font-family: @Font;
+	max-height:@HeaderHeightDesktop;
+}
+
+
+.davanmonet-header-nav {
+	display: inline-block;
+}
+
+.davanmonet-header-nav-link {
+	display: inline-block;
+	text-decoration: none;
+	font-size: 25px;
+	color: var(--text-primary-color);
+	padding: 0.5rem 1.2rem 0.5rem 0;
+}
+
+.davanmonet-header-nav-link:focus,
+.davanmonet-header-nav-link:active,
+.davanmonet-header-nav-link:hover {
+	color: var(--dark-primary-color);
+}
+
+.davanmonet-header-logolink {
+	display: block;
+	width: 70px;
+	float: left;
+	margin-right: @GridGap;
+}
+
+.davanmonet-header-logo {
+	max-width: 100%;
+}
+
+.davanmonet-header-github-link {
+	float: right;;
+	display: block;
+	width: 40px;
+}
+
+.davanmonet-header-github-logo {
+	display: block;
+	max-width: 100%;
+}
+
+.davanmonet-maincontentcontainer {
+	display: block;
+	width:calc(100% ~"-" @SidebarWidthDesktop);
+	min-height: calc(100% ~"-" @HeaderHeightDesktop);
+	margin: 0;
+	font-size: 20px;
+	float: left;
+	padding:@GridGap;
+	font-family: @Font;
+}
+
+
+/* Sidebar navigation */
+
+.davanmonet-navcontainer {
+	height:calc(100% ~"-" @HeaderHeightDesktop);
+	width:@SidebarWidthDesktop;
+	float: left;
+	display: block;
+	background:#f2f3f3;
+	font-family: @Font;
+	padding:@GridGap @GridGap/2;
+}
+
+.davanmonet-nav
+{
+	
+	
+	
+}
+
+.davanmonet-nav-list {
+	padding: 0;
+	margin:1rem 0 0;
+	list-style:none;
+	font-size: 20px;
+	
+	// border-right: 1px var(--divider-color) solid;
+	// padding-right: 20px;
+	&[data-listlevel="2"]
+	{
+		border-left:4px solid #ccc;
+	}
+	&[data-listlevel="3"]
+	{
+		border-left:4px solid #9D9D9D;
+	}
+	&[data-listlevel="4"]
+	{
+		border-left:4px solid #676767;
+	}
+}
+
+.davanmonet-nav-listitem {
+	display: bottom;
+	padding:.5rem 0;
+}
+
+.davanmonet-nav-directory
+{
+	display: block;
+	border-bottom: 1px dotted #747474;
+	padding-left: 0.5rem;
+}
+
+
+.davanmonet-nav-link {
+	display: bottom;
+	text-decoration: none;
+	color: var(--secondary-text-color);
+	padding-left: 0.5rem;
+
+}
+
+.davanmonet-nav-link:hover,
+.davanmonet-nav-link:focus,
+.davanmonet-nav-link:active {
+	color: var(--dark-primary-color);
+}

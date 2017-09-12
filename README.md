@@ -29,7 +29,7 @@ The option compileIndividualFiles will create one less file per source files.
 ### Preview
 Settings for the live preview site
 
-### Developmentoptions
+### Development Environment
 Settings for livereload etc
 
 ### Structure

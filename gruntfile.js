@@ -5,10 +5,12 @@ module.exports = function (grunt)
 {
 	"use strict";
 	require('jit-grunt')(grunt);
-	require('time-grunt')(grunt);
+	require('time-grunt')(grunt); 
 	grunt.loadNpmTasks('grunt-newer');
 	var gruntconfig = {};
 	var mainconfig = grunt.file.readJSON("./patternlibraryconfig.json");
+	const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
+	  
 
 	let compilationFiles = 
 	{
@@ -21,7 +23,7 @@ module.exports = function (grunt)
 		{
 			"files":[],
 			"compilationTarget":{}
-		},
+		}
 	}
 	// Loop through the compilers to gather up the references to the sources files
 	mainconfig.compilation.compilers.forEach((compilationOption) =>
@@ -30,12 +32,14 @@ module.exports = function (grunt)
 		if(compilationOption.compile === true)
 		{
 			//Lookup all files in the specified structure
-			let files = grunt.file.expand(
-				{cwd:mainconfig.directories.src},
-				mainconfig.structure.map((folder, i) =>
-				{
-					return folder.path + "/*" + compilationOption.target;
-				}));
+
+			let lookupPaths = [];
+			mainconfig.structure.forEach((folder, i) =>
+			{
+				lookupPaths.push(folder.path + "/*" + compilationOption.target);
+				lookupPaths.push(folder.path + "/**/*" + compilationOption.target);
+			});
+			let files = grunt.file.expand({cwd:mainconfig.directories.src},lookupPaths);
 			
 			// If this is active all files will be compiled out to their individual css files 
 			if(compilationOption.compileIndividualFiles === true)
@@ -50,8 +54,40 @@ module.exports = function (grunt)
 			compilationFiles[compilationOption.taskname]["files"] = files;
 		}
 	});
-	grunt.verbose.write("# Found " + compilationFiles.less.files.length +" less & " + compilationFiles.sass.files.length + " sass files in "+ mainconfig.structure.length + " directories\n\n");
+	// Loop through the structure and get all the markdown and index.json files
+	var indexationTargetFiles = flatten(mainconfig.structure.map((folder, i) =>
+	{
+		let path = mainconfig.directories.src + "/" + folder.path;
+		 return [path + "/*.md", path + '/**/*.md',path + '/index.json',path + '/**/index.json'];
+	}));
 	
+	
+	grunt.verbose.write("\n## Found the following files in "+ mainconfig.structure.length + " directories:\n");
+	var stylesTargetFiles = [];
+	for(let key in mainconfig.compilation.compilers)
+	{
+		let compilerOptions = mainconfig.compilation.compilers[key];
+		if(typeof compilationFiles[compilerOptions.taskname] === "object")
+		{
+			grunt.verbose.write('#  '+ compilationFiles[compilerOptions.taskname].files.length + " " + compilerOptions.target + " files\n");
+
+			//Add watch file targets to array
+			
+			mainconfig.structure.forEach((folder, i) =>
+			{
+				let path = mainconfig.directories.src + "/" + folder.path;
+				stylesTargetFiles.push(mainconfig.directories.src + "/" + folder.path + "/*" + compilerOptions.target);
+				stylesTargetFiles.push(mainconfig.directories.src + "/" + folder.path + "/**/*" + compilerOptions.target);
+			});
+		}
+	}
+	console.log('\n\n\n######## indexationTargetFiles', indexationTargetFiles)
+	console.log('\n\n\n')
+	
+	console.log('\n\n########### stylesTargetFiles',stylesTargetFiles, '\n\n')
+	grunt.verbose.write('\n\n');
+	
+
 
 	gruntconfig["watch"] =
 	{
@@ -59,13 +95,23 @@ module.exports = function (grunt)
 		{
 			spawn: false,
 			interval: 600,
-			livereload:  mainconfig.developmentOptions.livereloadport
+			livereload:  mainconfig.developmentenvironment.livereloadport
 		},
-		"markdown":
+		"indexation":
 		{
-			files:mainconfig.structure.map((folder, i) => { return mainconfig.directories.src + "/" + folder.path + "/*.md"; }),
+			files:flatten(mainconfig.structure.map((folder, i) =>
+			{
+				let path = mainconfig.directories.src + "/" + folder.path;
+				 return [path + "/*.md", path + '/**/*.md',path + '/index.json',path + '/**/index.json'];
+			})),
 			options: { reload: true },
-			tasks:["create-index"]
+			tasks:["createindex"]
+		},
+		"styles":
+		{
+			files:stylesTargetFiles,
+			options: { reload: true },
+			tasks:["buildcss"]
 		},
 		"grunt":
 		{
@@ -79,13 +125,14 @@ module.exports = function (grunt)
 	Starts webserver with preview website */
 	gruntconfig["connect"] =
 	{
-		preview:
+		livereload:
 		{
 			options:
 			{
 				port: mainconfig.preview.websiteport,
 				base: ['./preview','./src','./build',"./"],
-				keepalive:true
+				livereload: mainconfig.developmentenvironment.livereloadport,
+				keepalive:false //Set to true if not running watch
 			}
 		}
 	};
@@ -126,12 +173,14 @@ module.exports = function (grunt)
 	grunt.registerTask("showconfig","shows the config", () =>
 	{
 		// this == grunt 
-		grunt.verbose.write('\n\n\n\n\n\n')
-		grunt.verbose.write('### mainconfig #####################################################################')
-		grunt.verbose.write(mainconfig)
-		grunt.verbose.write('### gruntconfig ####################################################################')
-		grunt.verbose.write(gruntconfig)
-		grunt.verbose.write('####################################################################################\n\n') ;
+		console.log('\n\n\n\n\n\n')
+		console.log('### mainconfig #####################################################################')
+		console.log(mainconfig)
+		console.log('### gruntconfig ####################################################################')
+		console.log(gruntconfig)
+		console.log('### compilationFiles ####################################################################')
+		console.log(JSON.stringify(compilationFiles))
+		console.log('####################################################################################\n\n') ;
 	});
 
 	grunt.registerTask("buildcss","Build the css", () =>
@@ -142,7 +191,7 @@ module.exports = function (grunt)
 		{
 			if(compilationOption.compile === true)
 			{
-				console.log('\n\n## Compile ' + compilationOption.taskname);
+				grunt.verbose.write('\n\n## Compile ' + compilationOption.taskname);
 				tasks.push(compilationOption.taskname);
 			}
 		});
@@ -151,65 +200,100 @@ module.exports = function (grunt)
 			grunt.verbose.write("\n# Starting CSS Build tasks, ("+ tasks.join(",") +")");
 			grunt.task.run(tasks);
 		}
-		
-
 	});
-	grunt.registerTask("create-index","Create the content.json file", () =>
+	grunt.registerTask("createindex","Create the content.json file", () =>
 	{
-		var matter = require('gray-matter');
 		var totalfilecount = 0;
-		// Look through all the structure folders
-		var structureitems = mainconfig.structure.map((structureitem, i) =>
+		const matter = require('gray-matter');
+		const fs = require('fs')
+		const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirectory());
+		// parseFileMetadata: Parse each file and save the relevant metadata
+		const parseFileMetadata = (filepath, fileindex) =>
 		{
-			let path = mainconfig.directories.src + "/" + structureitem.path;
-			// Fetch all .md files
-			let files = grunt.file.expand({ cwd:path },["*.md","**/*.md"]);
-			let items = files.map((filename, i) => 
+			var filecontent = grunt.file.read(mainconfig.directories.src + "/" + filepath);
+			// Set basic metadata
+			let filemetadata =
 			{
-				// Compile file data
-				let filepath = path + "/" + filename;
-				var filecontent = grunt.file.read(filepath);
-				let item =
+				"filename":filepath.substring(filepath.lastIndexOf("/")+1, filepath.length),
+				"filepath": filepath,
+				"shortpath": filepath.replace(".md",""),
+				"longpath": mainconfig.directories.src + "/" + filepath,
+				"type":"file"
+			};
+			// Parse the md file using grey-matter (to get the document data structured)
+			// https://www.npmjs.com/package/gray-matter
+			var parsedFile = matter(filecontent);
+			mainconfig.indexing.keysToOutput.forEach((key) =>
+			{
+				if(typeof parsedFile["data"][key] === "string")
 				{
-					"filename":filename,
-					"filepath":filepath
-				};
-				// Parse the md file using grey-matter (to get the document data structured)
-				// https://www.npmjs.com/package/gray-matter
-				var parsedFile = matter(filecontent);
-				if(i < 1)
-					{
-						console.log(parsedFile);
-					}
-				// We only add specified keys to the index (it would be possible to get all of the content as well)
-				mainconfig.indexingOptions.keysToOutput.forEach((key) =>
-				{
-					if(typeof parsedFile["data"][key] === "string")
-					{
-						item[key] = parsedFile["data"][key];
-					}
-				});
-				return item;
+					// Only save metadata that's specified in the project configuration
+					filemetadata[key] = parsedFile["data"][key];
+				}
 			});
-			structureitem["items"] = items;
-			structureitem["count"] = files.length;
-			totalfilecount +=  files.length;
-			return structureitem;
+			//Return the files metadata
+			return filemetadata;
+		};
+
+		const parseDirectoryMetadata = (directoryParentPath, directoryName, directoryindex) =>
+		{
+			directoryParentPath = (directoryParentPath.length > 0) ? directoryParentPath + "/" : directoryParentPath;
+			let directoryPath = mainconfig.directories.src + "/" + directoryParentPath + directoryName;
+			// Fetch all child directories in this directory
+			let directories = getDirs(directoryPath);
+			// Fetch all MD files in this directory
+			let files = grunt.file.expand({ cwd:mainconfig.directories.src },[directoryParentPath + directoryName +"/*.md"]);
+			// Set rudamentary metadata. We capitalize the foldername, it might be overridden if there is a index.json file.
+			let directoryMetadata =
+			{
+				"title":directoryName.charAt(0).toUpperCase() + directoryName.slice(1).toLowerCase(),
+				"shortpath": directoryParentPath + directoryName,
+				"longpath": directoryPath,
+				"items":[],
+				"filecount":files.length,
+				"directorycount":directories.length,
+				"type":"directory",
+			};
+			// If the folder has a index.json metadata file we will extend this folders metadata with that information
+			if(grunt.file.isFile(directoryPath + "/index.json"))
+			{
+				var metadata = grunt.file.readJSON(directoryPath + "/index.json");
+				Object.assign(directoryMetadata, metadata);
+			}
+
+			// Parse the metadata for all .md files within this folder
+			let filesdata = files.map(parseFileMetadata);
+			directoryMetadata["items"] = directoryMetadata["items"].concat(filesdata);
+			// Parse the metadata for all child folders (this makes this function recursive)
+			var directoriesdata = directories.map(parseDirectoryMetadata.bind(null, directoryParentPath + directoryName));
+			directoryMetadata["items"] = directoryMetadata["items"].concat(directoriesdata);
+			// Return this directories metadata
+			return directoryMetadata;
+		};
+
+		// Loop through the folders specified in the projects configuration
+		var structureitems = mainconfig.structure.map((structureitem, index) =>
+		{
+			let directoryMetadata = parseDirectoryMetadata("", structureitem["path"], index);
+			directoryMetadata["title"] = structureitem["title"];
+			return directoryMetadata;
 		});
+
 		var index = { "structure":structureitems };
+
 		// Save index to file
-		grunt.file.write(mainconfig.indexingOptions.output, JSON.stringify(index, null, "\t"));
-		grunt.verbose.write("\n# Indexed " + totalfilecount + " files in "+ structureitems.length +" structure folders and saved it to " + mainconfig.indexingOptions.output.substring(mainconfig.indexingOptions.output.lastIndexOf("/")+1, mainconfig.indexingOptions.output.length));
+		grunt.file.write(mainconfig.indexing.output, JSON.stringify(index, null, "\t"));
+		grunt.verbose.write("\n# Indexed " + totalfilecount + " files in "+ structureitems.length +" structure folders and saved it to " + mainconfig.indexing.output.substring(mainconfig.indexing.output.lastIndexOf("/")+1, mainconfig.indexing.output.length));
 	});
 
 	
-	grunt.registerTask("gruntdevelopment", ["showconfig","buildcss"]);
+	grunt.registerTask("gruntdevelopment", ["showconfig","createindex","buildcss"]);
 	
-
-	grunt.registerTask("default", ["create-index"]);
+	grunt.registerTask("dev", ["createindex","buildcss","connect:livereload","watch"]);
+	grunt.registerTask("default", ["dev"]);
 	/* Tasks:
-		showconfig (will show the current configuration (grunt and application))
+		showconfig (will show the current configuration (grunt configuration, project configuration and what folders will be indexed))
 		buildcss (will run less & scss depending on settings)
-		create-index (will create a index json file depending on the md files within structure directories)
+		createindex (will create a index json file depending on the md files within structure directories)
 	*/
 };

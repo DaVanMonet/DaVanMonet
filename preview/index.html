@@ -3,68 +3,62 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta http-equiv="X-UA-Compatible" content="chrome,ie=edge">
+	<title>DaVanMonet - Preview</title>
 	<link rel="stylesheet" href="lib/highlight.js@9.12.0/github.css"/>
-	<link rel="stylesheet" href="style.css"/>
-	<title>Preview</title>
-	<!-- <script src="lib/vue@2.4.2/vue.js" defer></script>
-	<script src="lib/lodash@4.16.0/lodash.js" defer></script>
-	<script src="lib/marked@0.3.6/marked.js" defer></script>
-	<script src="main.js" defer></script> -->
-
+	<!-- <link rel="stylesheet" href="style.css"/> -->
+	<link rel="stylesheet/less" type="text/css" href="style.less" />
+	
 	<script data-main="main" src="/lib/require.js@2.3.5/require.min.js"></script>
 </head>
-	<body class="preview-body">
+	<body class="davanmonet-body">
 
-	<div id="app">
-		<header class="preview-header">
-			<a href="/"><img class="preview-header-logo" src="newdvmlogo.png"></a>
-			<nav class="preview-header-nav" role="select">
-					<a href="/">Home</a>
-					<a href="/documentation.html">Documentation</a>
-					<a href="/contact.html">Contact</a>
-					<a href="/about.html">About</a>
+	<div id="davanmonet-app" class="davanmonet-app">
+		<header class="davanmonet-header">
+			<a href="/" class="davanmonet-header-logolink"><img class="davanmonet-header-logo" src="/logo.png"></a>
+			<nav class="davanmonet-header-nav">
+				<a href="/" class="davanmonet-header-nav-link">Home</a>
 			</nav>
-
-			<div class="preview-misc-links">
-					<p class="preview-version">Version: 1.0</p>
-					<a href="https://github.com/wezz/DaVanMonet"><img class="preview-github-logo" src="GitHub.png"></a>
-			</div>
-
+			<a href="https://github.com/wezz/DaVanMonet" class="davanmonet-header-github-link" title="Go to the GitHub Repository"><img alt="Image of the github logo" class="davanmonet-header-github-logo" src="github-mark.svg"></a>
 		</header>
-
-		<div v-if="configLoaded == true">
-			<navigation class="preview-side-nav" :navigation="navigation" :source-directory="projectConfig.directories.src"></navigation>
-
-			<maincontent v-if="maincontent" :content="maincontent"></maincontent>
-		</div>
-		<div v-else="configLoaded == false">
+		<navigation 
+			class="davanmonet-navcontainer" 
+			v-if="configLoaded == true"
+			:navigation="indexStructure" 
+			:source-directory="projectConfig.directories.src"></navigation>
+		<maincontent 
+			class="davanmonet-maincontentcontainer" 
+			v-if="configLoaded == true && maincontent"
+			:content="maincontent"></maincontent>
+		<div v-if="configLoaded == false">
 			Loading...
 		</div>
 	</div>
-
-		<script type="text/x-template" id="vuetemplate-navigation">
-			<nav>
-				<ul>
-				<li v-for="item in navigation.items">
-					<!-- <strong
-						v-if="item.type == 'directory'">{{item.name}}</strong> -->
-					<a
-						v-if="item.type == 'link'"
-						v-bind:href="item.href">{{item.name}}</a>
-					<a
-						v-if="item.type == 'page'"
-						v-bind:href="item.filepath | formatFilepathUrl(sourceDirectory)"
-						v-on:click="onPageClick"
-						>{{item.name}}</a>
-				</li>
-			</ul>
-		 </nav>
-		</script>
+	<script type="text/x-template" id="vuetemplate-navigation">
+		<nav v-if="navigation.structure && navigation.structure.length > 0" class="davanmonet-nav">
+			<navigation-list :items="navigation.structure" :source-directory="sourceDirectory" :level="1"></navigation-list>
+		</nav>
+	</script>
+	<script type="text/x-template" id="vuetemplate-navigationlist">
+		<ul v-if="items && items.length > 0" class="davanmonet-nav-list" :data-listlevel="level">
+			<li v-for="item in items" class="davanmonet-nav-listitem" v-if="(item.type === 'directory' && (item.directorycount > 0 || item.filecount > 0)) || item.type !== 'directory'">
+				<strong v-if="item.type == 'directory'"  class="davanmonet-nav-directory">{{item.title}}</strong>
+				<a
+					v-if="item.type == 'file'"
+					v-bind:href="'#/' + item.shortpath"
+					v-on:click="onPageClick"
+					class="davanmonet-nav-link"
+					>{{item.title}}</a>
+				<div v-if="item.items && item.items.length > 0">
+					<navigation-list :items="item.items" :source-directory="sourceDirectory" :level="level +1"></navigation-list>
+				</div>
+			</li>
+		</ul>
+	</script>
 		<script type="text/x-template" id="vuetemplate-maincontent">
-			<div class="preview-maincontent">
-				<div class="maincontent" v-html="content.content"></div>
-				<div v-if="content.guid">{{content.guid}}</div>
+			<div class="davanmonet-maincontentcontainer">
+				<div class="davanmonet-maincontent" v-html="content.content"></div>
+				<div v-if="content.guid" class="davanmonet-maincontent-guid">{{content.guid}}</div>
 			</div>
 		</script>
 	</body>
