@@ -61,10 +61,29 @@
 					"filecount": 2,
 					"directorycount": 0,
 					"type": "directory"
+				},
+				{
+					"title": "Modal",
+					"shortpath": "components/modal",
+					"longpath": "./src/components/modal",
+					"items": [
+						{
+							"filename": "modal.md",
+							"filepath": "components/modal/modal.md",
+							"shortpath": "components/modal/modal",
+							"longpath": "./src/components/modal/modal.md",
+							"type": "file",
+							"title": "Modal",
+							"guid": "e296666b-7a69-4bec-b832-c06c46fe68c5"
+						}
+					],
+					"filecount": 1,
+					"directorycount": 0,
+					"type": "directory"
 				}
 			],
 			"filecount": 1,
-			"directorycount": 1,
+			"directorycount": 2,
 			"type": "directory"
 		},
 		{

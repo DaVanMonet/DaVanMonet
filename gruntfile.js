@@ -81,13 +81,6 @@ module.exports = function (grunt)
 			});
 		}
 	}
-	console.log('\n\n\n######## indexationTargetFiles', indexationTargetFiles)
-	console.log('\n\n\n')
-	
-	console.log('\n\n########### stylesTargetFiles',stylesTargetFiles, '\n\n')
-	grunt.verbose.write('\n\n');
-	
-
 
 	gruntconfig["watch"] =
 	{
@@ -220,6 +213,7 @@ module.exports = function (grunt)
 				"longpath": mainconfig.directories.src + "/" + filepath,
 				"type":"file"
 			};
+			totalfilecount++;
 			// Parse the md file using grey-matter (to get the document data structured)
 			// https://www.npmjs.com/package/gray-matter
 			var parsedFile = matter(filecontent);
@@ -287,9 +281,9 @@ module.exports = function (grunt)
 	});
 
 	
-	grunt.registerTask("gruntdevelopment", ["showconfig","createindex","buildcss"]);
+	grunt.registerTask("dev", ["showconfig","createindex","buildcss"]);
 	
-	grunt.registerTask("dev", ["createindex","buildcss","connect:livereload","watch"]);
+	grunt.registerTask("devrefresh", ["dev","connect:livereload","watch"]);
 	grunt.registerTask("default", ["dev"]);
 	/* Tasks:
 		showconfig (will show the current configuration (grunt configuration, project configuration and what folders will be indexed))
