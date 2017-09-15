@@ -1,13 +1,13 @@
 require.config({
 	paths:
 	{
-		'vue':'lib/vue@2.4.2/vue',
-		'lodash':'lib/lodash@4.16.0/lodash',
-		'marked':'lib/marked@0.3.6/marked',
-		'gray-matter':'lib/gray-matter@3.0.0/index',
-		'highlight':'lib/highlight.js@9.12.0/highlight.min',
-		'jquery':'lib/jquery@3.2.1/jquery.min',
-		'less':'lib/less@2.7.2/less.min',
+		'vue':'/lib/vue@2.4.2/vue',
+		'lodash':'/lib/lodash@4.16.0/lodash',
+		'marked':'/lib/marked@0.3.6/marked',
+		'gray-matter':'/lib/gray-matter@3.0.0/index',
+		'highlight':'/lib/highlight.js@9.12.0/highlight.min',
+		'jquery':'/lib/jquery@3.2.1/jquery.min',
+		'less':'/lib/less@2.7.2/less.min',
 	}
 });
 

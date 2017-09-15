@@ -2,7 +2,8 @@
 	"directories":
 	{
 		"src":"./src",
-		"dest":"./build/css"
+		"cssdest":"./build/css",
+		"build":"./build"
 	},
 	"indexing":
 	{
@@ -28,12 +29,10 @@
 		],
 		"sourceMaps":true
 	},
-	"preview":
-	{
-		"websiteport":9001
-	},
 	"developmentenvironment":
 	{
+		"devwebsiteport":9001,
+		"buildwebsiteport":9002,
 		"livereloadport":1234
 	},
 	"structure": 

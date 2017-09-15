@@ -7,8 +7,9 @@ module.exports = function (grunt)
 	require('jit-grunt')(grunt);
 	require('time-grunt')(grunt); 
 	grunt.loadNpmTasks('grunt-newer');
+	var projectConfigurationFilePath = "./patternlibraryconfig.json";
 	var gruntconfig = {};
-	var mainconfig = grunt.file.readJSON("./patternlibraryconfig.json");
+	var mainconfig = grunt.file.readJSON(projectConfigurationFilePath);
 	const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 	  
 
@@ -46,7 +47,7 @@ module.exports = function (grunt)
 			{
 				files.forEach((file) =>
 				{
-					let dest = mainconfig.directories.dest + "/" + file.replace(compilationOption.target,'.css'),
+					let dest = mainconfig.directories.cssdest + "/" + file.replace(compilationOption.target,'.css'),
 						src = mainconfig.directories.src + "/"+ file;
 						compilationFiles[compilationOption.taskname]["compilationTarget"][dest] = [src];
 				});
@@ -122,11 +123,64 @@ module.exports = function (grunt)
 		{
 			options:
 			{
-				port: mainconfig.preview.websiteport,
-				base: ['./preview','./src','./build',"./"],
+				port: mainconfig.developmentenvironment.devwebsiteport,
+				base: ['./preview','./src','./build/css',"./"],
 				livereload: mainconfig.developmentenvironment.livereloadport,
 				keepalive:false //Set to true if not running watch
 			}
+		},
+		build:
+		{
+			options:
+			{
+				port: mainconfig.developmentenvironment.buildwebsiteport,
+				base: ['./build'],
+				keepalive:true //Set to true if not running watch
+			}
+		}
+	};
+
+	/* ### Copy https://github.com/gruntjs/grunt-contrib-copy
+	Copies content, used for adding things to the build folder*/
+	gruntconfig["copy"] =
+	{
+		preview:
+		{
+			files: [{	/* Copies the content of the preview folder to the build directory */
+				expand:true,
+				cwd: './preview/',
+				src: '**',
+				dest: mainconfig.directories.build
+			}]
+		},
+		build:
+		{
+			files:
+			[{	/* Copy over the project configuration file */
+				expand:true,
+				src: projectConfigurationFilePath,
+				dest: mainconfig.directories.build
+			},
+			{	/* Copy over the index file */
+				expand:true,
+				src: mainconfig.indexing.output,
+				dest: mainconfig.directories.build
+			},
+			{	/* Copy over the source files */
+				expand:true,
+				src: mainconfig.directories.src + "/**",
+				dest: mainconfig.directories.build
+			}]
+		}
+	};
+
+	/* ### Clean https://github.com/gruntjs/grunt-contrib-clean
+	Clears out the build folder */
+	gruntconfig["clean"] =
+	{
+		build:
+		{
+			src:[mainconfig.directories.build + "/*"]
 		}
 	};
 
@@ -282,9 +336,12 @@ module.exports = function (grunt)
 
 	
 	grunt.registerTask("dev", ["showconfig","createindex","buildcss"]);
-	
-	grunt.registerTask("devrefresh", ["dev","connect:livereload","watch"]);
-	grunt.registerTask("default", ["dev"]);
+	grunt.registerTask("previewdev", ["dev","connect:livereload","watch"]);
+
+	grunt.registerTask("basicbuild", ["clean:build","createindex","buildcss","copy:build"]);
+	grunt.registerTask("build", ["basicbuild","copy:preview"]);
+	grunt.registerTask("previewbuild", ["build","copy:preview","connect:build"]);
+	grunt.registerTask("default", ["previewdev"]);
 	/* Tasks:
 		showconfig (will show the current configuration (grunt configuration, project configuration and what folders will be indexed))
 		buildcss (will run less & scss depending on settings)
