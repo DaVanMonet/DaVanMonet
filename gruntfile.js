@@ -88,9 +88,6 @@ module.exports = function (grunt)
 		}
 	}
 
-	//console.log(mainconfig.compilation.postcss.processors.map( (processor) => {
-	//	return [processor.name, processor.options]
-	//}));
 	gruntconfig["postcss"] = {
 		options:
 		{
