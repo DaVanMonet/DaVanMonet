@@ -7,6 +7,7 @@ module.exports = function (grunt)
 	require('jit-grunt')(grunt);
 	require('time-grunt')(grunt); 
 	grunt.loadNpmTasks('grunt-newer');
+	grunt.loadNpmTasks('grunt-postcss');
 	var projectConfigurationFilePath = "./patternlibraryconfig.json";
 	var gruntconfig = {};
 	var mainconfig = grunt.file.readJSON(projectConfigurationFilePath);
@@ -26,6 +27,7 @@ module.exports = function (grunt)
 			"compilationTarget":{}
 		}
 	}
+
 	// Loop through the compilers to gather up the references to the sources files
 	mainconfig.compilation.compilers.forEach((compilationOption) =>
 	{
@@ -55,6 +57,9 @@ module.exports = function (grunt)
 			compilationFiles[compilationOption.taskname]["files"] = files;
 		}
 	});
+
+	
+
 	// Loop through the structure and get all the markdown and index.json files
 	var indexationTargetFiles = flatten(mainconfig.structure.map((folder, i) =>
 	{
@@ -82,6 +87,20 @@ module.exports = function (grunt)
 			});
 		}
 	}
+
+	gruntconfig["postcss"] = {
+		options:
+		{
+			map: mainconfig.compilation.postcss.map,
+			processors: mainconfig.compilation.postcss.processors.map( (processor) => {
+				return require(processor.name)(processor.options);
+			})
+		},
+		build:
+		{
+			src: 'build/css/**/*.css'
+		}
+	};
 
 	gruntconfig["watch"] =
 	{
@@ -242,6 +261,9 @@ module.exports = function (grunt)
 				tasks.push(compilationOption.taskname);
 			}
 		});
+		
+		tasks.push("postcss");
+
 		if(tasks.length > 0)
 		{
 			grunt.verbose.write("\n# Starting CSS Build tasks, ("+ tasks.join(",") +")");
