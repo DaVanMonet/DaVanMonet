@@ -40,13 +40,26 @@
 					"longpath": "./src/components/buttons",
 					"items": [
 						{
+							"filename": "Another_button.md",
+							"filepath": "components/buttons/Another_button.md",
+							"shortpath": "components/buttons/Another_button",
+							"longpath": "./src/components/buttons/Another_button.md",
+							"type": "file",
+							"title": "Another button",
+							"guid": "ad6ae421-11f7-4702-8a58-c523db96dcdb",
+							"variantid": "primary",
+							"componentid": "I don't belong here"
+						},
+						{
 							"filename": "primary.md",
 							"filepath": "components/buttons/primary.md",
 							"shortpath": "components/buttons/primary",
 							"longpath": "./src/components/buttons/primary.md",
 							"type": "file",
 							"title": "Primary button",
-							"guid": "31495b40-9492-40e4-86e3-1e06bfc40171"
+							"guid": "31495b40-9492-40e4-86e3-1e06bfc40171",
+							"variantid": "primary",
+							"componentid": "06859a58-b4f6-48f8-80e8-f43bfe4d6c7f"
 						},
 						{
 							"filename": "secondary.md",
@@ -55,10 +68,22 @@
 							"longpath": "./src/components/buttons/secondary.md",
 							"type": "file",
 							"title": "Secondary button",
-							"guid": "ad6ae427-11f7-4702-8a58-c523db96dcdb"
+							"guid": "ad6ae427-11f7-4702-8a58-c523db96dcdb",
+							"variantid": "secondary",
+							"componentid": "06859a58-b4f6-48f8-80e8-f43bfe4d6c7f"
+						},
+						{
+							"filename": "thirdbutton.md",
+							"filepath": "components/buttons/thirdbutton.md",
+							"shortpath": "components/buttons/thirdbutton",
+							"longpath": "./src/components/buttons/thirdbutton.md",
+							"type": "file",
+							"title": "third button",
+							"guid": "ad6ae421-11f7-4702-8a58-c523db96dcdb",
+							"variantid": "primary"
 						}
 					],
-					"filecount": 2,
+					"filecount": 4,
 					"directorycount": 0,
 					"type": "directory"
 				},
@@ -74,7 +99,8 @@
 							"longpath": "./src/components/modal/modal.md",
 							"type": "file",
 							"title": "Modal",
-							"guid": "e296666b-7a69-4bec-b832-c06c46fe68c5"
+							"guid": "e296666b-7a69-4bec-b832-c06c46fe68c5",
+							"componentid": "ce5d19ef-25f5-4a69-92e0-a0164913a6cd"
 						}
 					],
 					"filecount": 1,

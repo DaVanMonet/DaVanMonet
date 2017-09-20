@@ -8,7 +8,7 @@
 	"indexing":
 	{
 		"output":"./contentindex.json",
-		"keysToOutput":["title","guid"]
+		"keysToOutput":["title","guid","variantid","componentid"]
 	},
 	"compilation":
 	{

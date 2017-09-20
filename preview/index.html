@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="chrome,ie=edge">
-	<title>DaVanMonet - Preview</title>
+	<title>DaVanMonet</title>
 	<link rel="stylesheet" href="./lib/highlight.js@9.12.0/github.css"/>
 	<link rel="stylesheet/less" type="text/css" href="./static/style.less" />
 	
@@ -23,7 +23,7 @@
 		<navigation 
 			class="davanmonet-navcontainer" 
 			v-if="configLoaded == true"
-			:navigation="indexStructure" 
+			:navigation="navigation" 
 			:source-directory="projectConfig.directories.src"></navigation>
 		<maincontent 
 			class="davanmonet-maincontentcontainer" 
@@ -34,23 +34,26 @@
 		</div>
 	</div>
 	<script type="text/x-template" id="vuetemplate-navigation">
-		<nav v-if="navigation.structure && navigation.structure.length > 0" class="davanmonet-nav">
-			<navigation-list :items="navigation.structure" :source-directory="sourceDirectory" :level="1"></navigation-list>
+		<nav v-if="navigation && navigation.length > 0" class="davanmonet-nav">
+			<navigation-list :items="navigation" :source-directory="sourceDirectory" :level="1"></navigation-list>
 		</nav>
 	</script>
 	<script type="text/x-template" id="vuetemplate-navigationlist">
 		<ul v-if="items && items.length > 0" class="davanmonet-nav-list" :data-listlevel="level">
-			<li v-for="item in items" class="davanmonet-nav-listitem" v-if="(item.type === 'directory' && (item.directorycount > 0 || item.filecount > 0)) || item.type !== 'directory'">
-				<strong v-if="item.type == 'directory'"  class="davanmonet-nav-directory">{{item.title}}</strong>
-				<a
-					v-if="item.type == 'file'"
-					v-bind:href="'#/' + item.shortpath"
-					v-on:click="onPageClick"
-					class="davanmonet-nav-link"
-					>{{item.title}}</a>
-				<div v-if="item.items && item.items.length > 0">
-					<navigation-list :items="item.items" :source-directory="sourceDirectory" :level="level +1"></navigation-list>
-				</div>
+				<li v-for="item in items" class="davanmonet-nav-listitem">
+					<div v-if="item.href">
+						<a
+							v-bind:href="'#/' + item.href"
+							v-on:click="onNavigationClick"
+							class="davanmonet-nav-link"
+							>{{item.title}}</a>
+					</div>
+					<div v-else>
+						<strong class="davanmonet-nav-directory">{{item.title}}</strong>
+					</div>
+					<div v-if="item.items && item.items.length > 0">
+						<navigation-list :items="item.items" :source-directory="sourceDirectory" :level="level +1"></navigation-list>
+					</div>
 			</li>
 		</ul>
 	</script>

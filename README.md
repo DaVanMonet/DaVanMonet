@@ -36,16 +36,20 @@ Settings for livereload etc
 Add folders that should be included in the less/sass/index compilation
 
 ## Usage
-Start the webserver
+
+### Deployment
 ```shell
-grunt startserver
+grunt build
 ```
+Copy the build folder that was created
+
+### Development
+```shell
+grunt previewbuild
+```
+This will create the css and start a webserver so you can preview your work
 
 ## TODO
-* Add a development task
-* Run server and live reload
-* Add page reload support for preview
-* Index should contain references to generated css
-* Preview should show actual css
-
+* Preview should show in an iframe
+* 
 
