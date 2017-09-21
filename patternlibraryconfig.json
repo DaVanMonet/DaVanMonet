@@ -18,15 +18,29 @@
 				"taskname":"less",
 				"target":".less",
 				"compile":true,
-				"compileIndividualFiles":true
+				"compileIndividualFiles":false,
+				"targets":
+				{
+					"main.css":
+					[
+						"**/*.less",
+						"!**/*_inline.less",
+						"!**/*_print.less",
+						"!**/*_exclude.less"
+					],
+					"inline.css": ["**/*_inline.less", "**/**/*_inline.less"],
+					"print.css": ["**/*_print.less", "**/**/*_print.less"],
+					"empty.css": ["**/*_asd.less"]
+				}
 			},
 			{
 				"taskname":"sass",
 				"target":".scss",
 				"compile":true,
-				"compileIndividualFiles":true
+				"compileIndividualFiles":false
 			}
 		],
+		"minifycss":true,
 		"sourceMaps":true,
 		"postcss":
         {

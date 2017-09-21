@@ -7,12 +7,15 @@ module.exports = function (grunt)
 	require('jit-grunt')(grunt);
 	require('time-grunt')(grunt); 
 	grunt.loadNpmTasks('grunt-newer');
-	grunt.loadNpmTasks('grunt-postcss');
+	
 	var projectConfigurationFilePath = "./patternlibraryconfig.json";
 	var gruntconfig = {};
 	var mainconfig = grunt.file.readJSON(projectConfigurationFilePath);
 	const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
-	  
+	
+	// Optionally load tasks depending on configuration
+	(typeof mainconfig.compilation["postcss"] === "object") ? grunt.loadNpmTasks('grunt-postcss') : 1;
+	(typeof mainconfig.compilation["minifycss"] === "object") ? grunt.loadNpmTasks('grunt-contrib-cssmin') : 1;
 
 	let compilationFiles = 
 	{
@@ -28,6 +31,7 @@ module.exports = function (grunt)
 		}
 	}
 
+
 	// Loop through the compilers to gather up the references to the sources files
 	mainconfig.compilation.compilers.forEach((compilationOption) =>
 	{
@@ -42,19 +46,34 @@ module.exports = function (grunt)
 				lookupPaths.push(folder.path + "/*" + compilationOption.target);
 				lookupPaths.push(folder.path + "/**/*" + compilationOption.target);
 			});
-			let files = grunt.file.expand({cwd:mainconfig.directories.src},lookupPaths);
+			let allfiles = grunt.file.expand({cwd:mainconfig.directories.src},lookupPaths);
 			
 			// If this is active all files will be compiled out to their individual css files 
 			if(compilationOption.compileIndividualFiles === true)
 			{
-				files.forEach((file) =>
+				allfiles.forEach((file) =>
 				{
 					let dest = mainconfig.directories.cssdest + "/" + file.replace(compilationOption.target,'.css'),
 						src = mainconfig.directories.src + "/"+ file;
 						compilationFiles[compilationOption.taskname]["compilationTarget"][dest] = [src];
 				});
 			}
-			compilationFiles[compilationOption.taskname]["files"] = files;
+
+			//If targets have been specified we add these to the compilation files
+			if(typeof compilationOption.targets === "object")
+			{
+				for(let targetName in compilationOption.targets)
+				{
+					let patterns = compilationOption.targets[targetName];
+					let targetFiles = grunt.file.expand({cwd:mainconfig.directories.src},patterns);
+					if(targetFiles.length > 0)
+					{
+						let adjustedTargetFiles = targetFiles.map(file => mainconfig.directories.src + '/' + file);
+						compilationFiles[compilationOption.taskname]["compilationTarget"][mainconfig.directories.cssdest + '/' + targetName] = adjustedTargetFiles;
+					}
+				}
+			}
+			compilationFiles[compilationOption.taskname]["files"] = allfiles;
 		}
 	});
 
@@ -88,19 +107,46 @@ module.exports = function (grunt)
 		}
 	}
 
-	gruntconfig["postcss"] = {
-		options:
+	if(typeof mainconfig.compilation["postcss"] === "object")
+	{
+		/* postcss https://github.com/nDmitry/grunt-postcss
+		Do adjustments to the compiled css such as autoprefixer
+		*/
+		gruntconfig["postcss"] =
 		{
-			map: mainconfig.compilation.postcss.map,
-			processors: mainconfig.compilation.postcss.processors.map( (processor) => {
-				return require(processor.name)(processor.options);
-			})
-		},
-		build:
+			options:
+			{
+				map: mainconfig.compilation.postcss.map,
+				processors: mainconfig.compilation.postcss.processors.map( (processor) => {
+					return require(processor.name)(processor.options);
+				})
+			},
+			build:
+			{
+				src: mainconfig.directories.cssdest + '/' + '*.css'
+			}
+		};
+	}
+
+	if(typeof mainconfig.compilation["minifycss"] === "object")
+	{
+		/* cssmin https://github.com/gruntjs/grunt-contrib-cssmin
+		Minify the finished css files
+		For more options: https://github.com/jakubpawlowicz/clean-css#how-to-use-clean-css-api
+		*/
+		gruntconfig["ccsmin"] =
 		{
-			src: 'build/css/**/*.css'
-		}
-	};
+			options:
+			{
+				report:'min',
+				sourceMap:mainconfig.compilation.sourceMaps
+			},
+			build:
+			{
+				src: mainconfig.directories.cssdest + '/' + '*.css'
+			}
+		};
+	}
 
 	gruntconfig["watch"] =
 	{
@@ -262,7 +308,14 @@ module.exports = function (grunt)
 			}
 		});
 		
-		tasks.push("postcss");
+		if(typeof mainconfig.compilation["postcss"] === "object")
+		{
+			tasks.push("postcss");
+		}
+		if(typeof mainconfig.compilation["minifycss"] === "object")
+		{
+			tasks.push("cssmin");
+		}
 
 		if(tasks.length > 0)
 		{
