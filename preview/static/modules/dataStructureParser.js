@@ -1,13 +1,12 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([''], factory);
+        define(["require", "exports", "marked", "jquery"], factory);
     } else {
         // Browser globals
         root.amdWeb = factory(root.b);
     }
-}(this, function () {
-
+}(this, function (require, exports, marked, $) {
 
 class DataStructureParser
 {
@@ -47,6 +46,7 @@ class DataStructureParser
 
 	async getPage(href)
 	{
+		var base = this;
 		await this.loadData();
 		await this.createIndexLookup();
 		await this.createIndexNavigationLookup();
@@ -54,29 +54,88 @@ class DataStructureParser
 		{
 			href = href.substr(1);
 		}
-		console.log('getPage this._indexLookup[href]',this._indexLookup[href])
 		
-		console.log('getPage this._navigationLookup[href]',this._navigationLookup[href])
 		let indexData = this._indexLookup[href];
 		let navigationalData = this._navigationLookup[href];
+		let pageData =
+		{
+			"id":"",
+			"title":"",
+			"content":"",
+			"sections":[]
+		};
 		if(indexData["type"] === "file")
 		{
 			console.log('found one file, time to load it');
+			pageData.id = indexData["guid"];
+			pageData.title = indexData["title"];
+			let markdownContent = await this.loadMDFile(indexData["shortpath"]);
+			let adjustedContent = this.AdjustContent(markdownContent);
+			pageData.content = adjustedContent;
 		}
 		else
 		{
 			if(typeof navigationalData["variants"] === "object" && navigationalData["variants"].length > 0)
 			{
-				console.log('found ' + navigationalData["variants"].length + ' variants', navigationalData["variants"]);
+				pageData.id = navigationalData["guid"];
+				pageData.title = navigationalData["title"];
+				indexData["items"].forEach((item, i) =>
+				{
+					
+				});
+				//navigationalData["variants"].forEach(async (variant, i) =>
+				{
+					console.log('variant',variant)
+					let variantContent =
+					{
+						"id":variant["guid"],
+						"componentid":variant["componentid"],
+						"variantid":variant["variantid"],
+						"title":variant["title"],
+						"content":""
+					};
+					let markdownContent = await base.loadMDFile(variant["shortpath"]);
+					let adjustedContent = base.AdjustContent(markdownContent);
+					variantContent.content = adjustedContent;
+					
+					pageData.push(variantContent);
+				});
 			}
 		}
-		
-
+		console.log('getPage indexData',indexData)
+		console.log('getPage navigationalData',navigationalData)
+		console.log('getPage pageData',pageData);
 
 		// 	let contentInfo = this.pageLookup[sourcepath];
 		// 	let compiledContent = marked(cleanedContent, { sanitize: false });
 		// 	this.maincontent.content = compiledContent;
-		return "TODO: parse stuff";
+		return pageData;
+	}
+
+	AdjustContent(markup, options =
+		{
+			removeH1 : true
+		})
+	{
+		let $markup = $('<div></div>').html(markup);
+		if(options.removeH1)
+		{
+			console.log('markup',markup)
+			console.log($markup.find('h1').eq(0))
+			$markup.find('h1').eq(0).remove();
+		}
+		return $markup.html();
+	}
+
+	async loadMDFile(filepath)
+	{
+		const fullpath = this._projectConfig.directories.src + "/" + filepath + '.md';
+		const filereq = await fetch(fullpath);
+		const filecontent = await filereq.text();
+		const cleanedcontent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+7,filecontent.length);
+		const parsedcontent = marked(cleanedcontent, { sanitize: false });
+
+		return parsedcontent;
 	}
 
 	async createIndexLookup()

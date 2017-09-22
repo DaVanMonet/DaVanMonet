@@ -82,7 +82,8 @@ define(["vue","less","jquery","marked","highlight","modules/dataStructureParser"
 			navigation:[],
 			maincontent:
 			{
-				content:"<h1 class='preview-h1'>Welcome</h1><p class='preview-intro-p'>Use the navigation to see the content</p>"
+				title:"Welcome",
+				content:"<p>Use the navigation to see the content</p>"
 			},
 			projectConfig:{},
 			indexStructure:{},
@@ -103,7 +104,7 @@ define(["vue","less","jquery","marked","highlight","modules/dataStructureParser"
 				let pagePath = href.replace("#","");
 				let pagedata = await _dataStructureParser.getPage(pagePath);
 				console.log('returned pagedata', pagedata)
-				this.maincontent.content = pagedata;
+				this.maincontent = pagedata;
 				this.$nextTick(() =>
 				{
 					afterRender(href);

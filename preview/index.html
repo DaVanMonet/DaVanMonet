@@ -59,8 +59,21 @@
 	</script>
 		<script type="text/x-template" id="vuetemplate-maincontent">
 			<div class="davanmonet-maincontentcontainer">
-				<div class="davanmonet-maincontent" v-html="content.content"></div>
-				<div v-if="content.guid" class="davanmonet-maincontent-guid">{{content.guid}}</div>
+				<h1 class="davanmonet-maincontent-headline" v-html="content.title"></h1>
+				<div class="davanmonet-maincontent-content" v-html="content.content"></div>
+				<div v-if="content.sections" class="davanmonet-maincontent-sections">
+					<div v-for="section in content.sections" class="davanmonet-maincontent-section">
+						<h1 class="davanmonet-maincontent-section-headline" v-html="section.title"></h1>
+						<div class="davanmonet-maincontent-section-content" v-html="section.content">
+
+						</div>
+						<div v-if="section.id" class="davanmonet-maincontent-section-id">{{sectioncontent.id}}</div>
+					</div>			
+				</div>
+
+
+				<div v-if="content.id" class="davanmonet-maincontent-id">{{content.id}}</div>
+				
 			</div>
 		</script>
 	</body>
