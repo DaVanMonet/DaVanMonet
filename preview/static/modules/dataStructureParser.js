@@ -66,7 +66,7 @@ class DataStructureParser
 		};
 		if(indexData["type"] === "file")
 		{
-			console.log('found one file, time to load it');
+			//When theres is a file matching and no "variants" are present.
 			pageData.id = indexData["guid"];
 			pageData.title = indexData["title"];
 			let markdownContent = await this.loadMDFile(indexData["shortpath"]);
@@ -77,15 +77,15 @@ class DataStructureParser
 		{
 			if(typeof navigationalData["variants"] === "object" && navigationalData["variants"].length > 0)
 			{
+				//This variable is what we use to match a the MD files with what is contained in the navigational structure
+
+				let matchOnKey = "guid";
 				pageData.id = navigationalData["guid"];
 				pageData.title = navigationalData["title"];
-				indexData["items"].forEach((item, i) =>
+				let variantIds = navigationalData["variants"].map(x => x[matchOnKey]);
+				let variants = indexData["items"].filter(x => variantIds.indexOf(x[matchOnKey]) !== -1);
+				await variants.forEach(async (variant, i) =>
 				{
-					
-				});
-				//navigationalData["variants"].forEach(async (variant, i) =>
-				{
-					console.log('variant',variant)
 					let variantContent =
 					{
 						"id":variant["guid"],
@@ -98,17 +98,10 @@ class DataStructureParser
 					let adjustedContent = base.AdjustContent(markdownContent);
 					variantContent.content = adjustedContent;
 					
-					pageData.push(variantContent);
+					pageData["sections"].push(variantContent);
 				});
 			}
 		}
-		console.log('getPage indexData',indexData)
-		console.log('getPage navigationalData',navigationalData)
-		console.log('getPage pageData',pageData);
-
-		// 	let contentInfo = this.pageLookup[sourcepath];
-		// 	let compiledContent = marked(cleanedContent, { sanitize: false });
-		// 	this.maincontent.content = compiledContent;
 		return pageData;
 	}
 
@@ -120,8 +113,8 @@ class DataStructureParser
 		let $markup = $('<div></div>').html(markup);
 		if(options.removeH1)
 		{
-			console.log('markup',markup)
-			console.log($markup.find('h1').eq(0))
+			// console.log('markup',markup)
+			// console.log($markup.find('h1').eq(0))
 			$markup.find('h1').eq(0).remove();
 		}
 		return $markup.html();
@@ -223,15 +216,11 @@ class DataStructureParser
 									let variants = hasVariants ? itemsByKey[key]["variants"] : [];
 									let trashVariable;
 									if(!hasVariants)
-									{
-										// console.log('first key I think', itemsByKey[key])
-										//variants.push(itemsByKey[key]);
-										
+									{	
 										variants.push({items:trashVariable,...itemsByKey[key]});
-										
 									}
 									variants.push({items:trashVariable,...childitem});
-									//variants.push(childitem);
+									
 									itemsByKey[key]["variants"] = variants;
 									//Override the itemkey with the parent item's
 									itemsByKey[key]["title"] = item["title"];
@@ -259,7 +248,6 @@ class DataStructureParser
 			this._navigation = result;
 		}
 
-		//console.log(JSON.stringify({"items":this._navigation}));
 		return this._navigation;
 	}
 }

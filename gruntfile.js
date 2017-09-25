@@ -189,8 +189,7 @@ module.exports = function (grunt)
 			options:
 			{
 				port: mainconfig.developmentenvironment.devwebsiteport,
-				base: ['./preview','./src','./build/css',"./"],
-				livereload: mainconfig.developmentenvironment.livereloadport,
+				base: ['./preview','./src','./build/css',"./"],	
 				keepalive:false //Set to true if not running watch
 			}
 		},
