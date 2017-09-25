@@ -7,10 +7,28 @@ require.config({
 		'highlight':'/lib/highlight.js@9.12.0/highlight.min',
 		'jquery':'/lib/jquery@3.2.1/jquery.min',
 		'less':'/lib/less@2.7.2/less.min',
+		'es6-promise':'/lib/es6-promise@4.1.1/es6-promise.auto.min',
+		'http-vue-loader':'/lib/http-vue-loader@1.3.3/httpVueLoader'
 	}
 });
 
-define(["vue","less","jquery","marked","highlight","modules/dataStructureParser"], (Vue,less, $, marked, highlight, DataStructureParser) =>
+define([
+	"vue",
+	"less",
+	"jquery",
+	"marked",
+	"highlight",
+	"modules/dataStructureParser",
+	"es6-promise",
+	"http-vue-loader"], (
+		Vue, 
+		less, 
+		$, 
+		marked, 
+		highlight, 
+		DataStructureParser,
+		es6promise,
+		httpVueLoader_) =>
 {
 	(async () =>
 	{
@@ -39,8 +57,6 @@ define(["vue","less","jquery","marked","highlight","modules/dataStructureParser"
 			$previewarea.after($iframe);
 			$previewarea.hide();
 		});
-		// console.log('afterRender livepreviewAreas', $livepreviewAreas)
-		// console.log('afterRender href', href)
 	};
 
 	Vue.component('maincontent', {
@@ -76,6 +92,10 @@ define(["vue","less","jquery","marked","highlight","modules/dataStructureParser"
 
 	var app = new Vue({
 		el: '#davanmonet-app',
+		components:
+		{
+			'component-showcase-render':httpVueLoader('/components/ComponentShowcaseRender.vue')
+		},
 		data:
 		{
 			configLoaded:false,

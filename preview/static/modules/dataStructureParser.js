@@ -69,8 +69,19 @@ class DataStructureParser
 			//When theres is a file matching and no "variants" are present.
 			pageData.id = indexData["guid"];
 			pageData.title = indexData["title"];
-			let markdownContent = await this.loadMDFile(indexData["shortpath"]);
-			let adjustedContent = this.AdjustContent(markdownContent);
+			let filepath = indexData["shortpath"];
+			
+			// Load .md file contents
+			let markdownContent = await base.loadMDFile(filepath);
+			// Extract code snipplets from markdown
+			let snipplets = base.extractCodeSnipplets(markdownContent);
+			// Clean from metadata, (states?) etc.
+			let cleanedMarkdown = base.cleanMarkdown(markdownContent, { removeMetadata : true, snipplets : true });
+			// Parse what's left from the markdown files
+			let parsedMarkdown = marked(cleanedMarkdown, { sanitize: false });
+			//Removes H1 etc.
+			let adjustedContent = base.adjustMarkdownMarkup(parsedMarkdown);
+			
 			pageData.content = adjustedContent;
 		}
 		else
@@ -92,10 +103,22 @@ class DataStructureParser
 						"componentid":variant["componentid"],
 						"variantid":variant["variantid"],
 						"title":variant["title"],
-						"content":""
+						"content":"",
+						"states":[]
 					};
-					let markdownContent = await base.loadMDFile(variant["shortpath"]);
-					let adjustedContent = base.AdjustContent(markdownContent);
+					let filepath = variant["shortpath"];
+
+					// Load .md file contents
+					let markdownContent = await base.loadMDFile(filepath);
+					// Extract code snipplets from markdown
+					let snipplets = base.extractCodeSnipplets(markdownContent);
+					// Clean from metadata, (states?) etc.
+					let cleanedMarkdown = base.cleanMarkdown(markdownContent, { removeMetadata : true, snipplets : true });
+					// Parse what's left from the markdown files
+					let parsedMarkdown = marked(cleanedMarkdown, { sanitize: false });
+					//Removes H1 etc.
+					let adjustedContent = base.adjustMarkdownMarkup(parsedMarkdown);
+
 					variantContent.content = adjustedContent;
 					
 					pageData["sections"].push(variantContent);
@@ -105,7 +128,7 @@ class DataStructureParser
 		return pageData;
 	}
 
-	AdjustContent(markup, options =
+	adjustMarkdownMarkup(markup, options =
 		{
 			removeH1 : true
 		})
@@ -120,15 +143,57 @@ class DataStructureParser
 		return $markup.html();
 	}
 
+	extractCodeSnipplets(markdowntext)
+	{
+		let snipplets = [];
+		const regExGetsnipplet = /((?:##)(.|\w|\W|\r|\n)*?(```$))/gim;
+		let m;
+
+		while ((m = regExGetsnipplet.exec(markdowntext)) !== null)
+		{
+			// This is necessary to avoid infinite loops with zero-width matches
+			if (m.index === regExGetsnipplet.lastIndex)
+			{
+				regExGetsnipplet.lastIndex++;
+			}
+			
+			// The result can be accessed through the `m`-variable.
+			m.forEach((match, groupIndex) =>
+			{
+				if(groupIndex === 0)
+				{
+					let snipplet =
+					{
+						content:match
+					};
+					snipplets.push(snipplet);
+				}
+				//console.log(`Found match, group ${groupIndex}: ${match}`);
+			});
+		}
+console.log('snipplets', snipplets)
+
+		return snipplets;
+	}
+
 	async loadMDFile(filepath)
 	{
 		const fullpath = this._projectConfig.directories.src + "/" + filepath + '.md';
 		const filereq = await fetch(fullpath);
 		const filecontent = await filereq.text();
-		const cleanedcontent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+7,filecontent.length);
-		const parsedcontent = marked(cleanedcontent, { sanitize: false });
+		//const cleanedcontent = 
+		//const parsedcontent = marked(cleanedcontent, { sanitize: false });
 
-		return parsedcontent;
+		return filecontent;
+	}
+
+	cleanMarkdown(markdowntext = "", options = { removeMetadata : true })
+	{
+		if(options.removeMetadata === true && markdowntext.indexOf('---') === 0)
+		{
+			markdowntext = markdowntext.substring(markdowntext.substring(3,markdowntext.length).indexOf("---")+7,markdowntext.length);
+		}
+		return markdowntext;
 	}
 
 	async createIndexLookup()
