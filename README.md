@@ -15,6 +15,8 @@ yarn install
 ```
 
 ## Configuration
+Default configuration resides in patternlibraryconfig.json
+
 ### Directories
 You can change where the system will put compilated css and where your source files are located
 
@@ -34,6 +36,10 @@ Settings for livereload etc
 
 ### Structure
 Add folders that should be included in the less/sass/index compilation
+
+### user-conf.json
+If a file named user-conf.json exists in the root directory, the values in that file will override the default values in patternlibraryconfig.json.
+
 
 ## Usage
 

@@ -16,7 +16,7 @@ module.exports = function (grunt)
 	var mainconfig = grunt.file.readJSON(projectConfigurationFilePath);
 	if(grunt.file.exists(mainconfig.userconfig)) {
 		var userconfig = grunt.file.readJSON(mainconfig.userconfig);
-		_.extend(mainconfig, userconfig);
+		_.merge(mainconfig, userconfig);
 	}
 
 	const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
