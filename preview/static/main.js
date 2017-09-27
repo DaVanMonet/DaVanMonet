@@ -102,7 +102,7 @@ define([
 		},
 		created: function ()
 		{
-			//this.init();
+			this.init(this);
 
 			this.fetchData(this).then(() =>
 			{
@@ -110,12 +110,15 @@ define([
 		},
 		methods:
 		{
-			init: async function()
+			init: async function(_vue)
 			{
-				await this.loadConfig();
-				if(config.developmentenvironment && config.developmentenvironment.livereloadport)
+				await this.loadConfig(_vue);
+
+				if(_vue.projectConfig.developmentenvironment
+					&& _vue.projectConfig.developmentenvironment.livereloadport)
 				{
-					$('<script src="//localhost:'+ config.developmentenvironment.livereloadport +'/livereload.js"></script>').appendTo('body');
+					$('<script src="//localhost:'+ _vue.projectConfig.developmentenvironment.livereloadport +'/livereload.js"></script>')
+						.appendTo('body');
 				}
 			},
 
@@ -167,6 +170,9 @@ define([
 			},
 
 			loadConfig: async function(_vue) {
+				if(_vue.configLoaded)
+					return;
+
 				// Load default config
 				const configrequest = await fetch('./patternlibraryconfig.json');
 				let config = await configrequest.json();
