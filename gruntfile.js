@@ -233,6 +233,11 @@ module.exports = function (grunt)
 				src: projectConfigurationFilePath,
 				dest: mainconfig.directories.build
 			},
+			{	/* Copy over the user configuration file */
+				expand:true,
+				src: mainconfig.userconfig,
+				dest: mainconfig.directories.build
+			},
 			{	/* Copy over the index file */
 				expand:true,
 				src: mainconfig.indexing.output,
