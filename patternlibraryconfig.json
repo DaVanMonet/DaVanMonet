@@ -5,6 +5,7 @@
 		"cssdest":"./build/css",
 		"build":"./build"
 	},
+	"userconfig": "./user-conf.json",
 	"indexing":
 	{
 		"output":"./contentindex.json",
