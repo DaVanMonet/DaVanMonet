@@ -5,12 +5,20 @@ module.exports = function (grunt)
 {
 	"use strict";
 	require('jit-grunt')(grunt);
-	require('time-grunt')(grunt); 
+	require('time-grunt')(grunt);
+	var _ = require('lodash');
 	grunt.loadNpmTasks('grunt-newer');
 	
 	var projectConfigurationFilePath = "./patternlibraryconfig.json";
 	var gruntconfig = {};
+
+	// Load default config and optional user config
 	var mainconfig = grunt.file.readJSON(projectConfigurationFilePath);
+	if(grunt.file.exists(mainconfig.userconfig)) {
+		var userconfig = grunt.file.readJSON(mainconfig.userconfig);
+		_.extend(mainconfig, userconfig);
+	}
+
 	const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 	
 	// Optionally load tasks depending on configuration
@@ -189,7 +197,7 @@ module.exports = function (grunt)
 			options:
 			{
 				port: mainconfig.developmentenvironment.devwebsiteport,
-				base: ['./preview','./src','./build/css',"./"],	
+				base: _.union(['./preview', "./"], mainconfig.directories),	
 				keepalive:false //Set to true if not running watch
 			}
 		},

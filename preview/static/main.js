@@ -30,17 +30,7 @@ define([
 		es6promise,
 		httpVueLoader_) =>
 {
-	(async () =>
-	{
-		const configrequest = await fetch('./patternlibraryconfig.json');
-		let config = await configrequest.json();
-		
-		if(config.developmentenvironment && config.developmentenvironment.livereloadport)
-		{
-			$('<script src="//localhost:'+ config.developmentenvironment.livereloadport +'/livereload.js"></script>').appendTo('body');
-		}
-	})();
-
+	
 	var afterRender = (href) =>
 	{
 		$('pre code').each((i, $block) =>
@@ -68,6 +58,7 @@ define([
 		template: '#vuetemplate-navigation',
 		props: ['navigation', 'sourceDirectory']
 	});
+
 	Vue.component('navigation-list', {
 		template: '#vuetemplate-navigationlist',
 		props: ['items', 'sourceDirectory', 'level'],
@@ -111,32 +102,43 @@ define([
 		},
 		created: function ()
 		{
-			
+			//this.init();
+
 			this.fetchData(this).then(() =>
 			{
 			});
 		},
 		methods:
 		{
-			loadPage:async function(_vue,href)
+			init: async function()
+			{
+				await this.loadConfig();
+				if(config.developmentenvironment && config.developmentenvironment.livereloadport)
+				{
+					$('<script src="//localhost:'+ config.developmentenvironment.livereloadport +'/livereload.js"></script>').appendTo('body');
+				}
+			},
+
+			loadPage: async function(_vue,href)
 			{
 				let _dataStructureParser = new DataStructureParser();
 				let pagePath = href.replace("#","");
 				let pagedata = await _dataStructureParser.getPage(pagePath);
-				console.log('returned pagedata', pagedata)
+				
+				console.log('returned pagedata', pagedata);
+
 				this.maincontent = pagedata;
 				this.$nextTick(() =>
 				{
 					afterRender(href);
 				});
+
 				// let sourcepath = this.projectConfig.directories.src + href.replace("#","") + ".md";
 				// fetch(sourcepath).then(res => res.text()).then(filecontent =>
 				// {
 				// 	//Clean filecontent, remove all content before the second "---"
 				// 	var cleanedContent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+7,filecontent.length);
 					
-					
-
 				// 	window["a"] = filecontent;
 				// 	let contentInfo = this.pageLookup[sourcepath];
 				// 	let compiledContent = marked(cleanedContent, { sanitize: false });
@@ -147,13 +149,12 @@ define([
 				// 	});
 				// });
 			},
-			fetchData: async (_vue) =>
+
+			fetchData: async function(_vue)
 			{
-				const configreq = await fetch('./patternlibraryconfig.json');
-				const config = await configreq.json();
-				_vue.projectConfig = config;
+				await _vue.loadConfig(_vue);
 				
-				const indexreq = await fetch(config.indexing.output);
+				const indexreq = await fetch(_vue.projectConfig.indexing.output);
 				const indexStructure = await indexreq.json();
 				_vue.indexStructure = indexStructure;
 
@@ -163,10 +164,25 @@ define([
 				_vue.navigation = navigation;
 			
 				_vue.parseHashAndNavigate();
-				_vue.configLoaded = true;
-
 			},
-			parseHashAndNavigate:function()
+
+			loadConfig: async function(_vue) {
+				// Load default config
+				const configrequest = await fetch('./patternlibraryconfig.json');
+				let config = await configrequest.json();
+		
+				// Look for user config and extend the default config if present
+				const userconfigrequest = await fetch(config.userconfig);
+				if(userconfigrequest.status !== 404) {
+					let userconfig = await userconfigrequest.json();
+					$.extend(true, config, userconfig);
+				}
+
+				_vue.projectConfig = config;
+				_vue.configLoaded = true;
+			},
+
+			parseHashAndNavigate: function()
 			{
 				const hash = window.location.hash;
 				if(hash.indexOf("#/") !== -1)

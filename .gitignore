@@ -62,3 +62,7 @@ typings/
 
 # build Output
 /build
+contentindex.json
+
+# User configuration file
+user-conf.json
