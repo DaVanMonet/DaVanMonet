@@ -11,8 +11,8 @@ define(["jquery","marked","modules/parsequery"], ($, marked, parsequery) =>
 {
 	(async () =>
 	{
-		const configrequest = await fetch('./patternlibraryconfig.json');
-		let config = await configrequest.json();
+		await ConfigLoader.LoadConfig();
+		let config = ConfigLoader.ProjectConfig;
 		
 		if(config.developmentenvironment && config.developmentenvironment.livereloadport)
 		{

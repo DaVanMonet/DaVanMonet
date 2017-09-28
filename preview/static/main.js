@@ -19,6 +19,7 @@ define([
 	"marked",
 	"highlight",
 	"modules/dataStructureParser",
+	"modules/configLoader",
 	"es6-promise",
 	"http-vue-loader"], (
 		Vue, 
@@ -27,6 +28,7 @@ define([
 		marked, 
 		highlight, 
 		DataStructureParser,
+		ConfigLoader,
 		es6promise,
 		httpVueLoader_) =>
 {
@@ -103,16 +105,14 @@ define([
 		created: function ()
 		{
 			this.init(this);
-
-			this.fetchData(this).then(() =>
-			{
-			});
 		},
 		methods:
 		{
 			init: async function(_vue)
 			{
-				await this.loadConfig(_vue);
+				await ConfigLoader.LoadConfig();
+				
+				_vue.projectConfig = ConfigLoader.ProjectConfig;
 
 				if(_vue.projectConfig.developmentenvironment
 					&& _vue.projectConfig.developmentenvironment.livereloadport)
@@ -120,6 +120,10 @@ define([
 					$('<script src="//localhost:'+ _vue.projectConfig.developmentenvironment.livereloadport +'/livereload.js"></script>')
 						.appendTo('body');
 				}
+
+				this.fetchData(this).then(() =>
+				{
+				});
 			},
 
 			loadPage: async function(_vue,href)
@@ -154,9 +158,7 @@ define([
 			},
 
 			fetchData: async function(_vue)
-			{
-				await _vue.loadConfig(_vue);
-				
+			{	
 				const indexreq = await fetch(_vue.projectConfig.indexing.output);
 				const indexStructure = await indexreq.json();
 				_vue.indexStructure = indexStructure;
@@ -167,24 +169,6 @@ define([
 				_vue.navigation = navigation;
 			
 				_vue.parseHashAndNavigate();
-			},
-
-			loadConfig: async function(_vue) {
-				if(_vue.configLoaded)
-					return;
-
-				// Load default config
-				const configrequest = await fetch('./patternlibraryconfig.json');
-				let config = await configrequest.json();
-		
-				// Look for user config and extend the default config if present
-				const userconfigrequest = await fetch(config.userconfig);
-				if(userconfigrequest.status !== 404) {
-					let userconfig = await userconfigrequest.json();
-					$.extend(true, config, userconfig);
-				}
-
-				_vue.projectConfig = config;
 				_vue.configLoaded = true;
 			},
 

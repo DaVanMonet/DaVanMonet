@@ -1,12 +1,12 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(["require", "exports", "marked", "jquery"], factory);
+        define(["require", "exports", "marked", "modules/configLoader", "jquery"], factory);
     } else {
         // Browser globals
         root.amdWeb = factory(root.b);
     }
-}(this, function (require, exports, marked, $) {
+}(this, function (require, exports, marked, ConfigLoader, $) {
 
 class DataStructureParser
 {
@@ -33,18 +33,9 @@ class DataStructureParser
 	{
 		if(this._state.dataLoaded === false)
 		{
-			const configreq = await fetch('./patternlibraryconfig.json');
-			const config = await configreq.json();
-
-			// Look for user config and extend the default config if present
-			// TODO: Come up with a better way to load config, so that this code does not need to be repeated in multiple places
-			const userconfigrequest = await fetch(config.userconfig);
-			if(userconfigrequest.status !== 404) {
-				let userconfig = await userconfigrequest.json();
-				$.extend(true, config, userconfig);
-			}
+			await ConfigLoader.LoadConfig();
 			
-			this._projectConfig = config;
+			this._projectConfig = ConfigLoader.ProjectConfig;
 			const indexreq = await fetch(this._projectConfig.indexing.output);
 			const index = await indexreq.json();
 			this._index = index;
