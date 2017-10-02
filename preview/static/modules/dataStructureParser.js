@@ -21,12 +21,19 @@ class DataStructureParser
 		this._navigation = [];
 		this._indexLookup = {};
 		this._navigationLookup = {};
-
+		
+		this.regex = {};
+		
 		this._configuration = {
 			"sourceDirectory" : "",
 			"groupNavigationalItemsByKey":""
 		};
 		Object.assign(this._configuration, configuration);
+	}
+
+	isType(val, type)
+	{
+		return (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)));
 	}
 
 	async loadData()
@@ -40,6 +47,23 @@ class DataStructureParser
 			const index = await indexreq.json();
 			this._index = index;
 			this._state.dataLoaded = true;
+			this.createRegExs();
+		}
+	}
+
+	createRegExs()
+	{
+		if(Object.keys(this.regex).length === 0)
+		{
+			// Create our regex dependent on configs, if not configured we expect codeblocks to have a '##' headline
+			let headlineTargetString = this.isType(this._projectConfig.developmentenvironment.codepreviewheadline,"string") ? this._projectConfig.developmentenvironment.codepreviewheadline : "##";
+
+			this.regex =
+			{
+				findSnipplet : new RegExp("((?:"+ headlineTargetString +")(.|\w|\W|\r|\n)*?(```$))","gim"),
+				findMarkdownH2:  new RegExp("(?:"+ headlineTargetString +")(.|\r|\n)*?^","gim"),
+				findMarkdownCodeblock: new RegExp("(```html)(.|\w|\W|\r|\n)*?(```)", "gim")
+			};
 		}
 	}
 
@@ -61,7 +85,8 @@ class DataStructureParser
 			"id":"",
 			"title":"",
 			"content":"",
-			"sections":[]
+			"sections":[],
+			"states":[]
 		};
 		if(indexData["type"] === "file")
 		{
@@ -72,12 +97,20 @@ class DataStructureParser
 			
 			// Load .md file contents
 			let markdownContent = await base.loadMDFile(filepath);
+
 			// Extract code snipplets from markdown
-			let snipplets = base.extractCodeSnipplets(markdownContent);
+			let snipplets = base.getCodeSnipplets(markdownContent);
+			if(snipplets.length > 0)
+			{
+				pageData.states = pageData.states.concat(snipplets);
+			}
+
 			// Clean from metadata, (states?) etc.
-			let cleanedMarkdown = base.cleanMarkdown(markdownContent, { removeMetadata : true, snipplets : true });
+			let cleanedMarkdown = base.cleanMarkdown(markdownContent, { removeMetadata : true, removeSnipplets : true });
+
 			// Parse what's left from the markdown files
 			let parsedMarkdown = marked(cleanedMarkdown, { sanitize: false });
+
 			//Removes H1 etc.
 			let adjustedContent = base.adjustMarkdownMarkup(parsedMarkdown);
 			
@@ -109,12 +142,20 @@ class DataStructureParser
 
 					// Load .md file contents
 					let markdownContent = await base.loadMDFile(filepath);
+
 					// Extract code snipplets from markdown
-					let snipplets = base.extractCodeSnipplets(markdownContent);
+					let snipplets = base.getCodeSnipplets(markdownContent);
+					if(snipplets.length > 0)
+					{
+						variantContent.states = variantContent.states.concat(snipplets);
+					}
+
 					// Clean from metadata, (states?) etc.
-					let cleanedMarkdown = base.cleanMarkdown(markdownContent, { removeMetadata : true, snipplets : true });
+					let cleanedMarkdown = base.cleanMarkdown(markdownContent, { removeMetadata : true, removeSnipplets : true });
+
 					// Parse what's left from the markdown files
 					let parsedMarkdown = marked(cleanedMarkdown, { sanitize: false });
+
 					//Removes H1 etc.
 					let adjustedContent = base.adjustMarkdownMarkup(parsedMarkdown);
 
@@ -142,37 +183,85 @@ class DataStructureParser
 		return $markup.html();
 	}
 
-	extractCodeSnipplets(markdowntext)
+	getCodeSnipplets(markdowntext)
 	{
+		let snippletsTexts = this.extractCodeSnipplets(markdowntext);
 		let snipplets = [];
-		const regExGetsnipplet = /((?:##)(.|\w|\W|\r|\n)*?(```$))/gim;
-		let m;
-
-		while ((m = regExGetsnipplet.exec(markdowntext)) !== null)
+		let base = this;
+		if(snippletsTexts.length > 0)
 		{
-			// This is necessary to avoid infinite loops with zero-width matches
-			if (m.index === regExGetsnipplet.lastIndex)
+			snippletsTexts.forEach((text,i) =>
 			{
-				regExGetsnipplet.lastIndex++;
-			}
-			
-			// The result can be accessed through the `m`-variable.
-			m.forEach((match, groupIndex) =>
-			{
-				if(groupIndex === 0)
+				if(typeof text === "string" && text.length > 0)
 				{
-					let snipplet =
+					//Get headline from snipplet text
+					let headlineMatch = this.matchFromRegEx(text, base.regex.findMarkdownH2);
+					let headline = (headlineMatch.length > 0) ? headlineMatch[0].replace(/#/ig,"").trim() : "";
+					
+					// Fetch codeblock
+					let codeMatch = this.matchFromRegEx(text, base.regex.findMarkdownCodeblock);
+					let code = (codeMatch.length > 0) ? codeMatch[0].replace(/```html/ig,"").replace(/```/ig,"").trim() : "";
+
+					// Fetch comment by removing code and headline
+					let parsedContent = marked(text);
+					let $parsedContent = $('<div></div>').html(parsedContent);
+					let description = $parsedContent.find('h2, h3, h4, pre').remove().end().html();
+
+					let item = 
 					{
-						content:match
+						headline : headline,
+						code : code,	
+						description: description,
+						parsedcontent : parsedContent,
+						markdownsource : text
 					};
-					snipplets.push(snipplet);
+					
+					snipplets.push(item);
 				}
-				//console.log(`Found match, group ${groupIndex}: ${match}`);
 			});
 		}
-console.log('snipplets', snipplets)
-
+		console.log(snipplets);
 		return snipplets;
+	}
+
+	extractCodeSnipplets(markdowntext)
+	{
+		let snipplets = this.matchFromRegEx(markdowntext,this.regex.findSnipplet);
+		return snipplets;
+	}
+
+	matchFromRegEx(text, regex)
+	{
+		let matches = [];
+		if(typeof regex !== "undefined")
+		{
+			const regExGetsnipplet = regex;
+			let m;
+
+			while ((m = regExGetsnipplet.exec(text)) !== null)
+			{
+				// This is necessary to avoid infinite loops with zero-width matches
+				if (m.index === regExGetsnipplet.lastIndex)
+				{
+					regExGetsnipplet.lastIndex++;
+				}
+				
+				// The result can be accessed through the `m`-variable.
+				m.forEach((match, groupIndex) =>
+				{
+					if(groupIndex === 0)
+					{
+						//Add match to array result
+						matches.push(match);
+					}
+				});
+			}
+		}
+		else
+		{
+			console.log('Undefined regex');
+		}
+		return matches;
 	}
 
 	async loadMDFile(filepath)
@@ -180,17 +269,18 @@ console.log('snipplets', snipplets)
 		const fullpath = this._projectConfig.directories.src + "/" + filepath + '.md';
 		const filereq = await fetch(fullpath);
 		const filecontent = await filereq.text();
-		//const cleanedcontent = 
-		//const parsedcontent = marked(cleanedcontent, { sanitize: false });
-
 		return filecontent;
 	}
 
-	cleanMarkdown(markdowntext = "", options = { removeMetadata : true })
+	cleanMarkdown(markdowntext = "", options = { removeMetadata : true, removeSnipplets : false })
 	{
 		if(options.removeMetadata === true && markdowntext.indexOf('---') === 0)
 		{
 			markdowntext = markdowntext.substring(markdowntext.substring(3,markdowntext.length).indexOf("---")+7,markdowntext.length);
+		}
+		if(options.removeSnipplets === true)
+		{
+			markdowntext = markdowntext.replace(this.regex.findSnipplet, '');
 		}
 		return markdowntext;
 	}

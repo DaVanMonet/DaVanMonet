@@ -81,6 +81,8 @@ export default {
       this.$emit('update:isSettingsDrawerExpanded', !this.isSettingsDrawerExpanded);
     },
     onCssBreakpointChange(cssBreakpoint) {
+      this.$emit('onCssBreakpointChange', cssBreakpoint);
+
       this.$emit('update:selectedCssBreakpointId', cssBreakpoint.id);
     },
     getSelectedCssBreakpointTitle() {
