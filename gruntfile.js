@@ -198,7 +198,22 @@ module.exports = function (grunt)
 			{
 				port: mainconfig.developmentenvironment.devwebsiteport,
 				base: _.union(['./preview', "./"], mainconfig.directories),	
-				keepalive:false //Set to true if not running watch
+				keepalive:false, //Set to true if not running watch
+				middleware: function(connect, options, middlewares)
+				{
+					// inject a custom middleware into the array of default middlewares
+					middlewares.unshift(function(req, res, next)
+					{
+						if(req.url.indexOf('.vue') !== -1)
+						{
+							//res.setHeader('Content-Type', 'application/json'); 
+							res.setHeader('Content-Type', 'text/html; charset=UTF-8'); 
+						}
+						return next();
+					});
+		  
+					return middlewares;
+				}
 			}
 		},
 		build:
