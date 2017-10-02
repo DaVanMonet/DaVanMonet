@@ -18,10 +18,13 @@ class ConfigLoader
         const config = await configreq.json();
 
         // Look for user config and extend the default config if present
-        const userconfigrequest = await fetch(config.userconfig);
-        if(userconfigrequest.status !== 404) {
-            let userconfig = await userconfigrequest.json();
-            $.extend(true, config, userconfig);
+        if(typeof config.userconfig === "string" && config.userconfig.length > 0)
+        {
+            const userconfigrequest = await fetch(config.userconfig);
+            if(userconfigrequest.status !== 404) {
+                let userconfig = await userconfigrequest.json();
+                $.extend(true, config, userconfig);
+            }
         }
 
         ConfigLoader.ProjectConfig = config;
