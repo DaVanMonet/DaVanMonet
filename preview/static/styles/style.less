@@ -32,12 +32,13 @@ body
 	margin:0;
 	padding:0;
 	min-height: 100%;
+	overflow-y:scroll;
 }
-* {
+
+*
+{
 	box-sizing: border-box;
 }
-
-
 
 .davanmonet-app {
 	// display: grid;
@@ -46,8 +47,13 @@ body
 	height: 100%;
 	font-size:0;
 	overflow: hidden;
+	
 }
 
+input, button, select, optgroup, textarea
+{
+	font-size:inherit;
+}
 /****** Header *******/
 
 .davanmonet-header {
@@ -181,4 +187,15 @@ body
 .davanmonet-nav-link:focus,
 .davanmonet-nav-link:active {
 	color: var(--dark-primary-color);
+}
+
+.visually-hidden
+{
+	position: absolute;
+	clip: rect(1px, 1px, 1px, 1px);
+	padding: 0;
+	border: 0;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
 }

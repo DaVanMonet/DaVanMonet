@@ -59,7 +59,31 @@
 		"devwebsiteport":9001,
 		"buildwebsiteport":9002,
 		"livereloadport":1234,
-		"codepreviewheadline":"##"
+		"codepreviewheadline":"##",
+		"cssbreakpoints":
+		[
+			{
+				"id": "mobile",
+				"title": "Mobile",
+				"width": 375,
+				"fromWidth": 0,
+				"toWidth": 375
+			},
+			{
+				"id": "tablet",
+				"title": "Tablet",
+				"width": 768,
+				"fromWidth": 376,
+				"toWidth": 999
+			},
+			{
+				"id": "desktop",
+				"title": "Desktop",
+				"width": "100%",
+				"fromWidth": 1000,
+				"toWidth": 9007199254740990
+			}
+		]
 	},
 	"structure": 
 	[

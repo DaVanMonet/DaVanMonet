@@ -5,7 +5,7 @@
 </template>
 
 <script>
-export default {
+module.exports =  {
   name: 'component-showcase-render',
   props: ['renderSource', 'iframeContentHeight'],
   methods: {
@@ -15,6 +15,7 @@ export default {
     },
     populateIframeWithRenderSource() {
       // Add this.renderSource
+      console.log('this.renderSource',this.renderSource)
       this.$refs.iframe.contentDocument.body.querySelector('.showcase__render').innerHTML = this.renderSource;
 
       // Duplicate our stylesheets into the iframe document head

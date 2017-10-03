@@ -83,26 +83,52 @@ class DataStructureParser
 		let pageData =
 		{
 			"id":"",
-			"title":"",
-			"content":"",
-			"sections":[],
-			"states":[]
+			"Title":"",
+			"Preamble":"",
+			"ComponentItems":[],
 		};
+
+		
+		//When theres is a file matching and no "variants" are present.
+		pageData.id = indexData["guid"];
+		pageData.Title = indexData["title"];
+
+		var variants = [];
+		// Structure only contains one file.
 		if(indexData["type"] === "file")
 		{
-			//When theres is a file matching and no "variants" are present.
-			pageData.id = indexData["guid"];
-			pageData.title = indexData["title"];
-			let filepath = indexData["shortpath"];
-			
+			variants.push(indexData);
+		}
+		else if(typeof navigationalData["variants"] === "object" && navigationalData["variants"].length > 0)
+		{
+			let matchOnKey = "guid";
+			let variantIds = navigationalData["variants"].map(x => x[matchOnKey]);
+			variants = indexData["items"].filter(x => variantIds.indexOf(x[matchOnKey]) !== -1);
+		}
+		//This variable is what we use to match a the MD files with what is contained in the navigational structure
+		pageData.id = navigationalData["guid"];
+		pageData.title = navigationalData["title"];
+		
+		await variants.forEach(async (variant, i) =>
+		{
+			let variantContent =
+			{
+				"id":variant["guid"],
+				"componentid":variant["componentid"],
+				"variantid":variant["variantid"],
+				"Title":variant["title"],
+				"Content":"",
+				"States":[]
+			};
+			let filepath = variant["shortpath"];
+
 			// Load .md file contents
 			let markdownContent = await base.loadMDFile(filepath);
-
 			// Extract code snipplets from markdown
 			let snipplets = base.getCodeSnipplets(markdownContent);
 			if(snipplets.length > 0)
 			{
-				pageData.states = pageData.states.concat(snipplets);
+				variantContent.States = variantContent.States.concat(snipplets);
 			}
 
 			// Clean from metadata, (states?) etc.
@@ -113,74 +139,31 @@ class DataStructureParser
 
 			//Removes H1 etc.
 			let adjustedContent = base.adjustMarkdownMarkup(parsedMarkdown);
+			variantContent.Content = adjustedContent;
 			
-			pageData.content = adjustedContent;
-		}
-		else
-		{
-			if(typeof navigationalData["variants"] === "object" && navigationalData["variants"].length > 0)
-			{
-				//This variable is what we use to match a the MD files with what is contained in the navigational structure
-
-				let matchOnKey = "guid";
-				pageData.id = navigationalData["guid"];
-				pageData.title = navigationalData["title"];
-				let variantIds = navigationalData["variants"].map(x => x[matchOnKey]);
-				let variants = indexData["items"].filter(x => variantIds.indexOf(x[matchOnKey]) !== -1);
-				await variants.forEach(async (variant, i) =>
-				{
-					let variantContent =
-					{
-						"id":variant["guid"],
-						"componentid":variant["componentid"],
-						"variantid":variant["variantid"],
-						"title":variant["title"],
-						"content":"",
-						"states":[]
-					};
-					let filepath = variant["shortpath"];
-
-					// Load .md file contents
-					let markdownContent = await base.loadMDFile(filepath);
-
-					// Extract code snipplets from markdown
-					let snipplets = base.getCodeSnipplets(markdownContent);
-					if(snipplets.length > 0)
-					{
-						variantContent.states = variantContent.states.concat(snipplets);
-					}
-
-					// Clean from metadata, (states?) etc.
-					let cleanedMarkdown = base.cleanMarkdown(markdownContent, { removeMetadata : true, removeSnipplets : true });
-
-					// Parse what's left from the markdown files
-					let parsedMarkdown = marked(cleanedMarkdown, { sanitize: false });
-
-					//Removes H1 etc.
-					let adjustedContent = base.adjustMarkdownMarkup(parsedMarkdown);
-
-					variantContent.content = adjustedContent;
-					
-					pageData["sections"].push(variantContent);
-				});
-			}
-		}
+			pageData["ComponentItems"].push(variantContent);
+		});
+			
 		return pageData;
 	}
 
-	adjustMarkdownMarkup(markup, options =
+	adjustMarkdownMarkup(markuptext, options =
 		{
 			removeH1 : true
 		})
 	{
-		let $markup = $('<div></div>').html(markup);
+		let markup = document.createElement('div');
+		markup.innerHTML= markuptext;
 		if(options.removeH1)
 		{
-			// console.log('markup',markup)
-			// console.log($markup.find('h1').eq(0))
-			$markup.find('h1').eq(0).remove();
+			let arrayH1 = markup.querySelectorAll('h1');
+			arrayH1.forEach((h1)=>
+			{
+				console.log('h1', h1);
+				h1.parentNode.removeChild(h1);
+			})
 		}
-		return $markup.html();
+		return markup.innerHTML;
 	}
 
 	getCodeSnipplets(markdowntext)
@@ -204,14 +187,19 @@ class DataStructureParser
 
 					// Fetch comment by removing code and headline
 					let parsedContent = marked(text);
-					let $parsedContent = $('<div></div>').html(parsedContent);
-					let description = $parsedContent.find('h2, h3, h4, pre').remove().end().html();
-
+					let markup = document.createElement('div');
+					markup.innerHTML = parsedContent;
+					let itemsToRemove = markup.querySelectorAll('h2, h3, h4, pre');
+					itemsToRemove.forEach((item) => { item.parentNode.removeChild(item); })
+					
+					let description = markup.innerHTML;
 					let item = 
 					{
-						headline : headline,
+						Title : headline,
 						code : code,	
-						description: description,
+						PreviewMarkup:code,
+						RenderSource:code,
+						Preamble: description,
 						parsedcontent : parsedContent,
 						markdownsource : text
 					};

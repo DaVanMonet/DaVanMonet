@@ -5,10 +5,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="chrome,ie=edge">
 	<title>DaVanMonet</title>
-	<link rel="stylesheet" href="./lib/highlight.js@9.12.0/github.css"/>
-	<link rel="stylesheet/less" type="text/css" href="./static/style.less" />
+	<link rel="stylesheet" href="/lib/highlight.js@9.12.0/github.css"/>
+	<link rel="stylesheet/less" type="text/css" href="/static/styles/style.less" />
+	<link rel="stylesheet/less" type="text/css" href="/static/styles/showcase.less" />
+	<link rel="stylesheet/less" type="text/css" href="/static/styles/demo-radio-button.less" />
 	
-	<script data-main="./static/main" src="./lib/require.js@2.3.5/require.min.js"></script>
+	<script data-main="/static/main" src="/lib/require.js@2.3.5/require.min.js"></script>
 </head>
 	<body class="davanmonet-body">
 
@@ -28,7 +30,9 @@
 		<maincontent 
 			class="davanmonet-maincontentcontainer" 
 			v-if="configLoaded == true && maincontent"
-			:content="maincontent"></maincontent>
+			:content="maincontent"
+			:css-breakpoints="projectConfig.developmentenvironment.cssbreakpoints"
+			></maincontent>
 		<div v-if="configLoaded == false">
 			Loading...
 		</div>
@@ -59,8 +63,8 @@
 	</script>
 		<script type="text/x-template" id="vuetemplate-maincontent">
 			<div class="davanmonet-maincontentcontainer">
-				<h1 class="davanmonet-maincontent-headline" v-html="content.title"></h1>
-				<div class="davanmonet-maincontent-content" v-html="content.content"></div>
+				<h1 class="davanmonet-maincontent-headline" v-html="content.Title"></h1>
+				<div class="davanmonet-maincontent-content" v-html="content.Preamble"></div>
 				<!-- <component-showcase-render 
 					v-if="state.title === selectedStateTitle" 
 					v-for="state in showcaseData.states" 
@@ -68,14 +72,29 @@
 					:renderSource="state.renderSource" 
 					:iframeContentHeight.sync="iframeContentHeight">
 				</component-showcase-render> -->
+				
+				<!-- <component-showcase-render 
+				v-if="content.states" 
+				v-for="state in content.states" 
+				:key="state.headline" 
+				:renderSource="state.code" 
+				:iframeContentHeight.sync="iframeContentHeight">
+				</component-showcase-render> -->
 
-				<div v-if="content.sections" class="davanmonet-maincontent-sections">
-					<div v-for="section in content.sections" class="davanmonet-maincontent-section">
-						<h1 class="davanmonet-maincontent-section-headline" v-html="section.title"></h1>
-						<div class="davanmonet-maincontent-section-content" v-html="section.content">
+				<!-- <component-showcase v-for="showcaseVariant in content.states" :key="showcaseVariant.headline" :css-breakpoints="cssBreakpoints" :showcase-data="showcaseVariant"></component-showcase> -->
+				
+				<!-- <component-showcase :css-breakpoints="cssBreakpoints" :showcase-data="content"></component-showcase> -->
 
-						</div>
-						<div v-if="section.id" class="davanmonet-maincontent-section-id">{{section.id}}</div>
+				<div v-if="content.ComponentItems" class="davanmonet-maincontent-sections">
+					<div v-for="componentItem in content.ComponentItems" class="davanmonet-maincontent-section">
+						Component item
+						<h1 class="davanmonet-maincontent-section-headline" v-html="componentItem.Title"></h1>
+						<div class="davanmonet-maincontent-section-content" v-html="componentItem.Preamble"></div>
+						
+						<component-showcase :css-breakpoints="cssBreakpoints" :showcase-data="componentItem"></component-showcase>
+
+						<div v-if="componentItem.id" class="davanmonet-maincontent-section-id">{{componentItem.id}}</div>
+
 					</div>			
 				</div>
 

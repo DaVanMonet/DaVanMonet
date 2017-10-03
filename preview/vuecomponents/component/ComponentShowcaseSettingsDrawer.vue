@@ -6,6 +6,7 @@
       <ul class="showcase__size-selector" v-if="cssBreakpoints">
         <li
           v-for="cssBreakpoint in cssBreakpoints"
+          v-bind:key="cssBreakpoint.id"
           :class="[
             `showcase__size-selector-button--${cssBreakpoint.id}`,
             cssBreakpoint.id === selectedCssBreakpointId ? 'showcase__size-selector-button--is-active': ''
@@ -39,17 +40,17 @@
         </div>
         <div class="col-md-3 col-lg-2">
           <div class="demo-form-group__label">States</div>
-          <div v-for="state in states" :key="state.title" class="demo-radio-button demo-radio-button--white">
+          <div v-for="state in states" :key="state.Title" class="demo-radio-button demo-radio-button--white">
             <input
-              :checked="state.title === selectedStateTitle"
-              :value="state.title"
-              :id="state.title"
+              :checked="state.Title === selectedStateTitle"
+              :value="state.Title"
+              :id="state.Title"
               @change="onStateChange($event)"
               class="demo-radio-button__input visually-hidden"
               type="radio">
-            <label class="demo-radio-button__label" :for="state.title">
+            <label class="demo-radio-button__label" :for="state.Title">
               <div class="demo-radio-button__custom-radio-button"></div>
-              {{ state.title }}
+              {{ state.Title }}
             </label>
           </div>
         </div>
@@ -59,7 +60,7 @@
 </template>
 
 <script>
-export default {
+module.exports = {
   name: 'component-showcase-settings-drawer',
   props: [
     'states',

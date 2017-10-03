@@ -32,7 +32,7 @@ define([
 		es6promise,
 		httpVueLoader_) =>
 {
-	
+	window["highlight"] = highlight;
 	var afterRender = (href) =>
 	{
 		$('pre code').each((i, $block) =>
@@ -50,10 +50,22 @@ define([
 			$previewarea.hide();
 		});
 	};
-
+	Vue.use(httpVueLoader);
+/*
+"component-showcase":""
+			"component-showcase-render",
+			"component-showcase-settings-drawer",
+			"component-showcase-source",
+			"resizeable-element",
+			"copy-to-clipboard"
+ */
 	Vue.component('maincontent', {
+		components:
+		[
+			"url:/vuecomponents/component/ComponentShowcase.vue"
+		],
 		template: '#vuetemplate-maincontent',
-		props: ['content']
+		props: ['content','cssBreakpoints']
 	});
 
 	Vue.component('navigation', {

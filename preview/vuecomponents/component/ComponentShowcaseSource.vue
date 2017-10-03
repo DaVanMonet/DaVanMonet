@@ -5,7 +5,7 @@
 </template>
 
 <script>
-export default {
+module.exports =  {
   name: 'component-showcase-source',
 };
 </script>
