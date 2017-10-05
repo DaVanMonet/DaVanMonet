@@ -48,19 +48,18 @@ In order to use On Site Preview, onSitePreview.js need to be loaded on the targe
 ### Config
 Below is an example config snippet for On Site Preview.
 
-Guid selects which compontent, state selects state index, and inject_at is the CSS-selector after which the markup is injected on the site.
-
 The "onsitepreview" object should be at the root level of the configuration tree, preferrably in the user config file (user-conf.json).
 
-```json
+```js
 "onsitepreview":
 {
     "components":
     [
         {
-            "guid": "31495b40-9492-40e4-86e3-1e06bfc40171",
-            "state": 0,
-            "inject_at": "#SomeElement > div > p"
+            "guid": "31495b40-9492-40e4-86e3-1e06bfc40171", // GUID of the compontent
+            "state": 0, // State index. 0 will be the first state that is defined
+            "hook": "#SomeElement > div > p", // Selector at which the component will be injected
+            "inject_pos": "after" // Specifies wheter it should inject before or after the selector
         }
     ]
 }

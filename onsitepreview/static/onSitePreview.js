@@ -5,22 +5,26 @@
 
 Zepto(function ($) {
     
-    function loadComponent(cmpnt) {
+    function loadComponent(cmpnt_info) {
         $.ajax({
             type: 'GET',
-            url: 'http://pws-seb-se-local.sebank.se:9003/component-markup/' + cmpnt.guid + '/' + cmpnt.state, 
+            url: 'http://pws-seb-se-local.sebank.se:9003/component-markup/' + cmpnt_info.guid + '/' + cmpnt_info.state, 
             dataType: 'text',
             success: function(markup) {
-                injectComponentMarkupAtSelector(markup, cmpnt.inject_at);
+                injectComponentMarkupAtSelector(markup, cmpnt_info);
             }
         })
     }
     
-    function injectComponentMarkupAtSelector(markup, selector) {
+    function injectComponentMarkupAtSelector(markup, cmpnt_info) {
         // Inject CSS
         $('head').append('<link rel="stylesheet" href="http://pws-seb-se-local.sebank.se:9003/static/css/main.css" type="text/css" />');
         
-        $(selector).after(markup);
+        if (cmpnt_info.inject_pos === "after") {
+            $(cmpnt_info.hook).after(markup);
+        } else if (cmpnt_info.inject_pos === "before") {
+            $(cmpnt_info.hook).before(markup);
+        }
     }
 
     $.ajax({
