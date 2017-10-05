@@ -37,7 +37,15 @@ Settings for livereload etc
 ### Structure
 Add folders that should be included in the less/sass/index compilation
 
-### On Site Preview
+### user-conf.json
+If a file named user-conf.json exists in the root directory, the values in that file will override the default values in patternlibraryconfig.json.
+
+## On Site Preview
+In order to use On Site Preview, onSitePreview.js need to be loaded on the target site, like this:
+```html
+<script src="http://localhost:9003/static/onSitePreview.js"></script>
+```
+### Config
 Below is an example config snippet for On Site Preview.
 
 Guid selects which compontent, state selects state index, and inject_at is the CSS-selector after which the markup is injected on the site.
@@ -57,10 +65,6 @@ The "onsitepreview" object should be at the root level of the configuration tree
     ]
 }
 ```
-
-### user-conf.json
-If a file named user-conf.json exists in the root directory, the values in that file will override the default values in patternlibraryconfig.json.
-
 
 ## Usage
 
