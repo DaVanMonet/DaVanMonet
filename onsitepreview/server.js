@@ -40,18 +40,6 @@ app.get('/component-markup/:guid/:state', function (req, res) {
     res.send(marked(codeSnipplets[state], { sanitize: false }));
 })
 
-// Send main.css from build directory
-/*app.get('/css/main.css', function (req, res) {
-    const fs = require('fs');
-    
-    require.extensions['.css'] = function (module, filename) {
-        module.exports = fs.readFileSync(filename, 'utf8');
-    };
-    
-    // TODO: Base path discrepancy
-    res.send(require('../build/main.css'));
-})*/
-
 // Send config JSON
 app.get('/config', function (req, res) {
     res.send(require('./inc/configLoader').loadConfig());

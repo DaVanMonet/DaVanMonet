@@ -52,7 +52,7 @@ The "onsitepreview" object should be at the root level of the configuration tree
         {
             "guid": "31495b40-9492-40e4-86e3-1e06bfc40171",
             "state": 0,
-            "inject_at": "#OuterRegion_WideWidgetArea1_EPiPropertyControl_ctl00_ctl04_ctl00_PanelContent > div.contentwrap.eighteen > div > p"
+            "inject_at": "#SomeElement > div > p"
         }
     ]
 }
