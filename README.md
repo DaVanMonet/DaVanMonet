@@ -56,10 +56,12 @@ The "onsitepreview" object should be at the root level of the configuration tree
     "components":
     [
         {
-            "guid": "31495b40-9492-40e4-86e3-1e06bfc40171", // GUID of the compontent
-            "state": 0, // State index. 0 will be the first state that is defined
-            "hook": "#SomeElement > div > p", // Selector at which the component will be injected
-            "inject_pos": "after" // Specifies wheter it should inject before or after the selector
+            "guid": "31495b40-9492-40e4-86e3-1e06bfc40171", // Required. GUID of the compontent
+            "hook": "#SomeElement > div > p", // Required. Selector at which the component will be injected
+            "state": 0, // Optional. State index. 0 will be the first state that is defined. Defaults to 0.
+            "inject_pos": "after", // Optional. Specifies where it will be injected in relation to the selector. Before, after, append or prepend. Defaults to after.
+            "wrapper": "<p class='preview'></p>", // Optional. The component will be wrapped in this tag if specified.
+			"extra_css": ".preview .some-component { position: absolute; width: 100%; }" // Optional. This CSS will be injected in the page in addition to the component.
         }
     ]
 }
