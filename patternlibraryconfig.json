@@ -3,7 +3,8 @@
 	{
 		"src":"./src",
 		"cssdest":"./build/css",
-		"build":"./build"
+		"build":"./build",
+		"onsitepreview":"./onsitepreview"
 	},
 	"userconfig": "./user-conf.json",
 	"indexing":
@@ -58,6 +59,7 @@
 	{
 		"devwebsiteport":9001,
 		"buildwebsiteport":9002,
+		"onsitepreviewport":9003,
 		"livereloadport":1234
 	},
 	"structure": 

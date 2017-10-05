@@ -8,6 +8,7 @@ module.exports = function (grunt)
 	require('time-grunt')(grunt);
 	var _ = require('lodash');
 	grunt.loadNpmTasks('grunt-newer');
+	grunt.loadNpmTasks('grunt-express-server');
 	
 	var projectConfigurationFilePath = "./patternlibraryconfig.json";
 	var gruntconfig = {};
@@ -206,9 +207,21 @@ module.exports = function (grunt)
 			options:
 			{
 				port: mainconfig.developmentenvironment.buildwebsiteport,
-				base: ['./build'],
+				base: [mainconfig.directories.build],
 				keepalive:true //Set to true if not running watch
 			}
+		}
+	};
+
+	gruntconfig['express'] =
+	{
+		options: {
+		  // Override defaults here 
+		},
+		onsitepreview: {
+		  options: {
+			script: mainconfig.directories.onsitepreview + '/server.js'
+		  }
 		}
 	};
 
@@ -423,7 +436,7 @@ module.exports = function (grunt)
 
 	
 	grunt.registerTask("dev", ["showconfig","createindex","buildcss"]);
-	grunt.registerTask("previewdev", ["dev","connect:livereload","watch"]);
+	grunt.registerTask("previewdev", ["dev","connect:livereload","express:onsitepreview","watch"]);
 
 	grunt.registerTask("basicbuild", ["clean:build","createindex","buildcss","copy:build"]);
 	grunt.registerTask("build", ["basicbuild","copy:preview"]);
