@@ -24,7 +24,6 @@ app.get('/component-markup/:guid/:state', function (req, res) {
     var foundItem = indexLookup.findItemWithGuid(contentIndex, req.params['guid']);
 
     // Load markdown
-    var marked = require('marked');
     var fs = require('fs');
     var str = fs.readFileSync(foundItem.longpath, 'utf8');
 
@@ -37,7 +36,7 @@ app.get('/component-markup/:guid/:state', function (req, res) {
     state = parseInt(state);
 
     // Send markup for the desired state
-    res.send(marked(codeSnipplets[state], { sanitize: false }));
+    res.send(codeSnipplets[state]);
 })
 
 // Send config JSON
