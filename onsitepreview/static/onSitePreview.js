@@ -4,6 +4,9 @@
 // TODO: Include Zepto (or jQuery) by uglifying instead of hardcoded
 
 Zepto(function ($) {
+
+    // TODO: Get this from config somehow
+    var api_endpoint = "http://localhost:9003/";
     
     // Load compontent markup
     function loadComponent(cmpnt_info) {
@@ -15,7 +18,7 @@ Zepto(function ($) {
 
         $.ajax({
             type: 'GET',
-            url: 'http://pws-seb-se-local.sebank.se:9003/component-markup/' + cmpnt_info.guid + '/' + state, 
+            url: api_endpoint + 'component-markup/' + cmpnt_info.guid + '/' + state, 
             dataType: 'text',
             success: function(markup) {
                 injectComponentMarkupAtSelector(markup, cmpnt_info);
@@ -26,7 +29,7 @@ Zepto(function ($) {
     // Inject the markup using specified otions
     function injectComponentMarkupAtSelector(markup, cmpnt_info) {
         // Inject CSS into header
-        $('head').append('<link rel="stylesheet" href="http://pws-seb-se-local.sebank.se:9003/static/css/main.css" type="text/css" />');
+        $('head').append('<link rel="stylesheet" href="' + api_endpoint + 'static/css/main.css" type="text/css" />');
         
         markup = $(markup);
 
@@ -69,7 +72,7 @@ Zepto(function ($) {
     // Load config
     $.ajax({
         type: 'GET',
-        url: 'http://pws-seb-se-local.sebank.se:9003/config', 
+        url: api_endpoint + 'config', 
         dataType: 'json',
         success: function(data) {
             $.each(data.onsitepreview.components, function(i, item) {
