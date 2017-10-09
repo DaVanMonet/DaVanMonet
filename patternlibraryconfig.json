@@ -4,7 +4,8 @@
 		"src":"./src",
 		"cssdest":"./build/css",
 		"build":"./build",
-		"onsitepreview":"./onsitepreview"
+		"onsitepreview":"./onsitepreview",
+		"copycsspath":""
 	},
 	"userconfig": "./user-conf.json",
 	"indexing":
@@ -42,8 +43,10 @@
 				"compileIndividualFiles":false
 			}
 		],
+		
 		"minifycss":true,
 		"sourceMaps":true,
+		"copyCompiledCssToFolder":false,
 		"postcss":
         {
 			"map":true,

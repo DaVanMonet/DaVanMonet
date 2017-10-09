@@ -276,6 +276,16 @@ module.exports = function (grunt)
 				src: mainconfig.directories.src + "/**",
 				dest: mainconfig.directories.build
 			}]
+		},
+		csstofolder:
+		{
+			files:
+			[{
+				expand:true,
+				cwd:mainconfig.directories.cssdest,
+				src:"*",
+				dest:mainconfig.directories.copycsspath
+			}]
 		}
 	};
 
@@ -355,6 +365,10 @@ module.exports = function (grunt)
 		if(typeof mainconfig.compilation["minifycss"] === "object")
 		{
 			tasks.push("cssmin");
+		}
+		if(mainconfig.compilation["copyCompiledCssToFolder"] === true)
+		{
+			tasks.push("copy:csstofolder");
 		}
 
 		if(tasks.length > 0)
