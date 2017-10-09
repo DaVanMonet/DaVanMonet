@@ -30,8 +30,7 @@ define(["jquery","marked","modules/parsequery"], ($, marked, parsequery) =>
 		{
 			//Clean filecontent, remove all content before the second "---"
 			var cleanedContent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+7,filecontent.length);
-			
-			//console.log(cleanedContent);
+		
 
 			window["a"] = filecontent;
 			let contentInfo = this.pageLookup[sourcepath];

@@ -49,7 +49,23 @@ class PageLoader
 		}
 	}
 
-
+	async getCssTargets()
+	{
+		var result = [];
+		await this.loadData();
+		Object.keys(this._projectConfig.compilation.compilers).forEach((compilerKey) =>
+		{
+			let compilerOptions = this._projectConfig.compilation.compilers[compilerKey];
+			if(this.isType(compilerOptions.targets,"object"))
+			{
+				Object.keys(compilerOptions.targets).forEach((targetKey) =>
+				{
+					result.push("/" + this._projectConfig.directories.cssdest + "/" + targetKey);
+				});
+			}
+		});
+		return result;
+	}
 	async getPage(href)
 	{
 		var base = this;

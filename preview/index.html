@@ -14,6 +14,7 @@
 	<body class="davanmonet-body">
 
 	<div id="davanmonet-app" class="davanmonet-app">
+		<previewcss :csstargets="csstargets"></previewcss>
 		<header class="davanmonet-header">
 			<a href="./" class="davanmonet-header-logolink"><img class="davanmonet-header-logo" src="./static/logo.png"></a>
 			<nav class="davanmonet-header-nav">
@@ -60,30 +61,16 @@
 			</li>
 		</ul>
 	</script>
+	<script type="text/x-template" id="vuetemplate-previewcss">
+		<div v-if="csstargets">
+			<link :href="cssfile" rel="preview-stylesheet" type="text/css" v-for="cssfile in csstargets"/>
+		</div>
+	</script>
 		<script type="text/x-template" id="vuetemplate-maincontent">
 			<div class="davanmonet-maincontentcontainer">
 				<h1 class="davanmonet-maincontent-headline" v-html="content.Title"></h1>
 				<div class="davanmonet-maincontent-content" v-html="content.Preamble"></div>
-				<!-- <component-showcase-render 
-					v-if="state.title === selectedStateTitle" 
-					v-for="state in showcaseData.states" 
-					:key="state.title" 
-					:renderSource="state.renderSource" 
-					:iframeContentHeight.sync="iframeContentHeight">
-				</component-showcase-render> -->
 				
-				<!-- <component-showcase-render 
-				v-if="content.states" 
-				v-for="state in content.states" 
-				:key="state.headline" 
-				:renderSource="state.code" 
-				:iframeContentHeight.sync="iframeContentHeight">
-				</component-showcase-render> -->
-
-				<!-- <component-showcase v-for="showcaseVariant in content.states" :key="showcaseVariant.headline" :css-breakpoints="cssBreakpoints" :showcase-data="showcaseVariant"></component-showcase> -->
-				
-				<!-- <component-showcase :css-breakpoints="cssBreakpoints" :showcase-data="content"></component-showcase> -->
-
 				<div v-if="content.ComponentItems" class="davanmonet-maincontent-sections">
 					<div v-for="componentItem in content.ComponentItems" class="davanmonet-maincontent-section">
 						Component item

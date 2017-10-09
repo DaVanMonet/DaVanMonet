@@ -64,6 +64,11 @@ define([
 		template: '#vuetemplate-navigation',
 		props: ['navigation', 'sourceDirectory']
 	});
+	Vue.component('previewcss', {
+		template: '#vuetemplate-previewcss',
+		props: ['csstargets']
+	});
+	
 
 	Vue.component('navigation-list', {
 		template: '#vuetemplate-navigationlist',
@@ -104,7 +109,8 @@ define([
 			},
 			projectConfig:{},
 			indexStructure:{},
-			pageLookup:{}
+			pageLookup:{},
+			csstargets:[]
 		},
 		created: function ()
 		{
@@ -155,7 +161,10 @@ define([
 				
 				let navigation = await _pageLoader.getNavigation();
 				_vue.navigation = navigation;
-			
+				
+				let csstargets = await _pageLoader.getCssTargets();
+				_vue.csstargets = csstargets;
+
 				_vue.parseHashAndNavigate();
 				_vue.configLoaded = true;
 			},

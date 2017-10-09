@@ -15,34 +15,34 @@
 	},
 	"compilation":
 	{
-		"compilers":
-		[
+		"compilers":{
+		"less":
+		{
+			"taskname":"less",
+			"target":".less",
+			"compile":true,
+			"compileIndividualFiles":false,
+			"targets":
 			{
-				"taskname":"less",
-				"target":".less",
-				"compile":true,
-				"compileIndividualFiles":false,
-				"targets":
-				{
-					"main.css":
-					[
-						"**/*.less",
-						"!**/*_inline.less",
-						"!**/*_print.less",
-						"!**/*_exclude.less"
-					],
-					"inline.css": ["**/*_inline.less", "**/**/*_inline.less"],
-					"print.css": ["**/*_print.less", "**/**/*_print.less"],
-					"empty.css": ["**/*_asd.less"]
-				}
-			},
-			{
+				"main.css":
+				[
+					"**/*.less",
+					"!**/*_inline.less",
+					"!**/*_print.less",
+					"!**/*_exclude.less"
+				],
+				"inline.css": ["**/*_inline.less", "**/**/*_inline.less"],
+				"print.css": ["**/*_print.less", "**/**/*_print.less"],
+				"empty.css": ["**/*_asd.less"]
+			}
+		},
+		"scss":{
 				"taskname":"sass",
 				"target":".scss",
 				"compile":false,
 				"compileIndividualFiles":false
 			}
-		],
+		},
 		
 		"minifycss":true,
 		"sourceMaps":true,

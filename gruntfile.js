@@ -41,48 +41,50 @@ module.exports = function (grunt)
 	}
 
 
-	// Loop through the compilers to gather up the references to the sources files
-	mainconfig.compilation.compilers.forEach((compilationOption) =>
+	//Loop through the compilers to gather up the references to the sources files
+	Object.keys(mainconfig.compilation.compilers).forEach((compilerKey) =>
 	{
+		let compilerOptions = mainconfig.compilation.compilers[compilerKey];
+
 		//Only bother if we should compile the files
-		if(compilationOption.compile === true)
+		if(compilerOptions.compile === true)
 		{
 			//Lookup all files in the specified structure
 
 			let lookupPaths = [];
 			mainconfig.structure.forEach((folder, i) =>
 			{
-				lookupPaths.push(folder.path + "/*" + compilationOption.target);
-				lookupPaths.push(folder.path + "/**/*" + compilationOption.target);
+				lookupPaths.push(folder.path + "/*" + compilerOptions.target);
+				lookupPaths.push(folder.path + "/**/*" + compilerOptions.target);
 			});
 			let allfiles = grunt.file.expand({cwd:mainconfig.directories.src},lookupPaths);
 			
 			// If this is active all files will be compiled out to their individual css files 
-			if(compilationOption.compileIndividualFiles === true)
+			if(compilerOptions.compileIndividualFiles === true)
 			{
 				allfiles.forEach((file) =>
 				{
-					let dest = mainconfig.directories.cssdest + "/" + file.replace(compilationOption.target,'.css'),
+					let dest = mainconfig.directories.cssdest + "/" + file.replace(compilerOptions.target,'.css'),
 						src = mainconfig.directories.src + "/"+ file;
-						compilationFiles[compilationOption.taskname]["compilationTarget"][dest] = [src];
+						compilationFiles[compilerOptions.taskname]["compilationTarget"][dest] = [src];
 				});
 			}
 
 			//If targets have been specified we add these to the compilation files
-			if(typeof compilationOption.targets === "object")
+			if(typeof compilerOptions.targets === "object")
 			{
-				for(let targetName in compilationOption.targets)
+				for(let targetName in compilerOptions.targets)
 				{
-					let patterns = compilationOption.targets[targetName];
+					let patterns = compilerOptions.targets[targetName];
 					let targetFiles = grunt.file.expand({cwd:mainconfig.directories.src},patterns);
 					if(targetFiles.length > 0)
 					{
 						let adjustedTargetFiles = targetFiles.map(file => mainconfig.directories.src + '/' + file);
-						compilationFiles[compilationOption.taskname]["compilationTarget"][mainconfig.directories.cssdest + '/' + targetName] = adjustedTargetFiles;
+						compilationFiles[compilerOptions.taskname]["compilationTarget"][mainconfig.directories.cssdest + '/' + targetName] = adjustedTargetFiles;
 					}
 				}
 			}
-			compilationFiles[compilationOption.taskname]["files"] = allfiles;
+			compilationFiles[compilerOptions.taskname]["files"] = allfiles;
 		}
 	});
 
@@ -98,9 +100,10 @@ module.exports = function (grunt)
 	
 	grunt.verbose.write("\n## Found the following files in "+ mainconfig.structure.length + " directories:\n");
 	var stylesTargetFiles = [];
-	for(let key in mainconfig.compilation.compilers)
+	Object.keys(mainconfig.compilation.compilers).forEach((compilerKey) =>
 	{
-		let compilerOptions = mainconfig.compilation.compilers[key];
+		console.log('### compilerKey',compilerKey)
+		let compilerOptions = mainconfig.compilation.compilers[compilerKey];
 		if(typeof compilationFiles[compilerOptions.taskname] === "object")
 		{
 			grunt.verbose.write('#  '+ compilationFiles[compilerOptions.taskname].files.length + " " + compilerOptions.target + " files\n");
@@ -114,7 +117,7 @@ module.exports = function (grunt)
 				stylesTargetFiles.push(mainconfig.directories.src + "/" + folder.path + "/**/*" + compilerOptions.target);
 			});
 		}
-	}
+	});
 
 	if(typeof mainconfig.compilation["postcss"] === "object")
 	{
@@ -349,12 +352,13 @@ module.exports = function (grunt)
 	{
 		let tasks = [];
 		// Loop through each compiler and only run the ones set to compile
-		mainconfig.compilation.compilers.forEach((compilationOption) =>
+		Object.keys(mainconfig.compilation.compilers).forEach((compilerKey) =>
 		{
-			if(compilationOption.compile === true)
+			let compilerOptions = mainconfig.compilation.compilers[compilerKey];
+			if(compilerOptions.compile === true)
 			{
-				grunt.verbose.write('\n\n## Compile ' + compilationOption.taskname);
-				tasks.push(compilationOption.taskname);
+				grunt.verbose.write('\n\n## Compile ' + compilerOptions.taskname);
+				tasks.push(compilerOptions.taskname);
 			}
 		});
 		
