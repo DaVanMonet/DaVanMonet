@@ -18,7 +18,7 @@ define([
 	"jquery",
 	"marked",
 	"highlight",
-	"modules/dataStructureParser",
+	"modules/pageLoader",
 	"modules/configLoader",
 	"es6-promise",
 	"http-vue-loader"], (
@@ -27,7 +27,7 @@ define([
 		$, 
 		marked, 
 		highlight, 
-		DataStructureParser,
+		PageLoader,
 		ConfigLoader,
 		es6promise,
 		httpVueLoader_) =>
@@ -35,30 +35,22 @@ define([
 	window["highlight"] = highlight;
 	var afterRender = (href) =>
 	{
-		$('pre code').each((i, $block) =>
-		{
-			highlight.highlightBlock($block);
-		});
+		// $('pre code').each((i, $block) =>
+		// {
+		// 	highlight.highlightBlock($block);
+		// });
 
-		let $livepreviewAreas = $('[data-livepreview]');
-		$livepreviewAreas.each((i, previewarea) =>
-		{
-			let $previewarea =  $(previewarea);
-			// console.log('previewarea',$previewarea)
-			let $iframe = $('<iframe src="preview.html?id='+ i +'&path='+ encodeURIComponent(href.replace("#","")) +'"></iframe>');
-			$previewarea.after($iframe);
-			$previewarea.hide();
-		});
+		// let $livepreviewAreas = $('[data-livepreview]');
+		// $livepreviewAreas.each((i, previewarea) =>
+		// {
+		// 	let $previewarea =  $(previewarea);
+		// 	let $iframe = $('<iframe src="preview.html?id='+ i +'&path='+ encodeURIComponent(href.replace("#","")) +'"></iframe>');
+		// 	$previewarea.after($iframe);
+		// 	$previewarea.hide();
+		// });
 	};
 	Vue.use(httpVueLoader);
-/*
-"component-showcase":""
-			"component-showcase-render",
-			"component-showcase-settings-drawer",
-			"component-showcase-source",
-			"resizeable-element",
-			"copy-to-clipboard"
- */
+
 	Vue.component('maincontent', {
 		components:
 		[
@@ -140,33 +132,17 @@ define([
 
 			loadPage: async function(_vue,href)
 			{
-				let _dataStructureParser = new DataStructureParser();
+				let _pageLoader = new PageLoader();
 				let pagePath = href.replace("#","");
-				let pagedata = await _dataStructureParser.getPage(pagePath);
+				let pagedata = await _pageLoader.getPage(pagePath);
 				
-				console.log('returned pagedata', pagedata);
+				// console.log('returned pagedata', pagedata);
 
 				this.maincontent = pagedata;
 				this.$nextTick(() =>
 				{
 					afterRender(href);
-				});
-
-				// let sourcepath = this.projectConfig.directories.src + href.replace("#","") + ".md";
-				// fetch(sourcepath).then(res => res.text()).then(filecontent =>
-				// {
-				// 	//Clean filecontent, remove all content before the second "---"
-				// 	var cleanedContent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+7,filecontent.length);
-					
-				// 	window["a"] = filecontent;
-				// 	let contentInfo = this.pageLookup[sourcepath];
-				// 	let compiledContent = marked(cleanedContent, { sanitize: false });
-				// 	this.maincontent.content = compiledContent;
-				// 	this.$nextTick(() =>
-				// 	{
-				// 		afterRender(href);
-				// 	});
-				// });
+				});	
 			},
 
 			fetchData: async function(_vue)
@@ -175,9 +151,9 @@ define([
 				const indexStructure = await indexreq.json();
 				_vue.indexStructure = indexStructure;
 
-				let _dataStructureParser = new DataStructureParser();
+				let _pageLoader = new PageLoader();
 				
-				let navigation = await _dataStructureParser.getNavigation();
+				let navigation = await _pageLoader.getNavigation();
 				_vue.navigation = navigation;
 			
 				_vue.parseHashAndNavigate();

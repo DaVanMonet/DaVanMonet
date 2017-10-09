@@ -133,7 +133,6 @@ module.exports = {
   },
   created() {
     // Set first showcase state as the selected state per default
-    console.log('this.showcaseData',this.showcaseData)
     if (this.showcaseData.States) {
       
       this.selectedStateTitle = this.showcaseData.States[0].Title;

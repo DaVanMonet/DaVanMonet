@@ -55,7 +55,7 @@
 
   .showcase__show-settings-drawer-button {
     position: relative;
-    
+    font-size:14px;
     color: @color--blue;
     background: none;
     padding-left: 0;
@@ -223,6 +223,7 @@
   }
 
   .showcase__source-wrapper {
+    font-size:16px;
     position: relative;
     border-right: 1px solid @color--grey;
     border-bottom: 1px solid @color--grey;
@@ -259,5 +260,172 @@
         margin-left: auto;
         margin-right: 0;
       }
+    }
+  }
+
+
+  /*
+ * _resizeable-element.scss
+ */
+
+/* _resizeable-element config */
+@color--some-blue-why-is-this-not-consistent: #41b0ee;
+
+/* _resizeable-element default */
+
+
+  .resizeable-element { position: relative; }
+
+  .resizeable-element__wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .resizeable-element__size {
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    position: absolute;
+    z-index: 10;
+    top: 3.5rem;
+    right: 3rem;
+    color: darken(@color--grey, 20%);
+    white-space: nowrap;
+    pointer-events: none;
+
+    &.resizeable-element__size--is-visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
+  .resizeable-element__button {
+    transition: opacity 0.15s ease;
+    opacity: 0;
+    position: absolute;
+    z-index: 10;
+    bottom: 0;
+    right: 0;
+    width: 5rem;
+    height: 5rem;
+    cursor: nwse-resize;
+
+    &:after {
+      display: block;
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 0%;
+      width: 19px;
+      height: 19px;
+      pointer-events: none;
+      opacity: 0.9;
+      background-image: url(data:image/svg+xml,%0A%3Csvg%20width%3D%2223px%22%20height%3D%2223px%22%20viewBox%3D%220%200%2023%2023%22%20version%3D%221.1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%3E%0A%20%20%20%20%3Cg%20id%3D%22Page-1%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%20stroke-linecap%3D%22square%22%3E%0A%20%20%20%20%20%20%20%20%3Cg%20id%3D%22Buttons%22%20transform%3D%22translate%28-1416.000000%2C%20-1579.000000%29%22%20stroke%3D%22%230091E1%22%20stroke-width%3D%221.5%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cg%20id%3D%22Group%22%20transform%3D%22translate%281427.181981%2C%201590.789087%29%20rotate%28-45.000000%29%20translate%28-1427.181981%2C%20-1590.789087%29%20translate%281420.681981%2C%201575.289087%29%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M6.75%2C2.1%20L6.75%2C29.6625938%22%20id%3D%22Line-3%22%3E%3C/path%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M1.4%2C6%20L6.78813665%2C0.611863349%22%20id%3D%22Line-2%22%3E%3C/path%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M7%2C6%20L12.3881367%2C0.611863349%22%20id%3D%22Line-2%22%20transform%3D%22translate%289.800000%2C%203.200000%29%20scale%28-1%2C%201%29%20translate%28-9.800000%2C%20-3.200000%29%20%22%3E%3C/path%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cg%20id%3D%22Group-Copy%22%20transform%3D%22translate%286.989592%2C%2027.010408%29%20rotate%28-180.000000%29%20translate%28-6.989592%2C%20-27.010408%29%20translate%280.989592%2C%2023.510408%29%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M0.4%2C6%20L5.78813665%2C0.611863349%22%20id%3D%22Line-2%22%3E%3C/path%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M6%2C6%20L11.3881367%2C0.611863349%22%20id%3D%22Line-2%22%20transform%3D%22translate%288.800000%2C%203.200000%29%20scale%28-1%2C%201%29%20translate%28-8.800000%2C%20-3.200000%29%20%22%3E%3C/path%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/g%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/g%3E%0A%20%20%20%20%20%20%20%20%3C/g%3E%0A%20%20%20%20%3C/g%3E%0A%3C/svg%3E);
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .resizeable-element:hover & { opacity: 1; }
+
+    &:hover .resizeable-element__drag-area { display: block; }
+  }
+
+  .resizeable-element__drag-area {
+    display: none;
+    position: absolute;
+    z-index: 11;
+    bottom: -50%;
+    right: -50%;
+    width: 300%;
+    height: 300%;
+  }
+
+
+
+  /*
+ * _demo-radio-button.scss
+ *
+ */
+
+/* _demo-radio-button config */
+@demo-radio-button--color-text: #333;
+@demo-radio-button--color-grey: #b3b3b3;
+@demo-radio-button--color-blue: #41b0ee;
+@color--grey:#d6d6d6;
+
+@color--blue:#0093e8;//0097A7
+@color--white:#fff;
+/* _demo-radio-button default */
+
+  .demo-radio-button {
+    display: flex;
+    flex-direction: row;
+    line-height: 1.95rem;
+
+    .demo-form-group__label + & { margin-top: 1.5rem; }
+
+    & + .demo-radio-button { margin-top: 1rem; }
+
+    &--white {
+      .demo-radio-button__label { color: @color--white; }
+
+      &:not(.demo-radio-button--is-disabled) .demo-radio-button__label:hover div.demo-radio-button__custom-radio-button {
+        border-color: @color--white;
+      }
+
+      .demo-radio-button__input:checked + .demo-radio-button__label .demo-radio-button__custom-radio-button {
+        border-color: @color--white !important; // FML
+      }
+
+      .demo-radio-button__custom-radio-button:after { background: @color--white; }
+    }
+  }
+
+  .demo-form-group--radio-button-toggle.demo-form-group { min-width: 16rem; }
+
+  .demo-radio-button__label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    color: @demo-radio-button--color-text;
+    letter-spacing: 0.075rem;
+    cursor: pointer;
+
+    .demo-radio-button--is-disabled & {
+      color: lighten(@demo-radio-button--color-text, 40%);
+      cursor: not-allowed;
+    }
+  }
+
+  .demo-radio-button__custom-radio-button {
+    position: relative;
+    width: 1.6rem;
+    height: 1.6rem;
+    margin: -0.3rem 1.75rem 0 0;
+    border-radius: 50%;
+    border: 1px solid @demo-radio-button--color-grey;
+    cursor: pointer;
+
+    .demo-radio-button:not(.demo-radio-button--is-disabled) .demo-radio-button__label:hover & {
+      border-color: @demo-radio-button--color-blue;
+    }
+
+    &:after {
+      transition: opacity 100ms ease;
+      display: block;
+      content: '';
+      position: absolute;
+      top: 0.2rem;
+      left: 0.2rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: @demo-radio-button--color-blue;
+      opacity: 0;
+    }
+
+    .demo-radio-button__input:checked + .demo-radio-button__label & {
+      border-color: @demo-radio-button--color-blue;
+
+      &:after { opacity: 1; }
     }
   }

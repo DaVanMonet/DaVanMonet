@@ -1,12 +1,12 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(["require", "exports", "marked", "modules/configLoader", "jquery"], factory);
+        define(["require", "exports", "marked", "modules/configLoader"], factory);
     } else {
         // Browser globals
         root.amdWeb = factory(root.b);
     }
-}(this, function (require, exports, marked, ConfigLoader, $) {
+}(this, function (require, exports, marked, ConfigLoader) {
 
 class DataStructureParser
 {
@@ -22,7 +22,13 @@ class DataStructureParser
 		this._indexLookup = {};
 		this._navigationLookup = {};
 		
-		this.regex = {};
+		// We match ## as headline for a snipplet
+		this.regex =
+		{
+			findSnipplet : new RegExp("((?:##)(.|\w|\W|\r|\n)*?(```$))","gim"),
+			findMarkdownH2:  new RegExp("(?:##)(.|\r|\n)*?^","gim"),
+			findMarkdownCodeblock: new RegExp("(```html)(.|\w|\W|\r|\n)*?(```)", "gim")
+		};
 		
 		this._configuration = {
 			"sourceDirectory" : "",
@@ -47,105 +53,8 @@ class DataStructureParser
 			const index = await indexreq.json();
 			this._index = index;
 			this._state.dataLoaded = true;
-			this.createRegExs();
 		}
-	}
-
-	createRegExs()
-	{
-		if(Object.keys(this.regex).length === 0)
-		{
-			// Create our regex dependent on configs, if not configured we expect codeblocks to have a '##' headline
-			let headlineTargetString = this.isType(this._projectConfig.developmentenvironment.codepreviewheadline,"string") ? this._projectConfig.developmentenvironment.codepreviewheadline : "##";
-
-			this.regex =
-			{
-				findSnipplet : new RegExp("((?:"+ headlineTargetString +")(.|\w|\W|\r|\n)*?(```$))","gim"),
-				findMarkdownH2:  new RegExp("(?:"+ headlineTargetString +")(.|\r|\n)*?^","gim"),
-				findMarkdownCodeblock: new RegExp("(```html)(.|\w|\W|\r|\n)*?(```)", "gim")
-			};
-		}
-	}
-
-	async getPage(href)
-	{
-		var base = this;
-		await this.loadData();
-		await this.createIndexLookup();
-		await this.createIndexNavigationLookup();
-		if(href.indexOf('/') === 0)
-		{
-			href = href.substr(1);
-		}
-		
-		let indexData = this._indexLookup[href];
-		let navigationalData = this._navigationLookup[href];
-		let pageData =
-		{
-			"id":"",
-			"Title":"",
-			"Preamble":"",
-			"ComponentItems":[],
-		};
-
-		
-		//When theres is a file matching and no "variants" are present.
-		pageData.id = indexData["guid"];
-		pageData.Title = indexData["title"];
-
-		var variants = [];
-		// Structure only contains one file.
-		if(indexData["type"] === "file")
-		{
-			variants.push(indexData);
-		}
-		else if(typeof navigationalData["variants"] === "object" && navigationalData["variants"].length > 0)
-		{
-			let matchOnKey = "guid";
-			let variantIds = navigationalData["variants"].map(x => x[matchOnKey]);
-			variants = indexData["items"].filter(x => variantIds.indexOf(x[matchOnKey]) !== -1);
-		}
-		//This variable is what we use to match a the MD files with what is contained in the navigational structure
-		pageData.id = navigationalData["guid"];
-		pageData.title = navigationalData["title"];
-		
-		await variants.forEach(async (variant, i) =>
-		{
-			let variantContent =
-			{
-				"id":variant["guid"],
-				"componentid":variant["componentid"],
-				"variantid":variant["variantid"],
-				"Title":variant["title"],
-				"Content":"",
-				"States":[]
-			};
-			let filepath = variant["shortpath"];
-
-			// Load .md file contents
-			let markdownContent = await base.loadMDFile(filepath);
-			// Extract code snipplets from markdown
-			let snipplets = base.getCodeSnipplets(markdownContent);
-			if(snipplets.length > 0)
-			{
-				variantContent.States = variantContent.States.concat(snipplets);
-			}
-
-			// Clean from metadata, (states?) etc.
-			let cleanedMarkdown = base.cleanMarkdown(markdownContent, { removeMetadata : true, removeSnipplets : true });
-
-			// Parse what's left from the markdown files
-			let parsedMarkdown = marked(cleanedMarkdown, { sanitize: false });
-
-			//Removes H1 etc.
-			let adjustedContent = base.adjustMarkdownMarkup(parsedMarkdown);
-			variantContent.Content = adjustedContent;
-			
-			pageData["ComponentItems"].push(variantContent);
-		});
-			
-		return pageData;
-	}
+	}	
 
 	adjustMarkdownMarkup(markuptext, options =
 		{
@@ -159,7 +68,6 @@ class DataStructureParser
 			let arrayH1 = markup.querySelectorAll('h1');
 			arrayH1.forEach((h1)=>
 			{
-				console.log('h1', h1);
 				h1.parentNode.removeChild(h1);
 			})
 		}
@@ -208,7 +116,6 @@ class DataStructureParser
 				}
 			});
 		}
-		console.log(snipplets);
 		return snipplets;
 	}
 
@@ -252,14 +159,6 @@ class DataStructureParser
 		return matches;
 	}
 
-	async loadMDFile(filepath)
-	{
-		const fullpath = this._projectConfig.directories.src + "/" + filepath + '.md';
-		const filereq = await fetch(fullpath);
-		const filecontent = await filereq.text();
-		return filecontent;
-	}
-
 	cleanMarkdown(markdowntext = "", options = { removeMetadata : true, removeSnipplets : false })
 	{
 		if(options.removeMetadata === true && markdowntext.indexOf('---') === 0)
@@ -277,6 +176,7 @@ class DataStructureParser
 	{
 		await this.loadData();
 		await this.iterateAndAssignToLookup(this._index.structure, "_indexLookup", "shortpath");
+		return this._indexLookup;
 	}
 
 	async createIndexNavigationLookup()
@@ -285,6 +185,7 @@ class DataStructureParser
 		await this.getNavigation();
 
 		await this.iterateAndAssignToLookup(this._navigation, "_navigationLookup", "href");
+		return this._navigationLookup;
 	}
 
 	async iterateAndAssignToLookup(data, lookupObjKey, qualifyKey = "shortpath", childKey = "items")

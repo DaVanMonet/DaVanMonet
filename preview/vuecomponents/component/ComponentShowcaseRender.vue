@@ -15,7 +15,6 @@ module.exports =  {
     },
     populateIframeWithRenderSource() {
       // Add this.renderSource
-      console.log('this.renderSource',this.renderSource)
       this.$refs.iframe.contentDocument.body.querySelector('.showcase__render').innerHTML = this.renderSource;
 
       // Duplicate our stylesheets into the iframe document head
