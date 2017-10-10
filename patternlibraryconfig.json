@@ -10,7 +10,8 @@
 	"userconfig": "./user-conf.json",
 	"indexing":
 	{
-		"output":"./contentindex.json",
+		"contentindexoutput":"./contentindex.json",
+		"targetindexoutput":"./targetindex.json",
 		"keysToOutput":["title","guid","variantid","componentid"]
 	},
 	"compilation":

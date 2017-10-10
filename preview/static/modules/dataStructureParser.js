@@ -1,12 +1,12 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(["require", "exports", "marked", "modules/configLoader"], factory);
+        define(["require", "exports", "marked", "modules/loader"], factory);
     } else {
         // Browser globals
         root.amdWeb = factory(root.b);
     }
-}(this, function (require, exports, marked, ConfigLoader) {
+}(this, function (require, exports, marked, Loader) {
 
 class DataStructureParser
 {
@@ -17,7 +17,7 @@ class DataStructureParser
 			dataLoaded : false
 		};
 		this._projectConfig = {};
-		this._index = {};
+		this._contentIndex = {};
 		this._navigation = [];
 		this._indexLookup = {};
 		this._navigationLookup = {};
@@ -46,12 +46,10 @@ class DataStructureParser
 	{
 		if(this._state.dataLoaded === false)
 		{
-			await ConfigLoader.LoadConfig();
+			await Loader.LoadData();
 			
-			this._projectConfig = ConfigLoader.ProjectConfig;
-			const indexreq = await fetch(this._projectConfig.indexing.output);
-			const index = await indexreq.json();
-			this._index = index;
+			this._projectConfig = Loader.ProjectConfig;
+			this._contentIndex = Loader.ContentIndex;
 			this._state.dataLoaded = true;
 		}
 	}	
@@ -175,7 +173,7 @@ class DataStructureParser
 	async createIndexLookup()
 	{
 		await this.loadData();
-		await this.iterateAndAssignToLookup(this._index.structure, "_indexLookup", "shortpath");
+		await this.iterateAndAssignToLookup(this._contentIndex.structure, "_indexLookup", "shortpath");
 		return this._indexLookup;
 	}
 
@@ -284,7 +282,7 @@ class DataStructureParser
 					parentArray.push(resultItem);
 				};
 
-			this._index.structure.forEach((item,i)  => 
+			this._contentIndex.structure.forEach((item,i)  => 
 			{
 				iterateItem(item, i, result);
 			});

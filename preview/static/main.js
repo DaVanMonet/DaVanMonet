@@ -19,7 +19,7 @@ define([
 	"marked",
 	"highlight",
 	"modules/pageLoader",
-	"modules/configLoader",
+	"modules/loader",
 	"es6-promise",
 	"http-vue-loader"], (
 		Vue, 
@@ -28,7 +28,7 @@ define([
 		marked, 
 		highlight, 
 		PageLoader,
-		ConfigLoader,
+		Loader,
 		es6promise,
 		httpVueLoader_) =>
 {
@@ -70,9 +70,9 @@ define([
 				content:"<p>Use the navigation to see the content</p>"
 			},
 			projectConfig:{},
-			indexStructure:{},
-			pageLookup:{},
-			componentCssLinks:[]
+			contentIndex:{},
+			targetIndex:{},
+			pageLookup:{}
 		},
 		created: function ()
 		{
@@ -82,12 +82,11 @@ define([
 		{
 			init: async function(_vue)
 			{
-				await ConfigLoader.LoadConfig();
+				await Loader.LoadData();
 				
-				_vue.projectConfig = ConfigLoader.ProjectConfig;
+				_vue.projectConfig = Loader.ProjectConfig;
 
-				if(_vue.projectConfig.developmentenvironment
-					&& _vue.projectConfig.developmentenvironment.livereloadport)
+				if(_vue.projectConfig.developmentenvironment && _vue.projectConfig.developmentenvironment.livereloadport)
 				{
 					$('<script src="//localhost:'+ _vue.projectConfig.developmentenvironment.livereloadport +'/livereload.js"></script>')
 						.appendTo('body');
@@ -104,8 +103,6 @@ define([
 				let pagePath = href.replace("#","");
 				let pagedata = await _pageLoader.getPage(pagePath);
 				
-				// console.log('returned pagedata', pagedata);
-
 				this.maincontent = pagedata;
 				this.$nextTick(() =>
 				{
@@ -115,17 +112,14 @@ define([
 
 			fetchData: async function(_vue)
 			{	
-				const indexreq = await fetch(_vue.projectConfig.indexing.output);
-				const indexStructure = await indexreq.json();
-				_vue.indexStructure = indexStructure;
-
-				let _pageLoader = new PageLoader();
+				await Loader.LoadData();
+				_vue.contentIndex = Loader.ContentIndex;
+				_vue.targetIndex = Loader.TargetIndex;
 				
-				let navigation = await _pageLoader.getNavigation();
+				const _pageLoader = new PageLoader();
+				const navigation = await _pageLoader.getNavigation();
 				_vue.navigation = navigation;
-				
-				let componentCssLinks = await _pageLoader.getCssTargets();
-				_vue.componentCssLinks = componentCssLinks;
+
 				_vue.parseHashAndNavigate();
 				_vue.configLoaded = true;
 			},

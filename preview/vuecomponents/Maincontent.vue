@@ -5,10 +5,7 @@
     
     <div v-if="content.ComponentItems" class="davanmonet-maincontent-sections">
       <div v-for="componentItem in content.ComponentItems" class="davanmonet-maincontent-section">
-        Component item
-        <h1 class="davanmonet-maincontent-section-headline" v-html="componentItem.Title"></h1>
-        <div class="davanmonet-maincontent-section-content" v-html="componentItem.Preamble"></div>
-        
+       
         <component-showcase :css-breakpoints="cssBreakpoints" :showcase-data="componentItem"></component-showcase>
 
         <div v-if="componentItem.id" class="davanmonet-maincontent-section-id">{{componentItem.id}}</div>
@@ -33,7 +30,6 @@ module.exports = {
   [
     "url:/vuecomponents/component/ComponentShowcase.vue"
   ],
-  template: '#vuetemplate-maincontent',
   props: ['content','cssBreakpoints']
 };
 </script>

@@ -18,7 +18,7 @@ import Vue from 'vue';
 import Clipboard from 'clipboard';
 import Popper from 'vue-popperjs';
 
-export default {
+module.exports = {
   name: 'copy-to-clipboard',
   components: { Popper },
   props: {

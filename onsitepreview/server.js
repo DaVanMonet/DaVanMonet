@@ -18,7 +18,7 @@ app.get('/component-markup/:guid/:state', function (req, res) {
     const indexLookup = require('./inc/indexlookup');
     const snippletsExtractor = require('./inc/snippletsExtractor');
 
-    const contentIndex = requireUncached('.' + mainConfig.indexing.output);
+    const contentIndex = requireUncached('.' + mainConfig.indexing.contentindexoutput);
 
     // Find the correct item in the content index
     var foundItem = indexLookup.findItemWithGuid(contentIndex, req.params['guid']);

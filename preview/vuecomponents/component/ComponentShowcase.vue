@@ -2,12 +2,11 @@
   <div class="showcase">
     <div class="showcase__header row">
       <div class="col-md-8 col-sm-12">
-        <h3 class="heading heading--smaller">{{ showcaseData.Title }}</h3>
+        <h3 class="heading heading--smaller" v-if="showcaseData.Title" v-html="showcaseData.Title"></h3>
         <div v-if="showcaseData.Preamble" v-html="showcaseData.Preamble"></p>
       </div>
     </div>
-
-     <div class="showcase__example">
+     <div class="showcase__example" v-if="hasStates">
       
       <div class="showcase__render-wrapper">
         <resizeable-element
@@ -38,7 +37,7 @@
               <a href="javascript:;">Copy to clipboard</a>
             </copy-to-clipboard>
           </li>
-          <li><a class="link--secondary" :href="showcaseData.SourceUrl" target="_blank">Source</a></li>
+          <li v-if="showcaseData.SourceUrl"><a class="link--secondary" :href="showcaseData.SourceUrl" target="_blank">Source</a></li>
         </ul> -->
       </div>
     </div>
@@ -47,45 +46,6 @@
 
 <script>
 
-
-// TODO: Should these be defined here? These should reflect the current most
-// commonly used breakpoints in the CSS source
-// const CSS_BREAKPOINTS = [
-//   {
-//     id: 'mobile',
-//     title: 'Mobile',
-//     width: 375,
-//     fromWidth: 0,
-//     toWidth: 375,
-//   },
-//   {
-//     id: 'tablet',
-//     title: 'Tablet',
-//     width: 768,
-//     fromWidth: 376,
-//     toWidth: 999,
-//   },
-//   {
-//     id: 'desktop',
-//     title: 'Desktop',
-//     width: '100%',
-//     fromWidth: 1000,
-//     toWidth: Number.MAX_SAFE_INTEGER,
-//   },
-// ];
-// import CopyToClipboard from '@/components/CopyToClipboard';
-// import SyntaxHighlighter from '@/components/SyntaxHighlighter';
-// import ResizeableElement from '@/components/ResizeableElement';
-// import ComponentShowcaseRender from './ComponentShowcaseRender';
-// import ComponentShowcaseSource from './ComponentShowcaseSource';
-// import ComponentShowcaseSettingsDrawer from './ComponentShowcaseSettingsDrawer';
-
-// CopyToClipboard,
-//     SyntaxHighlighter,
-//     ResizeableElement,
-//     ComponentShowcaseRender,
-//     ComponentShowcaseSource,
-//     ComponentShowcaseSettingsDrawer,
 module.exports = {
   name: 'component-showcase',
   components: [
@@ -99,6 +59,7 @@ module.exports = {
   props: ['showcaseData',"cssBreakpoints"],
   data() {
     return {
+      hasStates: true,
       selectedStateTitle: '',
       isSettingsDrawerExpanded: false,
       iframeContentHeight: undefined,
@@ -133,7 +94,8 @@ module.exports = {
   },
   created() {
     // Set first showcase state as the selected state per default
-    if (this.showcaseData.States) {
+    this.hasStates = (this.showcaseData.States.length > 0);
+    if (this.hasStates) {
       
       this.selectedStateTitle = this.showcaseData.States[0].Title;
     }

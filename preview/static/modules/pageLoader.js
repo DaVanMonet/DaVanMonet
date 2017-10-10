@@ -1,12 +1,12 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(["require", "exports", "marked", "modules/configLoader", "modules/dataStructureParser"], factory);
+        define(["require", "exports", "marked", "modules/loader", "modules/dataStructureParser"], factory);
     } else {
         // Browser globals
         root.amdWeb = factory(root.b);
     }
-}(this, function (require, exports, marked, ConfigLoader, DataStructureParser) {
+}(this, function (require, exports, marked, Loader, DataStructureParser) {
 
 class PageLoader
 {
@@ -17,10 +17,11 @@ class PageLoader
 			dataLoaded : false
 		};
 		this._projectConfig = {};
-		this._index = {};
+		this._contentindex = {};
 		this._navigation = [];
 		this._indexLookup = {};
 		this._navigationLookup = {};
+		this._targetindex = {};
 		this.dataStructureParser = new DataStructureParser();
 		
 		this._configuration = {
@@ -39,39 +40,24 @@ class PageLoader
 	{
 		if(this._state.dataLoaded === false)
 		{
-			await ConfigLoader.LoadConfig();
+			await Loader.LoadData();
 			
-			this._projectConfig = ConfigLoader.ProjectConfig;
-			const indexreq = await fetch(this._projectConfig.indexing.output);
-			const index = await indexreq.json();
-			this._index = index;
+			this._projectConfig = Loader.ProjectConfig;
+			this._contentindex = Loader.ContentIndex;
+			this._targetindex = Loader.TargetIndex;
+			
+			this._indexLookup = await this.dataStructureParser.createIndexLookup();
+			this._navigationLookup = await this.dataStructureParser.createIndexNavigationLookup();
+		
 			this._state.dataLoaded = true;
 		}
 	}
 
-	async getCssTargets()
-	{
-		var result = [];
-		await this.loadData();
-		Object.keys(this._projectConfig.compilation.compilers).forEach((compilerKey) =>
-		{
-			let compilerOptions = this._projectConfig.compilation.compilers[compilerKey];
-			if(this.isType(compilerOptions.targets,"object"))
-			{
-				Object.keys(compilerOptions.targets).forEach((targetKey) =>
-				{
-					result.push("/" + this._projectConfig.directories.cssdest + "/" + targetKey);
-				});
-			}
-		});
-		return result;
-	}
 	async getPage(href)
 	{
 		var base = this;
 		await this.loadData();
-		this._indexLookup = await this.dataStructureParser.createIndexLookup();
-		this._navigationLookup = await this.dataStructureParser.createIndexNavigationLookup();
+		
 		if(href.indexOf('/') === 0)
 		{
 			href = href.substr(1);
@@ -79,6 +65,8 @@ class PageLoader
 		
 		let indexData = this._indexLookup[href];
 		let navigationalData = this._navigationLookup[href];
+
+		
 		let pageData =
 		{
 			"id":"",
@@ -86,7 +74,6 @@ class PageLoader
 			"Preamble":"",
 			"ComponentItems":[],
 		};
-
 		
 		//When theres is a file matching and no "variants" are present.
 		pageData.id = indexData["guid"];
@@ -142,14 +129,16 @@ class PageLoader
 			
 			pageData["ComponentItems"].push(variantContent);
 		});
-			
+		console.log('pageData',pageData)
 		return pageData;
+		
 	}
 
 
 
 	async loadMDFile(filepath)
 	{
+		await this.loadData();
 		const fullpath = this._projectConfig.directories.src + "/" + filepath + '.md';
 		const filereq = await fetch(fullpath);
 		const filecontent = await filereq.text();

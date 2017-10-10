@@ -6,17 +6,18 @@ module.exports = function (grunt)
 	"use strict";
 	require('jit-grunt')(grunt);
 	require('time-grunt')(grunt);
-	var _ = require('lodash');
+	let _ = require('lodash');
 	grunt.loadNpmTasks('grunt-newer');
 	grunt.loadNpmTasks('grunt-express-server');
 	
-	var projectConfigurationFilePath = "./patternlibraryconfig.json";
-	var gruntconfig = {};
+	let projectConfigurationFilePath = "./patternlibraryconfig.json";
+	let gruntconfig = {};
 
 	// Load default config and optional user config
-	var mainconfig = grunt.file.readJSON(projectConfigurationFilePath);
-	if(grunt.file.exists(mainconfig.userconfig)) {
-		var userconfig = grunt.file.readJSON(mainconfig.userconfig);
+	let mainconfig = grunt.file.readJSON(projectConfigurationFilePath);
+	if(grunt.file.exists(mainconfig.userconfig))
+	{
+		let userconfig = grunt.file.readJSON(mainconfig.userconfig);
 		_.merge(mainconfig, userconfig);
 	}
 
@@ -91,7 +92,7 @@ module.exports = function (grunt)
 	
 
 	// Loop through the structure and get all the markdown and index.json files
-	var indexationTargetFiles = flatten(mainconfig.structure.map((folder, i) =>
+	let indexationTargetFiles = flatten(mainconfig.structure.map((folder, i) =>
 	{
 		let path = mainconfig.directories.src + "/" + folder.path;
 		 return [path + "/*.md", path + '/**/*.md',path + '/index.json',path + '/**/index.json'];
@@ -99,10 +100,9 @@ module.exports = function (grunt)
 	
 	
 	grunt.verbose.write("\n## Found the following files in "+ mainconfig.structure.length + " directories:\n");
-	var stylesTargetFiles = [];
+	let stylesTargetFiles = [];
 	Object.keys(mainconfig.compilation.compilers).forEach((compilerKey) =>
 	{
-		console.log('### compilerKey',compilerKey)
 		let compilerOptions = mainconfig.compilation.compilers[compilerKey];
 		if(typeof compilationFiles[compilerOptions.taskname] === "object")
 		{
@@ -176,7 +176,7 @@ module.exports = function (grunt)
 				 return [path + "/*.md", path + '/**/*.md',path + '/index.json',path + '/**/index.json'];
 			})),
 			options: { reload: true },
-			tasks:["createindex"]
+			tasks:["createindexes"]
 		},
 		"styles":
 		{
@@ -272,7 +272,12 @@ module.exports = function (grunt)
 			},
 			{	/* Copy over the index file */
 				expand:true,
-				src: mainconfig.indexing.output,
+				src: mainconfig.indexing.contentindexoutput,
+				dest: mainconfig.directories.build
+			},
+			{	/* Copy over the index file */
+				expand:true,
+				src: mainconfig.indexing.compilationtargetoutput,
 				dest: mainconfig.directories.build
 			},
 			{	/* Copy over the source files */
@@ -382,16 +387,36 @@ module.exports = function (grunt)
 			grunt.task.run(tasks);
 		}
 	});
-	grunt.registerTask("createindex","Create the content.json file", () =>
+
+	grunt.registerTask("createtargetindex","Create the content.json file", () =>
 	{
-		var totalfilecount = 0;
+		let filecontent = 
+		{
+			items:[]
+		};
+		Object.keys(mainconfig.compilation.compilers).forEach((compilerKey) =>
+		{
+			const compilerOptions = mainconfig.compilation.compilers[compilerKey];
+			if(typeof compilerOptions.targets === "object")
+			{
+				Object.keys(compilerOptions.targets).forEach((targetKey) =>
+				{
+					filecontent.items.push(mainconfig.directories.cssdest + "/" + targetKey);
+				});
+			}
+		});
+		grunt.file.write(mainconfig.indexing.targetindexoutput, JSON.stringify(filecontent, null, "\t"));
+	});
+	grunt.registerTask("createcontentindex","Create the content.json file", () =>
+	{
+		let totalfilecount = 0;
 		const matter = require('gray-matter');
 		const fs = require('fs')
 		const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirectory());
 		// parseFileMetadata: Parse each file and save the relevant metadata
 		const parseFileMetadata = (filepath, fileindex) =>
 		{
-			var filecontent = grunt.file.read(mainconfig.directories.src + "/" + filepath);
+			const filecontent = grunt.file.read(mainconfig.directories.src + "/" + filepath);
 			// Set basic metadata
 			let filemetadata =
 			{
@@ -404,7 +429,7 @@ module.exports = function (grunt)
 			totalfilecount++;
 			// Parse the md file using grey-matter (to get the document data structured)
 			// https://www.npmjs.com/package/gray-matter
-			var parsedFile = matter(filecontent);
+			const parsedFile = matter(filecontent);
 			mainconfig.indexing.keysToOutput.forEach((key) =>
 			{
 				if(typeof parsedFile["data"][key] === "string")
@@ -420,11 +445,11 @@ module.exports = function (grunt)
 		const parseDirectoryMetadata = (directoryParentPath, directoryName, directoryindex) =>
 		{
 			directoryParentPath = (directoryParentPath.length > 0) ? directoryParentPath + "/" : directoryParentPath;
-			let directoryPath = mainconfig.directories.src + "/" + directoryParentPath + directoryName;
+			const directoryPath = mainconfig.directories.src + "/" + directoryParentPath + directoryName;
 			// Fetch all child directories in this directory
-			let directories = getDirs(directoryPath);
+			const directories = getDirs(directoryPath);
 			// Fetch all MD files in this directory
-			let files = grunt.file.expand({ cwd:mainconfig.directories.src },[directoryParentPath + directoryName +"/*.md"]);
+			const files = grunt.file.expand({ cwd:mainconfig.directories.src },[directoryParentPath + directoryName +"/*.md"]);
 			// Set rudamentary metadata. We capitalize the foldername, it might be overridden if there is a index.json file.
 			let directoryMetadata =
 			{
@@ -439,48 +464,48 @@ module.exports = function (grunt)
 			// If the folder has a index.json metadata file we will extend this folders metadata with that information
 			if(grunt.file.isFile(directoryPath + "/index.json"))
 			{
-				var metadata = grunt.file.readJSON(directoryPath + "/index.json");
+				const metadata = grunt.file.readJSON(directoryPath + "/index.json");
 				Object.assign(directoryMetadata, metadata);
 			}
 
 			// Parse the metadata for all .md files within this folder
-			let filesdata = files.map(parseFileMetadata);
+			const filesdata = files.map(parseFileMetadata);
 			directoryMetadata["items"] = directoryMetadata["items"].concat(filesdata);
 			// Parse the metadata for all child folders (this makes this function recursive)
-			var directoriesdata = directories.map(parseDirectoryMetadata.bind(null, directoryParentPath + directoryName));
+			const directoriesdata = directories.map(parseDirectoryMetadata.bind(null, directoryParentPath + directoryName));
 			directoryMetadata["items"] = directoryMetadata["items"].concat(directoriesdata);
 			// Return this directories metadata
 			return directoryMetadata;
 		};
 
 		// Loop through the folders specified in the projects configuration
-		var structureitems = mainconfig.structure.map((structureitem, index) =>
+		const structureitems = mainconfig.structure.map((structureitem, index) =>
 		{
 			let directoryMetadata = parseDirectoryMetadata("", structureitem["path"], index);
 			directoryMetadata["title"] = structureitem["title"];
 			return directoryMetadata;
 		});
 
-		var index = { "structure":structureitems };
+		const index = { "structure":structureitems };
 
 		// Save index to file
-		grunt.file.write(mainconfig.indexing.output, JSON.stringify(index, null, "\t"));
-		grunt.verbose.write("\n# Indexed " + totalfilecount + " files in "+ structureitems.length +" structure folders and saved it to " + mainconfig.indexing.output.substring(mainconfig.indexing.output.lastIndexOf("/")+1, mainconfig.indexing.output.length));
+		grunt.file.write(mainconfig.indexing.contentindexoutput, JSON.stringify(index, null, "\t"));
+		grunt.verbose.write("\n# Indexed " + totalfilecount + " files in "+ structureitems.length +" structure folders and saved it to " + mainconfig.indexing.contentindexoutput.substring(mainconfig.indexing.contentindexoutput.lastIndexOf("/")+1, mainconfig.indexing.contentindexoutput.length));
 	});
 
-	
-	grunt.registerTask("builddev", ["showconfig","createindex","buildcss"]);
+	grunt.registerTask("createindexes", ["createcontentindex","createtargetindex"]);
+	grunt.registerTask("builddev", ["showconfig","clean:build","createindexes","buildcss"]);
 	grunt.registerTask("dev", ["builddev","connect:livereload","express:onsitepreview","watch"]);
 	grunt.registerTask("previewdev", ["dev"]); // Legacy bulid
 	
 
-	grunt.registerTask("build", ["clean:build","createindex","buildcss","copy:build","copy:preview"]);
+	grunt.registerTask("build", ["clean:build","createindexes","buildcss","copy:build","copy:preview"]);
 	grunt.registerTask("previewbuild", ["build","connect:build"]);
 	grunt.registerTask("default", ["dev"]);
 	/* Tasks:
 		showconfig (will show the current configuration (grunt configuration, project configuration and what folders will be indexed))
 		buildcss (will run less & scss depending on settings)
-		createindex (will create a index json file depending on the md files within structure directories)
+		createindexes (will create a json files describing the content structure and what files are compiled)
 
 		dev (will do the tasks above and start a webserver and watch)
 		build (will compile less and the index; then copy everything to the build folder)

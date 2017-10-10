@@ -11,8 +11,8 @@ define(["jquery","marked","modules/parsequery"], ($, marked, parsequery) =>
 {
 	(async () =>
 	{
-		await ConfigLoader.LoadConfig();
-		let config = ConfigLoader.ProjectConfig;
+		await Loader.LoadData();
+		let config = Loader.ProjectConfig;
 		
 		if(config.developmentenvironment && config.developmentenvironment.livereloadport)
 		{

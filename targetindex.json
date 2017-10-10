@@ -1,0 +1,8 @@
+{
+	"items": [
+		"./build/css/main.css",
+		"./build/css/inline.css",
+		"./build/css/print.css",
+		"./build/css/empty.css"
+	]
+}
