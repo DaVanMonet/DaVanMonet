@@ -65,7 +65,7 @@ module.exports = function (grunt)
 			{
 				allfiles.forEach((file) =>
 				{
-					let dest = mainconfig.directories.cssdest + "/" + file.replace(compilerOptions.target,'.css'),
+					let dest = mainconfig.directories.build + '/' + mainconfig.directories.cssdest + "/" + file.replace(compilerOptions.target,'.css'),
 						src = mainconfig.directories.src + "/"+ file;
 						compilationFiles[compilerOptions.taskname]["compilationTarget"][dest] = [src];
 				});
@@ -81,7 +81,7 @@ module.exports = function (grunt)
 					if(targetFiles.length > 0)
 					{
 						let adjustedTargetFiles = targetFiles.map(file => mainconfig.directories.src + '/' + file);
-						compilationFiles[compilerOptions.taskname]["compilationTarget"][mainconfig.directories.cssdest + '/' + targetName] = adjustedTargetFiles;
+						compilationFiles[compilerOptions.taskname]["compilationTarget"][mainconfig.directories.build + '/' + mainconfig.directories.cssdest + '/' + targetName] = adjustedTargetFiles;
 					}
 				}
 			}
@@ -135,7 +135,7 @@ module.exports = function (grunt)
 			},
 			build:
 			{
-				src: mainconfig.directories.cssdest + '/' + '*.css'
+				src: mainconfig.directories.build + '/' + mainconfig.directories.cssdest + '/' + '*.css'
 			}
 		};
 	}
@@ -155,7 +155,7 @@ module.exports = function (grunt)
 			},
 			build:
 			{
-				src: mainconfig.directories.cssdest + '/' + '*.css'
+				src: mainconfig.directories.build + '/' + mainconfig.directories.cssdest + '/' + '*.css'
 			}
 		};
 	}
@@ -201,7 +201,7 @@ module.exports = function (grunt)
 			options:
 			{
 				port: mainconfig.developmentenvironment.devwebsiteport,
-				base: _.union(['./preview', "./"], mainconfig.directories),	
+				base: _.union(['./preview', "./", mainconfig.directories.build]),
 				keepalive:false, //Set to true if not running watch
 				open:true,
 				middleware: function(connect, options, middlewares)
@@ -277,7 +277,7 @@ module.exports = function (grunt)
 			},
 			{	/* Copy over the index file */
 				expand:true,
-				src: mainconfig.indexing.compilationtargetoutput,
+				src: mainconfig.indexing.targetindexoutput,
 				dest: mainconfig.directories.build
 			},
 			{	/* Copy over the source files */
@@ -291,7 +291,7 @@ module.exports = function (grunt)
 			files:
 			[{
 				expand:true,
-				cwd:mainconfig.directories.cssdest,
+				cwd:mainconfig.directories.build + '/' + mainconfig.directories.cssdest,
 				src:"*",
 				dest:mainconfig.directories.copycsspath
 			}]

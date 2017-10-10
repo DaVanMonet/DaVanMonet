@@ -2,7 +2,7 @@
 	"directories":
 	{
 		"src":"./src",
-		"cssdest":"./build/css",
+		"cssdest":"/css",
 		"build":"./build",
 		"onsitepreview":"./onsitepreview",
 		"copycsspath":""
@@ -90,12 +90,7 @@
 			}
 		]
 	},
-	"structure": 
-	[
-		{ "title": "Examples", "path":"examples" },
-		{ "title": "Components", "path":"components" },
-		{ "title": "Layouts title", "path":"layouts" }
-	],
+	"structure": [ ],
 	"onsitepreview":
 	{
 		"components": [ ]
