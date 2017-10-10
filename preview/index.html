@@ -14,7 +14,7 @@
 	<body class="davanmonet-body">
 
 	<div id="davanmonet-app" class="davanmonet-app">
-		<previewcss :csstargets="csstargets"></previewcss>
+		<component-showcase-csslinks :csslinks="componentCssLinks"></component-showcase-csslinks>
 		<header class="davanmonet-header">
 			<a href="./" class="davanmonet-header-logolink"><img class="davanmonet-header-logo" src="./static/logo.png"></a>
 			<nav class="davanmonet-header-nav">
@@ -37,57 +37,5 @@
 			Loading...
 		</div>
 	</div>
-	<script type="text/x-template" id="vuetemplate-navigation">
-		<nav v-if="navigation && navigation.length > 0" class="davanmonet-nav">
-			<navigation-list :items="navigation" :source-directory="sourceDirectory" :level="1"></navigation-list>
-		</nav>
-	</script>
-	<script type="text/x-template" id="vuetemplate-navigationlist">
-		<ul v-if="items && items.length > 0" class="davanmonet-nav-list" :data-listlevel="level">
-				<li v-for="item in items" class="davanmonet-nav-listitem">
-					<div v-if="item.href">
-						<a
-							v-bind:href="'#/' + item.href"
-							v-on:click="onNavigationClick"
-							class="davanmonet-nav-link"
-							>{{item.title}}</a>
-					</div>
-					<div v-else>
-						<strong class="davanmonet-nav-directory">{{item.title}}</strong>
-					</div>
-					<div v-if="item.items && item.items.length > 0">
-						<navigation-list :items="item.items" :source-directory="sourceDirectory" :level="level +1"></navigation-list>
-					</div>
-			</li>
-		</ul>
-	</script>
-	<script type="text/x-template" id="vuetemplate-previewcss">
-		<div v-if="csstargets">
-			<link :href="cssfile" rel="preview-stylesheet" type="text/css" v-for="cssfile in csstargets"/>
-		</div>
-	</script>
-		<script type="text/x-template" id="vuetemplate-maincontent">
-			<div class="davanmonet-maincontentcontainer">
-				<h1 class="davanmonet-maincontent-headline" v-html="content.Title"></h1>
-				<div class="davanmonet-maincontent-content" v-html="content.Preamble"></div>
-				
-				<div v-if="content.ComponentItems" class="davanmonet-maincontent-sections">
-					<div v-for="componentItem in content.ComponentItems" class="davanmonet-maincontent-section">
-						Component item
-						<h1 class="davanmonet-maincontent-section-headline" v-html="componentItem.Title"></h1>
-						<div class="davanmonet-maincontent-section-content" v-html="componentItem.Preamble"></div>
-						
-						<component-showcase :css-breakpoints="cssBreakpoints" :showcase-data="componentItem"></component-showcase>
-
-						<div v-if="componentItem.id" class="davanmonet-maincontent-section-id">{{componentItem.id}}</div>
-
-					</div>			
-				</div>
-
-
-				<div v-if="content.id" class="davanmonet-maincontent-id">{{content.id}}</div>
-				
-			</div>
-		</script>
 	</body>
 </html>

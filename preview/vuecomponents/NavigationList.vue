@@ -1,0 +1,34 @@
+<template>
+<ul v-if="items && items.length > 0" class="davanmonet-nav-list" :data-listlevel="level">
+    <li v-for="item in items" class="davanmonet-nav-listitem">
+      <div v-if="item.href">
+        <a
+          v-bind:href="'#/' + item.href"
+          v-on:click="onNavigationClick"
+          class="davanmonet-nav-link"
+          >{{item.title}}</a>
+      </div>
+      <div v-else>
+        <strong class="davanmonet-nav-directory">{{item.title}}</strong>
+      </div>
+      <div v-if="item.items && item.items.length > 0">
+        <navigation-list :items="item.items" :source-directory="sourceDirectory" :level="level +1"></navigation-list>
+      </div>
+  </li>
+</ul>
+</template>
+
+<script>
+module.exports = {
+  name: 'navigation-list',
+  props: ['items', 'sourceDirectory', 'level'],
+  methods:
+  {
+    onNavigationClick:function(event)
+    {
+      let href = event.target.attributes.href.value;
+      this.$root.loadPage(this,href);
+    }
+  }
+};
+</script>

@@ -51,53 +51,15 @@ define([
 	};
 	Vue.use(httpVueLoader);
 
-	Vue.component('maincontent', {
-		components:
-		[
-			"url:/vuecomponents/component/ComponentShowcase.vue"
-		],
-		template: '#vuetemplate-maincontent',
-		props: ['content','cssBreakpoints']
-	});
-
-	Vue.component('navigation', {
-		template: '#vuetemplate-navigation',
-		props: ['navigation', 'sourceDirectory']
-	});
-	Vue.component('previewcss', {
-		template: '#vuetemplate-previewcss',
-		props: ['csstargets']
-	});
-	
-
-	Vue.component('navigation-list', {
-		template: '#vuetemplate-navigationlist',
-		props: ['items', 'sourceDirectory', 'level'],
-		filters:
-		{
-			// formatFilepathUrl:function(filepath,sourceDirectory)
-			// {
-			// 	let url = filepath.replace(sourceDirectory,"");
-			// 	url = url.replace(".md","");
-			// 	return "#" +url;
-			// }
-		},
-		methods:
-		{
-			onNavigationClick:function(event)
-			{
-				let href = event.target.attributes.href.value;
-				this.$root.loadPage(this,href);
-			}
-		}
-	});
-
 	var app = new Vue({
 		el: '#davanmonet-app',
 		components:
-		{
-			'component-showcase-render':httpVueLoader('/components/ComponentShowcaseRender.vue')
-		},
+		[
+			"url:/vuecomponents/component/ComponentShowcaseCsslinks.vue",
+			"url:/vuecomponents/component/ComponentShowcaseRender.vue",
+			"url:/vuecomponents/Maincontent.vue",
+			"url:/vuecomponents/Navigation.vue"
+		],
 		data:
 		{
 			configLoaded:false,
@@ -110,7 +72,7 @@ define([
 			projectConfig:{},
 			indexStructure:{},
 			pageLookup:{},
-			csstargets:[]
+			componentCssLinks:[]
 		},
 		created: function ()
 		{
@@ -162,9 +124,8 @@ define([
 				let navigation = await _pageLoader.getNavigation();
 				_vue.navigation = navigation;
 				
-				let csstargets = await _pageLoader.getCssTargets();
-				_vue.csstargets = csstargets;
-
+				let componentCssLinks = await _pageLoader.getCssTargets();
+				_vue.componentCssLinks = componentCssLinks;
 				_vue.parseHashAndNavigate();
 				_vue.configLoaded = true;
 			},

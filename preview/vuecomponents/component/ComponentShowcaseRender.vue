@@ -17,17 +17,12 @@ module.exports =  {
       // Add this.renderSource
       this.$refs.iframe.contentDocument.body.querySelector('.showcase__render').innerHTML = this.renderSource;
 
-      // Duplicate our stylesheets into the iframe document head
-      // TODO: Remove this and add a static reference in the iframe src document?
-      let stylesToImport = [];
-      stylesToImport = stylesToImport.concat(Array.prototype.slice.call(document.head.querySelectorAll('style')));
-      stylesToImport = stylesToImport.concat(Array.prototype.slice.call(document.body.querySelectorAll('link[rel="preview-stylesheet"]')));
-      
-      stylesToImport.forEach(el =>
+      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('style, link[data-previewcss]'));
+      linkStyleEls.forEach(el => 
       {
-        let style = el.cloneNode(true);
-        style.setAttribute("rel","stylesheet");
-        this.$refs.iframe.contentDocument.head.appendChild(style);
+        let clone = el.cloneNode(true);
+        clone.removeAttribute('disabled');
+        this.$refs.iframe.contentDocument.head.appendChild(clone);
       });
      // let scriptsToImport = Array.prototype.slice.call(document.body.querySelectorAll(['script[src$="livereload.js"]']));
       // scriptsToImport.forEach(el =>
