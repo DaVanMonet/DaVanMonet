@@ -203,6 +203,7 @@ module.exports = function (grunt)
 				port: mainconfig.developmentenvironment.devwebsiteport,
 				base: _.union(['./preview', "./"], mainconfig.directories),	
 				keepalive:false, //Set to true if not running watch
+				open:true,
 				middleware: function(connect, options, middlewares)
 				{
 					// inject a custom middleware into the array of default middlewares
@@ -468,16 +469,20 @@ module.exports = function (grunt)
 	});
 
 	
-	grunt.registerTask("dev", ["showconfig","createindex","buildcss"]);
-	grunt.registerTask("previewdev", ["dev","connect:livereload","express:onsitepreview","watch"]);
+	grunt.registerTask("builddev", ["showconfig","createindex","buildcss"]);
+	grunt.registerTask("dev", ["builddev","connect:livereload","express:onsitepreview","watch"]);
+	grunt.registerTask("previewdev", ["dev"]); // Legacy bulid
+	
 
-	grunt.registerTask("basicbuild", ["clean:build","createindex","buildcss","copy:build"]);
-	grunt.registerTask("build", ["basicbuild","copy:preview"]);
-	grunt.registerTask("previewbuild", ["build","copy:preview","connect:build"]);
-	grunt.registerTask("default", ["previewdev"]);
+	grunt.registerTask("build", ["clean:build","createindex","buildcss","copy:build","copy:preview"]);
+	grunt.registerTask("previewbuild", ["build","connect:build"]);
+	grunt.registerTask("default", ["dev"]);
 	/* Tasks:
 		showconfig (will show the current configuration (grunt configuration, project configuration and what folders will be indexed))
 		buildcss (will run less & scss depending on settings)
 		createindex (will create a index json file depending on the md files within structure directories)
+
+		dev (will do the tasks above and start a webserver and watch)
+		build (will compile less and the index; then copy everything to the build folder)
 	*/
 };
