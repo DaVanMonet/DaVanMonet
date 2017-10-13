@@ -12,12 +12,16 @@ module.exports =  {
     onIframeLoad() {
       this.populateIframeWithRenderSource();
       this.setIframeHeightToContentSize();
+
+      var iframeWin = this.$refs.iframe.contentWindow;
+      iframeWin.addEventListener('resize', this.setIframeHeightToContentSize);
     },
     populateIframeWithRenderSource() {
       // Add this.renderSource
       this.$refs.iframe.contentDocument.body.querySelector('.showcase__render').innerHTML = this.renderSource;
 
-      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('style, link[data-previewcss]'));
+      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('link[data-previewcss]'));
+      console.log(linkStyleEls);
       linkStyleEls.forEach(el => 
       {
         let clone = el.cloneNode(true);
