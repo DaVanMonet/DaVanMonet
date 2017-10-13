@@ -44,10 +44,13 @@
 				"compileIndividualFiles":false
 			}
 		},
-		
-		"minifycss":true,
 		"sourceMaps":true,
 		"copyCompiledCssToFolder":false,
+		"minifycss":
+		{
+			"report": "min",
+			"level": 2
+		},
 		"postcss":
         {
 			"map":true,

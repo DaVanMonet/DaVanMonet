@@ -63,6 +63,7 @@ typings/
 # build Output
 /build
 contentindex.json
+targetindex.json
 
 # User configuration file
 user-conf.json
