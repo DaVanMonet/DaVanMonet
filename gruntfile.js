@@ -26,6 +26,7 @@ module.exports = function (grunt)
 	// Optionally load tasks depending on configuration
 	(typeof mainconfig.compilation["postcss"] === "object") ? grunt.loadNpmTasks('grunt-postcss') : 1;
 	(typeof mainconfig.compilation["minifycss"] === "object") ? grunt.loadNpmTasks('grunt-contrib-cssmin') : 1;
+	(mainconfig.compilation.compilers.scss["lint"] === true) ? grunt.loadNpmTasks('grunt-sass-lint') : 1;
 
 	let compilationFiles = 
 	{
@@ -118,6 +119,19 @@ module.exports = function (grunt)
 			});
 		}
 	});
+
+	if(mainconfig.compilation.compilers.scss["lint"] === true)
+	{
+		/* sasslint https://github.com/sasstools/sass-lint
+		Verify code style in scss sources
+		*/
+		gruntconfig["sasslint"] = {
+			options: {
+				//outputFile: 'linters/sass-lint.html'
+			},
+			target: [mainconfig.directories.src + '/**/*.scss'] // Lint all the files
+		}
+	}
 
 	if(typeof mainconfig.compilation["postcss"] === "object")
 	{
@@ -375,6 +389,10 @@ module.exports = function (grunt)
 			}
 		});
 		
+		if(mainconfig.compilation.compilers.scss["lint"] === true)
+		{
+			tasks.push("sasslint");
+		}
 		if(typeof mainconfig.compilation["postcss"] === "object")
 		{
 			tasks.push("postcss");

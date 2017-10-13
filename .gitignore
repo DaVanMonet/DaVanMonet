@@ -71,3 +71,6 @@ user-conf.json
 # Tmp
 /.tmp
 */.tmp
+
+# Linter Output
+/linters

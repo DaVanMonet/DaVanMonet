@@ -41,7 +41,8 @@
 				"taskname":"sass",
 				"target":".scss",
 				"compile":false,
-				"compileIndividualFiles":false
+				"compileIndividualFiles":false,
+				"lint": false
 			}
 		},
 		"sourceMaps":true,
