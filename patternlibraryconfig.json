@@ -99,7 +99,10 @@
 			}
 		]
 	},
-	"structure": [ ],
+	"structure": [
+		{ "title": "Components", "path":"components" },
+		{ "title": "Layouts", "path":"layouts" }
+	],
 	"onsitepreview":
 	{
 		"components": [ ]
