@@ -1,4 +1,9 @@
-{	
+{
+	"project_info": {
+		"name": "DaVanMonet",
+		"logo": "./static/logo.png",
+		"header_color": "default"
+	},
 	"directories":
 	{
 		"src":"./src",

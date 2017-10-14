@@ -42,7 +42,7 @@ define([
 
 		// let $livepreviewAreas = $('[data-livepreview]');
 		// $livepreviewAreas.each((i, previewarea) =>
-		// {
+		// {s
 		// 	let $previewarea =  $(previewarea);
 		// 	let $iframe = $('<iframe src="preview.html?id='+ i +'&path='+ encodeURIComponent(href.replace("#","")) +'"></iframe>');
 		// 	$previewarea.after($iframe);
@@ -95,6 +95,19 @@ define([
 				this.fetchData(this).then(() =>
 				{
 				});
+
+				// Rudimentary themeing support
+				if(_vue.projectConfig.project_info.header_color !== "default") {
+					$("body").append("<style>"
+						+ ".davanmonet-header { "
+						+ "	background:" + _vue.projectConfig.project_info.header_color + "!important; "
+						+ "	border-color:" + _vue.projectConfig.project_info.header_color + "!important; "
+						+ "} "
+						+ ".davanmonet-header-logo { margin-top: -1.5rem; }"
+						+ "</style>");
+				}
+				$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
+				$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);
 			},
 
 			loadPage: async function(_vue,href)
