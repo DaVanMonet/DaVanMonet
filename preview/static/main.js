@@ -97,14 +97,8 @@ define([
 				});
 
 				// Rudimentary themeing support
-				if(_vue.projectConfig.project_info.header_color !== "default") {
-					$("body").append("<style>"
-						+ ".davanmonet-header { "
-						+ "	background:" + _vue.projectConfig.project_info.header_color + "!important; "
-						+ "	border-color:" + _vue.projectConfig.project_info.header_color + "!important; "
-						+ "} "
-						+ ".davanmonet-header-logo { margin-top: -1.5rem; }"
-						+ "</style>");
+				if(_vue.projectConfig.project_info.theme_style !== "default") {
+					$('head').append('<link rel="stylesheet" type="text/css" href="' + _vue.projectConfig.project_info.theme_style + '" />');
 				}
 				$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
 				$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);

@@ -2,7 +2,7 @@
 	"project_info": {
 		"name": "DaVanMonet",
 		"logo": "./static/logo.png",
-		"header_color": "default"
+		"theme_style": "default"
 	},
 	"directories":
 	{
