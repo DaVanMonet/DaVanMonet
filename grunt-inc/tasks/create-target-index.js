@@ -21,7 +21,7 @@ module.exports = {
             Object.keys(mainconfig.compilation.compilers).forEach((compilerKey) =>
             {
                 const compilerOptions = mainconfig.compilation.compilers[compilerKey];
-                if (typeof compilerOptions.targets === "object")
+                if (typeof compilerOptions.targets === "object" && compilerOptions.compile === true)
                 {
                     Object.keys(compilerOptions.targets).forEach((targetKey) =>
                     {

@@ -42,7 +42,8 @@
 				"empty.css": ["**/*_asd.less"]
 			}
 		},
-		"scss":{
+		"scss":
+			{
 				"taskname":"sass",
 				"target":".scss",
 				"compile":false,
