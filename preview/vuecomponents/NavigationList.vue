@@ -1,16 +1,16 @@
 <template>
 <ul v-if="items && items.length > 0" class="davanmonet-nav-list" :data-listlevel="level">
     <li v-for="item in items" class="davanmonet-nav-listitem">
-      <div v-if="item.href">
+      <span class="davanmonet-nav-listiteminner" v-if="item.href">
         <a
           v-bind:href="'#/' + item.href"
           v-on:click="onNavigationClick"
           class="davanmonet-nav-link"
           >{{item.title}}</a>
-      </div>
-      <div v-else>
+      </span>
+      <span class="davanmonet-nav-listiteminner" v-else>
         <strong class="davanmonet-nav-directory">{{item.title}}</strong>
-      </div>
+      </span>
       <div v-if="item.items && item.items.length > 0">
         <navigation-list :items="item.items" :source-directory="sourceDirectory" :level="level +1"></navigation-list>
       </div>

@@ -1,8 +1,8 @@
 <template>
 <div class="davanmonet-maincontentcontainer">
-    <h1 class="davanmonet-maincontent-headline" v-html="content.Title"></h1>
-    <div class="davanmonet-maincontent-content" v-html="content.Preamble"></div>
-    
+    <h1 class="davanmonet-maincontent-headline" v-if="content.Title" v-html="content.Title"></h1>
+    <div class="davanmonet-maincontent-preamble" v-if="content.Preamble" v-html="content.Preamble"></div>
+    <div class="davanmonet-maincontent-mainbody" v-if="content.MainBody" v-html="content.MainBody"></div>
     <div v-if="content.ComponentItems" class="davanmonet-maincontent-sections">
       <div v-for="componentItem in content.ComponentItems" class="davanmonet-maincontent-section">
        
@@ -10,7 +10,7 @@
 
         <div v-if="componentItem.id" class="davanmonet-maincontent-section-id">{{componentItem.id}}</div>
 
-      </div>			
+      </div>
     </div>
     <div v-if="content.id" class="davanmonet-maincontent-id">{{content.id}}</div>
   </div>

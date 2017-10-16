@@ -66,8 +66,9 @@ define([
 			navigation:[],
 			maincontent:
 			{
-				title:"Welcome",
-				content:"<p>Use the navigation to see the content</p>"
+				Title:null,
+				Preamble:null,
+				MainBody:"<p>This project does not yet have a startpage. Create a index.md file in the root folder of your style source</p>"
 			},
 			projectConfig:{},
 			contentIndex:{},
@@ -96,6 +97,8 @@ define([
 				{
 				});
 
+				
+
 				// Rudimentary themeing support
 				if(_vue.projectConfig.project_info.theme_style !== "default") {
 					$('head').append('<link rel="stylesheet" type="text/css" href="' + _vue.projectConfig.project_info.theme_style + '" />');
@@ -106,9 +109,9 @@ define([
 
 			loadPage: async function(_vue,href)
 			{
-				let _pageLoader = new PageLoader();
-				let pagePath = href.replace("#","");
-				let pagedata = await _pageLoader.getPage(pagePath);
+				const _pageLoader = new PageLoader();
+				const pagePath = href.replace("#","");
+				const pagedata = await _pageLoader.getPage(pagePath);
 				
 				this.maincontent = pagedata;
 				this.$nextTick(() =>
@@ -126,6 +129,14 @@ define([
 				const _pageLoader = new PageLoader();
 				const navigation = await _pageLoader.getNavigation();
 				_vue.navigation = navigation;
+
+
+				const startpagecontent = await _pageLoader.loadMDFile("index");
+				if(typeof startpagecontent === "string" && startpagecontent.length > 0)
+				{
+					_vue.maincontent.MainBody = marked(startpagecontent);
+				}
+				
 
 				_vue.parseHashAndNavigate();
 				_vue.configLoaded = true;

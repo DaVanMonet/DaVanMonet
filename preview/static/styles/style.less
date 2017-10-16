@@ -120,6 +120,14 @@ input, button, select, optgroup, textarea
 	font-family: @Font;
 }
 
+.davanmonet-maincontent-mainbody
+{
+	> h1
+	{
+		margin-top:0;
+	}
+}
+
 
 /* Sidebar navigation */
 
@@ -142,29 +150,47 @@ input, button, select, optgroup, textarea
 
 .davanmonet-nav-list {
 	padding: 0;
-	margin:1rem 0 0;
+	margin:1rem 0 0 0;
 	list-style:none;
-	font-size: 20px;
+	font-size: 16px;
 	
 	// border-right: 1px var(--divider-color) solid;
 	// padding-right: 20px;
 	&[data-listlevel="2"]
 	{
-		border-left:4px solid #ccc;
+	//	border-left:4px solid #ccc;
 	}
 	&[data-listlevel="3"]
 	{
-		border-left:4px solid #9D9D9D;
+		//border-left:4px solid #9D9D9D;
 	}
 	&[data-listlevel="4"]
 	{
-		border-left:4px solid #676767;
+		//border-left:4px solid #676767;
 	}
 }
 
-.davanmonet-nav-listitem {
-	display: bottom;
-	padding:.5rem 0;
+.davanmonet-nav-listitem
+{
+	display: block;
+	padding:.3rem 0;
+}
+.davanmonet-nav-listiteminner 
+{
+	display: block;
+	
+	[data-listlevel="2"] &
+	{
+		margin-left:0rem;
+	}
+	[data-listlevel="3"] &
+	{
+		margin-left:1rem;
+	}
+	[data-listlevel="4"] &
+	{
+		margin-left:2rem;
+	}
 }
 
 .davanmonet-nav-directory
