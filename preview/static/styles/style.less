@@ -119,7 +119,10 @@ input, button, select, optgroup, textarea
 	padding:@GridGap;
 	font-family: @Font;
 }
-
+.davanmonet-maincontent-headline
+{
+	margin-top:0;
+}
 .davanmonet-maincontent-mainbody
 {
 	> h1
@@ -128,6 +131,22 @@ input, button, select, optgroup, textarea
 	}
 }
 
+.davanmonet-idtext
+{
+	font-size:14px;
+	label
+	{
+		display: inline-block;
+		min-width:10rem;
+		font-weight: bold;
+	}
+	input
+	{
+		width:calc(100% ~"-" 12rem);
+		display: inline-block;
+		border: 0;
+	}
+}
 
 /* Sidebar navigation */
 
