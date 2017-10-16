@@ -3,7 +3,7 @@
 module.exports = function(_gruntbase_) {
 
 	let mainconfig = _gruntbase_.mainconfig;
-	let compilationFiles = _gruntbase_.styleTargets.compileTargets;
+	let compilationFiles = _gruntbase_.fileAndDirectoryTargets.compileTargets;
 
     return {
 		options:

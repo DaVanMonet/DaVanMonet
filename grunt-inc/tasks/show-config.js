@@ -9,7 +9,7 @@ module.exports = {
             console.log('### gruntconfig ####################################################################')
             console.log(_gruntbase_.gruntconfig)
             console.log('### compilationFiles ####################################################################')
-            console.log(JSON.stringify(_gruntbase_.styleTargets.compileTargets))
+            console.log(JSON.stringify(_gruntbase_.fileAndDirectoryTargets.compileTargets))
             console.log('####################################################################################\n\n') ;
         });
     }

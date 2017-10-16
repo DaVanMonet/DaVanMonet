@@ -35,7 +35,7 @@ module.exports = function (grunt)
 	// Get style targets for compilation and watch. I.e, .less and .scss files
 	// -----------------------------------------------------------------------
 
-	_gruntbase_.styleTargets = require('./grunt-inc/gather-style-targets')(_gruntbase_);
+	_gruntbase_.fileAndDirectoryTargets = require('./grunt-inc/gather-file-directory-targets')(_gruntbase_);
 	
 
 

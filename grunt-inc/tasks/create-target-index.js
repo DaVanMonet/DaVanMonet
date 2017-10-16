@@ -8,7 +8,7 @@ module.exports = {
         grunt.registerTask("createtargetindex","Create the content.json file", () =>
         {
             // Loop through the structure and get all the markdown and index.json files
-            let indexationTargetFiles = _.flatten(mainconfig.structure.map((folder, i) =>
+            let indexationTargetFiles = _.flatten(_gruntbase_.fileAndDirectoryTargets.structureFolders.map((folder, i) =>
             {
                 let path = mainconfig.directories.src + "/" + folder.path;
                 return [path + "/*.md", path + '/**/*.md',path + '/index.json',path + '/**/index.json'];

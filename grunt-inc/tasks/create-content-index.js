@@ -1,15 +1,17 @@
 module.exports = {
     registerWithGrunt: function(_gruntbase_) {
 
-        let grunt = _gruntbase_.grunt;
-        let mainconfig = _gruntbase_.mainconfig;
-
+        const grunt = _gruntbase_.grunt;
+        const mainconfig = _gruntbase_.mainconfig;
+        
         grunt.registerTask("createcontentindex","Create the content.json file", () =>
         {
-            let totalfilecount = 0;
             const matter = require('gray-matter');
-            const fs = require('fs')
+            const fs = require('fs');
             const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirectory());
+            
+            let totalfilecount = 0;
+            
             // parseFileMetadata: Parse each file and save the relevant metadata
             const parseFileMetadata = (filepath, fileindex) =>
             {
@@ -75,14 +77,17 @@ module.exports = {
                 return directoryMetadata;
             };
     
+            
+
             // Loop through the folders specified in the projects configuration
-            const structureitems = mainconfig.structure.map((structureitem, index) =>
+            
+            const structureitems = _gruntbase_.fileAndDirectoryTargets.structureFolders.map((structureitem, index) =>
             {
                 let directoryMetadata = parseDirectoryMetadata("", structureitem["path"], index);
                 directoryMetadata["title"] = structureitem["title"];
                 return directoryMetadata;
             });
-    
+           
             const index = { "structure":structureitems };
     
             // Save index to file

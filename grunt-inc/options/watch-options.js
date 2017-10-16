@@ -1,7 +1,7 @@
 module.exports = function(_gruntbase_) {
 
 	let mainconfig = _gruntbase_.mainconfig;
-	let stylesWatchTargets = _gruntbase_.styleTargets.watchTargets;
+	let stylesWatchTargets = _gruntbase_.fileAndDirectoryTargets.watchTargets;
 	let _ = require('lodash');
 	
 	return {
