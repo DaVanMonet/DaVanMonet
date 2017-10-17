@@ -123,6 +123,7 @@ define([
 				return {
 					"RepoId":1,
 					"Name":this.projectConfig.project_info.name,
+					"BaseUrlToPatternLibrary":"../"+ this.projectConfig.directories.src,
 					"Stylesheets":this.targetIndex.items
 				};
 			},

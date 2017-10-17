@@ -18,8 +18,7 @@
             v-for="state in showcaseData.States" 
             :key="state.Title" 
             :render-source="state.RenderSource" 
-            :repo-name="componentRepos[0].Name"
-            :repo-id="'id' + componentRepos[0].id"
+            :repo="repoForShowcase"
             :iframe-content-height.sync="iframeContentHeight"
             :requirejs="state.requirejs"
             ></component-showcase-render>
@@ -82,6 +81,10 @@ module.exports = {
       if (this.cssBreakpoints) {
         return this.cssBreakpoints.filter(cssBreakpoint => cssBreakpoint.id === this.selectedCssBreakpointId)[0];
       }
+    },
+    repoForShowcase()
+    {
+      return this.componentRepos[0];
     }
   },
   methods: {

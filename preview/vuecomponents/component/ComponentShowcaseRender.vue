@@ -1,13 +1,20 @@
 <template>
   <div class="showcase__render-iframe-wrapper">
-    <iframe ref="iframe" class="showcase__render-iframe" src="/static/showcase-render-iframe.html" :data-reponame="repoName" :data-repoid="repoId" scrolling="no"></iframe>
+    <iframe
+      ref="iframe"
+      class="showcase__render-iframe"
+      src="/static/showcase-render-iframe.html"
+      scrolling="no"
+      :data-repo-name="repo.Name"
+      :data-repo-id="'id-'+ repo.RepoId"
+      ></iframe>
   </div>
 </template>
 
 <script>
 module.exports =  {
   name: 'component-showcase-render',
-  props: ['renderSource','requirejs', 'iframeContentHeight', 'repoName', 'repoId'],
+  props: ['renderSource','requirejs', 'iframeContentHeight', 'repo'],
   methods: {
     onIframeLoad() {
       this.populateIframeWithRenderSource();
@@ -17,16 +24,20 @@ module.exports =  {
     },
     populateIframeWithRenderSource() {
       // Add this.renderSource
-      this.$refs.iframe.contentDocument.body.querySelector('.showcase__render').innerHTML = this.renderSource;
-    
-      let requirejsInputfield = this.$refs.iframe.contentDocument.body.querySelector('#requirejs-modules');
-      if(requirejsInputfield.dataset["gotModules"] !== true && typeof this.requirejs === "string" && this.requirejs.length > 0)
+      const renderElm = this.$refs.iframe.contentDocument.body.querySelector('.showcase__render');
+      renderElm.innerHTML = this.renderSource;
+
+      // Add script modules to iframe
+      if(typeof this.requirejs === "string" && this.requirejs.length > 0)
       {
-        requirejsInputfield.value = this.requirejs;
-        requirejsInputfield.dataset["gotModules"] = true;
+        const loadModulesEvent = new CustomEvent('LoadModulesInIframe', {});
+        renderElm.dataset["requirejsModules"] = this.requirejs;
+        renderElm.dataset["requirejsBaseurl"] = this.repo.BaseUrlToPatternLibrary;
+        renderElm.dispatchEvent(loadModulesEvent);
       }
+
       // Duplicate our stylesheets into the iframe document head
-      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('style,div[data-repoid="'+ this.repoId +'"] link[data-previewcss]'));
+      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('style,div[data-repo-id="id-'+ this.repo.RepoId +'"] link[data-previewcss]'));
       linkStyleEls.forEach(el => 
       {
         let clone = el.cloneNode(true);

@@ -1,29 +1,25 @@
 require.config({
 	paths:
 	{
-		'lodash':'/lib/lodash@4.16.0/lodash',
-		'marked':'/lib/marked@0.3.6/marked',
 		'jquery':'/lib/jquery@3.2.1/jquery.min',
 		'tslib':'/lib/tslib@1.8.0/tslib'
 	}
 });
 
-define(["jquery","marked","modules/parsequery","modules/loader"], ($, marked, parsequery,Loader) =>
+define(['jquery'], ($) =>
 {
-	(async () =>
+	const renderElm = document.body.querySelector('.showcase__render');
+	const loadModules = () => 
 	{
-		await Loader.LoadData();
-		const projectConfig = Loader.ProjectConfig;
-		
-		let requirejsInputfield = document.querySelector('#requirejs-modules');
-		if(requirejsInputfield && requirejsInputfield.value && requirejsInputfield.value.length > 0) 
+		if(typeof renderElm.dataset["requirejsModules"] === "string")
 		{
-			const requirejsModules = requirejsInputfield.value.split(',');
-			const modulesToLoad = requirejsModules.map((modulePath) =>
+			const modules = renderElm.dataset["requirejsModules"].split(',');
+			const baseurl = renderElm.dataset["requirejsBaseurl"];
+			const modulesToLoad = modules.map((modulePath) =>
 			{
 				if(modulePath.indexOf('/') !== -1)
 				{
-					return "../"+ projectConfig.directories.src +"/"+ modulePath.trim()
+					return baseurl + ((baseurl.lastIndexOf('/') !== baseurl.length-1) ? "/" : "" ) + modulePath.trim()
 				}
 				return modulePath.trim()
 			});
@@ -32,5 +28,7 @@ define(["jquery","marked","modules/parsequery","modules/loader"], ($, marked, pa
 				require(modulesToLoad);
 			}
 		}
-	})();
+	}
+	renderElm.addEventListener('LoadModulesInIframe', loadModules,true);
+	loadModules();
 });
