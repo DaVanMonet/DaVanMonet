@@ -55,7 +55,6 @@ define([
 		el: '#davanmonet-app',
 		components:
 		[
-			"url:/vuecomponents/component/ComponentShowcaseCsslinks.vue",
 			"url:/vuecomponents/component/ComponentShowcaseRender.vue",
 			"url:/vuecomponents/Maincontent.vue",
 			"url:/vuecomponents/Navigation.vue"
@@ -119,7 +118,14 @@ define([
 					afterRender(href);
 				});	
 			},
-
+			getRepo()
+			{
+				return {
+					"RepoId":1,
+					"Name":this.projectConfig.project_info.name,
+					"Stylesheets":this.targetIndex.items
+				};
+			},
 			fetchData: async function(_vue)
 			{	
 				await Loader.LoadData();

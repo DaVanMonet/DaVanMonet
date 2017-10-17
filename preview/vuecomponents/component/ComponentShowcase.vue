@@ -7,13 +7,21 @@
       </div>
     </div>
      <div class="showcase__example" v-if="hasStates">
-      
+      <component-showcase-repos-stylesheets :repos="componentRepos"></component-showcase-repos-stylesheets>
       <div class="showcase__render-wrapper">
         <resizeable-element
           ref="resizeableElement"
           @on-width-change="onResizeableWidthChange"
           class="showcase__render-resizeable">
-          <component-showcase-render v-if="state.Title === selectedStateTitle" v-for="state in showcaseData.States" :key="state.Title" :render-source="state.RenderSource" :iframe-content-height.sync="iframeContentHeight"></component-showcase-render>
+          <component-showcase-render 
+            v-if="state.Title === selectedStateTitle" 
+            v-for="state in showcaseData.States" 
+            :key="state.Title" 
+            :render-source="state.RenderSource" 
+            :repo-name="componentRepos[0].Name"
+            :iframe-content-height.sync="iframeContentHeight"
+            :requirejs="state.requirejs"
+            ></component-showcase-render>
         </resizeable-element>
       </div>
   
@@ -54,6 +62,7 @@ module.exports = {
     "url:/vuecomponents/ResizeableElement.vue",
     "url:/vuecomponents/component/ComponentShowcaseRender.vue",
     "url:/vuecomponents/component/ComponentShowcaseSource.vue",
+    "url:/vuecomponents/component/ComponentShowcaseReposStylesheets.vue",
     "url:/vuecomponents/component/ComponentShowcaseSettingsDrawer.vue",
   ],
   props: ['showcaseData',"cssBreakpoints"],
@@ -64,6 +73,7 @@ module.exports = {
       isSettingsDrawerExpanded: false,
       iframeContentHeight: undefined,
       selectedCssBreakpointId: undefined,
+      componentRepos: [],
     };
   },
   computed: {
@@ -102,6 +112,10 @@ module.exports = {
     // Set preset CSS breakpoints and select the last breakpoint as selected per default
     //this.cssBreakpoints = CSS_BREAKPOINTS;
     this.selectedCssBreakpointId = this.cssBreakpoints.slice(-1)[0].id;
+  
+  //Set repo information and add the stylesheet references
+    const repo = this.$root.getRepo();
+    this.componentRepos.push(repo);
   },
 };
 </script>

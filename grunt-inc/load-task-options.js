@@ -1,7 +1,7 @@
 module.exports = function(_gruntbase_) {
 
-    let mainconfig = _gruntbase_.mainconfig;
-    let grunt = _gruntbase_.grunt;
+    const mainconfig = _gruntbase_.mainconfig;
+    const grunt = _gruntbase_.grunt;
     let gruntconfig = {};
 
     if (mainconfig.compilation.compilers.scss["lint"] === true)
@@ -26,7 +26,8 @@ module.exports = function(_gruntbase_) {
 	gruntconfig["copy"] = require('./options/copy-options')(_gruntbase_);
 	gruntconfig["clean"] = require('./options/clean-options')(_gruntbase_);
 	gruntconfig["less"] = require('./options/less-options')(_gruntbase_);
-    gruntconfig["sass"] = require('.//options/sass-options')(_gruntbase_);
+	gruntconfig["sass"] = require('.//options/sass-options')(_gruntbase_);
+	gruntconfig["ts"] = require('.//options/ts-options')(_gruntbase_);
     
     return gruntconfig;
 }

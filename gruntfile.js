@@ -60,6 +60,9 @@ module.exports = function (grunt)
 
 	// ...creates the content index json file that lists the components in the pattern library
 	require('./grunt-inc/tasks/create-content-index').registerWithGrunt(_gruntbase_);
+
+	// ...creates the content index json file that lists the components in the pattern library
+	require('./grunt-inc/tasks/create-version-file').registerWithGrunt(_gruntbase_);
 	
 
 
@@ -71,7 +74,7 @@ module.exports = function (grunt)
 	grunt.registerTask("dev", ["builddev","connect:livereload","express:onsitepreview","watch"]);
 	grunt.registerTask("previewdev", ["dev"]); // Legacy bulid
 
-	grunt.registerTask("build", ["clean:build","createindexes","buildcss","copy:build","copy:preview"]);
+	grunt.registerTask("build", ["clean:build","createindexes","buildcss","copy:build","copy:preview","createversionfile"]);
 	grunt.registerTask("previewbuild", ["build","connect:build"]);
 	grunt.registerTask("default", ["dev"]);
 	/* Tasks:

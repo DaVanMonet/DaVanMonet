@@ -78,6 +78,7 @@ class PageLoader
 		//When theres is a file matching and no "variants" are present.
 		pageData.id = indexData["guid"];
 		pageData.Title = indexData["title"];
+		
 
 		var variants = [];
 		// Structure only contains one file.
@@ -104,9 +105,11 @@ class PageLoader
 				"variantid":variant["variantid"],
 				"Title":variant["title"],
 				"Content":"",
-				"States":[]
+				"States":[],
+				"requirejs":""
 			};
 			let filepath = variant["shortpath"];
+
 			
 			// Load .md file contents
 			let markdownContent = await base.loadMDFile(filepath);
@@ -114,6 +117,12 @@ class PageLoader
 			let snipplets = base.dataStructureParser.getCodeSnipplets(markdownContent);
 			if(snipplets.length > 0)
 			{
+				//Add additional information to each state (Set by the indexing metadata)
+				if(typeof variant["requirejs"] === "string")
+				{
+					snipplets.forEach(snipplet => snipplet["requirejs"] = variant["requirejs"])
+				}
+				
 				variantContent.States = variantContent.States.concat(snipplets);
 			}
 

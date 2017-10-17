@@ -3,46 +3,34 @@ require.config({
 	{
 		'lodash':'/lib/lodash@4.16.0/lodash',
 		'marked':'/lib/marked@0.3.6/marked',
-		'jquery':'/lib/jquery@3.2.1/jquery.min'
+		'jquery':'/lib/jquery@3.2.1/jquery.min',
+		'tslib':'/lib/tslib@1.8.0/tslib'
 	}
 });
 
-define(["jquery","marked","modules/parsequery"], ($, marked, parsequery) =>
+define(["jquery","marked","modules/parsequery","modules/loader"], ($, marked, parsequery,Loader) =>
 {
 	(async () =>
 	{
 		await Loader.LoadData();
-		let config = Loader.ProjectConfig;
+		const projectConfig = Loader.ProjectConfig;
 		
-		if(config.developmentenvironment && config.developmentenvironment.livereloadport)
+		let requirejsInputfield = document.querySelector('#requirejs-modules');
+		if(requirejsInputfield && requirejsInputfield.value && requirejsInputfield.value.length > 0) 
 		{
-			$('<script src="//localhost:'+ config.developmentenvironment.livereloadport +'/livereload.js"></script>').appendTo('body');
-		}
-		let querydata =  parsequery(window.location.href);
-		let pageData = loadPage(querydata["href"]);
-		
-	})();
-
-	function loadPage(href)
-	{
-		let sourcepath = this.projectConfig.directories.src + href.replace("#","") + ".md";
-		fetch(sourcepath).then(res => res.text()).then(filecontent =>
-		{
-			//Clean filecontent, remove all content before the second "---"
-			var cleanedContent = filecontent.substring(filecontent.substring(3,filecontent.length).indexOf("---")+7,filecontent.length);
-		
-
-			window["a"] = filecontent;
-			let contentInfo = this.pageLookup[sourcepath];
-			let compiledContent = marked(cleanedContent, { sanitize: false });
-			this.maincontent.content = compiledContent;
-			this.$nextTick(() =>
+			const requirejsModules = requirejsInputfield.value.split(',');
+			const modulesToLoad = requirejsModules.map((modulePath) =>
 			{
-				$('pre code').each((i, block) =>
+				if(modulePath.indexOf('/') !== -1)
 				{
-					highlight.highlightBlock(block);
-				});
+					return "../"+ projectConfig.directories.src +"/"+ modulePath.trim()
+				}
+				return modulePath.trim()
 			});
-		});
-	};
+			if(modulesToLoad.length > 0)
+			{
+				require(modulesToLoad);
+			}
+		}
+	})();
 });

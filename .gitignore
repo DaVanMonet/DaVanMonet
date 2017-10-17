@@ -64,6 +64,7 @@ typings/
 /build
 contentindex.json
 targetindex.json
+/.tscache
 
 # User configuration file
 user-conf.json

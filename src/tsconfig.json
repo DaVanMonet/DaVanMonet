@@ -1,0 +1,45 @@
+{
+	"compilerOptions":
+	{
+		"target": "es5",
+		"module": "amd",
+		"charset": "utf8",
+		//"downlevelIteration": true,
+		"importHelpers": true,
+		"noEmitHelpers": true,
+		"allowJs": false,
+		"emitBOM": false,
+		"isolatedModules": false,
+		"jsx": "react",
+		"experimentalDecorators": false,
+		"emitDecoratorMetadata": false,
+		"declaration": false,
+		"noImplicitAny": false,
+		"noImplicitUseStrict": false,
+		"removeComments": false,
+		"noLib": false,
+		"preserveConstEnums": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"sourceMap": false,
+		"types" : ["jquery","requirejs"],
+		"lib":
+		[
+			"dom",
+			"es5",
+			"es2015.collection",
+			"es2015.iterable"
+		]
+	},
+	"exclude":
+	[
+		"definitions",
+		"vendor"
+	],
+	"compileOnSave": false,
+	"buildOnSave": false,
+	"atom":
+	{
+		"rewriteTsconfig": false
+	},
+	"fast": "always"
+}
