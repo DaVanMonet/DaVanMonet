@@ -7,10 +7,9 @@ requirejs: jquery,modules/ariabuttonmanager/ARIAButtonManager, modules/ariabutto
 
 ## Simple toggle button
 ```html
-    <div>
-    <button aria-controls="examplediv" class="button">Click to show div</button>
-    <div id="examplediv" aria-hidden="true">I'm hidden by default</div>
-    </div>
+<div>
+<button aria-controls="examplediv" class="button">Click to show div</button>
+<div id="examplediv" aria-hidden="true">I'm hidden by default</div>
 </div>
 ```
 

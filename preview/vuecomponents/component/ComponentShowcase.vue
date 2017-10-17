@@ -19,6 +19,7 @@
             :key="state.Title" 
             :render-source="state.RenderSource" 
             :repo-name="componentRepos[0].Name"
+            :repo-id="'id' + componentRepos[0].id"
             :iframe-content-height.sync="iframeContentHeight"
             :requirejs="state.requirejs"
             ></component-showcase-render>

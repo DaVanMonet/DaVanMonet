@@ -1,6 +1,6 @@
 <template>
   <div class="component_showcase_repos_stylesheets" v-if="repos">
-    <div v-for="repo in repos" :data-reponame="repo.Name">
+    <div v-for="repo in repos" :data-reponame="repo.Name" :data-repoid="'id-' + repo.RepoId">
       <link v-for="stylesheet in repo.Stylesheets" v-if="repo.Stylesheets" :href="stylesheet" rel="stylesheet" type="text/css" disabled data-previewcss/>
     </div>
     

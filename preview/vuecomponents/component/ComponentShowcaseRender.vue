@@ -1,13 +1,13 @@
 <template>
   <div class="showcase__render-iframe-wrapper">
-    <iframe ref="iframe" class="showcase__render-iframe" src="/static/showcase-render-iframe.html" :data-reponame="repoName" scrolling="no"></iframe>
+    <iframe ref="iframe" class="showcase__render-iframe" src="/static/showcase-render-iframe.html" :data-reponame="repoName" :data-repoid="repoId" scrolling="no"></iframe>
   </div>
 </template>
 
 <script>
 module.exports =  {
   name: 'component-showcase-render',
-  props: ['renderSource','requirejs', 'iframeContentHeight', 'repoName'],
+  props: ['renderSource','requirejs', 'iframeContentHeight', 'repoName', 'repoId'],
   methods: {
     onIframeLoad() {
       this.populateIframeWithRenderSource();
@@ -25,9 +25,8 @@ module.exports =  {
         requirejsInputfield.value = this.requirejs;
         requirejsInputfield.dataset["gotModules"] = true;
       }
-
       // Duplicate our stylesheets into the iframe document head
-      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('style,div[data-reponame="'+ this.repoName +'"] link[data-previewcss]'));
+      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('style,div[data-repoid="'+ this.repoId +'"] link[data-previewcss]'));
       linkStyleEls.forEach(el => 
       {
         let clone = el.cloneNode(true);
@@ -46,7 +45,6 @@ module.exports =  {
   },
   mounted() {
     this.$refs.iframe.addEventListener('load', this.onIframeLoad);
-    console.log('this.requirejsModules',this.requirejs)
   },
   beforeDestroy() {
     this.$refs.iframe.removeEventListener('load', this.onIframeLoad);
