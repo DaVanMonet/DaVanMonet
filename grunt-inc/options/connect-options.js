@@ -13,7 +13,7 @@ module.exports = function(_gruntbase_) {
 				port: mainconfig.developmentenvironment.devwebsiteport,
 				base: _.union(['./preview', "./", mainconfig.directories.build]),
 				keepalive:false, //Set to true if not running watch
-				open:true,
+				open: mainconfig.developmentenvironment.launchbrowser,
 				middleware: function(connect, options, middlewares)
 				{
 					// inject a custom middleware into the array of default middlewares

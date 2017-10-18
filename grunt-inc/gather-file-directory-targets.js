@@ -74,20 +74,19 @@ module.exports = function(_gruntbase_) {
     let watchTargets = [];
     Object.keys(mainconfig.compilation.compilers).forEach((compilerKey) =>
     {
-        const compilerOptions = mainconfig.compilation.compilers[compilerKey];
-        if(typeof compilationFiles[compilerOptions.taskname] === "object")
+		const compilerOptions = mainconfig.compilation.compilers[compilerKey];
+		if (typeof compilationFiles[compilerOptions.taskname] === "object" && compilerOptions.compile === true)
         {
             grunt.verbose.write('#  '+ compilationFiles[compilerOptions.taskname].files.length + " " + compilerOptions.target + " files\n");
 
             //Add watch file targets to array
-            
-            mainconfig.structure.forEach((folder, i) =>
+			structurefolders.forEach((folder, i) =>
             {
-                const path = mainconfig.directories.src + "/" + folder.path;
+				const path = mainconfig.directories.src + "/" + folder.path;
                 watchTargets.push(mainconfig.directories.src + "/" + folder.path + "/*" + compilerOptions.target);
                 watchTargets.push(mainconfig.directories.src + "/" + folder.path + "/**/*" + compilerOptions.target);
             });
         }
-    });
+	});
     return {watchTargets:watchTargets, compileTargets:compilationFiles, structureFolders:structurefolders};
 }

@@ -34,6 +34,10 @@ module.exports = {
             {
                 tasks.push("copy:csstofolder");
             }
+            //if (mainconfig.compilation["copyAssetsToFolder"] === true)
+            //{
+            //    tasks.push("copy:assetstofolder");
+            //}
     
             if (tasks.length > 0)
             {

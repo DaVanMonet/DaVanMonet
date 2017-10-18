@@ -9,9 +9,12 @@
 		"src":"./src",
 		"jsdest":"./js",
 		"cssdest":"/css",
+		"assetssrc":"./src/assets",
+		"assetsdest":"/assets",
 		"build":"./build",
 		"onsitepreview":"./onsitepreview",
-		"copycsspath":""
+		"copycsspath":"",
+		"copyassetspath":""
 	},
 	"userconfig": "./user-conf.json",
 	"indexing":
@@ -53,6 +56,7 @@
 		},
 		"sourceMaps":true,
 		"copyCompiledCssToFolder":false,
+		"copyAssetsToFolder":false,
 		"minifycss":
 		{
 			"report": "min",
@@ -75,6 +79,7 @@
 		"buildwebsiteport":9002,
 		"onsitepreviewport":9003,
 		"livereloadport":1234,
+		"launchbrowser": false,
 		"cssbreakpoints":
 		[
 			{

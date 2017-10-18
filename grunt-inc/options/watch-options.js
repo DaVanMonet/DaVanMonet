@@ -3,7 +3,7 @@ module.exports = function(_gruntbase_) {
 	let mainconfig = _gruntbase_.mainconfig;
 	let stylesWatchTargets = _gruntbase_.fileAndDirectoryTargets.watchTargets;
 	let _ = require('lodash');
-	
+
 	return {
 		"options":
 		{
@@ -23,9 +23,15 @@ module.exports = function(_gruntbase_) {
 		},
 		"styles":
 		{
-			files:stylesWatchTargets,
+			files: stylesWatchTargets,
 			options: { reload: true },
 			tasks:["buildcss"]
+		},
+		"assets":
+		{
+			files:[mainconfig.directories.assetssrc + "/**/*.*", mainconfig.directories.assetssrc + "/*.*"],
+			options: { reload: true },
+			tasks:["copy:assets"]
 		},
 		"grunt":
 		{

@@ -2,8 +2,21 @@
 	Copies content, used for adding things to the build folder*/
 module.exports = function(_gruntbase_) {
 
-	let mainconfig = _gruntbase_.mainconfig;
-
+	const mainconfig = _gruntbase_.mainconfig;
+	const copyCssToFolderFiles = (mainconfig.compilation.copyCompiledCssToFolder === true) ?
+		[{
+			expand: true,
+			cwd: mainconfig.directories.build + '/' + mainconfig.directories.cssdest,
+			src: "*",
+			dest: mainconfig.directories.copycsspath
+		}] : [];
+	const copyAssetsToFolderFiles = (mainconfig.compilation.copyAssetsToFolder === true) ?
+		[{
+			expand: true,
+			cwd: mainconfig.directories.assetssrc,
+			src: ["*", "**"],
+			dest: mainconfig.directories.copyassetspath
+		}] : [];
     return {
 		preview:
 		{
@@ -43,15 +56,23 @@ module.exports = function(_gruntbase_) {
 				dest: mainconfig.directories.build
 			}]
 		},
-		csstofolder:
+		assets:
 		{
 			files:
-			[{
+			[{	/* Copy over the assets files */
 				expand:true,
-				cwd:mainconfig.directories.build + '/' + mainconfig.directories.cssdest,
-				src:"*",
-				dest:mainconfig.directories.copycsspath
+				cwd: mainconfig.directories.assetssrc,
+				src: "**",
+				dest: mainconfig.directories.build + mainconfig.directories.assetsdest
 			}]
+		},
+		csstofolder:
+		{
+			files:copyCssToFolderFiles
+		},
+		assetstofolder:
+		{
+			files: copyAssetsToFolderFiles
 		}
 	};
 }
