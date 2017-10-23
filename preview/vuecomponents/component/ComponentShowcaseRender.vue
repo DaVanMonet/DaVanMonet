@@ -37,7 +37,8 @@ module.exports =  {
       }
 
       // Duplicate our stylesheets into the iframe document head
-      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('style,div[data-repo-id="id-'+ this.repo.RepoId +'"] link[data-previewcss]'));
+      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('div[data-repo-id="id-'+ this.repo.RepoId +'"] link[data-previewcss]'));
+      console.log(linkStyleEls);
       linkStyleEls.forEach(el => 
       {
         let clone = el.cloneNode(true);

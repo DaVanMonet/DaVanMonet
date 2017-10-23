@@ -26,6 +26,7 @@ rules:
       exclude:
         - breakpoint
         - mq
+        - media
 
   no-debug: 1
   no-ids: 2
@@ -35,9 +36,9 @@ rules:
     -
       style: uppercase
   indentation:
-    - 2
+    - 4
     -
-      size: 2
+      size: 4
   property-sort-order:
     - 1
     -
@@ -49,5 +50,27 @@ rules:
     - 1
     -
       properties:
-        - margin
-        - content
+        - color
+        - font-family
+  zero-unit:
+    - 2
+    -
+      include: false
+  variable-name-format:
+    - 1
+    -
+      convention: 'hyphenatedlowercase'
+  url-quotes:
+    - 2
+  trailing-semicolon:
+    - 2
+  space-between-parens:
+    - 2
+  space-before-colon:
+    - 2
+  space-before-brace:
+    - 2
+  space-before-bang:
+    - 2
+  single-line-per-selector:
+    - 2
