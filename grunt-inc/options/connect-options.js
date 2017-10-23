@@ -2,9 +2,14 @@
 	Starts webserver with preview website */
 module.exports = function(_gruntbase_) {
 	
-	let mainconfig = _gruntbase_.mainconfig;
-	let _ = require('lodash');
+	const mainconfig = _gruntbase_.mainconfig;
+	const _ = require('lodash');
 	
+	const fs = require('fs');
+	const path = require('path');
+	const url = require('url');
+	const util = require('util');
+
     return {
 		livereload:
 		{
@@ -24,6 +29,11 @@ module.exports = function(_gruntbase_) {
 							//res.setHeader('Content-Type', 'application/json'); 
 							res.setHeader('Content-Type', 'text/html; charset=UTF-8'); 
 						}
+						// console.log('res', res)
+						// console.log('req url', req.url)
+						// console.log('fs.existsSync(req.url)',fs.existsSync(req.url))
+						// console.log('fs.existsSync(req.url.substr(1))',fs.existsSync(req.url.substr(1)))
+						// //console.log(req);
 						return next();
 					});
 		  

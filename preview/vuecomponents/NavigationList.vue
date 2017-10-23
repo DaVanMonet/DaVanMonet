@@ -1,9 +1,9 @@
 <template>
 <ul v-if="items && items.length > 0" class="davanmonet-nav-list" :data-listlevel="level">
-    <li v-for="item in items" class="davanmonet-nav-listitem">
+    <li v-for="item in items" class="davanmonet-nav-listitem" :key="item.name">
       <span class="davanmonet-nav-listiteminner" v-if="item.href">
         <a
-          v-bind:href="'#/' + item.href"
+          v-bind:href="getLinkHref(item.href)"
           v-on:click="onNavigationClick"
           class="davanmonet-nav-link"
           >{{item.title}}</a>
@@ -24,10 +24,33 @@ module.exports = {
   props: ['items', 'sourceDirectory', 'level'],
   methods:
   {
+    getLinkHref(href)
+    {
+      href = "/" + href;
+      if(this.$root.isLocalhost)
+      {
+        href = "#" + href;
+      }
+      return href;
+    },
     onNavigationClick:function(event)
     {
-      let href = event.target.attributes.href.value;
+      const link = event.target;
+      const linkname = link.innerText;
+      let href = link.attributes.href.value;
+      if(this.$root.isLocalhost)
+      {
+        href = href.replace("#","");
+      }
+      else
+      {
+        event.preventDefault();
+        
+        history.pushState('', linkname, href);
+
+      }
       this.$root.loadPage(this,href);
+      
     }
   }
 };

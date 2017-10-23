@@ -62,6 +62,7 @@ define([
 		data:
 		{
 			configLoaded:false,
+			isLocalhost:false,
 			navigation:[],
 			maincontent:
 			{
@@ -85,8 +86,10 @@ define([
 				await Loader.LoadData();
 				
 				_vue.projectConfig = Loader.ProjectConfig;
+				
+				this.isLocalhost = (window.location.hostname === "localhost");
 
-				if(_vue.projectConfig.developmentenvironment && _vue.projectConfig.developmentenvironment.livereloadport)
+				if(this.isLocalhost && _vue.projectConfig.developmentenvironment && _vue.projectConfig.developmentenvironment.livereloadport)
 				{
 					$('<script src="//localhost:'+ _vue.projectConfig.developmentenvironment.livereloadport +'/livereload.js"></script>')
 						.appendTo('body');
@@ -106,17 +109,19 @@ define([
 				$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);
 			},
 
-			loadPage: async function(_vue,href)
+			loadPage: async function(_vue,path)
 			{
-				const _pageLoader = new PageLoader();
-				const pagePath = href.replace("#","");
-				const pagedata = await _pageLoader.getPage(pagePath);
-				
-				this.maincontent = pagedata;
-				this.$nextTick(() =>
+				if(path.length > 0)
 				{
-					afterRender(href);
-				});	
+					const _pageLoader = new PageLoader();
+					const pagedata = await _pageLoader.getPage(path);
+					
+					this.maincontent = pagedata;
+					this.$nextTick(() =>
+					{
+						afterRender(path);
+					});	
+				}
 			},
 			getRepo()
 			{
@@ -137,7 +142,6 @@ define([
 				const navigation = await _pageLoader.getNavigation();
 				_vue.navigation = navigation;
 
-
 				const startpagecontent = await _pageLoader.loadMDFile("index");
 				if(typeof startpagecontent === "string" && startpagecontent.length > 0)
 				{
@@ -145,18 +149,21 @@ define([
 				}
 				
 
-				_vue.parseHashAndNavigate();
+				_vue.parseLocationAndNavigate();
 				_vue.configLoaded = true;
 			},
 
-			parseHashAndNavigate: function()
+			parseLocationAndNavigate: function()
 			{
-				const hash = window.location.hash;
-				if(hash.indexOf("#/") !== -1)
+				let pagepath = window.location.pathname;
+				if(this.isLocalhost)
 				{
-					this.loadPage(this, hash);
+					const hash = window.location.hash
+					pagepath = hash.replace("#","");
+
 				}
-			}
+				this.loadPage(this, pagepath);
+			},
 		}
 	});
 });

@@ -62,11 +62,9 @@ class PageLoader
 		{
 			href = href.substr(1);
 		}
-		
 		let indexData = this._indexLookup[href];
 		let navigationalData = this._navigationLookup[href];
 
-		
 		let pageData =
 		{
 			"id":"",
@@ -148,7 +146,8 @@ class PageLoader
 	async loadMDFile(filepath)
 	{
 		await this.loadData();
-		const fullpath = this._projectConfig.directories.src + "/" + filepath + '.md';
+		const requestbase = "//" + window.location.host + "/";
+		const fullpath = requestbase + this._projectConfig.directories.src + "/" + filepath + '.md';
 		const filereq = await fetch(fullpath);
 		const filecontent = await filereq.text();
 		return filecontent;
