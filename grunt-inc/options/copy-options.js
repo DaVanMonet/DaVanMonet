@@ -63,7 +63,7 @@ module.exports = function(_gruntbase_) {
 				expand:true,
 				cwd: mainconfig.directories.assetssrc,
 				src: "**",
-				dest: mainconfig.directories.build + mainconfig.directories.assetsdest
+				dest: mainconfig.directories.build + '/' + mainconfig.directories.assetsdest
 			}]
 		},
 		csstofolder:

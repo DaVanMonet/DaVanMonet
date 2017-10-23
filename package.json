@@ -1,6 +1,6 @@
 {
-	"name": "patternlibrary",
-	"description": "pattern library",
+	"name": "DaVanMonet",
+	"description": "A pattern library system",
 	"version": "1.0.0",
 	"license": "UNLICENSED",
 	"private": true,
@@ -31,10 +31,10 @@
 		"save": "^2.3.1",
 		"serve-static": "^1.12.4",
 		"time-grunt": "^1.4.0",
-		"typescript": "^2.5.3"
-	},
-	"dependencies": {
+		"typescript": "^2.5.3",
 		"@types/jquery": "^3.2.14",
 		"@types/requirejs": "^2.1.31"
+	},
+	"dependencies": {
 	}
 }
