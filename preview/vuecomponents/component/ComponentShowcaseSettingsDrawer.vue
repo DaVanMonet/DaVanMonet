@@ -54,6 +54,16 @@
             </label>
           </div>
         </div>
+        <div  class="col-md-5">
+          <div v-if="showcaseRepo.Name" class="mb-4">
+            <div class="demo-form-group__label mb-2">Repo:</div>
+            <div>{{ showcaseRepo.Name }}</div>
+          </div>
+          <div v-if="showcaseRepo.Version" class="mb-4">
+            <div class="demo-form-group__label mb-2">Version:</div>
+            <div>{{ showcaseRepo.Version }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -68,6 +78,7 @@ module.exports = {
     'isSettingsDrawerExpanded',
     'cssBreakpoints',
     'selectedCssBreakpointId',
+    'showcaseRepo',
   ],
   computed: {
     reverseCssBreakpoints() {

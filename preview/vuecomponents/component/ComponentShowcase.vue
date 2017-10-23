@@ -18,7 +18,7 @@
             v-for="state in showcaseData.States" 
             :key="state.Title" 
             :render-source="state.RenderSource" 
-            :repo="repoForShowcase"
+            :repo="showcaseRepo"
             :iframe-content-height.sync="iframeContentHeight"
             :requirejs="state.requirejs"
             ></component-showcase-render>
@@ -30,6 +30,7 @@
         :selected-state-title.sync="selectedStateTitle"
         :is-settings-drawer-expanded.sync="isSettingsDrawerExpanded"
         :css-breakpoints="cssBreakpoints"
+        :showcase-repo="showcaseRepo"
         :selected-css-breakpoint-id.sync="selectedCssBreakpointId"
         @on-css-breakpoint-change="onCssBreakpointChange">
       </component-showcase-settings-drawer>
@@ -82,7 +83,7 @@ module.exports = {
         return this.cssBreakpoints.filter(cssBreakpoint => cssBreakpoint.id === this.selectedCssBreakpointId)[0];
       }
     },
-    repoForShowcase()
+    showcaseRepo()
     {
       return this.componentRepos[0];
     }
