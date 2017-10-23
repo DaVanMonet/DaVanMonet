@@ -5,6 +5,7 @@
 
 # Build Output
 /build
+/build.
 /.tscache
 bin
 obj
