@@ -1,6 +1,6 @@
 ---
 title: Secondary button
-componentid: 06859a58-b4f6-48f8-80e8-f43bfe4d6c7f
+componentid: component-buttons-standard
 variantid: secondary
 guid: ad6ae427-11f7-4702-8a58-c523db96dcdb
 ----

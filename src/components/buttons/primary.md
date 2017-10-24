@@ -1,6 +1,6 @@
 ---
 title: Primary button
-componentid: 06859a58-b4f6-48f8-80e8-f43bfe4d6c7f
+componentid: component-buttons-standard
 variantid: primary
 guid: 31495b40-9492-40e4-86e3-1e06bfc40171
 ----

@@ -1,27 +1,10 @@
 ---
 title: Modal
-componentid: ce5d19ef-25f5-4a69-92e0-a0164913a6cd
-guid: e296666b-7a69-4bec-b832-c06c46fe68c5
+componentid: component-modal
+guid: 23c37837-006f-4355-9c81-b8bbc17442da
 ----
 # Modal popup
 This documents the modal popup
-
-## First group
-### Examples
-<div data-livepreview>
-<div class="modal">
-	<div class="modal-background"></div>
-	<div class="modal-block">
-		<h2 class="modal-headline">Modal headline</h2>
-		<div class="modal-textcontent">
-		<p>Lorem ipsum</p>
-		<a href="#">Read more</a>
-		</div>
-		<button class="modal-closebutton" title="Close modal">X</button>
-	</div>
-</div>
-</div>
-
 
 ### Code
 ```html
@@ -36,4 +19,4 @@ This documents the modal popup
 		<button class="modal-closebutton" title="Close modal">X</button>
 	</div>
 </div>
-```  
+```

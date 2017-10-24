@@ -2,8 +2,10 @@
   <div class="showcase">
     <div class="showcase__header row">
       <div class="col-md-8 col-sm-12">
-        <h3 class="heading heading--smaller" v-if="showcaseData.Title" v-html="showcaseData.Title"></h3>
-        <div v-if="showcaseData.Preamble" v-html="showcaseData.Preamble"></p>
+
+        <h3 class="heading heading--smaller" v-if="showcaseData.Title && showcaseIsOnlyComponent == false" v-html="showcaseData.Title"></h3>
+        <div v-if="showcaseData.Preamble"><p v-html="showcaseData.Preamble"></p></div>
+        <div v-if="showcaseData.Content" v-html="showcaseData.Content"></div>
       </div>
     </div>
      <div class="showcase__example" v-if="hasStates">
@@ -66,7 +68,7 @@ module.exports = {
     "url:/vuecomponents/component/ComponentShowcaseReposStylesheets.vue",
     "url:/vuecomponents/component/ComponentShowcaseSettingsDrawer.vue",
   ],
-  props: ['showcaseData',"cssBreakpoints"],
+  props: ['showcaseData',"cssBreakpoints","showcaseIsOnlyComponent"],
   data() {
     return {
       hasStates: true,
