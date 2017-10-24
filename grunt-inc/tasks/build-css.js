@@ -30,10 +30,25 @@ module.exports = {
             {
                 tasks.push("cssmin");
             }
+
+            if(typeof mainconfig.assets === "object" && mainconfig.assets.length > 0)
+            {
+                tasks.push("copy:assets");
+            }
+
             if (mainconfig.compilation["copyCompiledCssToFolder"] === true)
             {
                 tasks.push("copy:csstofolder");
             }
+            if (mainconfig.compilation["copyAssetsToFolder"] === true)
+            {
+                tasks.push("copy:assetstofolder");
+            }
+            
+            // if (mainconfig.compilation["copyAssetsToFolder"] === true)
+            // {
+            //     tasks.push("copy:assetstofolder");
+            // }
             //if (mainconfig.compilation["copyAssetsToFolder"] === true)
             //{
             //    tasks.push("copy:assetstofolder");

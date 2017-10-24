@@ -3,7 +3,22 @@ module.exports = function(_gruntbase_) {
 	let mainconfig = _gruntbase_.mainconfig;
 	let stylesWatchTargets = _gruntbase_.fileAndDirectoryTargets.watchTargets;
 	let _ = require('lodash');
-
+	let assetsWatchTargets = [];
+	if(typeof mainconfig.assets === "object" && mainconfig.assets.length > 0)
+	{
+		mainconfig.assets.forEach((assetItem) =>
+		{
+			if(typeof assetItem.isdirectory === "boolean" && typeof assetItem.src === "string" && typeof assetItem.dest === "string")
+			{
+				assetsWatchTargets.push(assetItem.src + "/**/*.*");
+				assetsWatchTargets.push(assetItem.src + "/*.*");
+			}
+			else
+			{
+				assetsWatchTargets.push(assetItem.src);
+			}
+		});
+	}
 	return {
 		"options":
 		{
@@ -29,9 +44,9 @@ module.exports = function(_gruntbase_) {
 		},
 		"assets":
 		{
-			files:[mainconfig.directories.assetssrc + "/**/*.*", mainconfig.directories.assetssrc + "/*.*"],
+			files:assetsWatchTargets,
 			options: { reload: true },
-			tasks:["copy:assets"]
+			tasks:["copy:assets","copy:assetstofolder"]
 		},
 		"grunt":
 		{

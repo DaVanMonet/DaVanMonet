@@ -70,7 +70,7 @@ module.exports = function (grunt)
 	// -----------------------------------------------------------------------
 
 	grunt.registerTask("createindexes", ["createcontentindex","createtargetindex"]);
-	grunt.registerTask("builddev", ["showconfig","clean:build","createindexes","buildcss"]);
+	grunt.registerTask("builddev", ["showconfig","clean:build","createindexes","buildcss","copy:assets",]);
 	grunt.registerTask("dev", ["builddev","connect:livereload","express:onsitepreview","watch"]);
 	grunt.registerTask("previewdev", ["dev"]); // Legacy bulid
 

@@ -9,8 +9,6 @@
 		"src":"./src",
 		"jsdest":"./js",
 		"cssdest":"/css",
-		"assetssrc":"./src/assets",
-		"assetsdest":"/assets",
 		"build":"./build",
 		"onsitepreview":"./onsitepreview",
 		"copycsspath":"",
@@ -105,6 +103,14 @@
 			}
 		]
 	},
+	"assets":
+	[
+		{
+			"isdirectory":true,
+			"src":"./src/assets",
+			"dest":"./build/assets"
+		}
+	],
 	"structure": [
 		{ "title": "Components", "path":"components" },
 		{ "title": "General styles", "path":"global" },

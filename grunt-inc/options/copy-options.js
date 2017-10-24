@@ -3,6 +3,7 @@
 module.exports = function(_gruntbase_) {
 
 	const mainconfig = _gruntbase_.mainconfig;
+
 	const copyCssToFolderFiles = (mainconfig.compilation.copyCompiledCssToFolder === true) ?
 		[{
 			expand: true,
@@ -10,13 +11,61 @@ module.exports = function(_gruntbase_) {
 			src: "*",
 			dest: mainconfig.directories.copycsspath
 		}] : [];
-	const copyAssetsToFolderFiles = (mainconfig.compilation.copyAssetsToFolder === true) ?
-		[{
-			expand: true,
-			cwd: mainconfig.directories.assetssrc,
-			src: ["*", "**"],
-			dest: mainconfig.directories.copyassetspath
-		}] : [];
+
+	let copyAssetsFiles = [];
+	let copyAssetsToFolderFiles = [];
+	const copyAssetsToFolder = (mainconfig.compilation.copyAssetsToFolder === true);
+	if(typeof mainconfig.assets === "object" && mainconfig.assets.length > 0)
+	{
+		
+		mainconfig.assets.forEach((assetItem) =>
+		{
+			if(typeof assetItem.isdirectory === "boolean" && typeof assetItem.src === "string" && typeof assetItem.dest === "string")
+			{
+				let copyTarget = {};
+				let copyToFolder = {};
+				if(assetItem.isdirectory === true)
+				{
+					// We the result to be a directory 
+					copyAssetsFiles.push({
+						expand: true,
+						cwd: assetItem.src,
+						src: ["*", "**"],
+						dest: assetItem.dest
+					});
+					if(copyAssetsToFolder)
+					{
+						copyAssetsToFolderFiles.push({
+							expand: true,
+							cwd: assetItem.src,
+							src: ["*", "**"],
+							dest: mainconfig.directories.copyassetspath
+						});
+					}
+				}
+				else if(assetItem.src.indexOf(".") !== -1)
+				{
+					//We expect the source to be one file
+					let copyTarget = {};
+					copyTarget[assetItem.dest] = assetItem.src;
+					copyAssetsFiles.push(copyTarget);
+					if(copyAssetsToFolder)
+					{
+						let copyToFolderTarget = {};
+						copyToFolderTarget[mainconfig.directories.copyassetspath] = assetItem.src;
+						copyAssetsToFolderFiles.push(copyToFolderTarget);
+					}
+				}
+			}
+			else
+			{
+				//We expect the object to be a valid files:[]  property
+				copyAssetsFiles.push(assetItem);
+				// We can't really manage custom objects for copying to a specific folder
+			}
+		});
+	}
+		
     return {
 		preview:
 		{
@@ -58,13 +107,7 @@ module.exports = function(_gruntbase_) {
 		},
 		assets:
 		{
-			files:
-			[{	/* Copy over the assets files */
-				expand:true,
-				cwd: mainconfig.directories.assetssrc,
-				src: "**",
-				dest: mainconfig.directories.build + '/' + mainconfig.directories.assetsdest
-			}]
+			files:copyAssetsFiles
 		},
 		csstofolder:
 		{
