@@ -1,9 +1,13 @@
 {
-	"name": "DaVanMonet",
+	"name": "davanmonet",
 	"description": "A pattern library system",
 	"version": "1.0.0",
 	"license": "UNLICENSED",
 	"private": true,
+	"author": {
+	"name": "Wezz Balk",
+	"email": "davanmonet@wezz.se"
+	},
 	"devDependencies": {
 		"autoprefixer": "^7.1.4",
 		"cors": "^2.8.4",
