@@ -5,7 +5,7 @@ module.exports = {
         let mainconfig = _gruntbase_.mainconfig;
         let _ = require('lodash');
 
-        grunt.registerTask("createtargetindex","Create the content.json file", () =>
+        grunt.registerTask("davanmonet-createtargetindex","Create the content.json file", () =>
         {
             // Loop through the structure and get all the markdown and index.json files
             let indexationTargetFiles = _.flatten(_gruntbase_.fileAndDirectoryTargets.structureFolders.map((folder, i) =>

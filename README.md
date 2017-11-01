@@ -2,16 +2,40 @@
 A Pattern Library system that compiles SASS/LESS to CSS and gives preview of Markdown documentation
 
 ## Getting Started
-Clone this repository and run the following commands
+You can use this project in two ways, either clone the repository and work in it directly, or use it as a grunt task.
 
+### Clone
+Clone this repository and run the following commands in the base directory (we use npm as an example but recommend you use [yarn](https://yarnpkg.com/en/))
+
+#### Using NPM
 ```shell
 npm install
 ```
 
-or
-
+### Grunt task
+#### Installation
 ```shell
-yarn install
+npm install github:wezz/davanmonet --save-dev
+```
+#### Configuration
+In your grunt configuration
+```js
+davanmonet:
+{
+    options:
+    {
+        "config":"./patternlibraryconfig.json"	
+    }
+}
+```
+
+#### Run tasks
+```js
+grunt.loadNpmTasks("davanmonet");
+
+grunt.registerTask("createindexes", ["davanmonet:createindexes"]);
+grunt.registerTask("build", ["davanmonet:build"]);
+grunt.registerTask("dev", ["davanmonet:dev"]);
 ```
 
 ## Configuration
@@ -35,10 +59,11 @@ Settings for the live preview site
 Settings for livereload etc
 
 ### Structure
-Add folders that should be included in the less/sass/index compilation
+Add folders that should be included in the less/sass/index compilation.
+If this is left empty, all folders in your specified src directory will be included.
 
 ### user-conf.json
-If a file named user-conf.json exists in the root directory, the values in that file will override the default values in patternlibraryconfig.json.
+If a file named user-conf.json exists in the root directory, the values in that file will override the default values in patternlibraryconfig.json. 
 
 ## On Site Preview
 In order to use On Site Preview, onSitePreview.js need to be loaded on the target site, like this:
@@ -69,19 +94,22 @@ The "onsitepreview" object should be at the root level of the configuration tree
 
 ## Usage
 
+## Grunt tasks
+
 ### Deployment
 ```shell
-grunt build
+grunt davanmonet:build
 ```
-Copy the build folder that was created
+Compiles the css and copies the required assets over to the build folder, the content of the build folder is ready to be hosted on a IIS website.
 
 ### Development
 ```shell
-grunt previewbuild
+grunt davanmonet:dev
 ```
 This will create the css and start a webserver so you can preview your work
 
-## TODO
-* Preview should show in an iframe
-* 
-
+### Create indexes
+```shell
+grunt davanmonet:createindexes
+```
+This is used in the previous steps. It creates the content (documentation) and the target (outputed css) indexes.

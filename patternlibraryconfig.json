@@ -10,7 +10,6 @@
 		"jsdest":"./js",
 		"cssdest":"/css",
 		"build":"./build",
-		"onsitepreview":"./onsitepreview",
 		"copycsspath":"",
 		"copyassetspath":""
 	},

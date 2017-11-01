@@ -4,7 +4,7 @@ module.exports = {
         const grunt = _gruntbase_.grunt;
         const mainconfig = _gruntbase_.mainconfig;
         
-        grunt.registerTask("createversionfile","Create the version.json file", () =>
+        grunt.registerTask("davanmonet-createversionfile","Create the version.json file", () =>
         {
             const fs = require('fs');
             const versionFileContent = { "version":"1.0.0" }

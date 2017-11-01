@@ -71,7 +71,7 @@ module.exports = function(_gruntbase_) {
 		{
 			files: [{	/* Copies the content of the preview folder to the build directory */
 				expand:true,
-				cwd: './preview/',
+				cwd: __dirname + '/../../preview/',
 				src: '**',
 				dest: mainconfig.directories.build
 			}]

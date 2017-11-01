@@ -8,7 +8,7 @@ module.exports = function(_gruntbase_) {
 		},
 		onsitepreview: {
 			options: {
-			script: mainconfig.directories.onsitepreview + '/server.js'
+			script: __dirname + '/../../onsitepreview/server.js'
 			}
 		}
 	};

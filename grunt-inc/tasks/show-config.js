@@ -1,6 +1,6 @@
 module.exports = {
     registerWithGrunt: function(_gruntbase_) {
-        _gruntbase_.grunt.registerTask("showconfig","shows the config", () =>
+        _gruntbase_.grunt.registerTask("davanmonet-showconfig","shows the config", () =>
         {
             // this == grunt 
             console.log('\n\n\n\n\n\n')

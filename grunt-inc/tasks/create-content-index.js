@@ -4,7 +4,7 @@ module.exports = {
         const grunt = _gruntbase_.grunt;
         const mainconfig = _gruntbase_.mainconfig;
         
-        grunt.registerTask("createcontentindex","Create the content.json file", () =>
+        grunt.registerTask("davanmonet-createcontentindex","Create the content.json file", () =>
         {
             const matter = require('gray-matter');
             const fs = require('fs');

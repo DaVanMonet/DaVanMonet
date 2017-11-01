@@ -4,7 +4,7 @@ module.exports = {
         let mainconfig = _gruntbase_.mainconfig;
         let grunt = _gruntbase_.grunt;
 
-        grunt.registerTask("buildcss","Build the css", () =>
+        grunt.registerTask("davanmonet-buildcss","Build the css", () =>
         {
             let tasks = [];
             // Loop through each compiler and only run the ones set to compile

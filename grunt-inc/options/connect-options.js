@@ -16,7 +16,7 @@ module.exports = function(_gruntbase_) {
 			options:
 			{
 				port: mainconfig.developmentenvironment.devwebsiteport,
-				base: _.union(['./preview', "./", mainconfig.directories.build]),
+				base: _.union([__dirname + '/../../preview', "./", mainconfig.directories.build]),
 				keepalive:false, //Set to true if not running watch
 				open: mainconfig.developmentenvironment.launchbrowser,
 				middleware: function(connect, options, middlewares)
