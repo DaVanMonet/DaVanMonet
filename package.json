@@ -9,6 +9,9 @@
 	"email": "davanmonet@wezz.se"
 	},
 	"devDependencies": {
+		
+	},
+	"dependencies": {
 		"autoprefixer": "^7.1.4",
 		"cors": "^2.8.4",
 		"express": "^4.16.0",
@@ -38,7 +41,5 @@
 		"typescript": "^2.5.3",
 		"@types/jquery": "^3.2.14",
 		"@types/requirejs": "^2.1.31"
-	},
-	"dependencies": {
 	}
 }
