@@ -34,25 +34,19 @@ module.exports = function(_gruntbase_) {
 				 return [path + "/*.md", path + '/**/*.md',path + '/index.json',path + '/**/index.json'];
 			})),
 			options: { reload: true },
-			tasks:["createindexes"]
+			tasks:["davanmonet:createindexes"]
 		},
 		"styles":
 		{
 			files: stylesWatchTargets,
 			options: { reload: true },
-			tasks:["buildcss"]
+			tasks:["davanmonet:buildcss"]
 		},
 		"assets":
 		{
 			files:assetsWatchTargets,
 			options: { reload: true },
 			tasks:["copy:assets","copy:assetstofolder"]
-		},
-		"grunt":
-		{
-			files:["gruntfile.js"], 
-			options: { reload: true },
-			tasks:["gruntdevelopment"]
 		}
 	};
 }

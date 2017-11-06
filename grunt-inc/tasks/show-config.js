@@ -7,7 +7,7 @@ module.exports = {
             console.log('### mainconfig #####################################################################')
             console.log(_gruntbase_.mainconfig)
             console.log('### gruntconfig ####################################################################')
-            console.log(_gruntbase_.gruntconfig)
+            console.log(_gruntbase_.grunt.config.get())
             console.log('### compilationFiles ####################################################################')
             console.log(JSON.stringify(_gruntbase_.fileAndDirectoryTargets.compileTargets))
             console.log('####################################################################################\n\n') ;
