@@ -19,6 +19,7 @@ module.exports = function(grunt) {
 	let _gruntbase_ = {
 		grunt: grunt,
 		mainconfig: mainconfig,
+		mainConfFilePath: mainConfFilePath,
 		fileAndDirectoryTargets: {}
 	};
 	
