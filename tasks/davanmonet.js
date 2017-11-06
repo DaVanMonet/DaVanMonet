@@ -63,16 +63,18 @@ module.exports = function(grunt) {
 	
 		// ...creates the content index json file that lists the components in the pattern library
 		require('../grunt-inc/tasks/create-version-file').registerWithGrunt(_gruntbase_);
+
+		// ...starts the required servers depending on configuration
+		require('../grunt-inc/tasks/start-servers').registerWithGrunt(_gruntbase_);
 	
 		// Bundle tasks in useful combinations
 		// -----------------------------------------------------------------------
 		grunt.registerTask("davanmonet-createindexes", ["davanmonet-createcontentindex","davanmonet-createtargetindex"]);
 		grunt.registerTask("davanmonet-builddev", ["davanmonet-showconfig","clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:assets",]);
-		grunt.registerTask("davanmonet-dev", ["davanmonet-builddev","connect:livereload","express:onsitepreview","watch"]);
+		grunt.registerTask("davanmonet-dev", ["davanmonet-builddev","davanmonet-startservers:dev","watch"]);
 		grunt.registerTask("davanmonet-watch", ["watch"]);
 		grunt.registerTask("davanmonet-build", ["clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:build","copy:assets","copy:preview","davanmonet-createversionfile"]);
-		grunt.registerTask("davanmonet- ", ["davanmonet-build","connect:build"]);
-
+		grunt.registerTask("davanmonet- ", ["davanmonet-build","davanmonet-startservers:build"]);
 		grunt.task.run(modifiedTaskNames);
 	});
 };
