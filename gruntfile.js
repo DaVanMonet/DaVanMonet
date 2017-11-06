@@ -24,4 +24,8 @@ module.exports = function (grunt)
 	grunt.registerTask("build", ["davanmonet:build"]);
 	grunt.registerTask("dev", ["davanmonet:dev"]);
 	grunt.registerTask("default", ["davanmonet:dev"]);	
+
+	grunt.registerTask("ss-dev", ["davanmonet:startserversdev"]);
+	grunt.registerTask("ss-build", ["davanmonet:startserversbuild"]);
+	
 };

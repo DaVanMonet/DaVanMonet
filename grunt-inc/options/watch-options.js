@@ -19,13 +19,18 @@ module.exports = function(_gruntbase_) {
 			}
 		});
 	}
-	return {
-		"options":
-		{
+	let watchOptions =
+	{
 			spawn: false,
-			interval: 600,
-			livereload:  mainconfig.developmentenvironment.livereloadport
-		},
+			interval: 600
+	};
+	if(mainconfig.developmentenvironment.livereloadport !== null)
+	{
+		watchOptions["livereload"] = mainconfig.developmentenvironment.livereloadport;
+	}
+
+	return {
+		"options": watchOptions,
 		"indexation":
 		{
 			files:_.flatten(mainconfig.structure.map((folder, i) =>
