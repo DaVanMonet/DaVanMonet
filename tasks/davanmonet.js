@@ -31,7 +31,6 @@ module.exports = function(grunt) {
 	// -----------------------------------------------------------------------
 	var gruntTaskOptions = require('../grunt-inc/load-task-options')(_gruntbase_);
 	grunt.config.merge(gruntTaskOptions);
-	
 	require('jit-grunt')(grunt, { express: 'grunt-express-server' });
 	require('time-grunt')(grunt);
 

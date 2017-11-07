@@ -24,8 +24,9 @@ module.exports = function(_gruntbase_) {
 	gruntconfig["copy"] = require('./options/copy-options')(_gruntbase_);
 	gruntconfig["clean"] = require('./options/clean-options')(_gruntbase_);
 	gruntconfig["less"] = require('./options/less-options')(_gruntbase_);
-	gruntconfig["sass"] = require('.//options/sass-options')(_gruntbase_);
-	gruntconfig["ts"] = require('.//options/ts-options')(_gruntbase_);
+	gruntconfig["sass"] = require('./options/sass-options')(_gruntbase_);
+	gruntconfig["ts"] = require('./options/ts-options')(_gruntbase_);
+	gruntconfig["babel"] = require('./options/babel-options')(_gruntbase_);
 	
     return gruntconfig;
 }

@@ -47,6 +47,12 @@ module.exports = function(_gruntbase_) {
 			files:assetsWatchTargets,
 			options: { reload: true },
 			tasks:["copy:assets","copy:assetstofolder"]
+		},
+		"previewsite":
+		{
+			files:[__dirname + '/../../preview/**/*.es6.js', __dirname + '/../../preview/*.es6.js'],
+			options: { reload: true },
+			tasks:["babel"]
 		}
 	};
 }
