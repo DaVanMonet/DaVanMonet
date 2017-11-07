@@ -69,7 +69,7 @@ module.exports = function(grunt) {
 		// Bundle tasks in useful combinations
 		// -----------------------------------------------------------------------
 		grunt.registerTask("davanmonet-createindexes", ["davanmonet-createcontentindex","davanmonet-createtargetindex"]);
-		grunt.registerTask("davanmonet-builddev", ["davanmonet-showconfig","clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:assets",]);
+		grunt.registerTask("davanmonet-builddev", ["davanmonet-showconfig","clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:assets"]);
 		grunt.registerTask("davanmonet-dev", ["davanmonet-builddev","davanmonet-startservers:dev","watch"]);
 		grunt.registerTask("davanmonet-watch", ["watch"]);
 		grunt.registerTask("davanmonet-build", ["clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:build","copy:assets","copy:preview","davanmonet-createversionfile"]);
