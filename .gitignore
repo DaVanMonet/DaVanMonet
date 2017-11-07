@@ -10,7 +10,7 @@
 bin
 obj
 .tmp
-
+msdeploy.zip
 
 # Logs
 logs

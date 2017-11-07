@@ -65,15 +65,33 @@ module.exports = function(grunt) {
 
 		// Starts connect & express depending on settings
 		require('../grunt-inc/tasks/start-servers').registerWithGrunt(_gruntbase_);
-	
+		
+
+		// Set tasks object for later registration
+		// -----------------------------------------------------------------------
+		const grunttasks =
+		{
+			"davanmonet-createindexes":	["davanmonet-createcontentindex","davanmonet-createtargetindex"],
+			"davanmonet-builddev":		["davanmonet-showconfig","clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:assets"],
+			"davanmonet-dev":			["davanmonet-builddev","davanmonet-startservers:dev","watch"],
+			"davanmonet-watch":			["watch"],
+			"davanmonet-build":			["clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:build","copy:assets","copy:preview","davanmonet-createversionfile"],
+			"davanmonet-":				["davanmonet-build","davanmonet-startservers:build"]
+		};
+
+		// Add tasks dependent on settings
+		// -----------------------------------------------------------------------
+		if(_gruntbase_.mainconfig.build && _gruntbase_.mainconfig.build.mswebdeploy && _gruntbase_.mainconfig.build.package)
+		{
+			grunttasks["davanmonet-build"].push("mswebdeploy");
+		}
+
 		// Bundle tasks in useful combinations
 		// -----------------------------------------------------------------------
-		grunt.registerTask("davanmonet-createindexes", ["davanmonet-createcontentindex","davanmonet-createtargetindex"]);
-		grunt.registerTask("davanmonet-builddev", ["davanmonet-showconfig","clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:assets"]);
-		grunt.registerTask("davanmonet-dev", ["davanmonet-builddev","davanmonet-startservers:dev","watch"]);
-		grunt.registerTask("davanmonet-watch", ["watch"]);
-		grunt.registerTask("davanmonet-build", ["clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:build","copy:assets","copy:preview","davanmonet-createversionfile"]);
-		grunt.registerTask("davanmonet- ", ["davanmonet-build","davanmonet-startservers:build"]);
+		for(const task in grunttasks)
+		{
+			grunt.registerTask(task,grunttasks[task]);
+		}
 
 		grunt.task.run(modifiedTaskNames);
 	});

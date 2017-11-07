@@ -27,6 +27,8 @@ module.exports = function(_gruntbase_) {
 	gruntconfig["sass"] = require('./options/sass-options')(_gruntbase_);
 	gruntconfig["ts"] = require('./options/ts-options')(_gruntbase_);
 	gruntconfig["babel"] = require('./options/babel-options')(_gruntbase_);
+	gruntconfig["mswebdeploy"] = require('./options/mswebdeploy-options')(_gruntbase_);
+	
 	
     return gruntconfig;
 }

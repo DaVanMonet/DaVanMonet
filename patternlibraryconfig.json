@@ -110,6 +110,14 @@
 			"dest":"./build/assets"
 		}
 	],
+	"build":
+	{
+		"mswebdeploy":
+		{
+			"dest":"./",
+			"package":"msdeploy.zip"
+		}
+	},
 	"structure": [
 		{ "title": "Components", "path":"components" },
 		{ "title": "General styles", "path":"global" },
