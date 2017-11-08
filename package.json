@@ -45,5 +45,17 @@
 		"serve-static": "^1.12.4",
 		"time-grunt": "^1.4.0",
 		"typescript": "^2.5.3"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wezz/DaVanMonet.git"
+	},
+	"bugs": {
+		"url": "https://github.com/wezz/DaVanMonet/issues"
+	},
+	"keywords":[
+		"design library",
+		"pattern library",
+		"styleguide"
+	]
 }
