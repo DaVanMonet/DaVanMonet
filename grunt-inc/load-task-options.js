@@ -1,7 +1,8 @@
 module.exports = function(_gruntbase_) { 
 	let gruntconfig = {};
 	const mainconfig = _gruntbase_.mainconfig;
-
+	const isType = (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)))
+	
     if (mainconfig.compilation.compilers.scss["lint"] === true)
 	{
 		grunt.loadNpmTasks('grunt-sass-lint')
@@ -27,7 +28,16 @@ module.exports = function(_gruntbase_) {
 	gruntconfig["sass"] = require('./options/sass-options')(_gruntbase_);
 	gruntconfig["ts"] = require('./options/ts-options')(_gruntbase_);
 	gruntconfig["babel"] = require('./options/babel-options')(_gruntbase_);
-	gruntconfig["mswebdeploy"] = require('./options/mswebdeploy-options')(_gruntbase_);
+
+	if(isType(_gruntbase_.mainconfig.build,"object") &&
+		_gruntbase_.mainconfig.build !== null &&
+		isType(_gruntbase_.mainconfig.build.mswebdeploy,"object") &&
+		_gruntbase_.mainconfig.build.mswebdeploy !== null &&
+		isType(_gruntbase_.mainconfig.build.mswebdeploy.package,"string"))
+	{
+		gruntconfig["mswebdeploy"] = require('./options/mswebdeploy-options')(_gruntbase_);
+	}
+	
 	
 	
     return gruntconfig;

@@ -2,6 +2,8 @@
 module.exports = function(grunt) {
 	var davanmonetOptions = grunt.config.get("davanmonet.options");
 	let _ = require("lodash");
+	const isType = (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)))
+	
 	// Load default config and optional user config
 	// -----------------------------------------------------------------------
 	var mainConfFilePath = (davanmonetOptions.config) ? davanmonetOptions.config : "./patternlibraryconfig.json";
@@ -81,7 +83,11 @@ module.exports = function(grunt) {
 
 		// Add tasks dependent on settings
 		// -----------------------------------------------------------------------
-		if(_gruntbase_.mainconfig.build && _gruntbase_.mainconfig.build.mswebdeploy && _gruntbase_.mainconfig.build.package)
+		if(isType(_gruntbase_.mainconfig.build,"object") &&
+			_gruntbase_.mainconfig.build !== null &&
+			isType(_gruntbase_.mainconfig.build.mswebdeploy,"object") &&
+			_gruntbase_.mainconfig.build.mswebdeploy !== null &&
+			isType(_gruntbase_.mainconfig.build.mswebdeploy.package,"string"))
 		{
 			grunttasks["davanmonet-build"].push("mswebdeploy");
 		}
