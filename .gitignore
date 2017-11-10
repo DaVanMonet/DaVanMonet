@@ -121,6 +121,7 @@ typings/
 
 # User configuration file
 user-conf.json
+.npmrc
 
 # Project specific outputs
 targetindex.json
