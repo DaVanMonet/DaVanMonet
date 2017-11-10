@@ -1,7 +1,7 @@
 module.exports = function(_gruntbase_) { 
 	let gruntconfig = {};
 	const mainconfig = _gruntbase_.mainconfig;
-	const grunt = _gruntbase_.mainconfig;
+	const grunt = _gruntbase_.grunt;
 	const isType = (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)))
 	
     if (mainconfig.compilation.compilers.scss["lint"] === true)
