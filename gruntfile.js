@@ -13,7 +13,7 @@ module.exports = function (grunt)
 		{
 			options:
 			{
-				"config":"./patternlibraryconfig.json"	
+				"config":"./configs/projectoptions.yml"
 			}
 		}
 	});
@@ -24,4 +24,6 @@ module.exports = function (grunt)
 	grunt.registerTask("build", ["davanmonet:build"]);
 	grunt.registerTask("dev", ["davanmonet:dev"]);
 	grunt.registerTask("default", ["davanmonet:dev"]);
+
+	grunt.registerTask("test", ["davanmonet:dist"]);
 };

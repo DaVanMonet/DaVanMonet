@@ -91,18 +91,32 @@ module.exports = function(_gruntbase_) {
 			},
 			{	/* Copy over the index file */
 				expand:true,
-				src: mainconfig.indexing.contentindexoutput,
+				src: mainconfig.directories.indexing + '/' + mainconfig.indexing.contentindexoutput,
 				dest: mainconfig.directories.build
 			},
 			{	/* Copy over the index file */
 				expand:true,
-				src: mainconfig.indexing.targetindexoutput,
+				src: mainconfig.directories.indexing + '/' + mainconfig.indexing.targetindexoutput,
 				dest: mainconfig.directories.build
 			},
 			{	/* Copy over the source files */
 				expand:true,
 				src: mainconfig.directories.src + "/**",
 				dest: mainconfig.directories.build
+			}]
+		},
+		dist_web:
+		{
+			files:[{	/* Copies the content of the preview folder to the build directory */
+				expand:true,
+				cwd: __dirname + '/../../preview/',
+				src: '**',
+				dest: mainconfig.directories.dist_web
+			},
+			{	/* Copy over the source files */
+				expand:true,
+				src: mainconfig.directories.src + "/**",
+				dest: mainconfig.directories.dist_web
 			}]
 		},
 		assets:

@@ -10,7 +10,8 @@ require.config({
 		'es6-promise':'/lib/es6-promise@4.1.1/es6-promise.auto.min',
 		'http-vue-loader':'/lib/http-vue-loader@1.3.3/httpVueLoader',
 		'babel-polyfill':'/lib/babel-polyfill@6.26.0/polyfill.min',
-		'fetch':'/lib/whatwg-fetch@2.0.3/fetch'
+		'fetch':'/lib/whatwg-fetch@2.0.3/fetch',
+		'js-yaml':'/lib/js-yaml@3.10.0/js-yaml.min'
 	}
 });
 
@@ -22,6 +23,7 @@ define([
 	"jquery",
 	"marked",
 	"highlight",
+	"js-yaml",
 	"modules/pageLoader",
 	"modules/loader",
 	"es6-promise",
@@ -32,7 +34,8 @@ define([
 		less, 
 		$, 
 		marked, 
-		highlight, 
+		highlight,
+		yaml,
 		PageLoader,
 		Loader,
 		es6promise,

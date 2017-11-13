@@ -2,7 +2,8 @@ require.config({
 	paths:
 	{
 		'jquery':'/lib/jquery@3.2.1/jquery.min',
-		'tslib':'/lib/tslib@1.8.0/tslib'
+		'tslib':'/lib/tslib@1.8.0/tslib',
+		'js-yaml':'/lib/js-yaml@3.10.0/js-yaml.min'
 	}
 });
 

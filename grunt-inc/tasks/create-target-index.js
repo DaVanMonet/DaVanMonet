@@ -29,7 +29,7 @@ module.exports = {
                     });
                 }
             });
-            grunt.file.write(mainconfig.indexing.targetindexoutput, JSON.stringify(filecontent, null, "\t"));
+            grunt.file.write(mainconfig.directories.indexes + '/'+ mainconfig.indexing.targetindexoutput, JSON.stringify(filecontent, null, "\t"));
         });
     }
 }

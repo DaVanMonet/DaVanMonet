@@ -37,6 +37,7 @@
 		"grunt-ts": "^6.0.0-beta.16",
 		"include-media": "^1.4.9",
 		"jit-grunt": "^0.10.0",
+		"js-yaml": "^3.10.0",
 		"lodash": "^4.17.4",
 		"marked": "^0.3.6",
 		"require-uncached": "^1.0.3",
@@ -53,7 +54,7 @@
 	"bugs": {
 		"url": "https://github.com/wezz/DaVanMonet/issues"
 	},
-	"keywords":[
+	"keywords": [
 		"design library",
 		"pattern library",
 		"styleguide"

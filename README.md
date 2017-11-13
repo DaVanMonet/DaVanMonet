@@ -24,7 +24,7 @@ davanmonet:
 {
     options:
     {
-        "config":"./patternlibraryconfig.json"	
+        "config":"./configs/projectoptions.json"	
     }
 }
 ```
@@ -38,8 +38,10 @@ grunt.registerTask("build", ["davanmonet:build"]);
 grunt.registerTask("dev", ["davanmonet:dev"]);
 ```
 
-## Configuration
-Default configuration resides in patternlibraryconfig.json
+## Configuration file (JSON or YAML)
+Default configuration resides in /configs/projectoptions.yml
+It can be a JSON file as well. Just specify the correct path to the options file in your gruntfile configuration.
+
 
 ### Directories
 You can change where the system will put compilated css and where your source files are located
@@ -62,8 +64,10 @@ Settings for livereload etc
 Add folders that should be included in the less/sass/index compilation.
 If this is left empty, all folders in your specified src directory will be included.
 
-### user-conf.json
-If a file named user-conf.json exists in the root directory, the values in that file will override the default values in patternlibraryconfig.json. 
+### User configuration (JSON or YAML)
+The options "userconfig" takes a string with a path to additional configuration for a specific user. This file should not be checked in. And the application will run even if the file is not present.
+The content of the file will extend the existing options for the project. 
+This makes it possible for developers to choose which port to run the dev environment on
 
 ## On Site Preview
 In order to use On Site Preview, onSitePreview.js need to be loaded on the target site, like this:

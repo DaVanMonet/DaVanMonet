@@ -91,8 +91,8 @@ module.exports = {
             const index = { "structure":structureitems };
     
             // Save index to file
-            grunt.file.write(mainconfig.indexing.contentindexoutput, JSON.stringify(index, null, "\t"));
-            grunt.verbose.write("\n# Indexed " + totalfilecount + " files in "+ structureitems.length +" structure folders and saved it to " + mainconfig.indexing.contentindexoutput.substring(mainconfig.indexing.contentindexoutput.lastIndexOf("/")+1, mainconfig.indexing.contentindexoutput.length));
+            grunt.file.write(mainconfig.directories.indexes + '/'+ mainconfig.indexing.contentindexoutput, JSON.stringify(index, null, "\t"));
+            grunt.verbose.write("\n# Indexed " + totalfilecount + " files in "+ structureitems.length +" structure folders and saved it to " + mainconfig.directories.indexes + '/'+ mainconfig.indexing.contentindexoutput.substring(mainconfig.indexing.contentindexoutput.lastIndexOf("/")+1, mainconfig.indexing.contentindexoutput.length));
         });
 
     }
