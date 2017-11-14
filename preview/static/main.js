@@ -13,11 +13,12 @@ require.config({
 		'es6-promise': '/lib/es6-promise@4.1.1/es6-promise.auto.min',
 		'http-vue-loader': '/lib/http-vue-loader@1.3.3/httpVueLoader',
 		'babel-polyfill': '/lib/babel-polyfill@6.26.0/polyfill.min',
-		'fetch': '/lib/whatwg-fetch@2.0.3/fetch'
+		'fetch': '/lib/whatwg-fetch@2.0.3/fetch',
+		'js-yaml': '/lib/js-yaml@3.10.0/js-yaml.min'
 	}
 });
 
-define(["babel-polyfill", "fetch", "vue", "less", "jquery", "marked", "highlight", "modules/pageLoader", "modules/loader", "es6-promise", "http-vue-loader"], function (babelPolyfill, _fetch, Vue, less, $, marked, highlight, PageLoader, Loader, es6promise, httpVueLoader_) {
+define(["babel-polyfill", "fetch", "vue", "less", "jquery", "marked", "highlight", "js-yaml", "modules/pageLoader", "modules/loader", "es6-promise", "http-vue-loader"], function (babelPolyfill, _fetch, Vue, less, $, marked, highlight, yaml, PageLoader, Loader, es6promise, httpVueLoader_) {
 	window["highlight"] = highlight;
 	var afterRender = function afterRender(href) {
 		// $('pre code').each((i, $block) =>
@@ -82,8 +83,12 @@ define(["babel-polyfill", "fetch", "vue", "less", "jquery", "marked", "highlight
 									if (_vue.projectConfig.project_info.theme_style !== "default") {
 										$('head').append('<link rel="stylesheet" type="text/css" href="' + _vue.projectConfig.project_info.theme_style + '" />');
 									}
-									$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
-									$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);
+									if (_vue.projectConfig.project_info.name) {
+										$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
+									}
+									if (_vue.projectConfig.project_info.logo) {
+										$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);
+									}
 
 								case 9:
 								case 'end':
@@ -108,7 +113,7 @@ define(["babel-polyfill", "fetch", "vue", "less", "jquery", "marked", "highlight
 						while (1) {
 							switch (_context2.prev = _context2.next) {
 								case 0:
-									if (!(path.length > 0)) {
+									if (!(path.length > 1)) {
 										_context2.next = 7;
 										break;
 									}

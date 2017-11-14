@@ -6,6 +6,7 @@
 # Build Output
 /build
 /build.
+/dist
 /.tscache
 bin
 obj
@@ -121,7 +122,7 @@ typings/
 
 # User configuration file
 user-conf.json
-.npmrc
+/.npmrc
 
 # Project specific outputs
 targetindex.json
@@ -133,3 +134,6 @@ contentindex.json
 
 # Linter Output
 /linters
+
+# Trash folders
+/web.

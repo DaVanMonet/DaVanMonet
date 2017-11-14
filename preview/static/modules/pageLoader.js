@@ -102,7 +102,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(href) {
 					var _this = this;
 
-					var base, indexData, navigationalData, pageData, variants, matchOnKey, variantIds;
+					var base, pageData, indexData, navigationalData, variants, matchOnKey, variantIds;
 					return regeneratorRuntime.wrap(function _callee3$(_context3) {
 						while (1) {
 							switch (_context3.prev = _context3.next) {
@@ -116,17 +116,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									if (href.indexOf('/') === 0) {
 										href = href.substr(1);
 									}
-									indexData = this._indexLookup[href];
-									navigationalData = this._navigationLookup[href];
+
 									pageData = {
 										"id": "",
 										"Title": "",
 										"Preamble": "",
 										"ComponentItems": []
 									};
+									indexData = this._indexLookup[href];
+									navigationalData = this._navigationLookup[href];
+
+									if (!(typeof indexData !== "undefined")) {
+										_context3.next = 17;
+										break;
+									}
 
 									//When theres is a file matching and no "variants" are present.
-
 									pageData.id = indexData["guid"];
 									pageData.Title = indexData["title"];
 
@@ -149,7 +154,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 									pageData.id = navigationalData["guid"];
 									pageData.title = navigationalData["title"];
 
-									_context3.next = 15;
+									_context3.next = 16;
 									return variants.forEach(function () {
 										var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(variant, i) {
 											var variantContent, filepath, markdownContent, snipplets, cleanedMarkdown, parsedMarkdown, adjustedContent;
@@ -218,11 +223,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 										};
 									}());
 
-								case 15:
+								case 16:
 									console.log('pageData', pageData);
-									return _context3.abrupt("return", pageData);
 
 								case 17:
+									return _context3.abrupt("return", pageData);
+
+								case 18:
 								case "end":
 									return _context3.stop();
 							}

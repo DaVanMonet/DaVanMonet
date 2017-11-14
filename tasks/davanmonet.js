@@ -1,25 +1,49 @@
 'use strict';
 module.exports = function(grunt) {
-	var davanmonetOptions = grunt.config.get("davanmonet.options");
-	let _ = require("lodash");
-	const isType = (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)))
-	
+	const davanmonetOptions = grunt.config.get("davanmonet.options");
+	const _			= require("lodash");
+	const yaml		= require('js-yaml');
+	const fs		= require('fs');
+	const isType	= (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)))
+	const loadJSONorYAML = (path) =>
+	{
+		if(grunt.file.exists(path))
+		{
+			return (path.indexOf('.json') !== -1) ? grunt.file.readJSON(path) : yaml.safeLoad(fs.readFileSync(path, 'utf8'));
+		}
+		else
+		{
+			console.error('File does not exist ('+ path +')');
+		}
+	}
+
 	// Load default config and optional user config
 	// -----------------------------------------------------------------------
 	var mainConfFilePath = (davanmonetOptions.config) ? davanmonetOptions.config : "./patternlibraryconfig.json";
-	let mainconfig = grunt.file.readJSON(mainConfFilePath);
 	
-	// Load user config if it exists
-	if (grunt.file.exists(mainconfig.userconfig))
+	let mainconfig = {};
+	mainconfig = loadJSONorYAML(mainConfFilePath);
+
+	if(typeof mainconfig === "object")
 	{
-		let userconfig = grunt.file.readJSON(mainconfig.userconfig);
-		_.merge(mainconfig, userconfig);
+		// Load user config if it exists
+		if (typeof mainconfig.userconfig === "string" && grunt.file.exists(mainconfig.userconfig))
+		{
+			let userconfig =  loadJSONorYAML(mainconfig.userconfig);
+			_.merge(mainconfig, userconfig);
+		}
+	}
+	else
+	{
+		console.error('Unable to load the configuration from ' + mainConfFilePath);
+		return;
 	}
 
 	// In this object we'll put stuff that will need to be accessed in various places
 	// Custom tasks require the project config (mainconfig), and grunt taks require the files
 	let _gruntbase_ = {
 		grunt: grunt,
+		davanmonetTaskOptions: davanmonetOptions,
 		mainconfig: mainconfig,
 		mainConfFilePath: mainConfFilePath,
 		fileAndDirectoryTargets: {}
@@ -50,9 +74,13 @@ module.exports = function(grunt) {
 		// Register tasks that...
 		// -----------------------------------------------------------------------
 	
+
 		// ...outputs the configuration tree in console
 		require('../grunt-inc/tasks/show-config').registerWithGrunt(_gruntbase_);
-	
+		
+		// ...create the config root for the web preview
+		require('../grunt-inc/tasks/create-config-root').registerWithGrunt(_gruntbase_);
+
 		// ...runs compilers that outputs the CSS
 		require('../grunt-inc/tasks/build-css').registerWithGrunt(_gruntbase_);
 	
@@ -73,12 +101,36 @@ module.exports = function(grunt) {
 		// -----------------------------------------------------------------------
 		const grunttasks =
 		{
-			"davanmonet-createindexes":	["davanmonet-createcontentindex","davanmonet-createtargetindex"],
-			"davanmonet-builddev":		["davanmonet-showconfig","clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:assets"],
-			"davanmonet-dev":			["davanmonet-builddev","davanmonet-startservers:dev","watch"],
-			"davanmonet-watch":			["watch"],
-			"davanmonet-build":			["clean:build","davanmonet-createindexes","davanmonet-buildcss","copy:build","copy:assets","copy:preview","davanmonet-createversionfile"],
-			"davanmonet-":				["davanmonet-build","davanmonet-startservers:build"]
+			"davanmonet-createindexes":	[	"davanmonet-createcontentindex",
+											"davanmonet-createtargetindex"],
+
+			"davanmonet-builddev":		[	"davanmonet-showconfig",
+											"clean:build",
+											"davanmonet-createconfigroot",
+											"davanmonet-createindexes",
+											"davanmonet-buildcss",
+											"copy:assets"],
+
+			"davanmonet-dev":			[	"davanmonet-builddev",
+											"davanmonet-startservers:dev",
+											"watch"],
+
+			"davanmonet-watch":			[	"watch"],
+
+			"davanmonet-build":			[	"clean:build",
+											"clean:dist",
+											"davanmonet-createconfigroot",
+											"davanmonet-createindexes",
+											"davanmonet-buildcss",
+											"copy:build",
+											"copy:assets",
+											"copy:preview",
+											"davanmonet-createversionfile",
+											"copy:dist_web",
+											"copy:dist_package"],
+			
+			"davanmonet-":				[	"davanmonet-build",
+											"davanmonet-startservers:build"]
 		};
 
 		// Add tasks dependent on settings

@@ -5,7 +5,14 @@ module.exports = function(_gruntbase_) {
     return {
 		build:
 		{
-			src:[mainconfig.directories.build + "/*"]
+			src:[mainconfig.directories.build]
+		},
+		dist:
+		{
+			src:[
+				mainconfig.directories.dist_web,
+				mainconfig.directories.dist_package
+			]
 		}
 	};
 }

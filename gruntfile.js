@@ -13,7 +13,7 @@ module.exports = function (grunt)
 		{
 			options:
 			{
-				"config":"./patternlibraryconfig.json"	
+				"config":"./configs/projectoptions.yml"
 			}
 		}
 	});
