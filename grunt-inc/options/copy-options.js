@@ -3,6 +3,7 @@
 module.exports = function(_gruntbase_) {
 
 	const mainconfig = _gruntbase_.mainconfig;
+	const isType = (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)));
 
 	const copyCssToFolderFiles = (mainconfig.compilation.copyCompiledCssToFolder === true) ?
 		[{
@@ -15,7 +16,40 @@ module.exports = function(_gruntbase_) {
 	let copyAssetsFiles = [];
 	let copyAssetsToFolderFiles = [];
 	const copyAssetsToFolder = (mainconfig.compilation.copyAssetsToFolder === true);
-	if(typeof mainconfig.assets === "object" && mainconfig.assets.length > 0)
+
+	let additionalPackageFiles = [];
+	let additionalWebFiles = [];
+	if(isType(mainconfig.build, "object"))
+	{
+		// Function to map the files specified in the project configuration to actual copy commands. Expects an object such as { src:"file.txt", dest:"folder/" }. 
+		// To put the file in the root use dest: "./"
+		const additionalFileMap = function(file)
+		{
+			let src = isType(file.src,"string") ? file.src : isType(file, "string") ? file : null;
+			if(src !== null)
+			{
+				const dest = this + "/" + (isType(file.dest,"string") ? file.dest : "");
+				return {
+					expand:true,
+					dot:true,
+					flatten: true,
+					src: src,
+					dest: dest
+				}
+			}
+		};
+		if(isType(mainconfig.build.package, "object") && isType(mainconfig.build.package.files,"object") && isType(mainconfig.build.package.files.length,"number"))
+		{
+			additionalPackageFiles = mainconfig.build.package.files.map(additionalFileMap.bind(mainconfig.directories.dist_package));
+		}
+
+		if(isType(mainconfig.build.web, "object") && isType(mainconfig.build.web.files, "object") && isType(mainconfig.build.web.files.length,"number"))
+		{
+			additionalWebFiles = mainconfig.build.web.files.map(additionalFileMap.bind(mainconfig.directories.dist_web));
+		}
+	}
+
+	if(isType(mainconfig.assets,"object") && mainconfig.assets.length > 0)
 	{
 		
 		mainconfig.assets.forEach((assetItem) =>
@@ -73,13 +107,6 @@ module.exports = function(_gruntbase_) {
 			files: [
 			{	/* Copies the content of the preview folder to the build directory */
 				expand:true,
-				dot:true,
-				cwd: mainconfig.directories.configs,
-				src: ['.htaccess','Web.config'],
-				dest: mainconfig.directories.build
-			},
-			{	/* Copies the content of the preview folder to the build directory */
-				expand:true,
 				cwd: __dirname + '/../../preview/',
 				src: '**',
 				dest: mainconfig.directories.build
@@ -119,7 +146,7 @@ module.exports = function(_gruntbase_) {
 				cwd: mainconfig.directories.build,
 				src: '**',
 				dest: mainconfig.directories.dist_web
-			}]
+			}].concat(additionalWebFiles)
 		},
 		dist_package:
 		{
@@ -135,20 +162,7 @@ module.exports = function(_gruntbase_) {
 				expand:true,
 				src: mainconfig.directories.src + '/**',
 				dest: mainconfig.directories.dist_package
-			},
-			{
-				/* Copy over the source files */
-				expand:true,
-				cwd: mainconfig.directories.build,
-				src:  'version.json',
-				dest: mainconfig.directories.dist_package
-			},
-			{
-				/* Copy over the source files */
-				expand:true,
-				src:  './package.json',
-				dest: mainconfig.directories.dist_package
-			}]
+			}].concat(additionalPackageFiles)
 		},
 		assets:
 		{

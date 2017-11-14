@@ -128,7 +128,7 @@ module.exports = function(grunt) {
 											"davanmonet-createversionfile",
 											"copy:dist_web",
 											"copy:dist_package"],
-											
+			
 			"davanmonet-":				[	"davanmonet-build",
 											"davanmonet-startservers:build"]
 		};

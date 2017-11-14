@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Wezz.DaVanMonet</id>
+    <version>$version$</version>
+    <authors>Wezz Balk</authors>
+    <owners>Wezz Balk</owners>
+    <projectUrl>https://github.com/wezz/DaVanMonet</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Pattern library project</description>
+  </metadata>
+</package>

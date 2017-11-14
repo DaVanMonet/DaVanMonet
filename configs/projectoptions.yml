@@ -9,7 +9,7 @@ directories:
   cssdest: "/css"
   build: "./build"
   dist_web: "./dist/web"
-  dist_package: "./dist/packages"
+  dist_package: "./dist/package"
   indexes: "./indexes"
   configs: "./configs"
   copycsspath: ''
@@ -92,6 +92,21 @@ build:
   mswebdeploy:
     dest: "dist/"
     package: msdeploy.zip
+  package:
+    files:
+    - src: "./package.json"
+    - src: "./build/version.json"
+      dest: "./"
+    - src: "./configs/.npmrc"
+      dest: "./"
+    - src: "./configs/package.nuspec"
+      dest: "./"
+  web:
+    files:
+    - src: "./configs/.htaccess"
+      dest: "./"
+    - src: "./configs/Web.config"
+      dest: "./"
 structure:
 - title: Components
   path: components
