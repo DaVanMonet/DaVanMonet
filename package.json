@@ -3,7 +3,7 @@
 	"description": "A pattern library system",
 	"version": "1.0.4",
 	"license": "UNLICENSED",
-	"private": true,
+	"private": false,
 	"author": {
 		"name": "Wezz Balk",
 		"email": "davanmonet@wezz.se"
