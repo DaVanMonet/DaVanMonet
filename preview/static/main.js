@@ -83,8 +83,12 @@ define(["babel-polyfill", "fetch", "vue", "less", "jquery", "marked", "highlight
 									if (_vue.projectConfig.project_info.theme_style !== "default") {
 										$('head').append('<link rel="stylesheet" type="text/css" href="' + _vue.projectConfig.project_info.theme_style + '" />');
 									}
-									$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
-									$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);
+									if (_vue.projectConfig.project_info.name) {
+										$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
+									}
+									if (_vue.projectConfig.project_info.logo) {
+										$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);
+									}
 
 								case 9:
 								case 'end':
