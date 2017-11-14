@@ -1,7 +1,7 @@
 ---
 project_info:
   name: DaVanMonet
-  logo: "/static/logo.png"
+  logo: "/static/logo.svg"
   theme_style: default
 directories:
   src: "./src"
