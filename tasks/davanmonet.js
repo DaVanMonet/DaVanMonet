@@ -115,20 +115,20 @@ module.exports = function(grunt) {
 											"davanmonet-startservers:dev",
 											"watch"],
 
-			"davanmonet-watch":			["watch"],
+			"davanmonet-watch":			[	"watch"],
 
 			"davanmonet-build":			[	"clean:build",
+											"clean:dist",
 											"davanmonet-createconfigroot",
 											"davanmonet-createindexes",
 											"davanmonet-buildcss",
 											"copy:build",
 											"copy:assets",
 											"copy:preview",
-											"davanmonet-createversionfile"],
-
-			"davanmonet-dist":			[	"davanmonet-createconfigroot"
-										],
-
+											"davanmonet-createversionfile",
+											"copy:dist_web",
+											"copy:dist_package"],
+											
 			"davanmonet-":				[	"davanmonet-build",
 											"davanmonet-startservers:build"]
 		};

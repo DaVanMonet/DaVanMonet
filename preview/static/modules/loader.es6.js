@@ -32,13 +32,17 @@ class Loader
         if(Loader.HasLoaded)
             return; 
         const requestbase = "//" + window.location.host + "/";
-        
         // Fetch root confg (to find out where the actual config is located)
         const rootConfig = await this.loadJSONorYAML(requestbase + 'config-root.json');
         
+        
         // Fetch project configuration
-        const mainConfigPath = (typeof rootConfig.config === "string") ? rootConfig.config : 'patternlibraryconfig.json';
-        const mainconfig = await this.loadJSONorYAML(mainConfigPath);
+        let mainConfigPath = (typeof rootConfig.config === "string") ? rootConfig.config : 'patternlibraryconfig.json';
+        if(mainConfigPath.indexOf('./') === 0)
+        {
+            mainConfigPath = mainConfigPath.substr(2);
+        }
+        const mainconfig = await this.loadJSONorYAML(requestbase + mainConfigPath);
 
         if(typeof mainconfig !== "object")
         {

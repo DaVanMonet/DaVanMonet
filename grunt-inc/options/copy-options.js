@@ -69,7 +69,16 @@ module.exports = function(_gruntbase_) {
     return {
 		preview:
 		{
-			files: [{	/* Copies the content of the preview folder to the build directory */
+			
+			files: [
+			{	/* Copies the content of the preview folder to the build directory */
+				expand:true,
+				dot:true,
+				cwd: mainconfig.directories.configs,
+				src: ['.htaccess','Web.config'],
+				dest: mainconfig.directories.build
+			},
+			{	/* Copies the content of the preview folder to the build directory */
 				expand:true,
 				cwd: __dirname + '/../../preview/',
 				src: '**',
@@ -89,15 +98,11 @@ module.exports = function(_gruntbase_) {
 				src: mainconfig.userconfig,
 				dest: mainconfig.directories.build
 			},
-			{	/* Copy over the index file */
+			{	/* Copy over the index files */
 				expand:true,
-				src: mainconfig.directories.indexing + '/' + mainconfig.indexing.contentindexoutput,
-				dest: mainconfig.directories.build
-			},
-			{	/* Copy over the index file */
-				expand:true,
-				src: mainconfig.directories.indexing + '/' + mainconfig.indexing.targetindexoutput,
-				dest: mainconfig.directories.build
+				cwd: mainconfig.directories.indexes,
+				src: [mainconfig.indexing.contentindexoutput, mainconfig.indexing.targetindexoutput],
+				dest: mainconfig.directories.build + '/' + mainconfig.directories.indexes
 			},
 			{	/* Copy over the source files */
 				expand:true,
@@ -107,16 +112,42 @@ module.exports = function(_gruntbase_) {
 		},
 		dist_web:
 		{
-			files:[{	/* Copies the content of the preview folder to the build directory */
+			files:[{
+				/* Copies the build folder to the web dist folder */
 				expand:true,
-				cwd: __dirname + '/../../preview/',
+				dot:true,
+				cwd: mainconfig.directories.build,
 				src: '**',
 				dest: mainconfig.directories.dist_web
-			},
-			{	/* Copy over the source files */
+			}]
+		},
+		dist_package:
+		{
+			files:[{
+				/* Copy over the source files */
 				expand:true,
-				src: mainconfig.directories.src + "/**",
-				dest: mainconfig.directories.dist_web
+				cwd: mainconfig.directories.build + mainconfig.directories.cssdest,
+				src:  '**',
+				dest: mainconfig.directories.dist_package + mainconfig.directories.cssdest
+			},
+			{
+				/* Copy over the source files */
+				expand:true,
+				src: mainconfig.directories.src + '/**',
+				dest: mainconfig.directories.dist_package
+			},
+			{
+				/* Copy over the source files */
+				expand:true,
+				cwd: mainconfig.directories.build,
+				src:  'version.json',
+				dest: mainconfig.directories.dist_package
+			},
+			{
+				/* Copy over the source files */
+				expand:true,
+				src:  './package.json',
+				dest: mainconfig.directories.dist_package
 			}]
 		},
 		assets:

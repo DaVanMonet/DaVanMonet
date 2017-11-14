@@ -119,7 +119,7 @@ define([
 
 			loadPage: async function(_vue,path) 
 			{
-				if(path.length > 0) 
+				if(path.length > 1) 
 				{
 					const _pageLoader = new PageLoader();
 					const pagedata = await _pageLoader.getPage(path);

@@ -25,5 +25,5 @@ module.exports = function (grunt)
 	grunt.registerTask("dev", ["davanmonet:dev"]);
 	grunt.registerTask("default", ["davanmonet:dev"]);
 
-	grunt.registerTask("test", ["davanmonet:dist"]);
+	grunt.registerTask("test", ["davanmonet:test"]);
 };

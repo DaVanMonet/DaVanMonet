@@ -1,7 +1,7 @@
 ---
 project_info:
   name: DaVanMonet
-  logo: "./static/logo.png"
+  logo: "/static/logo.png"
   theme_style: default
 directories:
   src: "./src"
@@ -90,7 +90,7 @@ assets:
   dest: "./build/assets"
 build:
   mswebdeploy:
-    dest: "./"
+    dest: "dist/"
     package: msdeploy.zip
 structure:
 - title: Components

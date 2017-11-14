@@ -93,7 +93,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                                 case 2:
                                     requestbase = "//" + window.location.host + "/";
-
                                     // Fetch root confg (to find out where the actual config is located)
 
                                     _context2.next = 5;
@@ -105,94 +104,98 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                                     // Fetch project configuration
                                     mainConfigPath = typeof rootConfig.config === "string" ? rootConfig.config : 'patternlibraryconfig.json';
-                                    _context2.next = 9;
-                                    return this.loadJSONorYAML(mainConfigPath);
 
-                                case 9:
+                                    if (mainConfigPath.indexOf('./') === 0) {
+                                        mainConfigPath = mainConfigPath.substr(2);
+                                    }
+                                    _context2.next = 10;
+                                    return this.loadJSONorYAML(requestbase + mainConfigPath);
+
+                                case 10:
                                     mainconfig = _context2.sent;
 
                                     if (!((typeof mainconfig === "undefined" ? "undefined" : _typeof(mainconfig)) !== "object")) {
-                                        _context2.next = 13;
+                                        _context2.next = 14;
                                         break;
                                     }
 
                                     console.error('Could not parse project config (' + requestbase + mainConfigPath + ')');
                                     return _context2.abrupt("return");
 
-                                case 13:
+                                case 14:
                                     if (!(typeof mainconfig.userconfig === "string" && mainconfig.userconfig.length > 0)) {
-                                        _context2.next = 18;
+                                        _context2.next = 19;
                                         break;
                                     }
 
-                                    _context2.next = 16;
+                                    _context2.next = 17;
                                     return this.loadJSONorYAML(requestbase + mainconfig.userconfig);
 
-                                case 16:
+                                case 17:
                                     userConfig = _context2.sent;
 
                                     if ((typeof userConfig === "undefined" ? "undefined" : _typeof(userConfig)) === "object") {
                                         $.extend(true, mainconfig, userConfig);
                                     }
 
-                                case 18:
+                                case 19:
                                     Loader.ProjectConfig = mainconfig;
 
                                     // Fetch content index
                                     contentIndexPath = requestbase + Loader.ProjectConfig.directories.indexes + '/' + Loader.ProjectConfig.indexing.contentindexoutput;
-                                    _context2.next = 22;
+                                    _context2.next = 23;
                                     return fetch(contentIndexPath);
 
-                                case 22:
+                                case 23:
                                     contentIndexReq = _context2.sent;
 
                                     if (!(contentIndexReq.status !== 404)) {
-                                        _context2.next = 29;
+                                        _context2.next = 30;
                                         break;
                                     }
 
-                                    _context2.next = 26;
+                                    _context2.next = 27;
                                     return contentIndexReq.json();
 
-                                case 26:
+                                case 27:
                                     Loader.ContentIndex = _context2.sent;
-                                    _context2.next = 31;
+                                    _context2.next = 32;
                                     break;
 
-                                case 29:
+                                case 30:
                                     console.error('Unable to load Content Index (' + contentIndexPath + ')');
                                     return _context2.abrupt("return");
 
-                                case 31:
+                                case 32:
 
                                     // Fetch css target index
                                     targetIndexPath = requestbase + Loader.ProjectConfig.directories.indexes + '/' + Loader.ProjectConfig.indexing.targetindexoutput;
-                                    _context2.next = 34;
+                                    _context2.next = 35;
                                     return fetch(targetIndexPath);
 
-                                case 34:
+                                case 35:
                                     targetIndexReq = _context2.sent;
 
                                     if (!(targetIndexReq.status !== 404)) {
-                                        _context2.next = 41;
+                                        _context2.next = 42;
                                         break;
                                     }
 
-                                    _context2.next = 38;
+                                    _context2.next = 39;
                                     return targetIndexReq.json();
 
-                                case 38:
+                                case 39:
                                     Loader.TargetIndex = _context2.sent;
-                                    _context2.next = 42;
+                                    _context2.next = 43;
                                     break;
 
-                                case 41:
+                                case 42:
                                     console.error('Unable to load Target Index (' + targetIndexPath + ')');
 
-                                case 42:
+                                case 43:
                                     Loader.HasLoaded = true;
 
-                                case 43:
+                                case 44:
                                 case "end":
                                     return _context2.stop();
                             }

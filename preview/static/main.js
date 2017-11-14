@@ -109,7 +109,7 @@ define(["babel-polyfill", "fetch", "vue", "less", "jquery", "marked", "highlight
 						while (1) {
 							switch (_context2.prev = _context2.next) {
 								case 0:
-									if (!(path.length > 0)) {
+									if (!(path.length > 1)) {
 										_context2.next = 7;
 										break;
 									}
