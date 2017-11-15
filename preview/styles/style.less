@@ -1,16 +1,16 @@
 /****** CSS variables *****/
 
-:root {
-	--dark-primary-color: #0097A7;
-	--default-primary-color: #00BCD4;
-	--light-primary-color: #B2EBF2;
-	--text-primary-color: #FFFFFF;
-	--accent-color: #607D8B;
-	--primary-text-color: #212121;
-	--secondary-text-color: #757575;
-	--divider-color: #BDBDBD;
-	--page-maxwidth: 1180px;
-}
+
+@dark-primary-color: #0097A7;
+@default-primary-color: #00BCD4;
+@light-primary-color: #B2EBF2;
+@text-primary-color: #FFFFFF;
+@accent-color: #607D8B;
+@primary-text-color: #212121;
+@secondary-text-color: #757575;
+@divider-color: #BDBDBD;
+@page-maxwidth: 1180px;
+
 
 @GridGap:2.4rem;
 @Font : 'Calibri', sans-serif;
@@ -59,10 +59,10 @@ input, button, select, optgroup, textarea
 .davanmonet-header {
 	//grid-column: ~"1 / -1";
 	width:100%;
-	background-color: var(--default-primary-color);
+	background-color: @default-primary-color;
 	font-size: 2rem;
 	padding: @GridGap @GridGap @GridGap/2 @GridGap;
-	border-bottom: 5px solid var(--dark-primary-color);
+	border-bottom: 5px solid @dark-primary-color;
 	overflow: hidden;
 	font-family: @Font;
 	max-height:@HeaderHeightDesktop;
@@ -77,14 +77,14 @@ input, button, select, optgroup, textarea
 	display: inline-block;
 	text-decoration: none;
 	font-size: 25px;
-	color: var(--text-primary-color);
+	color: @text-primary-color;
 	padding: 0.5rem 1.2rem 0.5rem 0;
 }
 
 .davanmonet-header-nav-link:focus,
 .davanmonet-header-nav-link:active,
 .davanmonet-header-nav-link:hover {
-	color: var(--dark-primary-color);
+	color: @dark-primary-color;
 }
 
 .davanmonet-header-logolink {
@@ -173,7 +173,7 @@ input, button, select, optgroup, textarea
 	list-style:none;
 	font-size: 16px;
 	
-	// border-right: 1px var(--divider-color) solid;
+	// border-right: 1px @divider-color) solid;
 	// padding-right: 20px;
 	&[data-listlevel="2"]
 	{
@@ -223,7 +223,7 @@ input, button, select, optgroup, textarea
 .davanmonet-nav-link {
 	display: bottom;
 	text-decoration: none;
-	color: var(--secondary-text-color);
+	color: @secondary-text-color;
 	padding-left: 0.5rem;
 
 }
@@ -231,7 +231,7 @@ input, button, select, optgroup, textarea
 .davanmonet-nav-link:hover,
 .davanmonet-nav-link:focus,
 .davanmonet-nav-link:active {
-	color: var(--dark-primary-color);
+	color: @dark-primary-color;
 }
 
 .visually-hidden

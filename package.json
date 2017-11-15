@@ -13,11 +13,15 @@
 		"email": "davanmonet@wezz.se"
 	},
 	"devDependencies": {
-		"babel-core": "^6.26.0",
-		"babel-loader": "^7.1.2",
+		"babel-core": "^6.22.1",
+		"babel-eslint": "^7.1.1",
+		"babel-loader": "^7.1.1",
+		"babel-plugin-istanbul": "^4.1.1",
+		"babel-plugin-transform-runtime": "^6.22.0",
+		"babel-preset-env": "^1.3.2",
+		"babel-preset-stage-2": "^6.22.0",
+		"babel-register": "^6.22.0",
 		"babel-plugin-transform-object-rest-spread": "^6.26.0",
-		"babel-preset-env": "^1.6.1",
-		"babel-preset-stage-2": "^6.24.1",
 		"connect-history-api-fallback": "^1.5.0",
 		"copy-webpack-plugin": "^4.2.0",
 		"css-loader": "^0.28.7",
@@ -43,8 +47,10 @@
 		"@types/jquery": "^3.2.14",
 		"@types/requirejs": "^2.1.31",
 		"autoprefixer": "^7.1.4",
+		"babel-polyfill": "^6.26.0",
 		"clipboard": "^1.7.1",
 		"cors": "^2.8.4",
+		"es6-promise": "^4.1.1",
 		"express": "^4.16.0",
 		"gray-matter": "^3.0.3",
 		"grunt": "^1.0.1",
@@ -62,10 +68,11 @@
 		"grunt-sass-lint": "^0.2.4",
 		"grunt-ts": "^6.0.0-beta.16",
 		"include-media": "^1.4.9",
+		"isomorphic-fetch": "^2.2.1",
 		"jit-grunt": "^0.10.0",
 		"js-beautify": "^1.7.4",
-		"less-loader": "^4.0.5",
 		"js-yaml": "^3.10.0",
+		"less-loader": "^4.0.5",
 		"lodash": "^4.17.4",
 		"marked": "^0.3.6",
 		"prismjs": "^1.8.4",
@@ -93,5 +100,10 @@
 	"engines": {
 		"node": ">= 4.0.0",
 		"npm": ">= 3.0.0"
-	}
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 8"
+	]
 }

@@ -2,7 +2,10 @@ import Vue from 'vue';
 
 import DaVanMonet from '@/DaVanMonet.vue';
 
-//window["highlight"] = Highlight;
+// IE Polyfill
+if ( ! NodeList.prototype.forEach ) {
+	NodeList.prototype.forEach = Array.prototype.forEach;
+}
 
 new Vue({
 	el: '#davanmonet-app',

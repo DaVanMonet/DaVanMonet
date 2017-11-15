@@ -65,11 +65,12 @@ app.use(hotMiddleware)
 // TODO: Fix hard coded paths
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./preview/static'))
-app.use('/patternlibraryconfig.json', express.static('./configs/patternlibraryconfig.json'))
-app.use('/targetindex.json', express.static('./indexes/targetindex.json'))
-app.use('/contentindex.json', express.static('./indexes/contentindex.json'))
-app.use('/src', express.static('./src'))
+app.use('/indexes', express.static('./indexes'))
+app.use('/configs', express.static('./configs'))
 app.use('/', express.static('./build'))
+
+// TODO: Don't hard-code this
+app.use('/src', express.static('./src'))
 
 var uri = 'http://localhost:' + port
 

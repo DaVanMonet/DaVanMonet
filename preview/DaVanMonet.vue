@@ -2,7 +2,7 @@
     <div class="davanmonet-app">
         <!-- <component-showcase-csslinks :csslinks="targetIndex.items"></component-showcase-csslinks> -->
         <header class="davanmonet-header">
-            <a href="/" class="davanmonet-header-logolink"><img class="davanmonet-header-logo" src="/static/logo.png"></a>
+            <a href="/" class="davanmonet-header-logolink"><img class="davanmonet-header-logo" src="/static/logo.svg"></a>
             <nav class="davanmonet-header-nav">
                 <a href="/" class="davanmonet-header-nav-link">Home</a>
             </nav>
@@ -86,8 +86,14 @@ export default {
 			if(_vue.projectConfig.project_info.theme_style !== "default") {
 				$('head').append('<link rel="stylesheet" type="text/css" href="' + _vue.projectConfig.project_info.theme_style + '" />');
 			}
-			$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
-			$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);
+			if(_vue.projectConfig.project_info.name)
+			{
+				$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
+			}
+			if(_vue.projectConfig.project_info.logo)
+			{
+				$(".davanmonet-header-logo").attr('src', _vue.projectConfig.project_info.logo);
+			}
 		},
 
 		async loadPage(_vue,path) 

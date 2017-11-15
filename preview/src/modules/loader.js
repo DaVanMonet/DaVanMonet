@@ -1,4 +1,10 @@
 import _ from 'lodash';
+import Yaml from 'js-yaml';
+
+// IE Polyfills
+import "isomorphic-fetch";
+import promise from 'es6-promise';
+promise.polyfill();
 
 export default class Loader
 {
@@ -14,7 +20,7 @@ export default class Loader
             else
             {
                 const yamlText = await request.text();
-                return yaml.safeLoad(yamlText);
+                return Yaml.safeLoad(yamlText);
             }
         }
     }
@@ -47,8 +53,7 @@ export default class Loader
             let userConfig =  await this.loadJSONorYAML(requestbase + mainconfig.userconfig);
             if(typeof userConfig === "object")
             {
-                let userconfig = await userconfigrequest.json();
-                _.merge(config, userconfig);
+                _.merge(mainconfig, userConfig);
             }
         }
         Loader.ProjectConfig = mainconfig;
