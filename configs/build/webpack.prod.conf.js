@@ -1,7 +1,7 @@
 var path = require('path')
 var utils = require('./utils')
 var webpack = require('webpack')
-var config = require('../config')
+var config = require('../env')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -10,7 +10,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 var env = process.env.NODE_ENV === 'testing'
-  ? require('../config/test.env')
+  ? require('../env/test.env')
   : config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
@@ -92,12 +92,12 @@ var webpackConfig = merge(baseWebpackConfig, {
     // copy custom static assets
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../preview/static'),
+        from: path.resolve(__dirname, '../../preview/static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       },
       {
-        from: path.resolve(__dirname, '../preview/web.config'),
+        from: path.resolve(__dirname, '../web.config'),
         to: config.build.assetsRoot,
         ignore: ['.*']
       }

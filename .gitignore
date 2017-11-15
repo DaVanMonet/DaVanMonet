@@ -128,6 +128,9 @@ user-conf.json
 targetindex.json
 contentindex.json
 
+# distribution files
+dist
+
 # Tmp
 /.tmp
 */.tmp

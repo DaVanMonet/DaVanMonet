@@ -62,15 +62,12 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 // serve pure static assets
-// TODO: Fix hard coded paths
+// TODO: Look over these paths
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./preview/static'))
-app.use('/indexes', express.static('./indexes'))
-app.use('/configs', express.static('./configs'))
 app.use('/', express.static('./build'))
-
-// TODO: Don't hard-code this
-app.use('/src', express.static('./src'))
+app.use('/', express.static('./preview/static'))
+app.use('/', express.static('./'))
 
 var uri = 'http://localhost:' + port
 
@@ -95,7 +92,6 @@ var server = app.listen(port)
 var sys = require('sys')
 var exec = require('child_process').exec;
 var child;
-
 child = exec("grunt dev", function (error, stdout, stderr) {
   sys.print('stdout: ' + stdout);
   sys.print('stderr: ' + stderr);
