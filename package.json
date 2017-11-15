@@ -1,9 +1,9 @@
 {
 	"name": "davanmonet",
 	"description": "A pattern library system",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"license": "UNLICENSED",
-	"private": true,
+	"private": false,
 	"scripts": {
 		"dev": "node configs/build/dev-server.js",
 		"build": "node configs/build/build.js"
@@ -65,6 +65,7 @@
 		"jit-grunt": "^0.10.0",
 		"js-beautify": "^1.7.4",
 		"less-loader": "^4.0.5",
+		"js-yaml": "^3.10.0",
 		"lodash": "^4.17.4",
 		"marked": "^0.3.6",
 		"prismjs": "^1.8.4",

@@ -1,0 +1,12 @@
+{	
+	"directories":
+	{
+		"copycsspath":"./../DaVanMonetCopyTest/csstarget",
+		"copyassetspath":"./../DaVanMonetCopyTest/Assetstarget"
+	},
+	"compilation":
+	{
+		"copyCompiledCssToFolder":true,
+		"copyAssetsToFolder":true
+	}
+}
