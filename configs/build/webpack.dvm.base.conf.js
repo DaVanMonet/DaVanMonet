@@ -1,3 +1,8 @@
+/**
+ * @file Webpack base config for DaVanMonet
+ * 
+ */
+
 var path = require('path')
 var utils = require('./utils')
 var config = require('../env')
@@ -8,6 +13,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  name: "davanmonet",
   entry: {
     app: ['./preview/src/main.js']
   },

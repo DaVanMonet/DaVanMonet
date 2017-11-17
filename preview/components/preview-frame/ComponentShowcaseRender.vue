@@ -3,7 +3,7 @@
     <iframe
       ref="iframe"
       class="showcase__render-iframe"
-      src="/static/showcase-render-iframe.html"
+      src="/showcase-render-iframe.html"
       scrolling="no"
       :data-repo-name="repo.Name"
       :data-repo-id="'id-'+ repo.RepoId"
@@ -28,33 +28,33 @@ export default {
       renderElm.innerHTML = this.renderSource;
 
       // Add script modules to iframe
-      if(typeof this.requirejs === "string" && this.requirejs.length > 0)
-      {
-        const loadModulesEvent = new CustomEvent('LoadModulesInIframe', {});
-        renderElm.dataset["requirejsModules"] = this.requirejs;
-        renderElm.dataset["requirejsBaseurl"] = this.repo.BaseUrlToPatternLibrary;
-        renderElm.dispatchEvent(loadModulesEvent);
-      }
+      // if(typeof this.requirejs === "string" && this.requirejs.length > 0)
+      // {
+      //   const loadModulesEvent = new CustomEvent('LoadModulesInIframe', {});
+      //   renderElm.dataset["requirejsModules"] = this.requirejs;
+      //   renderElm.dataset["requirejsBaseurl"] = this.repo.BaseUrlToPatternLibrary;
+      //   renderElm.dispatchEvent(loadModulesEvent);
+      // }
 
       // Duplicate our stylesheets into the iframe document head
-      const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('div[data-repo-id="id-'+ this.repo.RepoId +'"] link[data-previewcss]'));
-      linkStyleEls.forEach(el => 
-      {
-        let clone = el.cloneNode(true);
-        clone.removeAttribute('disabled');
-        this.$refs.iframe.contentDocument.head.appendChild(clone);
-      });
+      // const linkStyleEls = Array.prototype.slice.call(document.querySelectorAll('div[data-repo-id="id-'+ this.repo.RepoId +'"] link[data-previewcss]'));
+      // linkStyleEls.forEach(el => 
+      // {
+      //   let clone = el.cloneNode(true);
+      //   clone.removeAttribute('disabled');
+      //   this.$refs.iframe.contentDocument.head.appendChild(clone);
+      // });
 
       // TODO: Put isLocalhost in vuex store
-      let isLocalhost = (window.location.hostname === "localhost");
+      //let isLocalhost = (window.location.hostname === "localhost");
 
       // Inject live reload script into iframe
-      if(isLocalhost && this.$root.getConfig().developmentenvironment && this.$root.getConfig().developmentenvironment.livereloadport)
-      {
-        var liveReloadScript = document.createElement('script');
-        liveReloadScript.setAttribute('src', '//localhost:' + this.$root.getConfig().developmentenvironment.livereloadport + '/livereload.js');
-        this.$refs.iframe.contentDocument.head.appendChild(liveReloadScript);
-      }
+      //if(isLocalhost && this.$root.getConfig().developmentenvironment && this.$root.getConfig().developmentenvironment.livereloadport)
+      //{
+      //  var liveReloadScript = document.createElement('script');
+      //  liveReloadScript.setAttribute('src', '//localhost:' + this.$root.getConfig().developmentenvironment.livereloadport + '/livereload.js');
+      //  this.$refs.iframe.contentDocument.head.appendChild(liveReloadScript);
+      //}
       
     },
     setIframeHeightToContentSize() {

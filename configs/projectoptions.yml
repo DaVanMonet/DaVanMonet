@@ -23,7 +23,7 @@ indexing:
   - guid
   - variantid
   - componentid
-  - requirejs
+  #- requirejs
 compilation:
   compilers:
     less:

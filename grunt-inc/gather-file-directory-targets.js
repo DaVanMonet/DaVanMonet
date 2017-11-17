@@ -8,6 +8,7 @@ module.exports = function(_gruntbase_) {
     const hasSpecifiedStructure = (isType(mainconfig.structure,"object") && isType(mainconfig.structure.length,"number") && mainconfig.structure.length > 0);
     const structurefolders = (hasSpecifiedStructure) ? mainconfig.structure : getDirs(mainconfig.directories.src).map((folder) => { return { title:folder.charAt(0).toUpperCase() + folder.substr(1), path:folder }});
     const folderCount = structurefolders.length;
+    
     // TODO: Don't hard code the compilers
     let compilationFiles = 
     {

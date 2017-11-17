@@ -10,9 +10,9 @@ var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
-var webpackConfig = (process.env.NODE_ENV === 'testing' || process.env.NODE_ENV === 'production')
-  ? require('./webpack.prod.conf')
-  : require('./webpack.dev.conf')
+var webpackConfigDvm = require('./webpack.dvm.dev.conf')
+var webpackConfigPL = require('./webpack.patternlibrary.dev.conf')
+var webpackConfig = [webpackConfigDvm, webpackConfigPL];
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -26,7 +26,7 @@ var app = express()
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
-  publicPath: webpackConfig.output.publicPath,
+  publicPath: "/",
   quiet: true
 })
 
@@ -89,16 +89,27 @@ devMiddleware.waitUntilValid(() => {
 var server = app.listen(port)
 
 // Start legacy grunt dev task
-var sys = require('sys')
-var exec = require('child_process').exec;
-var child;
-child = exec("grunt dev", function (error, stdout, stderr) {
-  sys.print('stdout: ' + stdout);
-  sys.print('stderr: ' + stderr);
-  if (error !== null) {
-    console.log('grunt dev error: ' + error);
-  }
-});
+// var sys = require('sys')
+// var exec = require('child_process').exec;
+// var child;
+// child = exec("grunt dev", function (error, stdout, stderr) {
+//   sys.print('stdout: ' + stdout);
+//   sys.print('stderr: ' + stderr);
+//   if (error !== null) {
+//     console.log('grunt dev error: ' + error);
+//   }
+// });
+
+// var sys = require('sys')
+// var exec = require('child_process').exec;
+// var child;
+// child = exec("npm run dev", function (error, stdout, stderr) {
+//   sys.print('stdout: ' + stdout);
+//   sys.print('stderr: ' + stderr);
+//   if (error !== null) {
+//     console.log('grunt dev error: ' + error);
+//   }
+// });
 
 module.exports = {
   ready: readyPromise,
