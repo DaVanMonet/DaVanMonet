@@ -13,7 +13,7 @@ var webpackConfig = require('./webpack.prod.conf')
 var spinner = ora('building for production...')
 spinner.start()
 
-// Start legacy grunt dev task
+// Start legacy grunt build
 var sys = require('sys')
 var exec = require('child_process').exec;
 var child;
