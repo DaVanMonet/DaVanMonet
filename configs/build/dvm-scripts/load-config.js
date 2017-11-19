@@ -5,6 +5,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
 const _ = require('lodash');
+const globby = require('globby');
 
 const isType = (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)));
 const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirectory());
@@ -36,7 +37,15 @@ module.exports = function() {
                     path: folder
                 }
             });
-        
+
+        // Expand compiler target globs using globby
+        // https://github.com/sindresorhus/globby
+        for (let target_name of Object.keys(config.compilation.targets)) {
+            config.compilation.targets[target_name] = globby.sync(
+                config.compilation.targets[target_name].map(
+                    glob => process.cwd() + '/' + config.directories.src + '/' + glob));
+        }
+
         return config;
     }
     else

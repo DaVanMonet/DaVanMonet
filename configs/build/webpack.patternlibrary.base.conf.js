@@ -3,23 +3,24 @@
  * 
  */
 
-var path = require('path')
-var utils = require('./utils')
-var config = require('../env')
-var glob = require("glob")
-var webpack = require('webpack');
+const path = require('path')
+const utils = require('./utils')
+const config = require('../env')
+const glob = require("glob")
+const webpack = require('webpack');
+const PostCompile = require('post-compile-webpack-plugin')
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir)
 }
 
+const dvmConfig = require('./dvm-scripts/load-config')();
+
 module.exports = {
     name: "patternlibrary",
-    entry: {
-      "main.css": glob.sync("./src/**/!(*_print|*_inline).less"),
-      "inline.css": glob.sync("./src/**/*_inline.less"),
-      "print.css": glob.sync("./src/**/*_print.less")
-    },
+    
+    entry: dvmConfig.compilation.targets,
+    
     output: {
       path: config.build.assetsRoot,
       filename: '[name].js',
@@ -27,17 +28,20 @@ module.exports = {
         ? config.build.assetsPublicPath
         : config.dev.assetsPublicPath
     },
+    
     resolve: {
-      extensions: ['.ts', '.js', '.json'],
-      alias: {
-        '@': path.resolve(__dirname, '../../preview'),
-      }
+      extensions: ['.ts', '.js'],
+      // alias: {
+      //   '@': path.resolve(__dirname, '../../preview'),
+      // }
     },
-    // plugins: [
-    //   new webpack.DefinePlugin({
-    //     __CONFIG_PATH__: process.env.npm_package_config_configFile
-    //   })
-    // ],
+
+    plugins: [
+      new PostCompile((stats) => {
+        //console.log("Assets: ", stats.compilation.records.chunks.byName)
+      })
+    ],
+    
     module: {
       rules: [
         { // Load .js/.jsx files though babel-loader
@@ -51,10 +55,7 @@ module.exports = {
         { // Load .ts/.tsx files thought ts-loader
           test: /\.tsx?$/,
           exclude: /node_modules/,
-          loader: 'ts-loader',
-          options: {
-            configFile: 'src/tsconfig.json'
-          }
+          loader: 'ts-loader'
         },
         { // Less files will be chained though three diffent loaders:
           test: /\.less?$/,

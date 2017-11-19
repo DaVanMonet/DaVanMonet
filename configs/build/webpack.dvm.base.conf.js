@@ -3,15 +3,15 @@
  * 
  */
 
-var path = require('path')
-var utils = require('./utils')
-var envConfig = require('../env')
-var vueLoaderConfig = require('./vue-loader.conf')
-var webpack = require('webpack');
-var fs = require('fs');
+const path = require('path')
+const utils = require('./utils')
+const envConfig = require('../env')
+const vueLoaderConfig = require('./vue-loader.conf')
+const webpack = require('webpack');
+const fs = require('fs');
 
-var dvmConfig = require('./dvm-scripts/load-config')();
-var ContentIndexResolver = require('./dvm-scripts/content-index-resolver');
+const dvmConfig = require('./dvm-scripts/load-config')();
+const ContentIndexResolver = require('./dvm-scripts/content-index-resolver');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -19,9 +19,11 @@ function resolve (dir) {
 
 module.exports = {
   name: "davanmonet",
+  
   entry: {
     app: ['./preview/src/main.js']
   },
+  
   output: {
     path: envConfig.build.assetsRoot,
     filename: '[name].js',
@@ -29,6 +31,7 @@ module.exports = {
       ? envConfig.build.assetsPublicPath
       : envConfig.dev.assetsPublicPath
   },
+  
   resolve: {
     extensions: ['.js', '.vue', '.json', '.yml'],
     alias: {
@@ -39,6 +42,7 @@ module.exports = {
     },
     plugins: [ContentIndexResolver] // ContentIndexResolver will generate contentindex.json if it does not exist
   },
+  
   plugins: [
     // Here we're using the DefinePlugin to create some constants
     // that can be accessed from the application code
@@ -48,6 +52,7 @@ module.exports = {
       __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput)
     })
   ],
+  
   module: {
     rules: [
       {
