@@ -6,20 +6,19 @@
 var path = require('path')
 var utils = require('./utils')
 var config = require('../env')
+var glob = require("glob")
+var webpack = require('webpack');
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir)
 }
 
-//if(path.resolve())
-
 module.exports = {
     name: "patternlibrary",
     entry: {
-        less: [
-            './src/components/buttons/buttons.less',
-            './src/components/examplecomponent.less'
-        ]
+      "main.css": glob.sync("./src/**/!(*_print|*_inline).less"),
+      "inline.css": glob.sync("./src/**/*_inline.less"),
+      "print.css": glob.sync("./src/**/*_print.less")
     },
     output: {
       path: config.build.assetsRoot,
@@ -29,14 +28,19 @@ module.exports = {
         : config.dev.assetsPublicPath
     },
     resolve: {
-      extensions: ['.js', '.json'],
+      extensions: ['.ts', '.js', '.json'],
       alias: {
         '@': path.resolve(__dirname, '../../preview'),
       }
     },
+    // plugins: [
+    //   new webpack.DefinePlugin({
+    //     __CONFIG_PATH__: process.env.npm_package_config_configFile
+    //   })
+    // ],
     module: {
       rules: [
-        {
+        { // Load .js/.jsx files though babel-loader
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
@@ -44,31 +48,23 @@ module.exports = {
             presets:[ 'stage-2' ]
           }
         },
-        {
-            test: /\.less?$/,
-            use: [{
-                loader: "style-loader" // creates style nodes from JS strings
-            }, {
-                loader: "css-loader" // translates CSS into CommonJS
-            }, {
-                loader: "less-loader" // compiles Less to CSS
-            }]
-          },
-        {
-          test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-          loader: 'url-loader',
+        { // Load .ts/.tsx files thought ts-loader
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          loader: 'ts-loader',
           options: {
-            limit: 10000,
-            name: utils.assetsPath('img/[name].[hash:7].[ext]')
+            configFile: 'src/tsconfig.json'
           }
         },
-        {
-          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-          }
+        { // Less files will be chained though three diffent loaders:
+          test: /\.less?$/,
+          use: [{
+              loader: "style-loader" // 3. creates style nodes from JS strings
+            }, {
+              loader: "css-loader" // 2. translates CSS into CommonJS
+            }, {
+              loader: "less-loader" // 1. compiles Less to CSS
+            }]
         }
       ]
     }

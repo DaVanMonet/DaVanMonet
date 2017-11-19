@@ -5,7 +5,7 @@
 	"license": "UNLICENSED",
 	"private": false,
 	"scripts": {
-		"dev-dvm": "node configs/build/dev-server-dvm.js",
+		"dev": "node configs/build/dev-server-dvm.js",
 		"build-dvm": "node configs/build/build-dvm.js",
 		"build-pl": "node configs/build/build-patternlibrary.js",
 		"dev-pl": "node configs/build/dev-server-patternlibrary.js"
@@ -13,6 +13,9 @@
 	"author": {
 		"name": "Wezz Balk",
 		"email": "davanmonet@wezz.se"
+	},
+	"config": {
+		"configFile": "./configs/projectoptions.yml"
 	},
 	"devDependencies": {
 		"babel-core": "^6.22.1",
@@ -37,6 +40,8 @@
 		"jquery": "^3.2.1",
 		"optimize-css-assets-webpack-plugin": "^3.2.0",
 		"ora": "^1.3.0",
+		"tslib": "^1.8.0",
+		"typescript": "^2.6.1",
 		"vue": "^2.5.3",
 		"vue-loader": "^13.5.0",
 		"vue-template-compiler": "^2.5.3",
@@ -52,8 +57,12 @@
 		"babel-polyfill": "^6.26.0",
 		"clipboard": "^1.7.1",
 		"cors": "^2.8.4",
+		"enhanced-resolve": "^3.4.1",
 		"es6-promise": "^4.1.1",
 		"express": "^4.16.0",
+		"extract-loader": "^1.0.1",
+		"file-loader": "^1.1.5",
+		"glob-array": "^1.0.0",
 		"gray-matter": "^3.0.3",
 		"grunt": "^1.0.1",
 		"grunt-contrib-clean": "^1.1.0",
@@ -85,8 +94,9 @@
 		"serve-static": "^1.12.4",
 		"style-loader": "^0.19.0",
 		"time-grunt": "^1.4.0",
-		"typescript": "^2.5.3",
-		"vue-popperjs": "^1.2.5"
+		"ts-loader": "^3.1.1",
+		"vue-popperjs": "^1.2.5",
+		"yml-loader": "^2.1.0"
 	},
 	"repository": {
 		"type": "git",

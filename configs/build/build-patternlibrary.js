@@ -1,12 +1,17 @@
 /**
  * @file Webpack build script for the pattern library components
- * 
  */
 
-var path = require('path')
-var chalk = require('chalk')
-var webpack = require('webpack')
-var webpackConfig = require('./webpack.patternlibrary.prod.conf')
+const path = require('path')
+const chalk = require('chalk')
+const webpack = require('webpack')
+const webpackConfig = require('./webpack.patternlibrary.prod.conf')
+
+// Load config
+const dvm_config = require('./dvm-scripts/load-config')();
+
+// Generate contentindex.json
+require('./dvm-scripts/create-content-index')(dvm_config);
 
 webpack(webpackConfig, function (err, stats) {
     //spinner.stop()

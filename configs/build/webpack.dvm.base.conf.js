@@ -5,8 +5,13 @@
 
 var path = require('path')
 var utils = require('./utils')
-var config = require('../env')
+var envConfig = require('../env')
 var vueLoaderConfig = require('./vue-loader.conf')
+var webpack = require('webpack');
+var fs = require('fs');
+
+var dvmConfig = require('./dvm-scripts/load-config')();
+var ContentIndexResolver = require('./dvm-scripts/content-index-resolver');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -18,19 +23,27 @@ module.exports = {
     app: ['./preview/src/main.js']
   },
   output: {
-    path: config.build.assetsRoot,
+    path: envConfig.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+      ? envConfig.build.assetsPublicPath
+      : envConfig.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.json', '.yml'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': path.resolve(__dirname, '../../preview'),
-    }
+      './configs': path.resolve(__dirname, '../'),
+      './indexes': path.resolve(__dirname, '../../indexes')
+    },
+    plugins: [ContentIndexResolver] // This will generate contentindex.json if it does not exist
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      __CONFIG_PATH__: JSON.stringify(process.env.npm_package_config_configFile)
+    })
+  ],
   module: {
     rules: [
       // {
@@ -46,6 +59,10 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
+      },
+      {
+        test: /\.yml$/,
+        loader: 'yml-loader'
       },
       {
         test: /\.jsx?$/,

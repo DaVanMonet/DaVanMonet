@@ -2,7 +2,7 @@
 	"compilerOptions":
 	{
 		"target": "es5",
-		"module": "amd",
+		"module": "commonjs",
 		"charset": "utf8",
 		//"downlevelIteration": true,
 		"importHelpers": true,
@@ -21,6 +21,7 @@
 		"preserveConstEnums": true,
 		"suppressImplicitAnyIndexErrors": true,
 		"sourceMap": false,
+		"moduleResolution": "node",
 		"types" : ["jquery","requirejs"],
 		"lib":
 		[

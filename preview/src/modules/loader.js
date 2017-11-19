@@ -1,11 +1,6 @@
 import _ from 'lodash';
 import Yaml from 'js-yaml';
 
-// IE Polyfills
-import "isomorphic-fetch";
-import promise from 'es6-promise';
-promise.polyfill();
-
 export default class Loader
 {
     static async loadJSONorYAML(path)
@@ -27,26 +22,23 @@ export default class Loader
     
     static async LoadData()
     {
-        if(Loader.HasLoaded)
+        if (Loader.HasLoaded)
             return; 
+        
         const requestbase = "//" + window.location.host + "/";
-        // Fetch root confg (to find out where the actual config is located)
-        const rootConfig = await this.loadJSONorYAML(requestbase + 'config-root.json');
         
-        
-        // Fetch project configuration
-        let mainConfigPath = (typeof rootConfig.config === "string") ? rootConfig.config : 'patternlibraryconfig.json';
-        if(mainConfigPath.indexOf('./') === 0)
-        {
-            mainConfigPath = mainConfigPath.substr(2);
-        }
-        const mainconfig = await this.loadJSONorYAML(requestbase + mainConfigPath);
+        // Main config will be imported by Webpack via an appropriate loader
+        const mainconfig = require(__CONFIG_PATH__);
+
+        const contentindex = require("./indexes/contentindex.json");
+        console.log(contentindex);
 
         if(typeof mainconfig !== "object")
         {
-            console.error('Could not parse project config ('+ requestbase + mainConfigPath + ')');
+            console.error('Could not parse project config ('+ __CONFIG_PATH__ + ')');
             return;
         }
+        
         // Look for user config and extend the default config if present
         if(typeof mainconfig.userconfig === "string" && mainconfig.userconfig.length > 0)
         {
