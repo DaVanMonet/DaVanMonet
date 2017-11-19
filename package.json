@@ -5,10 +5,10 @@
 	"license": "UNLICENSED",
 	"private": false,
 	"scripts": {
-		"dev": "node configs/build/dev-server.js",
-		"build-dvm": "node configs/build/build-dvm.js",
-		"build-pl": "node configs/build/build-patternlibrary.js",
-		"dev-pl": "node configs/build/dev-server-patternlibrary.js"
+		"dev": "node dvm-build/dev-server.js",
+		"build-dvm": "node dvm-build/build-dvm.js",
+		"build-pl": "node dvm-build/build-patternlibrary.js",
+		"dev-pl": "node dvm-build/dev-server-patternlibrary.js"
 	},
 	"author": {
 		"name": "Wezz Balk",

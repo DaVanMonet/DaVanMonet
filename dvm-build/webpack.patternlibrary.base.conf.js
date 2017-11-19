@@ -4,8 +4,8 @@
  */
 
 const path = require('path')
-const utils = require('./utils')
-const config = require('../env')
+const utils = require('./utils/utils')
+const config = require('./env')
 const glob = require("glob")
 const webpack = require('webpack');
 const PostCompile = require('post-compile-webpack-plugin')
@@ -14,7 +14,7 @@ function resolve (dir) {
     return path.join(__dirname, '..', dir)
 }
 
-const dvmConfig = require('./dvm-scripts/load-config')();
+const dvmConfig = require('./utils/load-config')();
 
 module.exports = {
     name: "patternlibrary",

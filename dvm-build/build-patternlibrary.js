@@ -8,10 +8,10 @@ const webpack = require('webpack')
 const webpackConfig = require('./webpack.patternlibrary.prod.conf')
 
 // Load config
-const dvm_config = require('./dvm-scripts/load-config')();
+const dvm_config = require('./utils/load-config')();
 
 // Generate fresh contentindex.json
-require('./dvm-scripts/create-content-index')(dvm_config);
+require('./utils/create-content-index')(dvm_config);
 
 webpack(webpackConfig, function (err, stats) {
     //spinner.stop()

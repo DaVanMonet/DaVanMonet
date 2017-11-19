@@ -4,9 +4,9 @@
  */
 
 var path = require('path')
-var utils = require('./utils')
+var utils = require('./utils/utils')
 var webpack = require('webpack')
-var config = require('../env')
+var config = require('./env')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.dvm.base.conf')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -15,7 +15,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 var env = process.env.NODE_ENV === 'testing'
-  ? require('../env/test.env')
+  ? require('./env/test.env')
   : config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
@@ -60,7 +60,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       filename: process.env.NODE_ENV === 'testing'
         ? 'index.html'
         : config.build.index,
-      template: 'preview/index.html',
+      template: 'dvm-app/index.html',
       inject: true,
       minify: {
         removeComments: true,
@@ -97,7 +97,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // copy custom static assets
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../../preview/static'),
+        from: path.resolve(__dirname, '../../dvm-app/static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       },

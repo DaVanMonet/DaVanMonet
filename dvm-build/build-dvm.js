@@ -7,7 +7,7 @@ var rm = require('rimraf')
 var path = require('path')
 var chalk = require('chalk')
 var webpack = require('webpack')
-var config = require('../env')
+var envConfig = require('./env')
 var webpackConfig = require('./webpack.dvm.prod.conf')
 
 var spinner = ora('building for production...')
@@ -25,7 +25,7 @@ child = exec("grunt build", function (error, stdout, stderr) {
   }
 });
 
-rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
+rm(path.join(envConfig.build.assetsRoot, envConfig.build.assetsSubDirectory), err => {
   if (err) throw err
   webpack(webpackConfig, function (err, stats) {
     spinner.stop()

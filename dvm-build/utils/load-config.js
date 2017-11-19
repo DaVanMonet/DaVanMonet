@@ -14,7 +14,7 @@ const loadConfigFile = path => (path.indexOf('.json') !== -1) ? require(path) : 
 module.exports = function() {
 
     // Set path to the configFile set in package.json, or use deafult path
-    var defaultPath = process.cwd() + "/configs/projectoptions.yml";
+    var defaultPath = process.cwd() + "/dvm-config/projectoptions.yml";
     var path = process.cwd() + '/' + process.env.npm_package_config_configFile || defaultPath;
 
     if (fs.existsSync(path))

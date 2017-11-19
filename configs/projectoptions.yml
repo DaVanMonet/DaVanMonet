@@ -4,7 +4,7 @@ project_info:
   logo: "/static/logo.svg"
   theme_style: default
 directories:
-  src: "src"
+  src: "example"
   jsdest: "./js"
   cssdest: "/css"
   build: "./build"
@@ -80,7 +80,7 @@ env:
     toWidth: 9007199254740990
 assets:
 - isdirectory: true
-  src: "./src/assets"
+  src: "./examples/assets"
   dest: "./build/assets"
 build:
   mswebdeploy:

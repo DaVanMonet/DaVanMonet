@@ -1,6 +1,6 @@
 require('./check-versions')()
 
-var envConfig = require('../env')
+var envConfig = require('./env')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(envConfig.dev.env.NODE_ENV)
 }
@@ -14,7 +14,7 @@ var webpackConfigDvm = require('./webpack.dvm.dev.conf')
 var webpackConfigPL = require('./webpack.patternlibrary.dev.conf')
 var webpackConfig = [webpackConfigDvm, webpackConfigPL];
 
-const dvmConfig = require('./dvm-scripts/load-config')();
+const dvmConfig = require('./utils/load-config')();
 
 // default port where dev server listens for incoming traffic
 var port = dvmConfig.env.devsiteport
@@ -68,7 +68,7 @@ app.use(hotMiddleware)
 // serve pure static assets
 // TODO: Look over these paths
 var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.assetsSubDirectory)
-app.use(staticPath, express.static('./preview/static'))
+app.use(staticPath, express.static('./dvm-app/static'))
 app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src))
 
 var uri = 'http://localhost:' + port
