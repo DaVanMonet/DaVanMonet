@@ -4,14 +4,14 @@
  */
 
 const path = require('path')
-const utils = require('./utils/utils')
-const envConfig = require('./env')
+const utils = require('../utils/utils')
+const envConfig = require('../env')
 const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack');
 const fs = require('fs');
 
-const dvmConfig = require('./utils/load-config')();
-const ContentIndexResolver = require('./utils/content-index-resolver');
+const dvmConfig = require('../utils/load-config')();
+const ContentIndexResolver = require('../utils/content-index-resolver');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -36,9 +36,9 @@ module.exports = {
     extensions: ['.js', '.vue', '.json', '.yml'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': path.resolve(__dirname, '../dvm-app'),
-      [dvmConfig.directories.configs]: path.resolve(__dirname, '.' + dvmConfig.directories.configs),
-      [dvmConfig.directories.indexes]: path.resolve(__dirname, '.' + dvmConfig.directories.indexes)
+      '@': path.resolve(__dirname, '../../dvm-app'),
+      [dvmConfig.directories.configs]: path.resolve(__dirname, '../.' + dvmConfig.directories.configs),
+      [dvmConfig.directories.indexes]: path.resolve(__dirname, '../.' + dvmConfig.directories.indexes)
     },
     plugins: [ContentIndexResolver] // ContentIndexResolver will generate contentindex.json if it does not exist
   },

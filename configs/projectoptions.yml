@@ -3,6 +3,7 @@ project_info:
   name: DaVanMonet
   logo: "/static/logo.svg"
   theme_style: default
+
 directories:
   src: "example"
   jsdest: "./js"
@@ -14,7 +15,9 @@ directories:
   configs: "./configs"
   copycsspath: ''
   copyassetspath: ''
+
 userconfig: "./configs/local-conf.json"
+
 indexing:
   contentindexoutput: contentindex.json
   targetindexoutput: targetindex.json
@@ -24,6 +27,7 @@ indexing:
   - variantid
   - componentid
   #- requirejs
+
 compilation:
   compilers:
     less:
@@ -56,6 +60,7 @@ compilation:
       options:
         browsers:
         - last 2 versions
+        
 env:
   devsiteport: 9001
   buildsiteport: 9002

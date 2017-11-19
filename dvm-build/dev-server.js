@@ -10,8 +10,8 @@ var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
-var webpackConfigDvm = require('./webpack.dvm.dev.conf')
-var webpackConfigPL = require('./webpack.patternlibrary.dev.conf')
+var webpackConfigDvm = require('./webpack/webpack.dvm.dev.conf')
+var webpackConfigPL = require('./webpack/webpack.patternlibrary.dev.conf')
 var webpackConfig = [webpackConfigDvm, webpackConfigPL];
 
 const dvmConfig = require('./utils/load-config')();
