@@ -34,29 +34,22 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': path.resolve(__dirname, '../../preview'),
-      './configs': path.resolve(__dirname, '../'),
-      './indexes': path.resolve(__dirname, '../../indexes')
+      [dvmConfig.directories.configs]: path.resolve(__dirname, '../'),
+      [dvmConfig.directories.indexes]: path.resolve(__dirname, '../.' + dvmConfig.directories.indexes)
     },
-    plugins: [ContentIndexResolver] // This will generate contentindex.json if it does not exist
+    plugins: [ContentIndexResolver] // ContentIndexResolver will generate contentindex.json if it does not exist
   },
   plugins: [
+    // Here we're using the DefinePlugin to create some constants
+    // that can be accessed from the application code
     new webpack.DefinePlugin({
-      __MAIN_CONFIG_PATH__: JSON.stringify(process.env.npm_package_config_configFile),
+      __MAIN_CONFIG_PATH__: JSON.stringify(process.env.npm_package_config_configFile), // This is set in package.json
       __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig),
       __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput)
     })
   ],
   module: {
     rules: [
-      // {
-      //   test: /\.(js|vue)$/,
-      //   loader: 'eslint-loader',
-      //   enforce: 'pre',
-      //   include: [resolve('src'), resolve('test')],
-      //   options: {
-      //     formatter: require('eslint-friendly-formatter')
-      //   }
-      // },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

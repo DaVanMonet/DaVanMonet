@@ -28,7 +28,7 @@ export default class Loader
         }
         Loader.ProjectConfig = mainconfig;
 
-        // Fetch content index
+        // Load content index
         Loader.ContentIndex = require(__CONTENT_INDEX_PATH__);
 
         Loader.HasLoaded = true;

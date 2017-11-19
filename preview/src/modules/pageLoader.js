@@ -2,6 +2,11 @@ import Marked from 'marked';
 import Loader from '@/src/modules/loader';
 import DataStructureParser from '@/src/modules/dataStructureParser';
 
+// IE Polyfills for fetch and promise APIs
+import "isomorphic-fetch";
+import promise from 'es6-promise';
+promise.polyfill();
+
 export default class PageLoader
 {
 	constructor(configuration = {})
