@@ -41,7 +41,9 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      __CONFIG_PATH__: JSON.stringify(process.env.npm_package_config_configFile)
+      __MAIN_CONFIG_PATH__: JSON.stringify(process.env.npm_package_config_configFile),
+      __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig),
+      __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput)
     })
   ],
   module: {
