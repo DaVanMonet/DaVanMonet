@@ -10,7 +10,7 @@ const webpackConfig = require('./webpack.patternlibrary.prod.conf')
 // Load config
 const dvm_config = require('./dvm-scripts/load-config')();
 
-// Generate contentindex.json
+// Generate fresh contentindex.json
 require('./dvm-scripts/create-content-index')(dvm_config);
 
 webpack(webpackConfig, function (err, stats) {

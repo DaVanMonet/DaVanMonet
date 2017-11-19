@@ -1,8 +1,8 @@
 require('./check-versions')()
 
-var config = require('../env')
+var envConfig = require('../env')
 if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
+  process.env.NODE_ENV = JSON.parse(envConfig.dev.env.NODE_ENV)
 }
 
 var opn = require('opn')
@@ -14,13 +14,17 @@ var webpackConfigDvm = require('./webpack.dvm.dev.conf')
 var webpackConfigPL = require('./webpack.patternlibrary.dev.conf')
 var webpackConfig = [webpackConfigDvm, webpackConfigPL];
 
+const dvmConfig = require('./dvm-scripts/load-config')();
+
 // default port where dev server listens for incoming traffic
-var port = process.env.PORT || config.dev.port
+var port = dvmConfig.env.devsiteport
+
 // automatically open browser, if not set will be false
-var autoOpenBrowser = !!config.dev.autoOpenBrowser
+var autoOpenBrowser = !!dvmConfig.env.launchbrowser
+
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
-var proxyTable = config.dev.proxyTable
+var proxyTable = envConfig.dev.proxyTable
 
 var app = express()
 var compiler = webpack(webpackConfig)
@@ -63,11 +67,9 @@ app.use(hotMiddleware)
 
 // serve pure static assets
 // TODO: Look over these paths
-var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
+var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./preview/static'))
-app.use('/', express.static('./build'))
-app.use('/', express.static('./preview/static'))
-app.use('/', express.static('./'))
+app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src))
 
 var uri = 'http://localhost:' + port
 

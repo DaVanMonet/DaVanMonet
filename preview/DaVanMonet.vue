@@ -17,7 +17,7 @@
             class="davanmonet-maincontentcontainer" 
             v-if="configLoaded == true && maincontent"
             :content="maincontent"
-            :css-breakpoints="projectConfig.developmentenvironment.cssbreakpoints"
+            :css-breakpoints="projectConfig.env.cssbreakpoints"
             ></main-content>
         <div v-if="configLoaded == false">
             Loading...

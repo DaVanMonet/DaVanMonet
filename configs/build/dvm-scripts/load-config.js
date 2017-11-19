@@ -14,8 +14,8 @@ const loadConfigFile = path => (path.indexOf('.json') !== -1) ? require(path) : 
 module.exports = function() {
 
     // Set path to the configFile set in package.json, or use deafult path
-    var defaultPath = process.env.INIT_CWD + "/configs/projectoptions.yml";
-    var path = process.env.INIT_CWD + '/' + process.env.npm_package_config_configFile || defaultPath;
+    var defaultPath = process.cwd() + "/configs/projectoptions.yml";
+    var path = process.cwd() + '/' + process.env.npm_package_config_configFile || defaultPath;
 
     if (fs.existsSync(path))
     {
@@ -23,7 +23,7 @@ module.exports = function() {
         var config_base = loadConfigFile(path);
         
         // Load JSON or YAML user confg file
-        var config_user = loadConfigFile(process.env.INIT_CWD + '/' + config_base.userconfig);
+        var config_user = loadConfigFile(process.cwd() + '/' + config_base.userconfig);
         
         // Merge to a single config
         var config = _.merge(config_base, config_user);
@@ -31,7 +31,7 @@ module.exports = function() {
         // Assign structureFolders. Take structure from config if set, otherwise map file system. Save result to co config.
         const hasSpecifiedStructure = isType(config.structure, "object") && isType(config.structure.length, "number") && config.structure.length > 0;
         config.structureFolders = (hasSpecifiedStructure) ? config.structure : getDirs(config.directories.src).map(
-            (folder) => { 
+            folder => { 
                 return {
                     title: folder.charAt(0).toUpperCase() + folder.substr(1),
                     path: folder

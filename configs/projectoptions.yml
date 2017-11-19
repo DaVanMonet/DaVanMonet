@@ -4,7 +4,7 @@ project_info:
   logo: "/static/logo.svg"
   theme_style: default
 directories:
-  src: "./src"
+  src: "src"
   jsdest: "./js"
   cssdest: "/css"
   build: "./build"
@@ -56,9 +56,9 @@ compilation:
       options:
         browsers:
         - last 2 versions
-developmentenvironment:
-  devwebsiteport: 9001
-  buildwebsiteport: 9002
+env:
+  devsiteport: 9001
+  buildsiteport: 9002
   onsitepreviewport: 9003
   livereloadport: 1234
   launchbrowser: false
