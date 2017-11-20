@@ -60,7 +60,7 @@ compilation:
       options:
         browsers:
         - last 2 versions
-        
+
 env:
   devsiteport: 9001
   buildsiteport: 9002
@@ -83,10 +83,12 @@ env:
     width: 100%
     fromWidth: 1000
     toWidth: 9007199254740990
+
 assets:
 - isdirectory: true
   src: "./examples/assets"
   dest: "./build/assets"
+
 build:
   mswebdeploy:
     dest: "dist/"
@@ -106,6 +108,7 @@ build:
       dest: "./"
     - src: "./configs/Web.config"
       dest: "./"
+
 structure:
 - title: Components
   path: components
@@ -113,5 +116,6 @@ structure:
   path: global
 - title: Script Modules
   path: modules
+  
 onsitepreview:
   components: []

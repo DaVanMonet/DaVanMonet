@@ -12,30 +12,30 @@ Clone this repository and run the following commands in the base directory (we u
 npm install
 ```
 
-### Grunt task
+### Install DvM as a package
 #### Installation
 ```shell
-npm install github:wezz/davanmonet --save-dev
+npm install davanmonet --save-dev
 ```
 #### Configuration
-In your grunt configuration
+In your package.json
 ```js
-davanmonet:
-{
-    options:
-    {
-        "config":"./configs/projectoptions.json"	
-    }
-}
+"config": {
+    "configFile": "./configs/projectoptions.yml"
+},
 ```
 
-#### Run tasks
+#### Run as NPM scripts
+In your package.json
 ```js
-grunt.loadNpmTasks("davanmonet");
+"scripts": {
+    "dev": "node node_modules/davanmonet/dvm-build/dev-server.js"
+  },
+```
 
-grunt.registerTask("createindexes", ["davanmonet:createindexes"]);
-grunt.registerTask("build", ["davanmonet:build"]);
-grunt.registerTask("dev", ["davanmonet:dev"]);
+Then issue simplu run 'npm run dev':
+```shell
+npm run dev
 ```
 
 ## Configuration file (JSON or YAML)
@@ -44,21 +44,18 @@ It can be a JSON file as well. Just specify the correct path to the options file
 
 
 ### Directories
-You can change where the system will put compilated css and where your source files are located
+You can change where the system will put compiled css and where your source files are located
 
 ### Index Options
 The system will create an index of all the documentation (also used by the preview), this will specify where that index is saved and what metadata to add to the index.
 
 ### Compilation
-The system can use both less or sass or both.
+Add target files here. These can be anything that Webpack can understand. By default Less, Sass and JS (es6) is supported, but you can add more loaders to Webbpack for other languages.
 
 The option compileIndividualFiles will create one less file per source files. 
 
-### Preview
-Settings for the live preview site
-
-### Development Environment
-Settings for livereload etc
+### Env
+Settings for ports etc
 
 ### Structure
 Add folders that should be included in the less/sass/index compilation.
@@ -98,7 +95,6 @@ The "onsitepreview" object should be at the root level of the configuration tree
 
 ## Usage
 
-## Grunt tasks
 
 ### Deployment
 ```shell
