@@ -10,6 +10,9 @@ const glob = require("glob")
 const webpack = require('webpack');
 const PostCompile = require('post-compile-webpack-plugin')
 
+const LifecyclePlugin = require('../utils/lifecycle-plugin');
+
+
 function resolve (dir) {
     return path.join(__dirname, '..', dir)
 }
@@ -44,7 +47,12 @@ module.exports = {
     plugins: [
       new PostCompile((stats) => {
         //console.log("Assets: ", stats.compilation.records.chunks.byName)
-      })
+      }),
+      new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
+      {
+        // If configured, move specified assets to external folder
+        require('../utils/copyutils').copyAssets();
+      }})
     ],
     
     module: {

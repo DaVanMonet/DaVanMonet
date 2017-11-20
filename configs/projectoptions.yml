@@ -85,9 +85,10 @@ env:
     toWidth: 9007199254740990
 
 assets:
-- isdirectory: true
-  src: "./examples/assets"
-  dest: "./build/assets"
+- src: "example/assets"
+  dest: 
+  - "dist/web/assets-output"
+  - "dist/package/assets-output"
 
 build:
   mswebdeploy:
