@@ -8,22 +8,22 @@ var path = require('path')
 var chalk = require('chalk')
 var webpack = require('webpack')
 var envConfig = require('./env')
-var webpackConfig = require('./webpack.dvm.prod.conf')
+var webpackConfig = require('./webpack/webpack.dvm.prod.conf')
 
 var spinner = ora('building for production...')
 spinner.start()
 
 // Start legacy grunt build
-var sys = require('sys')
-var exec = require('child_process').exec;
-var child;
-child = exec("grunt build", function (error, stdout, stderr) {
-  sys.print('stdout: ' + stdout);
-  sys.print('stderr: ' + stderr);
-  if (error !== null) {
-    console.log('grunt dev error: ' + error);
-  }
-});
+// var sys = require('sys')
+// var exec = require('child_process').exec;
+// var child;
+// child = exec("grunt build", function (error, stdout, stderr) {
+//   sys.print('stdout: ' + stdout);
+//   sys.print('stderr: ' + stderr);
+//   if (error !== null) {
+//     console.log('grunt dev error: ' + error);
+//   }
+// });
 
 rm(path.join(envConfig.build.assetsRoot, envConfig.build.assetsSubDirectory), err => {
   if (err) throw err
