@@ -13,15 +13,11 @@ const fs = require('fs');
 const dvmConfig = require('../utils/load-config')();
 const ContentIndexResolver = require('../utils/content-index-resolver');
 
-function resolve (dir) {
-  return path.join(__dirname, '..', dir)
-}
-
 module.exports = {
   name: "davanmonet",
   
   entry: {
-    app: ['./dvm-app/src/main.js']
+    app: [path.resolve(__dirname, '../../dvm-app/src/main.js')]
   },
   
   output: {
@@ -37,8 +33,8 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': path.resolve(__dirname, '../../dvm-app'),
-      [dvmConfig.directories.configs]: path.resolve(__dirname, '../.' + dvmConfig.directories.configs),
-      [dvmConfig.directories.indexes]: path.resolve(__dirname, '../.' + dvmConfig.directories.indexes)
+      [dvmConfig.directories.configs]: path.resolve(process.cwd(), dvmConfig.directories.configs),
+      [dvmConfig.directories.indexes]: path.resolve(process.cwd(), dvmConfig.directories.indexes)
     },
     plugins: [ContentIndexResolver] // ContentIndexResolver will generate contentindex.json if it does not exist
   },
@@ -50,7 +46,20 @@ module.exports = {
       __MAIN_CONFIG_PATH__: JSON.stringify(process.env.npm_package_config_configFile), // This is set in package.json
       __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig),
       __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput)
-    })
+    }),
+
+    function()
+    {
+        this.plugin("done", function(stats)
+        {
+            if (stats.compilation.errors && stats.compilation.errors.length)
+            {
+                console.log(stats.compilation.errors);
+                process.exit(1);
+            }
+            // ...
+        });
+    }
   ],
   
   module: {
@@ -66,7 +75,7 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /.*node_modules((?!davanmonet).)*$/,
         loader: 'babel-loader',
         query: {
           presets:[ 'stage-2' ]

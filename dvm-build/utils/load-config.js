@@ -20,13 +20,16 @@ module.exports = function() {
     if (fs.existsSync(path))
     {
         // Load JSON or YAML base confg file
-        var config_base = loadConfigFile(path);
+        var config = loadConfigFile(path);
         
-        // Load JSON or YAML user confg file
-        var config_user = loadConfigFile(process.cwd() + '/' + config_base.userconfig);
-        
-        // Merge to a single config
-        var config = _.merge(config_base, config_user);
+        // If we have a user config file configured
+        if (isType(config.userconfig, "string")) {
+            // Load JSON or YAML user config file
+            var config_user = loadConfigFile(process.cwd() + '/' + config.userconfig);
+            
+            // Merge to a single config
+            var config = _.merge(config, config_user);
+        }
         
         // Assign structureFolders. Take structure from config if set, otherwise map file system. Save result to co config.
         const hasSpecifiedStructure = isType(config.structure, "object") && isType(config.structure.length, "number") && config.structure.length > 0;

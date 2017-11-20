@@ -16,6 +16,11 @@ function resolve (dir) {
 
 const dvmConfig = require('../utils/load-config')();
 
+// Include paths for SCSS
+var scssIncPaths = [];
+if(dvmConfig.compilation.compilers.scss.includePaths !== undefined)
+  scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths;
+
 module.exports = {
     name: "patternlibrary",
     
@@ -66,7 +71,22 @@ module.exports = {
             }, {
               loader: "less-loader" // 1. compiles Less to CSS
             }]
-        }
+        },
+        {
+          test: /\.scss$/,
+          use: [{
+              loader: "style-loader" // creates style nodes from JS strings
+          }, {
+              loader: "css-loader" // translates CSS into CommonJS
+          }, {
+              loader: "sass-loader", // compiles Sass to CSS
+              options: {
+                includePaths: scssIncPaths.map(
+                  incPath => path.resolve(process.cwd(), incPath)
+                )
+              }
+          }]
+      }
       ]
     }
   }

@@ -25,10 +25,10 @@ module.exports = {
     env: require('./dev.env'),
     port: 8080,
     autoOpenBrowser: true,
-    assetsRoot: path.resolve(__dirname, '../../preview'),
+    assetsRoot: path.resolve(__dirname, '../../dvm-app'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    index: path.resolve(__dirname, '../../preview/index.html'),
+    index: path.resolve(__dirname, '../../dvm-app/index.html'),
     proxyTable: {},
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
