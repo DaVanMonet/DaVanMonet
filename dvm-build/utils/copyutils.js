@@ -39,7 +39,7 @@ exports.copyTargets = function()
 				{
 					return console.error(err)
 				}
-				console.log('Copied "' + target_name.src + '" to "'+ dvmConfig.directories.dist_package +'"');
+				console.log('Copied "' + target_name + '" to "'+ dvmConfig.directories.dist_package.replace("./","/") + dvmConfig.directories.cssdest +'"');
 			});
 		}
 	}
