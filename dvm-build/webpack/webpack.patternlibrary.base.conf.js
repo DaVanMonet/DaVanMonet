@@ -51,7 +51,8 @@ module.exports = {
 			"done": (compilation, options, pluginOptions) =>
 			{
 				// If configured, move specified assets to external folder
-				require('../utils/copyutils').copyAssets();
+        require('../utils/copyutils').copyAssets();
+        require('../utils/copyutils').copyTargets();
 			}
 		}),
 		...additionalPlugins

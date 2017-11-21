@@ -49,6 +49,7 @@ module.exports = function() {
                     }
                 });
 
+                
             // Expand compiler target globs using globby
             // https://github.com/sindresorhus/globby
             config.compilation["entry"] = {};

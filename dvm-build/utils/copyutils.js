@@ -27,5 +27,20 @@ exports.copyAssets = function()
 
 exports.copyTargets = function()
 {
-	console.log('### copy targets');
+	if(dvmConfig.compilation.targets && dvmConfig.compilation.copyCompiledCssToFolder === true)
+	{
+		for (let target_name of Object.keys(dvmConfig.compilation.targets))
+		{
+			const srcPath = path.resolve(process.cwd() + dvmConfig.directories.dist_web.replace("./","/") + dvmConfig.directories.cssdest,  target_name);
+			const destPath = path.resolve(process.cwd() + dvmConfig.directories.dist_package.replace("./","/") + dvmConfig.directories.cssdest,  target_name);
+			fs.copy(srcPath, destPath, err =>
+			{
+				if (err)
+				{
+					return console.error(err)
+				}
+				console.log('Copied "' + target_name.src + '" to "'+ dvmConfig.directories.dist_package +'"');
+			});
+		}
+	}
 };

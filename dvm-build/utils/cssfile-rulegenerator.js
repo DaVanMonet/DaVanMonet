@@ -12,12 +12,11 @@ module.exports = function()
 	{
 		scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths;
 	}
-
-	// console.log('dvmConfig.compilation.targets',dvmConfig.compilation.targets)
-	// console.log('dvmConfig.compilation',dvmConfig.compilation)
+	// Loop targets
 	for(let output in dvmConfig.compilation.targets)
 	{
 		const targetInfo = dvmConfig.compilation.targets[output];
+		// Check which type of target we're dealing with and add the correct loaders
 		let useList = [{ loader: "css-loader" /* 2. translates CSS into CommonJS */ }];
 		if(targetInfo.test+"".indexOf('.sass') !== -1)
 		{
@@ -34,24 +33,18 @@ module.exports = function()
 			useList.push({ loader: "less-loader" });
 		}
 	
-
+		// Create the plugin that will extract the content
 		const targetExtractPlugin = new ExtractTextPlugin(
 			{
-				filename: output,
+				filename: dvmConfig.directories.cssdest + "/"+ output,
 				//disable: process.env.NODE_ENV === "development"
 			});
 		additionalPlugins.push(targetExtractPlugin);
+
+		// Create the rule which will use our plugin with it's loader
 		let rule = 
 		{
-			// resource:dvmConfig.compilation.targets[output].map(file =>
-			// 	file.replace(process.cwd().replace(/\\/ig,"/"), ".")
-			// ),
-			
-			//test : dvmConfig.compilation.targets[output].map(file => require.resolve(file.replace(process.cwd().replace(/\\/ig,"/"), "."))),
 			test : new RegExp(targetInfo.test),
-
-			//test : dvmConfig.compilation.targets[output].map(file => file.replace(process.cwd().replace(/\\/ig,"/"), ".")),
-			//test : /\.less$/,
 			use:targetExtractPlugin.extract(
 			{
 				use: useList,
@@ -63,23 +56,6 @@ module.exports = function()
 			rule["exclude"] = targetInfo.exclude.map(exclude => new RegExp(exclude));
 		}
 		additionalRules.push(rule);
-		// const testList = dvmConfig.compilation.targets[output].filter(target => target.indexOf("!") === -1).map(target => new RegExp("/\\"+ target +"$/",'ig'));
-		// const excludeList = dvmConfig.compilation.targets[output].filter(target => target.indexOf("!") === 0).map(target => new RegExp("/\\"+ target.replace("!","") +"$/",'ig'));
-		// testList.forEach(test => {
-		// 	let rule = {
-		// 		test: test,
-		// 		use: targetExtractPlugin.extract(
-		// 		{
-		// 			use: useList,
-		// 			fallback: "style-loader"
-		// 		})
-		// 	};
-		// 	if(excludeList.length > 0)
-		// 	{
-		// 		rule.exclude = excludeList;
-		// 	}
-		// 	additionalRules.push(rule);
-		// });
 	}
 	return { additionalRules,  additionalPlugins };
 }
