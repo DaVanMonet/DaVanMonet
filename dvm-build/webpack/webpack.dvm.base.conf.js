@@ -11,7 +11,7 @@ const webpack = require('webpack');
 const fs = require('fs');
 
 const dvmConfig = require('../utils/load-config')();
-const ContentIndexResolver = require('../utils/content-index-resolver');
+const ContentIndexResolver = require('../plugins/content-index-resolver');
 
 module.exports = {
   name: "davanmonet",

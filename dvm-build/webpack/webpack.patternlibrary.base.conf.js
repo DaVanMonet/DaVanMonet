@@ -10,7 +10,7 @@ const glob = require("glob")
 const webpack = require('webpack');
 const PostCompile = require('post-compile-webpack-plugin')
 
-const LifecyclePlugin = require('../utils/lifecycle-plugin');
+const LifecyclePlugin = require('../plugins/lifecycle-plugin');
 
 
 function resolve (dir) {
