@@ -94,7 +94,7 @@ module.exports = function() {
     // Loop through the folders specified in the projects configuration
     const structureitems = config.structureFolders.map((structureitem, index) =>
     {
-        console.log("StructureItem: ", structureitem);
+        //console.log("StructureItem: ", structureitem);
         let directoryMetadata = parseDirectoryMetadata("", structureitem["path"], index);
         directoryMetadata["title"] = structureitem["title"];
         return directoryMetadata;
