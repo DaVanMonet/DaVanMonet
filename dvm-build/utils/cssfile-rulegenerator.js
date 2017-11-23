@@ -6,56 +6,75 @@ module.exports = function()
 	let additionalPlugins = [];
 	let additionalRules = []
 
-	// Include paths for SCSS
-	var scssIncPaths = [];
-	if(dvmConfig.compilation.compilers.scss.includePaths !== undefined)
-	{
-		scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths;
-	}
-	// Loop targets
-	for(let output in dvmConfig.compilation.targets)
-	{
-		const targetInfo = dvmConfig.compilation.targets[output];
-		// Check which type of target we're dealing with and add the correct loaders
-		let useList = [{ loader: "css-loader" /* 2. translates CSS into CommonJS */ }];
-		if(targetInfo.test+"".indexOf('.sass') !== -1)
-		{
-			useList.push({
-				loader: "sass-loader", /* compiles Sass to CSS */
-				options:
-				{
-					includePaths: scssIncPaths.map(incPath => path.resolve(process.cwd(), incPath))
-				}
-			});
-		}
-		if(targetInfo.test+"".indexOf('.less') !== -1)
-		{
-			useList.push({ loader: "less-loader" });
-		}
+	let loader_specs = {};
 	
-		// Create the plugin that will extract the content
-		const targetExtractPlugin = new ExtractTextPlugin(
-			{
-				filename: dvmConfig.directories.cssdest + "/"+ output,
-				//disable: process.env.NODE_ENV === "development"
-			});
-		additionalPlugins.push(targetExtractPlugin);
+	// Loop targets
+	for (t_key of Object.keys(dvmConfig.compilation.targets)
+		.filter(t => t.endsWith('.css'))) // We only care about CSS targets here
+	{
+		let t = dvmConfig.compilation.targets[t_key];
 
-		// Create the rule which will use our plugin with it's loader
-		let rule = 
+		// Look for less files
+		if (loader_specs['less'] === undefined
+		&& t.find(f => f.endsWith('.less')))
 		{
-			test : new RegExp(targetInfo.test),
-			use:targetExtractPlugin.extract(
-			{
-				use: useList,
-				fallback: "style-loader"
-			})
-		}
-		if(targetInfo.exclude)
+			loader_specs['less'] = {
+				test: /\.less$/,
+				loader: 'less-loader'
+			}
+
+			continue;
+		} // less
+
+		// Look for sass files
+		if (loader_specs['sass'] === undefined
+		&& t.find(f => f.endsWith('.sass') || f.endsWith('.scss')))
 		{
-			rule["exclude"] = targetInfo.exclude.map(exclude => new RegExp(exclude));
+			// Include paths for SCSS
+			var scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths | [];
+
+			loader_specs['sass'] = {
+				test: /\.s[c|a]ss$/,
+				loader: 'sass-loader',
+				options: {
+					includePaths: scssIncPaths.map(
+						incPath => path.resolve(process.cwd(), incPath)
+					)
+				}
+			}
+
+			continue;
+		} // sass
+
+	} // for
+
+	// Create neccesary loaders
+	for (ls_key in loader_specs)
+	{
+		let loader = {
+			test: loader_specs[ls_key].test,
+			use: ['css-hot-loader?fileMap=css/{fileName}'].concat(ExtractTextPlugin.extract({ // Use css-hot-loader to enable hot-loading in dev mode
+				fallback: "style-loader", // 3. Load with extract text plugin, or fall back to style loader
+				use: [{
+					loader: "css-loader" // 2. Translates CSS into CommonJS
+				}, {
+					loader: loader_specs[ls_key].loader, // 1. Preprocess
+					options: loader_specs[ls_key].options
+				}]
+			}))
 		}
-		additionalRules.push(rule);
+
+		additionalRules.push(loader);
 	}
+
+	// Create plugin dependencies
+	additionalPlugins.push(
+		new ExtractTextPlugin({
+			// TODO: Don't hardcode this
+			filename: 'static/css/[name]'
+		}));
+
+	console.log(additionalRules);
+	
 	return { additionalRules,  additionalPlugins };
 }

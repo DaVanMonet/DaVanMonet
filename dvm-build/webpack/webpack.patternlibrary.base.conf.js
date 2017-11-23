@@ -16,10 +16,7 @@ const LifecyclePlugin = require('../plugins/lifecycle-plugin');
 
 const dvmConfig = require('../utils/load-config')();
 
-// Include paths for SCSS
-var scssIncPaths = [];
-if (dvmConfig.compilation.compilers.scss.includePaths !== undefined)
-  scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths;
+const { additionalRules,  additionalPlugins } = require('../utils/cssfile-rulegenerator')();
 
 module.exports = {
     name: "patternlibrary",
@@ -71,10 +68,7 @@ module.exports = {
         },
       }),
 
-      // Output some css
-      new ExtractTextPlugin({
-        filename: utils.relativeAssetsPath('css/[name]')
-      }),
+      ...additionalPlugins
 
     ],
     
@@ -90,34 +84,7 @@ module.exports = {
           }
         },
 
-        {
-          test: /\.less$/,
-          use: ['css-hot-loader?fileMap=css/{fileName}'].concat(ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [{
-              loader: "css-loader" // 2. translates CSS into CommonJS
-            }, {
-              loader: "less-loader" // 1. compiles Less to CSS
-            }]
-          })),
-        },
-
-        {
-          test: /\.scss$/,
-          use: ['css-hot-loader?fileMap=css/{fileName}'].concat(ExtractTextPlugin.extract({
-            fallback: "style-loader",
-            use: [{
-              loader: "css-loader" // translates CSS into CommonJS
-            }, {
-              loader: "sass-loader", // compiles Sass to CSS
-              options: {
-                includePaths: scssIncPaths.map(
-                  incPath => path.resolve(process.cwd(), incPath)
-                )
-              }
-            }]
-          }))
-        }
+        ...additionalRules
 
       ]
     }
