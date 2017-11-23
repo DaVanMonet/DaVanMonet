@@ -36,16 +36,26 @@ compilation:
       lint: false
   targets:
     main.css:
-    - "**/*.less"
-    - "!**/*_inline.less"
-    - "!**/*_print.less"
-    - "!**/*_exclude.less"
+      globbing:
+      - "**/*.less"
+      - "!**/*_inline.less"
+      - "!**/*_print.less"
+      - "!**/*_exclude.less"
+      test: ".less?$"
+      exclude: 
+      - "_inline.less?$"
+      - "_print.less?$"
+      - "_exclude.less?$"
     inline.css:
-    - "**/*_inline.less"
-    - "**/**/*_inline.less"
+      globbing:
+      - "**/*_inline.less"
+      - "**/**/*_inline.less"
+      test: "_inline.less?$"
     print.css:
-    - "**/*_print.less"
-    - "**/**/*_print.less"
+      globbing:
+      - "**/*_print.less"
+      - "**/**/*_print.less"
+      test: "_print.less?$"
   sourceMaps: true
   emitCssCopies: true
   copyAssetsToFolder: false

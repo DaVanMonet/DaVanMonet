@@ -90,12 +90,6 @@ module.exports = {
           }
         },
 
-        { // Load .ts/.tsx files thought ts-loader
-          test: /\.tsx?$/,
-          exclude: /node_modules/,
-          loader: 'ts-loader'
-        },
-
         {
           test: /\.less$/,
           use: ['css-hot-loader?fileMap=css/{fileName}'].concat(ExtractTextPlugin.extract({

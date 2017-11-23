@@ -21,8 +21,3 @@ exports.copyAssets = function()
 		});
 	}
 };
-
-exports.copyTargets = function()
-{
-	console.log('### copy targets');
-};

@@ -13,8 +13,8 @@ const loadConfigFile = path => (path.indexOf('.json') !== -1) ? require(path) : 
 
 let cachedConfig = null;
 
-
-module.exports = function() {
+module.exports = function()
+{
     if(cachedConfig !== null)
     {
         return cachedConfig;
