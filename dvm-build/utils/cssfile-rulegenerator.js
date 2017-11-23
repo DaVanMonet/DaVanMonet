@@ -73,8 +73,6 @@ module.exports = function()
 			// TODO: Don't hardcode this
 			filename: 'static/css/[name]'
 		}));
-
-	console.log(additionalRules);
 	
 	return { additionalRules,  additionalPlugins };
 }
