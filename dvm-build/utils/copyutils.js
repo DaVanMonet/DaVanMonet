@@ -14,10 +14,7 @@ exports.copyAssets = function()
 				const destPath = path.resolve(process.cwd(),dest);
 				fs.copy(srcPath, destPath, err =>
 				{
-					if (err)
-					{
-						return console.error(err)
-					}
+					if (err) throw err;
 					console.log('Copied "' + assetsItem.src + '" to "'+ dest +'"');
 				});
 			});

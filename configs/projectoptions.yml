@@ -13,8 +13,7 @@ directories:
   dist_package: "./dist/package"
   indexes: "./indexes"
   configs: "./configs"
-  copycsspath: ''
-  copyassetspath: ''
+  cssCopies: '../DaVanMonetCopyTest'
 
 userconfig: "./configs/local-conf.json"
 
@@ -48,7 +47,7 @@ compilation:
     - "**/*_print.less"
     - "**/**/*_print.less"
   sourceMaps: true
-  copyCompiledCssToFolder: false
+  emitCssCopies: true
   copyAssetsToFolder: false
   minifycss:
     report: min

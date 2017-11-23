@@ -66,7 +66,6 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 // serve pure static assets
-// TODO: Look over these paths
 var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./dvm-app/static'))
 app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src))

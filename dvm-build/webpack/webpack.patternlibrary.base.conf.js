@@ -14,22 +14,17 @@ const fs = require('fs-extra')
 
 const LifecyclePlugin = require('../plugins/lifecycle-plugin');
 
-
-function resolve (dir) {
-    return path.join(__dirname, '..', dir)
-}
-
 const dvmConfig = require('../utils/load-config')();
 
 // Include paths for SCSS
 var scssIncPaths = [];
-if(dvmConfig.compilation.compilers.scss.includePaths !== undefined)
+if (dvmConfig.compilation.compilers.scss.includePaths !== undefined)
   scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths;
 
 module.exports = {
     name: "patternlibrary",
     
-    entry: dvmConfig.compilation.targets,
+    entry: dvmConfig.compilation.entry,
     
     output: {
       path: config.build.assetsRoot,
@@ -47,8 +42,11 @@ module.exports = {
     },
 
     plugins: [
+
+      // Generate targetindex.json
+      // TODO: Move to LifeCyclePlugin
       new PostCompile(stats => {
-        if(undefined === stats.compilation.records.chunks)
+        if (undefined === stats.compilation.records.chunks)
           return;
         
         let chunks = stats.compilation.records.chunks.byName;
@@ -60,13 +58,20 @@ module.exports = {
           path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/targetindex.json'), targetIndex);
       }),
 
-      new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
-      {
-        // If configured, move specified assets to external folder
-        require('../utils/copyutils').copyAssets();
-      }}),
+      new LifecyclePlugin({
+        "done": (compilation, options, pluginOptions) =>
+        {
+          // If configured, move specified assets to external folder
+          require('../utils/copyutils').copyAssets();
+        },
+        "emit": (compilation, options, pluginOptions) =>
+        {
+          if (dvmConfig.compilation.emitCssCopies === true)
+            require('../utils/emit-css-copies.js')(compilation.assets, dvmConfig.directories.cssCopies);
+        },
+      }),
 
-      // Output some css, maybe
+      // Output some css
       new ExtractTextPlugin({
         filename: utils.relativeAssetsPath('css/[name]')
       }),
@@ -75,6 +80,7 @@ module.exports = {
     
     module: {
       rules: [
+
         { // Load .js/.jsx files though babel-loader
           test: /\.jsx?$/,
           exclude: /node_modules/,
@@ -83,25 +89,28 @@ module.exports = {
             presets:[ 'stage-2' ]
           }
         },
+
         { // Load .ts/.tsx files thought ts-loader
           test: /\.tsx?$/,
           exclude: /node_modules/,
           loader: 'ts-loader'
         },
-        { // Less files will be chained though three diffent loaders:
-          test: /\.less?$/,
-          use: ExtractTextPlugin.extract({
-            fallback: "style-loader",
+
+        {
+          test: /\.less$/,
+          use: ['css-hot-loader?fileMap=css/{fileName}'].concat(ExtractTextPlugin.extract({
+            fallback: 'style-loader',
             use: [{
               loader: "css-loader" // 2. translates CSS into CommonJS
             }, {
               loader: "less-loader" // 1. compiles Less to CSS
             }]
-          })
+          })),
         },
+
         {
           test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
+          use: ['css-hot-loader?fileMap=css/{fileName}'].concat(ExtractTextPlugin.extract({
             fallback: "style-loader",
             use: [{
               loader: "css-loader" // translates CSS into CommonJS
@@ -113,8 +122,9 @@ module.exports = {
                 )
               }
             }]
-          })
-      }
+          }))
+        }
+
       ]
     }
   }

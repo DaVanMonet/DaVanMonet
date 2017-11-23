@@ -11,49 +11,62 @@ const isType = (val, type) => (typeof val === type && (type !== "string" || (typ
 const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirectory());
 const loadConfigFile = path => (path.indexOf('.json') !== -1) ? require(path) : yaml.safeLoad(fs.readFileSync(path, 'utf8'));
 
+let cachedConfig = null;
+
+
 module.exports = function() {
-
-    // Set path to the configFile set in package.json, or use deafult path
-    var defaultPath = process.cwd() + "/dvm-config/projectoptions.yml";
-    var path = process.cwd() + '/' + process.env.npm_package_config_configFile || defaultPath;
-
-    if (fs.existsSync(path))
+    if(cachedConfig !== null)
     {
-        // Load JSON or YAML base confg file
-        var config = loadConfigFile(path);
-        
-        // If we have a user config file configured
-        if (isType(config.userconfig, "string")) {
-            // Load JSON or YAML user config file
-            var config_user = loadConfigFile(process.cwd() + '/' + config.userconfig);
-            
-            // Merge to a single config
-            var config = _.merge(config, config_user);
-        }
-        
-        // Assign structureFolders. Take structure from config if set, otherwise map file system. Save result to co config.
-        const hasSpecifiedStructure = isType(config.structure, "object") && isType(config.structure.length, "number") && config.structure.length > 0;
-        config.structureFolders = (hasSpecifiedStructure) ? config.structure : getDirs(config.directories.src).map(
-            folder => { 
-                return {
-                    title: folder.charAt(0).toUpperCase() + folder.substr(1),
-                    path: folder
-                }
-            });
-
-        // Expand compiler target globs using globby
-        // https://github.com/sindresorhus/globby
-        for (let target_name of Object.keys(config.compilation.targets)) {
-            config.compilation.targets[target_name] = globby.sync(
-                config.compilation.targets[target_name].map(
-                    glob => process.cwd() + '/' + config.directories.src + '/' + glob));
-        }
-
-        return config;
+        return cachedConfig;
     }
     else
     {
-        console.error('File does not exist ('+ path +')');
-    }
+        // Set path to the configFile set in package.json, or use deafult path
+        var defaultPath = process.cwd() + "/dvm-config/projectoptions.yml";
+        var path = process.cwd() + '/' + process.env.npm_package_config_configFile || defaultPath;
 
+        if (fs.existsSync(path))
+        {
+            // Load JSON or YAML base confg file
+            var config = loadConfigFile(path);
+            
+            // If we have a user config file configured
+            if (isType(config.userconfig, "string")) {
+                // Load JSON or YAML user config file
+                var config_user = loadConfigFile(process.cwd() + '/' + config.userconfig);
+                
+                // Merge to a single config
+                var config = _.merge(config, config_user);
+            }
+            
+            // Assign structureFolders. Take structure from config if set, otherwise map file system. Save result to co config.
+            const hasSpecifiedStructure = isType(config.structure, "object") && isType(config.structure.length, "number") && config.structure.length > 0;
+            config.structureFolders = (hasSpecifiedStructure) ? config.structure : getDirs(config.directories.src).map(
+                folder => { 
+                    return {
+                        title: folder.charAt(0).toUpperCase() + folder.substr(1),
+                        path: folder
+                    }
+                });
+            
+            // Expand targets as entries
+            config.compilation.entry = {};
+            for (target_name of Object.keys(config.compilation.targets)) {
+                // Glob all the globs
+                let e = globby.sync(config.compilation.targets[target_name],
+                    { cwd: process.cwd() + '/' + config.directories.src })
+                    .map(relPath => process.cwd() + '/' + config.directories.src + '/' + relPath); // Fix relative paths
+
+                config.compilation.entry[target_name] = e;
+            }
+
+            cachedConfig = config;
+
+            return config;
+        }
+        else
+        {
+            console.error('File does not exist ('+ path +')');
+        }
+    }
 }
