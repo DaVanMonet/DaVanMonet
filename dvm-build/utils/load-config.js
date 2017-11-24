@@ -29,9 +29,15 @@ module.exports = function()
         {
             // Load JSON or YAML base confg file
             var config = loadConfigFile(path);
+
+            // Make sure certain entries exist as strings, so we don't need to check all the time in other places
+            if (isType(config.userconfig, "string") === false)
+            {
+                config.userconfig = "";
+            }
             
             // If we have a user config file configured
-            if (isType(config.userconfig, "string")) {
+            if (config.userconfig.length > 0) {
                 // Load JSON or YAML user config file
                 var config_user = loadConfigFile(process.cwd() + '/' + config.userconfig);
                 
@@ -51,7 +57,8 @@ module.exports = function()
             
             // Expand targets as entries
             config.compilation.entry = {};
-            for (target_name of Object.keys(config.compilation.targets)) {
+            for (target_name of Object.keys(config.compilation.targets))
+            {
                 // Glob all the globs
                 let e = globby.sync(config.compilation.targets[target_name],
                     { cwd: process.cwd() + '/' + config.directories.src })
