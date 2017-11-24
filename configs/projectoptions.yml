@@ -15,7 +15,7 @@ directories:
   configs: "./configs"
   cssCopies: '../DaVanMonetCopyTest'
 
-userconfig: "./configs/local-conf.json"
+userconfig: "configs/local-conf.json"
 
 indexing:
   contentindexoutput: contentindex.json
