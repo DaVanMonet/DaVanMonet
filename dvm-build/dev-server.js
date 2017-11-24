@@ -68,7 +68,7 @@ app.use(hotMiddleware)
 // serve pure static assets
 var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./dvm-app/static'))
-app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src))
+app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs))
 
 var uri = 'http://localhost:' + port
 
