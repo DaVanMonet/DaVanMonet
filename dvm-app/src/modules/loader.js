@@ -6,7 +6,7 @@ export default class Loader
     static async LoadData()
     {
         if (Loader.HasLoaded)
-            return; 
+            return;
         
         // Main config will be imported by Webpack via an appropriate loader
         const mainconfig = require(__MAIN_CONFIG_PATH__);

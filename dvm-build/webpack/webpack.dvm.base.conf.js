@@ -42,10 +42,13 @@ module.exports = {
   plugins: [
     // Here we're using the DefinePlugin to create some constants
     // that can be accessed from the application code
+    
     new webpack.DefinePlugin({
-      __MAIN_CONFIG_PATH__: JSON.stringify(process.env.npm_package_config_configFile), // This is set in package.json
+      __MAIN_CONFIG_PATH__: JSON.stringify(
+        path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json
       __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig),
-      __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput)
+      __CONTENT_INDEX_PATH__: JSON.stringify(
+        path.resolve(process.cwd(), dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput))
     }),
 
     function()
