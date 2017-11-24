@@ -51,7 +51,8 @@ module.exports = function()
             
             // Expand targets as entries
             config.compilation.entry = {};
-            for (target_name of Object.keys(config.compilation.targets)) {
+            for (target_name of Object.keys(config.compilation.targets))
+            {
                 // Glob all the globs
                 let e = globby.sync(config.compilation.targets[target_name],
                     { cwd: process.cwd() + '/' + config.directories.src })

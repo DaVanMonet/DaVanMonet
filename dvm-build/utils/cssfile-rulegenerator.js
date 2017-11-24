@@ -1,3 +1,4 @@
+const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const dvmConfig = require('../utils/load-config')();
 
@@ -31,7 +32,9 @@ module.exports = function()
 		&& t.find(f => f.endsWith('.sass') || f.endsWith('.scss')))
 		{
 			// Include paths for SCSS
-			var scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths | [];
+			var scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths || [];
+
+			console.log("#### scssIncPaths", scssIncPaths);
 
 			loader_specs['sass'] = {
 				test: /\.s[c|a]ss$/,

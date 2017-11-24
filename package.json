@@ -94,7 +94,8 @@
 		"webpack-dev-middleware": "^1.12.0",
 		"webpack-hot-middleware": "^2.20.0",
 		"webpack-merge": "^4.1.1",
-		"yml-loader": "^2.1.0"
+		"yml-loader": "^2.1.0",
+		"extract-text-webpack-plugin": "^3.0.2"
 	},
 	"repository": {
 		"type": "git",
@@ -116,8 +117,5 @@
 		"> 1%",
 		"last 2 versions",
 		"not ie <= 8"
-	],
-	"devDependencies": {
-		"extract-text-webpack-plugin": "^3.0.2"
-	}
+	]
 }
