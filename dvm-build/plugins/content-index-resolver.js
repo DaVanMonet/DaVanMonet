@@ -10,7 +10,9 @@ module.exports = {
 
             // Generate the index if it does not already exist
             if (fs.existsSync(request.path) === false)
-                require('./create-content-index')();
+            {
+                require('../utils/create-content-index')();
+            }
             
             callback();
         }
