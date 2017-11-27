@@ -1,12 +1,12 @@
 const globby = require('globby');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 const matter = require('gray-matter');
 
 const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirectory());
 
-module.exports = function() {
-    
+module.exports = function()
+{
     const config = require('./load-config')();
     let totalfilecount = 0;
 
@@ -106,7 +106,7 @@ module.exports = function() {
     if(fs.existsSync(config.directories.indexes) === false)
         fs.mkdirSync(config.directories.indexes);
     
-    fs.writeFileSync(
+    fs.outputFileSync(
         config.directories.indexes + '/'+ config.indexing.contentindexoutput,
         JSON.stringify(index, null, "\t"));
 

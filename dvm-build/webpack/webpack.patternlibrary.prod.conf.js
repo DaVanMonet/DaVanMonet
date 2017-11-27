@@ -11,6 +11,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const LifecyclePlugin = require('../plugins/lifecycle-plugin');
 
 const dvmConfig = require('../utils/load-config')();
 
@@ -28,7 +29,13 @@ module.exports = merge(baseWebpackConfig, {
             safe: true
             }
         }),
-
+        new LifecyclePlugin({
+            "done": (compilation, options, pluginOptions) =>
+            {
+              // If configured, move specified assets to external folder
+              require('../utils/copyutils').copySrc();
+            }
+        }),
         new HtmlWebpackPlugin({
             filename: 'showcase-render-iframe.html',
             template: path.resolve(__dirname, '../../dvm-app/static/showcase-render-iframe.html'),

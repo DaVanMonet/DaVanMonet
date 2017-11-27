@@ -63,8 +63,14 @@ module.exports = {
         },
         "emit": (compilation, options, pluginOptions) =>
         {
+          // Save css files to configuration directory
+          let cssDestinations = [dvmConfig.directories.dist_package + "/dist"];
           if (dvmConfig.compilation.emitCssCopies === true)
-            require('../utils/emit-css-copies.js')(compilation.assets, dvmConfig.directories.cssCopies);
+          {
+            cssDestinations.push(dvmConfig.directories.cssCopies)
+          }
+          require('../utils/emit-css-copies.js')(compilation.assets, cssDestinations);
+
         },
       }),
 

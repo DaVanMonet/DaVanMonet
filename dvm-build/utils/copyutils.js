@@ -21,3 +21,23 @@ exports.copyAssets = function()
 		});
 	}
 };
+
+exports.copySrc = function()
+{
+	const srcPath = path.resolve(process.cwd(), dvmConfig.directories.src);
+	const distWebDest = path.resolve(process.cwd(), dvmConfig.directories.dist_web + "/src");
+	const distPackageDest = path.resolve(process.cwd(), dvmConfig.directories.dist_package + "/src");
+
+	fs.copy(srcPath, distPackageDest, err =>
+	{
+		if (err) throw err;
+		console.log('Copied "' + srcPath + '" to "'+ distPackageDest +'"');
+	});
+	
+	// Src folder seems to already be copied over to the web distribution folder
+	// fs.copy(srcPath, distWebDest, err =>
+	// {
+	// 	if (err) throw err;
+	// 	console.log('Copied "' + srcPath + '" to "'+ distWebDest +'"');
+	// });
+}
