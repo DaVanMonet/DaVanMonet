@@ -8,7 +8,7 @@ const utils = require('../utils/utils')
 const config = require('../env')
 const glob = require("glob")
 const webpack = require('webpack');
-const PostCompile = require('post-compile-webpack-plugin')
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const fs = require('fs-extra')
 
@@ -39,29 +39,21 @@ module.exports = {
     },
 
     plugins: [
-
-      // Generate targetindex.json
-      // TODO: Move to LifeCyclePlugin
-      new PostCompile(stats => {
-        if (undefined === stats.compilation.records.chunks)
+      new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
+        {
+          // Generate targetindex.json
+          if (undefined === compilation.compilation.records.chunks)
           return;
-        
-        let chunks = stats.compilation.records.chunks.byName;
-        let targetIndex = { items: [] };
-        Object.keys(chunks).forEach(target => targetIndex.items.push(target));
-        
-        // Save index to file
-        fs.writeJsonSync(
-          path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/targetindex.json'), targetIndex);
-      }),
-
-      new LifecyclePlugin({
-        "done": (compilation, options, pluginOptions) =>
+          
+          let chunks = compilation.compilation.records.chunks.byName;
+          require('../utils/create-target-index.js')(chunks);
+        }}),
+      new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
         {
           // If configured, move specified assets to external folder
           require('../utils/copyutils').copyAssets();
-        },
-        "emit": (compilation, options, pluginOptions) =>
+        }}),
+      new LifecyclePlugin({"emit": (compilation, options, pluginOptions) =>
         {
           // Save css files to configuration directory
           let cssDestinations = [dvmConfig.directories.dist_package + "/dist"];
@@ -71,9 +63,7 @@ module.exports = {
           }
           require('../utils/emit-css-copies.js')(compilation.assets, cssDestinations);
 
-        },
-      }),
-
+        }}),
       ...additionalPlugins
 
     ],
