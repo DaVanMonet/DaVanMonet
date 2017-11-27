@@ -8,15 +8,17 @@ module.exports = function (assets, dest)
     for (a_key of Object.keys(assets)
         .filter(k => k.endsWith('.css')))
     {
+
         // Get filename from the key, which might be a longer path
-        let file_name = a_key.replace(/^.*[\\\/]/, '');
+        const file_name = a_key.replace(/^.*[\\\/]/, '');
 
         // Get file content by joining entries from the Webpack asset children array
-        let file_content = assets[a_key].children.map(r => r._value).join('');
-        
-        // Write file to location specified in config
-        // Note: Directory must exist. We will not handle nonexistent dirs here
-        let file_dest = dest + '/' + file_name;
+        const children = assets[a_key].children || [assets[a_key]];
+        let file_content = children.map(r => r._value).join('');
+       
+        // // Write file to location specified in config
+        // // Note: Directory must exist. We will not handle nonexistent dirs here
+        const file_dest = dest + '/' + file_name;
         fs.writeFile(file_dest, file_content, err =>
         {
             if (err) throw err;
