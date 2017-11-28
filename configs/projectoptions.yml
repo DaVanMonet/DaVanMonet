@@ -11,7 +11,7 @@ directories:
   build: "./build"
   dist_web: "dist/web"
   dist_package: "./dist/package"
-  indexes: "./indexes"
+  indexes: "./dist/indexes"
   configs: "./configs"
   cssCopies: '../DaVanMonetCopyTest'
 
