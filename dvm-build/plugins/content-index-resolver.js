@@ -1,5 +1,5 @@
 const fs = require('fs');
-const dvmConfig = require('../utils/load-config')();
+const dvmConfig = require('../utils/load-config').dvmConfig();
 
 module.exports = {
     apply: function(resolver) {

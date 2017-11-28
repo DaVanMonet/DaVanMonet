@@ -25,13 +25,16 @@ function resolvePath(p)
     }
 }
 
-let cachedConfig = null;
+let cachedConfig = {
+    dvmConfig: null,
+    webpackConfig:null
+};
 
-module.exports = function()
+exports.dvmConfig = function()
 {
-    if(cachedConfig !== null)
+    if(cachedConfig.dvmConfig !== null)
     {
-        return cachedConfig;
+        return cachedConfig.dvmConfig;
     }
     else
     {
@@ -95,7 +98,7 @@ module.exports = function()
                 config.compilation.entry[target_name] = e;
             }
 
-            cachedConfig = config;
+            cachedConfig.dvmConfig = config;
 
             return config;
         }

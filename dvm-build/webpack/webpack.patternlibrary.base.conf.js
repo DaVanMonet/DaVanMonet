@@ -14,7 +14,7 @@ const fs = require('fs-extra')
 
 const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 
-const dvmConfig = require('../utils/load-config')();
+const dvmConfig = require('../utils/load-config').dvmConfig();
 
 const { additionalRules,  additionalPlugins } = require('../utils/cssfile-rulegenerator')();
 

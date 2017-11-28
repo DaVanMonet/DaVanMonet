@@ -14,7 +14,7 @@ var webpackConfigDvm = require('./webpack/webpack.dvm.dev.conf')
 var webpackConfigPL = require('./webpack/webpack.patternlibrary.dev.conf')
 var webpackConfig = [webpackConfigDvm, webpackConfigPL];
 
-const dvmConfig = require('./utils/load-config')();
+const dvmConfig = require('./utils/load-config').dvmConfig();
 
 // default port where dev server listens for incoming traffic
 var port = dvmConfig.env.devsiteport
