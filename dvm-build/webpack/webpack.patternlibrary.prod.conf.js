@@ -9,7 +9,6 @@ var config = require('../env')
 var baseWebpackConfig = require('./webpack.patternlibrary.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 
@@ -22,6 +21,7 @@ function resolve (dir) {
 module.exports = merge(baseWebpackConfig, {
 
     plugins: [
+        
         // Compress extracted CSS. We are using this plugin so that possible
         // duplicated CSS from different components can be deduped.
         new OptimizeCSSPlugin({
@@ -29,6 +29,7 @@ module.exports = merge(baseWebpackConfig, {
             safe: true
             }
         }),
+
         new LifecyclePlugin({
             "done": (compilation, options, pluginOptions) =>
             {
@@ -37,8 +38,24 @@ module.exports = merge(baseWebpackConfig, {
                 
                 // Copy content index to web root
                 require('../utils/copyutils').copyContentIndex();
+
+                // If configured, move specified assets to external folder
+                require('../utils/copyutils').copyAssets();
             }
         }),
+
+        new LifecyclePlugin({
+            "done": (compilation, options, pluginOptions) =>
+            {
+                // Generate targetindex.json
+                if (undefined === compilation.compilation.records.chunks)
+                return;
+                
+                let chunks = compilation.compilation.records.chunks.byName;
+                require('../utils/create-target-index.js')(chunks);
+            }
+        }),
+
         new HtmlWebpackPlugin({
             filename: 'showcase-render-iframe.html',
             template: path.resolve(__dirname, '../../dvm-app/static/showcase-render-iframe.html'),
@@ -54,14 +71,6 @@ module.exports = merge(baseWebpackConfig, {
             chunksSortMode: 'dependency'
           }),
 
-        // copy pattern library to web root
-        new CopyWebpackPlugin([
-            {
-                from: path.resolve(process.cwd(), dvmConfig.directories.src),
-                to: config.build.assetsRoot + '/' + dvmConfig.directories.src,
-                ignore: ['.*']
-            }
-        ])
     ]
 
 });

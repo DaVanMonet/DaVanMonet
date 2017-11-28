@@ -11,7 +11,7 @@ directories:
   build: "./build"
   dist_web: "dist/web"
   dist_package: "./dist/package"
-  indexes: "./indexes"
+  indexes: "./dist/indexes"
   configs: "./configs"
   cssCopies: '../DaVanMonetCopyTest'
 
@@ -62,10 +62,8 @@ compilation:
 
 env:
   devsiteport: 9001
-  buildsiteport: 9002
-  onsitepreviewport: 9003
-  livereloadport: 1234
   launchbrowser: false
+  enableOnSitePreview: true
   cssbreakpoints:
   - id: mobile
     title: Mobile

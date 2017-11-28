@@ -2,6 +2,7 @@ const globby = require('globby');
 const path = require('path');
 const fs = require('fs-extra');
 const matter = require('gray-matter');
+const chalk = require('chalk');
 
 const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirectory());
 
@@ -10,7 +11,7 @@ module.exports = function()
     const config = require('./load-config').dvmConfig();
     let totalfilecount = 0;
 
-    console.log("   >> Creating content index file");
+    console.log(chalk.magenta(">> Creating content index file..."));
     
     // parseFileMetadata: Parse each file and save the relevant metadata
     const parseFileMetadata = (filepath, fileindex) =>
@@ -103,16 +104,17 @@ module.exports = function()
     const index = { "structure": structureitems };
 
     // Save index to file
-    if(fs.existsSync(config.directories.indexes) === false)
-        fs.mkdirSync(config.directories.indexes);
+    //if(fs.existsSync(config.directories.indexes) === false)
+    //    fs.mkdirSync(config.directories.indexes);
     
     fs.outputFileSync(
         config.directories.indexes + '/'+ config.indexing.contentindexoutput,
         JSON.stringify(index, null, "\t"));
-
-    console.log(
+    
+    console.log(chalk.green(">> ...Done!"));
+    console.log(chalk.yellow(
         "\n# Indexed " + totalfilecount
         + " files in " + structureitems.length
         + " structure folders and saved it to " + config.directories.indexes + '/'+ config.indexing.contentindexoutput.substring(config.indexing.contentindexoutput.lastIndexOf("/") + 1,
-        config.indexing.contentindexoutput.length));
+        config.indexing.contentindexoutput.length)));
 }

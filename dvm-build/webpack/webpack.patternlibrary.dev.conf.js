@@ -12,12 +12,19 @@ var baseWebpackConfig = require('./webpack.patternlibrary.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
+const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
+const dvmConfig = require('../utils/load-config').dvmConfig();
+
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = [path.resolve(__dirname, '../../dvm-build/patternlibrary-hr-client')].concat(baseWebpackConfig.entry[name])
 })
 
 module.exports = merge(baseWebpackConfig, {
+  entry: {
+    'ospClient': path.resolve(__dirname, '../onsitepreview/client.js')
+  },
+
   module: {
     //rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
@@ -50,7 +57,8 @@ module.exports = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'showcase-render-iframe.html',
       template: path.resolve(__dirname, '../../dvm-app/static/showcase-render-iframe.html'),
-      inject: true
+      inject: true,
+      excludeChunks: ['ospClient']
     }),
 
     new FriendlyErrorsPlugin()

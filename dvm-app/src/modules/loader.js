@@ -3,7 +3,7 @@ import _ from 'lodash';
 export default class Loader
 {
     
-    static async LoadData()
+    static LoadData()
     {
         if (Loader.HasLoaded)
             return;
