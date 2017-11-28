@@ -8,6 +8,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const globby = require('globby');
 
+
 const isType = (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)));
 const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirectory());
 const loadConfigFile = path => (path.indexOf('.json') !== -1) ? require(path) : yaml.safeLoad(fs.readFileSync(path, 'utf8'));
@@ -106,5 +107,32 @@ exports.dvmConfig = function()
         {
             console.error('File does not exist ('+ config_path +')');
         }
+    }
+}
+
+exports.getProjectPLConfig = function()
+{
+    if(cachedConfig.webpackConfig !== null)
+    {
+        return cachedConfig.webpackConfig;
+    }
+    else
+    {
+        // Set path to the webpackConfig file set in package.json, or use deafult path
+        var default_path = process.cwd() + "/config/webpack.conf.js";
+        var config_path = process.cwd() + '/' + process.env.npm_package_config_webpackConfig || default_path;
+        
+        if (fs.existsSync(config_path))
+        {
+            var config = require(config_path);
+            cachedConfig.webpackConfig = config;
+        }
+        else
+        {
+            cachedConfig.webpackConfig = {};
+        }
+        
+
+        return cachedConfig.webpackConfig;
     }
 }

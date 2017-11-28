@@ -8,11 +8,11 @@ const utils = require('../utils/utils')
 const config = require('../env')
 const glob = require("glob")
 const webpack = require('webpack');
-
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const fs = require('fs-extra')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
+const ContentIndexResolver = require('../plugins/content-index-resolver');
 
 const dvmConfig = require('../utils/load-config').dvmConfig();
 
@@ -33,9 +33,11 @@ module.exports = {
     
     resolve: {
       extensions: ['.ts', '.js', '.json', '.yml'],
-      // alias: {
-      //   '@': path.resolve(__dirname, '../../preview'),
-      // }
+      alias: {
+        [dvmConfig.directories.configs]: dvmConfig.directories.configs_abs,
+        [dvmConfig.directories.indexes]: dvmConfig.directories.indexes_abs
+      },
+      plugins: [ContentIndexResolver]
     },
 
     plugins: [

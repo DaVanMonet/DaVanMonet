@@ -18,8 +18,7 @@ function resolve (dir) {
     return path.join(__dirname, '..', dir)
 }
 
-module.exports = merge(baseWebpackConfig, {
-
+const prodConfig = {
     plugins: [
         
         // Compress extracted CSS. We are using this plugin so that possible
@@ -61,16 +60,19 @@ module.exports = merge(baseWebpackConfig, {
             template: path.resolve(__dirname, '../../dvm-app/static/showcase-render-iframe.html'),
             inject: true,
             minify: {
-              removeComments: true,
-              collapseWhitespace: true,
-              removeAttributeQuotes: true
-              // more options:
-              // https://github.com/kangax/html-minifier#options-quick-reference
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+                // more options:
+                // https://github.com/kangax/html-minifier#options-quick-reference
             },
             // necessary to consistently work with multiple chunks via CommonsChunkPlugin
             chunksSortMode: 'dependency'
-          }),
+            }),
 
     ]
 
-});
+};
+
+module.exports = merge(baseWebpackConfig, prodConfig);
+

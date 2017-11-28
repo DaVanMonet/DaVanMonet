@@ -9,10 +9,12 @@ const opn = require('opn')
 const path = require('path')
 const express = require('express')
 const webpack = require('webpack')
+const merge = require('webpack-merge');
 const proxyMiddleware = require('http-proxy-middleware')
 const webpackConfigDvm = require('./webpack/webpack.dvm.dev.conf')
 const webpackConfigPL = require('./webpack/webpack.patternlibrary.dev.conf')
-const webpackConfig = [webpackConfigDvm, webpackConfigPL];
+const webpackConfigProjectPL = require('./utils/load-config').getProjectPLConfig();
+const webpackConfig = [webpackConfigDvm, merge(webpackConfigPL,webpackConfigProjectPL)];
 
 const dvmConfig = require('./utils/load-config').dvmConfig();
 
@@ -24,20 +26,21 @@ const autoOpenBrowser = !!dvmConfig.env.launchbrowser
 
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
-var proxyTable = envConfig.dev.proxyTable
+const proxyTable = envConfig.dev.proxyTable
 
-var app = express()
-var compiler = webpack(webpackConfig)
+const app = express()
+const compiler = webpack(webpackConfig)
 
-var devMiddleware = require('webpack-dev-middleware')(compiler, {
+const devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: "/",
   quiet: true
 })
 
-var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+const hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: false,
   heartbeat: 2000
 })
+
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', function (compilation) {
   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
@@ -70,10 +73,10 @@ var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.a
 app.use(staticPath, express.static('./dvm-app/static'))
 app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs))
 
-var uri = 'http://localhost:' + port
+const uri = 'http://localhost:' + port
 
 var _resolve
-var readyPromise = new Promise(resolve => {
+const readyPromise = new Promise(resolve => {
   _resolve = resolve
 })
 
@@ -94,7 +97,7 @@ devMiddleware.waitUntilValid(() => {
   _resolve()
 })
 
-var server = app.listen(port)
+const server = app.listen(port)
 
 // Start legacy grunt dev task
 // var sys = require('sys')
