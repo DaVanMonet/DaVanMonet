@@ -10,7 +10,7 @@ const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack');
 const fs = require('fs');
 
-const dvmConfig = require('../utils/load-config')();
+const dvmConfig = require('../utils/load-config').dvmConfig();
 const ContentIndexResolver = require('../plugins/content-index-resolver');
 
 module.exports = {

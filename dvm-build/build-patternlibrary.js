@@ -8,7 +8,7 @@ const webpack = require('webpack')
 const webpackConfig = require('./webpack/webpack.patternlibrary.prod.conf')
 
 // Load config
-const dvm_config = require('./utils/load-config')();
+const dvm_config = require('./utils/load-config').dvmConfig();
 
 // Generate fresh contentindex.json
 require('./utils/create-content-index')(dvm_config);
