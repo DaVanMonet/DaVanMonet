@@ -12,7 +12,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const fs = require('fs-extra')
 
-const LifecyclePlugin = require('../plugins/lifecycle-plugin');
+const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 
 const dvmConfig = require('../utils/load-config')();
 
