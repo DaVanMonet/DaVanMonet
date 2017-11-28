@@ -7,7 +7,7 @@ const getDirs = p => fs.readdirSync(p).filter(f => fs.statSync(p+"/"+f).isDirect
 
 module.exports = function()
 {
-    const config = require('./load-config')();
+    const config = require('./load-config').dvmConfig();
     let totalfilecount = 0;
 
     console.log("   >> Creating content index file");

@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const chalk = require('chalk');
-const dvmConfig = require('./load-config')();
+const dvmConfig = require('./load-config').dvmConfig();
 
 module.exports = function (assets, dests)
 {

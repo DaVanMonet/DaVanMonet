@@ -13,7 +13,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 
-const dvmConfig = require('../utils/load-config')();
+const dvmConfig = require('../utils/load-config').dvmConfig();
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir)

@@ -1,6 +1,6 @@
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const dvmConfig = require('../utils/load-config')();
+const dvmConfig = require('../utils/load-config').dvmConfig();
 
 module.exports = function()
 {

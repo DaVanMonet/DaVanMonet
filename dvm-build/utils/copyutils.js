@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs-extra')
-const dvmConfig = require('./load-config')()
+const dvmConfig = require('./load-config').dvmConfig()
 
 exports.copyAssets = function()
 {
