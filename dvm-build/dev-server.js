@@ -1,40 +1,42 @@
 require('./check-versions')()
 
-var envConfig = require('./env')
+const envConfig = require('./env')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(envConfig.dev.env.NODE_ENV)
 }
 
-var opn = require('opn')
-var path = require('path')
-var express = require('express')
-var webpack = require('webpack')
-var proxyMiddleware = require('http-proxy-middleware')
-var webpackConfigDvm = require('./webpack/webpack.dvm.dev.conf')
-var webpackConfigPL = require('./webpack/webpack.patternlibrary.dev.conf')
-var webpackConfig = [webpackConfigDvm, webpackConfigPL];
+const opn = require('opn')
+const path = require('path')
+const express = require('express')
+const webpack = require('webpack')
+const merge = require('webpack-merge');
+const proxyMiddleware = require('http-proxy-middleware')
+const webpackConfigDvm = require('./webpack/webpack.dvm.dev.conf')
+const webpackConfigPL = require('./webpack/webpack.patternlibrary.dev.conf')
+const webpackConfigProjectPL = require('./utils/load-config').getProjectPLConfig();
+const webpackConfig = [webpackConfigDvm, merge(webpackConfigPL,webpackConfigProjectPL)];
 
 const dvmConfig = require('./utils/load-config').dvmConfig();
 
 // default port where dev server listens for incoming traffic
-var port = dvmConfig.env.devsiteport
+const port = dvmConfig.env.devsiteport
 
 // automatically open browser, if not set will be false
-var autoOpenBrowser = !!dvmConfig.env.launchbrowser
+const autoOpenBrowser = !!dvmConfig.env.launchbrowser
 
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
-var proxyTable = envConfig.dev.proxyTable
+const proxyTable = envConfig.dev.proxyTable
 
-var app = express()
-var compiler = webpack(webpackConfig)
+const app = express()
+const compiler = webpack(webpackConfig)
 
-var devMiddleware = require('webpack-dev-middleware')(compiler, {
+const devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: "/",
   quiet: true
 })
 
-var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+const hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: false,
   heartbeat: 2000
 })
@@ -70,10 +72,10 @@ var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.a
 app.use(staticPath, express.static('./dvm-app/static'))
 app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs))
 
-var uri = 'http://localhost:' + port
+const uri = 'http://localhost:' + port
 
 var _resolve
-var readyPromise = new Promise(resolve => {
+const readyPromise = new Promise(resolve => {
   _resolve = resolve
 })
 
@@ -87,7 +89,7 @@ devMiddleware.waitUntilValid(() => {
   _resolve()
 })
 
-var server = app.listen(port)
+const server = app.listen(port)
 
 // Start legacy grunt dev task
 // var sys = require('sys')

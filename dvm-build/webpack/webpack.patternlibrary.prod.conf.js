@@ -19,8 +19,7 @@ function resolve (dir) {
     return path.join(__dirname, '..', dir)
 }
 
-module.exports = merge(baseWebpackConfig, {
-
+const prodConfig = {
     plugins: [
         // Compress extracted CSS. We are using this plugin so that possible
         // duplicated CSS from different components can be deduped.
@@ -32,8 +31,8 @@ module.exports = merge(baseWebpackConfig, {
         new LifecyclePlugin({
             "done": (compilation, options, pluginOptions) =>
             {
-              // If configured, move specified assets to external folder
-              require('../utils/copyutils').copySrc();
+                // If configured, move specified assets to external folder
+                require('../utils/copyutils').copySrc();
             }
         }),
         new HtmlWebpackPlugin({
@@ -41,15 +40,15 @@ module.exports = merge(baseWebpackConfig, {
             template: path.resolve(__dirname, '../../dvm-app/static/showcase-render-iframe.html'),
             inject: true,
             minify: {
-              removeComments: true,
-              collapseWhitespace: true,
-              removeAttributeQuotes: true
-              // more options:
-              // https://github.com/kangax/html-minifier#options-quick-reference
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+                // more options:
+                // https://github.com/kangax/html-minifier#options-quick-reference
             },
             // necessary to consistently work with multiple chunks via CommonsChunkPlugin
             chunksSortMode: 'dependency'
-          }),
+            }),
 
         // copy pattern library to web root
         new CopyWebpackPlugin([
@@ -61,4 +60,7 @@ module.exports = merge(baseWebpackConfig, {
         ])
     ]
 
-});
+};
+
+module.exports = merge(baseWebpackConfig, prodConfig);
+

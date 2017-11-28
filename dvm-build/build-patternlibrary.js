@@ -5,7 +5,12 @@
 const path = require('path')
 const chalk = require('chalk')
 const webpack = require('webpack')
-const webpackConfig = require('./webpack/webpack.patternlibrary.prod.conf')
+const merge = require('webpack-merge');
+
+// Load webpack configs
+const webpackProdConf = require('./webpack/webpack.patternlibrary.prod.conf')
+const webpackConfigProjectPL = require('./utils/load-config').getProjectPLConfig();
+const webpackConfig = merge(webpackProdConf, webpackConfigProjectPL)
 
 // Load config
 const dvm_config = require('./utils/load-config').dvmConfig();

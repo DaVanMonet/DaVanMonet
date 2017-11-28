@@ -17,7 +17,7 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = [path.resolve(__dirname, '../../dvm-build/patternlibrary-hr-client')].concat(baseWebpackConfig.entry[name])
 })
 
-module.exports = merge(baseWebpackConfig, {
+const devConfig = {
   module: {
     //rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
@@ -38,4 +38,6 @@ module.exports = merge(baseWebpackConfig, {
     }),
     new FriendlyErrorsPlugin()
   ]
-});
+};
+
+module.exports = merge(baseWebpackConfig, devConfig);
