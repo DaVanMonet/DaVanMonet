@@ -46,12 +46,18 @@ const prodConfig = {
         new LifecyclePlugin({
             "done": (compilation, options, pluginOptions) =>
             {
-                // Generate targetindex.json
                 if (undefined === compilation.compilation.records.chunks)
-                return;
-                
-                let chunks = compilation.compilation.records.chunks.byName;
-                require('../utils/create-target-index.js')(chunks);
+                {
+                    return;
+                }
+                else
+                {
+                    // Generate targetindex.json
+                    let chunks = compilation.compilation.records.chunks.byName;
+                    require('../utils/create-target-index.js')(chunks);
+                }
+
+                require("../utils/create-version-file")();
             }
         }),
 
