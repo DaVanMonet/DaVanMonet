@@ -5,7 +5,6 @@
 
 var path = require('path')
 var merge = require('webpack-merge')
-var config = require('../env')
 var baseWebpackConfig = require('./webpack.patternlibrary.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')

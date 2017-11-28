@@ -5,7 +5,7 @@
 
 const path = require('path')
 const utils = require('../utils/utils')
-const envConfig = require('../env')
+const envConfig = require('../build-settings')
 const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack');
 const fs = require('fs');

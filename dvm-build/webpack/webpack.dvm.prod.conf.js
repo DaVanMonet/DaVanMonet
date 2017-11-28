@@ -6,7 +6,7 @@
 var path = require('path')
 var utils = require('../utils/utils')
 var webpack = require('webpack')
-var config = require('../env')
+var config = require('../build-settings')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.dvm.base.conf')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -20,10 +20,10 @@ var env = process.env.NODE_ENV === 'testing'
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({
-      sourceMap: config.build.productionSourceMap,
-      extract: true
-    })
+    //rules: utils.styleLoaders({
+    //  sourceMap: config.build.productionSourceMap,
+    //  extract: true
+    //})
   },
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {

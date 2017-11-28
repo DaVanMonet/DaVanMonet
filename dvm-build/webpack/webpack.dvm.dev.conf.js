@@ -5,7 +5,7 @@
 
 var utils = require('../utils/utils')
 var webpack = require('webpack')
-var config = require('../env')
+var config = require('../build-settings')
 var merge = require('webpack-merge')
 var path = require('path');
 var baseWebpackConfig = require('./webpack.dvm.base.conf')
