@@ -1,11 +1,12 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
+const dvmConfig = require('../utils/load-config').dvmConfig();
 
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(process.cwd(), 'dist/web/index.html'),
-    assetsRoot: path.resolve(process.cwd(), 'dist/web'),
+    index: path.resolve(dvmConfig.directories.dist_web_abs, 'index.html'),
+    assetsRoot: dvmConfig.directories.dist_web_abs,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: true,
@@ -23,8 +24,6 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
-    autoOpenBrowser: true,
     assetsRoot: path.resolve(__dirname, '../../dvm-app'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',

@@ -1,6 +1,6 @@
 require('./check-versions')()
 
-const envConfig = require('./env')
+const envConfig = require('./build-settings')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(envConfig.dev.env.NODE_ENV)
 }

@@ -5,7 +5,6 @@
 
 const path = require('path')
 const utils = require('../utils/utils')
-const config = require('../env')
 const glob = require("glob")
 const webpack = require('webpack');
 const fs = require('fs-extra')
@@ -24,11 +23,9 @@ module.exports = {
     entry: dvmConfig.compilation.entry,
     
     output: {
-      path: config.build.assetsRoot,
+      path: dvmConfig.directories.dist_web_abs,
       filename: '[name].js',
-      publicPath: process.env.NODE_ENV === 'production'
-        ? config.build.assetsPublicPath
-        : config.dev.assetsPublicPath
+      publicPath: '/'
     },
     
     resolve: {

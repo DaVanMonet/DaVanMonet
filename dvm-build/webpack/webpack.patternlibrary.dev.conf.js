@@ -5,7 +5,6 @@
 
 var utils = require('../utils/utils')
 var webpack = require('webpack')
-var config = require('../env')
 var merge = require('webpack-merge')
 var path = require('path');
 var baseWebpackConfig = require('./webpack.patternlibrary.base.conf')
@@ -44,10 +43,6 @@ const devConfig = {
       }
       require('../utils/emit-css-copies.js')(compilation.assets, cssDestinations);
     }}),
-
-    new webpack.DefinePlugin({
-      'process.env': config.dev.env
-    }),
 
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
