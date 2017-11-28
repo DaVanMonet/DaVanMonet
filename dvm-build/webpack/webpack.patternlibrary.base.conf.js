@@ -32,7 +32,7 @@ module.exports = {
     },
     
     resolve: {
-      extensions: ['.ts', '.js'],
+      extensions: ['.ts', '.js', '.json', '.yml'],
       // alias: {
       //   '@': path.resolve(__dirname, '../../preview'),
       // }
@@ -40,21 +40,11 @@ module.exports = {
 
     plugins: [
 
-      new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
-        {
-          // Generate targetindex.json
-          if (undefined === compilation.compilation.records.chunks)
-          return;
-          
-          let chunks = compilation.compilation.records.chunks.byName;
-          require('../utils/create-target-index.js')(chunks);
-        }}),
-      
-        new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
-        {
-          // If configured, move specified assets to external folder
-          require('../utils/copyutils').copyAssets();
-        }}),
+      new webpack.DefinePlugin({
+        __MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json
+        __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs),
+        __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes_abs + '/' + dvmConfig.indexing.contentindexoutput)
+      }),  
 
       ...additionalPlugins
 
@@ -70,6 +60,11 @@ module.exports = {
           query: {
             presets:[ 'stage-2' ]
           }
+        },
+
+        {
+          test: /\.yml$/,
+          loader: 'yml-loader'
         },
 
         ...additionalRules

@@ -32,6 +32,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.relativeAssetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
+    
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
@@ -49,6 +50,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     new ExtractTextPlugin({
       filename: utils.relativeAssetsPath('css/[name].[contenthash].css')
     }),
+
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
@@ -56,6 +58,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         safe: true
       }
     }),
+
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
@@ -75,8 +78,10 @@ var webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+    
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
+
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -91,12 +96,14 @@ var webpackConfig = merge(baseWebpackConfig, {
         )
       }
     }),
+    
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
     }),
+
     // copy custom static assets
     new CopyWebpackPlugin([
       {

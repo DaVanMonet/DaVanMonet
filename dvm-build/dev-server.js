@@ -1,26 +1,26 @@
 require('./check-versions')()
 
-var envConfig = require('./env')
+const envConfig = require('./env')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(envConfig.dev.env.NODE_ENV)
 }
 
-var opn = require('opn')
-var path = require('path')
-var express = require('express')
-var webpack = require('webpack')
-var proxyMiddleware = require('http-proxy-middleware')
-var webpackConfigDvm = require('./webpack/webpack.dvm.dev.conf')
-var webpackConfigPL = require('./webpack/webpack.patternlibrary.dev.conf')
-var webpackConfig = [webpackConfigDvm, webpackConfigPL];
+const opn = require('opn')
+const path = require('path')
+const express = require('express')
+const webpack = require('webpack')
+const proxyMiddleware = require('http-proxy-middleware')
+const webpackConfigDvm = require('./webpack/webpack.dvm.dev.conf')
+const webpackConfigPL = require('./webpack/webpack.patternlibrary.dev.conf')
+const webpackConfig = [webpackConfigDvm, webpackConfigPL];
 
 const dvmConfig = require('./utils/load-config').dvmConfig();
 
 // default port where dev server listens for incoming traffic
-var port = dvmConfig.env.devsiteport
+const port = dvmConfig.env.devsiteport
 
 // automatically open browser, if not set will be false
-var autoOpenBrowser = !!dvmConfig.env.launchbrowser
+const autoOpenBrowser = !!dvmConfig.env.launchbrowser
 
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
@@ -77,9 +77,16 @@ var readyPromise = new Promise(resolve => {
   _resolve = resolve
 })
 
+// Start On Site Preview if enabled in config
+if (dvmConfig.env.enableOnSitePreview)
+{
+  const ospServer = require('./onsitepreview');
+  ospServer.startServer(app);
+}
+
 console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {
-  console.log('> Listening at ' + uri + '\n')
+  console.log('>> Listening at ' + uri + '\n')
   // when env is testing, don't need open it
   if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
     opn(uri)

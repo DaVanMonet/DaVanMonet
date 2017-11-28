@@ -35,12 +35,11 @@ exports.copySrc = function()
 		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ distPackageDest +'"'));
 	});
 	
-	// Src folder seems to already be copied over to the web distribution folder
-	// fs.copy(srcPath, distWebDest, err =>
-	// {
-	// 	if (err) throw err;
-	// 	console.log('Copied "' + srcPath + '" to "'+ distWebDest +'"');
-	// });
+	fs.copy(srcPath, distWebDest, err =>
+	{
+	 	if (err) throw err;
+	 	console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ distWebDest +'"'));
+	});
 }
 
 // Copy content index to web root
