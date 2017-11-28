@@ -11,7 +11,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const LifecyclePlugin = require('../plugins/lifecycle-plugin');
+const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 
 const dvmConfig = require('../utils/load-config')();
 
