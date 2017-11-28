@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs-extra')
+const chalk = require('chalk')
 const dvmConfig = require('./load-config')()
 
 exports.copyAssets = function()
@@ -15,7 +16,7 @@ exports.copyAssets = function()
 				fs.copy(srcPath, destPath, err =>
 				{
 					if (err) throw err;
-					console.log('Copied "' + assetsItem.src + '" to "'+ dest +'"');
+					console.log(chalk.green('>> Copied "' + assetsItem.src + '" to "'+ dest +'"'));
 				});
 			});
 		});
@@ -31,7 +32,7 @@ exports.copySrc = function()
 	fs.copy(srcPath, distPackageDest, err =>
 	{
 		if (err) throw err;
-		console.log('Copied "' + srcPath + '" to "'+ distPackageDest +'"');
+		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ distPackageDest +'"'));
 	});
 	
 	// Src folder seems to already be copied over to the web distribution folder
@@ -40,4 +41,16 @@ exports.copySrc = function()
 	// 	if (err) throw err;
 	// 	console.log('Copied "' + srcPath + '" to "'+ distWebDest +'"');
 	// });
+}
+
+exports.copyContentIndex = function()
+{
+	const srcPath = path.resolve(process.cwd(), dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput);
+	const destPath = path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/' + dvmConfig.indexing.contentindexoutput);
+
+	fs.copy(srcPath, destPath, err =>
+	{
+		if (err) throw err;
+		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ distPackageDest +'"'));
+	});
 }

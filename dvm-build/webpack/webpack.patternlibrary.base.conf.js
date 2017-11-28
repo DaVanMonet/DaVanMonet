@@ -39,6 +39,7 @@ module.exports = {
     },
 
     plugins: [
+
       new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
         {
           // Generate targetindex.json
@@ -48,22 +49,13 @@ module.exports = {
           let chunks = compilation.compilation.records.chunks.byName;
           require('../utils/create-target-index.js')(chunks);
         }}),
-      new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
+      
+        new LifecyclePlugin({"done": (compilation, options, pluginOptions) =>
         {
           // If configured, move specified assets to external folder
           require('../utils/copyutils').copyAssets();
         }}),
-      new LifecyclePlugin({"emit": (compilation, options, pluginOptions) =>
-        {
-          // Save css files to configuration directory
-          let cssDestinations = [dvmConfig.directories.dist_package + "/dist"];
-          if (dvmConfig.compilation.emitCssCopies === true)
-          {
-            cssDestinations.push(dvmConfig.directories.cssCopies)
-          }
-          require('../utils/emit-css-copies.js')(compilation.assets, cssDestinations);
 
-        }}),
       ...additionalPlugins
 
     ],

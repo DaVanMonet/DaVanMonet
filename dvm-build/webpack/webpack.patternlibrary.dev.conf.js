@@ -24,18 +24,35 @@ module.exports = merge(baseWebpackConfig, {
   // cheap-module-eval-source-map is faster for development
   devtool: '#cheap-module-eval-source-map',
   plugins: [
+
+    // Emit CSS copies via LifeCycle plugin
+    new LifecyclePlugin({"emit": (compilation, options, pluginOptions) =>
+    {
+      // Save css files to configuration directory
+      let cssDestinations = [];
+      if (dvmConfig.compilation.emitCssCopies === true)
+      {
+        cssDestinations.push(dvmConfig.directories.cssCopies)
+      }
+      require('../utils/emit-css-copies.js')(compilation.assets, cssDestinations);
+    }}),
+
     new webpack.DefinePlugin({
       'process.env': config.dev.env
     }),
+
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
+
     new webpack.NoEmitOnErrorsPlugin(),
+
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'showcase-render-iframe.html',
       template: path.resolve(__dirname, '../../dvm-app/static/showcase-render-iframe.html'),
       inject: true
     }),
+
     new FriendlyErrorsPlugin()
   ]
 });
