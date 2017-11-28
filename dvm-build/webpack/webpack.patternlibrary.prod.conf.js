@@ -32,8 +32,11 @@ module.exports = merge(baseWebpackConfig, {
         new LifecyclePlugin({
             "done": (compilation, options, pluginOptions) =>
             {
-              // If configured, move specified assets to external folder
-              require('../utils/copyutils').copySrc();
+                // If configured, move specified assets to external folder
+                require('../utils/copyutils').copySrc();
+                
+                // Copy content index to web root
+                require('../utils/copyutils').copyContentIndex();
             }
         }),
         new HtmlWebpackPlugin({

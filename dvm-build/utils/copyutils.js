@@ -43,6 +43,7 @@ exports.copySrc = function()
 	// });
 }
 
+// Copy content index to web root
 exports.copyContentIndex = function()
 {
 	const srcPath = path.resolve(process.cwd(), dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput);
@@ -51,6 +52,6 @@ exports.copyContentIndex = function()
 	fs.copy(srcPath, destPath, err =>
 	{
 		if (err) throw err;
-		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ distPackageDest +'"'));
+		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ destPath +'"'));
 	});
 }
