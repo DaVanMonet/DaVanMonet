@@ -34,8 +34,6 @@ module.exports = function()
 			// Include paths for SCSS
 			var scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths || [];
 
-			console.log("#### scssIncPaths", scssIncPaths);
-
 			loader_specs['sass'] = {
 				test: /\.s[c|a]ss$/,
 				loader: 'sass-loader',
