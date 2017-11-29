@@ -26,7 +26,7 @@ exports.copyAssets = function()
 exports.copySrc = function()
 {
 	const srcPath = path.resolve(process.cwd(), dvmConfig.directories.src);
-	const distWebDest = path.resolve(process.cwd(), dvmConfig.directories.dist_web + "/src");
+	const distWebDest = path.resolve(process.cwd(), dvmConfig.directories.dist_web + "/" + dvmConfig.directories.src);
 	const distPackageDest = path.resolve(process.cwd(), dvmConfig.directories.dist_package + "/src");
 
 	fs.copy(srcPath, distPackageDest, err =>
