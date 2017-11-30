@@ -83,6 +83,7 @@ env:
 
 assets:
 - src: "example/assets"
+  dev_access: "/test/fonts"
   dest: 
   - "dist/web/assets-output"
   - "dist/package/assets-output"

@@ -9,6 +9,9 @@ exports.copyAssets = function()
 	{
 		dvmConfig.assets.forEach((assetsItem) =>
 		{
+			if(typeof assetsItem.dest !== "object")
+				return;
+				
 			const srcPath = path.resolve(process.cwd(), assetsItem.src);
 			assetsItem.dest.forEach((dest) =>
 			{

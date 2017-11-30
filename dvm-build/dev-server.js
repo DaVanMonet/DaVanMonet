@@ -73,6 +73,13 @@ var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.a
 app.use(staticPath, express.static('./dvm-app/static'))
 app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs))
 
+// Add asset paths that are configured for dev access
+dvmConfig.assets.filter(a => a.dev_access && typeof a.dev_access == "string").forEach( asset =>
+{
+  console.log('>> Setting up access path: ' + asset.dev_access + ' -> ' + path.resolve(process.cwd(), asset.src));
+  app.use(asset.dev_access, express.static(path.resolve(process.cwd(), asset.src)));
+});
+
 const uri = 'http://localhost:' + port
 
 var _resolve
