@@ -5,7 +5,7 @@
 
 const path = require('path')
 const utils = require('../utils/utils')
-const envConfig = require('../build-settings')
+const buildSettings = require('../build-settings')
 const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack');
 const fs = require('fs');
@@ -21,11 +21,11 @@ module.exports = {
   },
   
   output: {
-    path: envConfig.build.assetsRoot,
+    path: buildSettings.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
-      ? envConfig.build.assetsPublicPath
-      : envConfig.dev.assetsPublicPath
+      ? buildSettings.build.assetsPublicPath
+      : buildSettings.dev.assetsPublicPath
   },
   
   resolve: {

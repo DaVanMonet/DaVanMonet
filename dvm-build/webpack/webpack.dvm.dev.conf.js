@@ -5,7 +5,7 @@
 
 var utils = require('../utils/utils')
 var webpack = require('webpack')
-var config = require('../build-settings')
+var buildSettings = require('../build-settings')
 var merge = require('webpack-merge')
 var path = require('path');
 var baseWebpackConfig = require('./webpack.dvm.base.conf')
@@ -25,7 +25,7 @@ module.exports = merge(baseWebpackConfig, {
   devtool: '#cheap-module-eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': config.dev.env
+      'process.env': buildSettings.dev.env
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

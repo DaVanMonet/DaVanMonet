@@ -1,22 +1,51 @@
 ---
+
+#-------------------------------------------------------------------------------
+# Use this to alter the look of DaVanMonet
+#-------------------------------------------------------------------------------
 project_info:
   name: DaVanMonet
   logo: "/static/logo.svg"
   theme_style: default
 
+
+#-------------------------------------------------------------------------------
+# Path settings
+#-------------------------------------------------------------------------------
 directories:
+  # Path to the pattern library source files
   src: "example"
-  jsdest: "./js"
-  cssdest: "/css"
-  build: "./build"
+
+  # This can be used as the web root when servring as a website
   dist_web: "dist/web"
-  dist_package: "./dist/package"
-  indexes: "./dist/indexes"
-  configs: "./configs"
+  
+  # This can be used to build a NPM  or NuGet package
+  dist_package: "dist/package"
+  
+  # JS output dir. Relative to dist_web
+  js_subDir: "/static/js"
+
+  # CSS Output dir. Relative to dist_web
+  css_subDir: "/static/css"
+  
+  # Index files will be created here
+  indexes: "dist/indexes"
+
+  # Where to look for config files
+  configs: "configs"
+
+  # DvM will output css-files to this directory when in dev-mode, if this feature
+  # is enabled in compile settings. (see below)
+  # Production mode css files will also be copied here during build
   cssCopies: '../DaVanMonetCopyTest'
 
+# If user config is present, the settings in it will override the ones in this file
 userconfig: "configs/local-conf.json"
 
+
+#-------------------------------------------------------------------------------
+# Indexing settings
+#-------------------------------------------------------------------------------
 indexing:
   contentindexoutput: contentindex.json
   targetindexoutput: targetindex.json
@@ -27,6 +56,10 @@ indexing:
   - componentid
   #- requirejs
 
+
+#-------------------------------------------------------------------------------
+# Compiler settings
+#-------------------------------------------------------------------------------
 compilation:
   compilers:
     less:
@@ -34,6 +67,11 @@ compilation:
     scss:
       compileIndividualFiles: false
       lint: false
+  
+  # Targets. Each target will be built to a separate output file.
+  # All entried specified in the file array for the target will be included.
+  # Files can be of any format that Webpack can understand. By default there
+  # are loaders for LESS, SASS and JS configured in DvM
   targets:
     main.css:
     - "**/*.less"
@@ -46,12 +84,22 @@ compilation:
     print.css:
     - "**/*_print.less"
     - "**/**/*_print.less"
+  
+  # Create source maps for JS and CSS
   sourceMaps: true
+
+  # If set to true, CSS files will be emitted to the cssCopies directory during development
   emitCssCopies: true
+
+  # If set to true, assets specified in the assets array (see below), will be copied during build
   copyAssetsToFolder: false
+
+  # Settings for css-minification
   minifycss:
     report: min
     level: 2
+
+  # Settings for PostCSS
   postcss:
     map: true
     processors:
@@ -60,6 +108,21 @@ compilation:
         browsers:
         - last 2 versions
 
+
+#-------------------------------------------------------------------------------
+# Asset settings
+#-------------------------------------------------------------------------------
+assets:
+- src: "example/assets"
+  dev_access: "/test/fonts"
+  dest: 
+  - "dist/web/assets-output"
+  - "dist/package/assets-output"
+
+
+#-------------------------------------------------------------------------------
+# Environment settings
+#-------------------------------------------------------------------------------
 env:
   devsiteport: 9001
   launchbrowser: false
@@ -81,12 +144,6 @@ env:
     fromWidth: 1000
     toWidth: 9007199254740990
 
-assets:
-- src: "example/assets"
-  dev_access: "/test/fonts"
-  dest: 
-  - "dist/web/assets-output"
-  - "dist/package/assets-output"
 
 build:
   mswebdeploy:

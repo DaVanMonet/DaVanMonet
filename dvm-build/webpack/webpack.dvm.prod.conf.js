@@ -6,7 +6,7 @@
 var path = require('path')
 var utils = require('../utils/utils')
 var webpack = require('webpack')
-var config = require('../build-settings')
+var buildSettings = require('../build-settings')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.dvm.base.conf')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -14,9 +14,11 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
+const dvmConfig = require('../utils/load-config').dvmConfig();
+
 var env = process.env.NODE_ENV === 'testing'
   ? require('../env/test.env')
-  : config.build.env
+  : buildSettings.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -25,11 +27,11 @@ var webpackConfig = merge(baseWebpackConfig, {
     //  extract: true
     //})
   },
-  devtool: config.build.productionSourceMap ? '#source-map' : false,
+  devtool: buildSettings.build.productionSourceMap ? '#source-map' : false,
   output: {
-    path: config.build.assetsRoot,
-    filename: utils.relativeAssetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.relativeAssetsPath('js/[id].[chunkhash].js')
+    path: buildSettings.build.assetsRoot,
+    filename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[name].[chunkhash].js'),
+    chunkFilename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[id].[chunkhash].js')
   },
   plugins: [
     
@@ -48,7 +50,7 @@ var webpackConfig = merge(baseWebpackConfig, {
 
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.relativeAssetsPath('css/[name].[contenthash].css')
+      filename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[name].[contenthash].css')
     }),
 
     // Compress extracted CSS. We are using this plugin so that possible
@@ -65,7 +67,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing'
         ? 'index.html'
-        : config.build.index,
+        : buildSettings.build.index,
       template: path.resolve(__dirname, '../../dvm-app/index.html'),
       inject: true,
       minify: {
@@ -108,19 +110,19 @@ var webpackConfig = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../../dvm-app/static'),
-        to: config.build.assetsSubDirectory,
+        to: buildSettings.build.assetsSubDirectory,
         ignore: ['.*']
       },
       {
         from: path.resolve(__dirname, '../../configs/web.config'),
-        to: config.build.assetsRoot,
+        to: buildSettings.build.assetsRoot,
         ignore: ['.*']
       }
     ])
   ]
 })
 
-if (config.build.productionGzip) {
+if (buildSettings.build.productionGzip) {
   var CompressionWebpackPlugin = require('compression-webpack-plugin')
 
   webpackConfig.plugins.push(
@@ -129,7 +131,7 @@ if (config.build.productionGzip) {
       algorithm: 'gzip',
       test: new RegExp(
         '\\.(' +
-        config.build.productionGzipExtensions.join('|') +
+        buildSettings.build.productionGzipExtensions.join('|') +
         ')$'
       ),
       threshold: 10240,
@@ -138,7 +140,7 @@ if (config.build.productionGzip) {
   )
 }
 
-if (config.build.bundleAnalyzerReport) {
+if (buildSettings.build.bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
