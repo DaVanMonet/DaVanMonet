@@ -6,7 +6,7 @@ module.exports = {
         resolver.plugin('file', function(request, callback) {
         
         // Check if we're trying to resolve contentindex
-        if (request.path.endsWith(dvmConfig.indexing.contentindexoutput)) {
+        if (request.path.endsWith(dvmConfig.indexing.contentIndexOutput)) {
 
             // Generate the index if it does not already exist
             if (fs.existsSync(request.path) === false)

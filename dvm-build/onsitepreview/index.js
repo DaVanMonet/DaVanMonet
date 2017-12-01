@@ -28,7 +28,7 @@ exports.startServer = function(app) {
         const indexLookup = require('./inc/indexlookup');
         const snippletsExtractor = require('./inc/snippletsExtractor');
 
-        const contentIndex = requireUncached(dvmConfig.directories.indexes_abs + '/' + dvmConfig.indexing.contentindexoutput);
+        const contentIndex = requireUncached(dvmConfig.directories.indexes_abs + '/' + dvmConfig.indexing.contentIndexOutput);
 
         // Find the correct item in the content index
         var foundItem = indexLookup.findItemWithGuid(contentIndex, req.params['guid']);

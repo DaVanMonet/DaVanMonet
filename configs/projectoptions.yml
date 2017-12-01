@@ -47,8 +47,8 @@ userconfig: "configs/local-conf.json"
 # Indexing settings
 #-------------------------------------------------------------------------------
 indexing:
-  contentindexoutput: contentindex.json
-  targetindexoutput: targetindex.json
+  contentIndexOutput: contentindex.json
+  targetIndexOutput: targetindex.json
   keysToOutput:
   - title
   - guid
@@ -124,10 +124,10 @@ assets:
 # Environment settings
 #-------------------------------------------------------------------------------
 env:
-  devsiteport: 9001
-  launchbrowser: false
+  devSitePort: 9001
+  launchBrowser: false
   enableOnSitePreview: true
-  cssbreakpoints:
+  cssBreakpoints:
   - id: mobile
     title: Mobile
     width: 375

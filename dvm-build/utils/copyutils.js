@@ -48,8 +48,8 @@ exports.copySrc = function()
 // Copy content index to web root
 exports.copyContentIndex = function()
 {
-	const srcPath = path.resolve(process.cwd(), dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentindexoutput);
-	const destPath = path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/' + dvmConfig.indexing.contentindexoutput);
+	const srcPath = path.resolve(process.cwd(), dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentIndexOutput);
+	const destPath = path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/' + dvmConfig.indexing.contentIndexOutput);
 
 	fs.copy(srcPath, destPath, err =>
 	{

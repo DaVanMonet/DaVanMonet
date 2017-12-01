@@ -93,7 +93,7 @@ module.exports = function()
     };
     
     // Loop through the folders specified in the projects configuration
-    const structureitems = config.structureFolders.map((structureitem, index) =>
+    const structureitems = config.structureFolders.toArray().map((structureitem, index) =>
     {
         //console.log("StructureItem: ", structureitem);
         let directoryMetadata = parseDirectoryMetadata("", structureitem["path"], index);
@@ -108,13 +108,13 @@ module.exports = function()
     //    fs.mkdirSync(config.directories.indexes);
     
     fs.outputFileSync(
-        config.directories.indexes + '/'+ config.indexing.contentindexoutput,
+        config.directories.indexes + '/'+ config.indexing.contentIndexOutput,
         JSON.stringify(index, null, "\t"));
     
     console.log(chalk.green(">> ...Done!"));
     console.log(chalk.yellow(
         "\n# Indexed " + totalfilecount
         + " files in " + structureitems.length
-        + " structure folders and saved it to " + config.directories.indexes + '/'+ config.indexing.contentindexoutput.substring(config.indexing.contentindexoutput.lastIndexOf("/") + 1,
-        config.indexing.contentindexoutput.length)));
+        + " structure folders and saved it to " + config.directories.indexes + '/'+ config.indexing.contentIndexOutput.substring(config.indexing.contentIndexOutput.lastIndexOf("/") + 1,
+        config.indexing.contentIndexOutput.length)));
 }

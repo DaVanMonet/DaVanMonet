@@ -19,10 +19,10 @@ const webpackConfig = [webpackConfigDvm, merge(webpackConfigPL,webpackConfigProj
 const dvmConfig = require('./utils/load-config').dvmConfig();
 
 // default port where dev server listens for incoming traffic
-const port = dvmConfig.env.devsiteport
+const port = dvmConfig.env.devSitePort
 
 // automatically open browser, if not set will be false
-const autoOpenBrowser = !!dvmConfig.env.launchbrowser
+const autoOpenBrowser = !!dvmConfig.env.launchBrowser
 
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
@@ -71,10 +71,10 @@ app.use(hotMiddleware)
 // serve pure static assets
 var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./dvm-app/static'))
-app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs))
+app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs()))
 
 // Add asset paths that are configured for dev access
-dvmConfig.assets.filter(a => a.dev_access && typeof a.dev_access == "string").forEach( asset =>
+dvmConfig.assets.toArray().filter(a => a.dev_access && typeof a.dev_access == "string").forEach( asset =>
 {
   console.log('>> Setting up access path: ' + asset.dev_access + ' -> ' + path.resolve(process.cwd(), asset.src));
   app.use(asset.dev_access, express.static(path.resolve(process.cwd(), asset.src)));

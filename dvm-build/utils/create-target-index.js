@@ -10,5 +10,5 @@ module.exports = function(chunks)
     let targetIndex = { items: [] };
     Object.keys(chunks).forEach(target => targetIndex.items.push(path.posix.join(dvmConfig.directories.css_subDir, target)));
     // Save index to file
-    fs.writeJsonSync(path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/targetindex.json'), targetIndex);
+    fs.writeJsonSync(path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/' + dvmConfig.indexing.targetIndexOutput), targetIndex);
 }
