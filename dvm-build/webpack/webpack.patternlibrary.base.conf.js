@@ -23,7 +23,7 @@ module.exports = {
     entry: dvmConfig.compilation.entry,
     
     output: {
-      path: dvmConfig.directories.dist_web_abs,
+      path: dvmConfig.directories.dist_web_abs(),
       filename: '[name].js',
       publicPath: '/'
     },
@@ -31,8 +31,8 @@ module.exports = {
     resolve: {
       extensions: ['.ts', '.js', '.json', '.yml'],
       alias: {
-        [dvmConfig.directories.configs]: dvmConfig.directories.configs_abs,
-        [dvmConfig.directories.indexes]: dvmConfig.directories.indexes_abs
+        [dvmConfig.directories.configs]: dvmConfig.directories.configs_abs(),
+        [dvmConfig.directories.indexes]: dvmConfig.directories.indexes_abs()
       },
       plugins: [ContentIndexResolver]
     },
@@ -41,8 +41,8 @@ module.exports = {
 
       new webpack.DefinePlugin({
         __MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json
-        __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs),
-        __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes_abs + '/' + dvmConfig.indexing.contentindexoutput)
+        __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs()),
+        __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes_abs() + '/' + dvmConfig.indexing.contentIndexOutput)
       }),  
 
       ...additionalPlugins

@@ -33,8 +33,8 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': path.resolve(__dirname, '../../dvm-app'),
-      [dvmConfig.directories.configs]: dvmConfig.directories.configs_abs,
-      [dvmConfig.directories.indexes]: dvmConfig.directories.indexes_abs
+      [dvmConfig.directories.configs]: dvmConfig.directories.configs_abs(),
+      [dvmConfig.directories.indexes]: dvmConfig.directories.indexes_abs()
     },
     plugins: [ContentIndexResolver] // ContentIndexResolver will generate contentindex.json if it does not exist
   },
@@ -45,8 +45,8 @@ module.exports = {
     
     new webpack.DefinePlugin({
       __MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json
-      __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs),
-      __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes_abs + '/' + dvmConfig.indexing.contentindexoutput)
+      __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs()),
+      __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes_abs() + '/' + dvmConfig.indexing.contentIndexOutput)
     }),
 
     function()

@@ -5,8 +5,8 @@ const dvmConfig = require('../utils/load-config').dvmConfig();
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(dvmConfig.directories.dist_web_abs, 'index.html'),
-    assetsRoot: dvmConfig.directories.dist_web_abs,
+    index: path.resolve(dvmConfig.directories.dist_web_abs(), 'index.html'),
+    assetsRoot: dvmConfig.directories.dist_web_abs(),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: true,

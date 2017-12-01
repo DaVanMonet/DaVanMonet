@@ -7,7 +7,7 @@ Zepto(function ($) {
     Loader.LoadData();
     const mainconfig = Loader.ProjectConfig;
 
-    var api_endpoint = "http://localhost:" + mainconfig.env.devsiteport + '/';
+    var api_endpoint = "http://localhost:" + mainconfig.env.devSitePort + '/';
     
     // Load compontent markup
     function loadComponent(cmpnt_info) {
