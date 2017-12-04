@@ -1,14 +1,18 @@
-import Zepto from 'zepto';
+import Zepto from 'webpack-zepto';
 
 import Loader from '../../dvm-app/src/modules/Loader';
 
 Zepto(function ($) {
 
     Loader.LoadData();
-    const mainconfig = Loader.ProjectConfig;
+    const dvmConfig = Loader.ProjectConfig;
 
-    var api_endpoint = "http://localhost:" + mainconfig.env.devSitePort + '/';
+    var api_endpoint = "http://localhost:" + dvmConfig.env.devSitePort + '/';
     
+    $.each(dvmConfig.onsitepreview.components, function(i, item) {
+        loadComponent(item);
+    });
+
     // Load compontent markup
     function loadComponent(cmpnt_info) {
 
@@ -31,7 +35,7 @@ Zepto(function ($) {
     function injectComponentMarkupAtSelector(markup, cmpnt_info) {
         
         // Add css entries to site head
-        for (entry of Object.keys(dvmConfig.compilation.entry).filter(e => e.endsWidth('.css')))
+        for (let entry of Object.keys(dvmConfig.compilation.targets).filter(e => e.endsWith('.css')))
         {
             $('head').append('<link rel="stylesheet" href="' + api_endpoint + 'static/css/' + entry + '" type="text/css" />');
         }
@@ -73,17 +77,5 @@ Zepto(function ($) {
             markup.after('<style>' + cmpnt_info.extra_css + '</style>');
         }
     }
-
-    // Load config
-    $.ajax({
-        type: 'GET',
-        url: api_endpoint + 'config', 
-        dataType: 'json',
-        success: function(data) {
-            $.each(data.onsitepreview.components, function(i, item) {
-                loadComponent(item);
-            });
-        }
-    });
 
 });

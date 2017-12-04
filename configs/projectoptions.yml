@@ -174,4 +174,6 @@ structure:
   path: modules
   
 onsitepreview:
-  components: []
+  components:
+  - guid: button-guid-used-for-testing-dont-change
+    hook: "#main-content > p:nth-child(2)"

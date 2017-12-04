@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/fp/object'; // We only need the objet merge function
 
 export default class Loader
 {

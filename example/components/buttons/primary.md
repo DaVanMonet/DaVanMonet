@@ -2,7 +2,7 @@
 title: Primary button
 componentid: component-buttons-standard
 variantid: primary
-guid: 31495b40-9492-40e4-86e3-1e06bfc40171
+guid: 'button-guid-used-for-testing-dont-change'
 ----
 # Primary button
 Some developer information about the primary button
