@@ -1,7 +1,7 @@
 {
 	"name": "davanmonet",
 	"description": "A pattern library system",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"license": "UNLICENSED",
 	"private": false,
 	"scripts": {
@@ -21,7 +21,7 @@
 		"configFile": "./configs/projectoptions.yml"
 	},
 	"dependencies": {
-		"autoprefixer": "^7.1.4",
+		"autoprefixer": "^7.2.1",
 		"babel-core": "^6.22.1",
 		"babel-eslint": "^7.1.1",
 		"babel-loader": "^7.1.1",
@@ -117,9 +117,10 @@
 		"> 1%",
 		"last 2 versions",
 		"not ie <= 8"
-	],
+	],	
 	"devDependencies": {
 		"chai": "^4.1.2",
-		"mocha": "^4.0.1"
+		"mocha": "^4.0.1",
+		"postcss-loader": "^2.0.9"
 	}
 }

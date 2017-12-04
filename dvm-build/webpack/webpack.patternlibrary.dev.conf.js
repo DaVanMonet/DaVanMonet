@@ -32,17 +32,7 @@ const devConfig = {
   devtool: '#cheap-module-eval-source-map',
   plugins: [
 
-    // Emit CSS copies via LifeCycle plugin
-    new LifecyclePlugin({"emit": (compilation, options, pluginOptions) =>
-    {
-      // Save css files to configuration directory
-      let cssDestinations = [];
-      if (dvmConfig.compilation.emitCssCopies === true)
-      {
-        cssDestinations.push(dvmConfig.directories.cssCopies)
-      }
-      require('../utils/emit-css-copies.js')(compilation.assets, cssDestinations);
-    }}),
+   
 
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

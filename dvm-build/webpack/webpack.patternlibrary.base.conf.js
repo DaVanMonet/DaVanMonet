@@ -43,8 +43,20 @@ module.exports = {
         __MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json
         __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs()),
         __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes_abs() + '/' + dvmConfig.indexing.contentIndexOutput)
-      }),  
+      }),
 
+      // Emit CSS copies via LifeCycle plugin
+      new LifecyclePlugin({"emit": (compilation, options, pluginOptions) =>
+      {
+        // Save css files to configuration directory
+        let cssDestinations = [];
+        if (dvmConfig.compilation.emitCssCopies === true)
+        {
+          cssDestinations.push(dvmConfig.directories.cssCopies)
+        }
+        require('../utils/emit-css-copies.js')(compilation.assets, cssDestinations);
+      }}),
+      
       ...additionalPlugins
 
     ],
