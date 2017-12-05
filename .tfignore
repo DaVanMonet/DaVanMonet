@@ -138,3 +138,6 @@ contentindex.json
 
 # Trash folders
 /web.
+
+# Allow bin binary folder
+!dvm-build/bin

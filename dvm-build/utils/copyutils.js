@@ -70,5 +70,4 @@ exports.copyAdditionalPackageResources = function()
 		if (err) throw err;
 		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ destPath +'"'));
 	});
-	console.log('whololo')
 }
