@@ -58,7 +58,15 @@ module.exports = function()
 				fallback: "style-loader", // 3. Load with extract text plugin, or fall back to style loader
 				use: [{
 					loader: "css-loader" // 2. Translates CSS into CommonJS
-				}, {
+				},
+				{
+					loader:'postcss-loader',
+					options:
+					{
+						plugins:[require('autoprefixer')]
+					}
+				},
+				{
 					loader: loader_specs[ls_key].loader, // 1. Preprocess
 					options: loader_specs[ls_key].options
 				}]
@@ -68,12 +76,13 @@ module.exports = function()
 		additionalRules.push(loader);
 	}
 
+	
+
 	// Create plugin dependencies
 	additionalPlugins.push(
 		new ExtractTextPlugin({
-			// TODO: Don't hardcode this
-			filename: 'static/css/[name]'
+			filename: dvmConfig.directories.css_subDir + '/[name]'
 		}));
-	
+
 	return { additionalRules,  additionalPlugins };
 }

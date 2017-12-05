@@ -39,6 +39,9 @@ const prodConfig = {
 
                 // If configured, move specified assets to external folder
                 require('../utils/copyutils').copyAssets();
+
+                // Copy additional resources into the package folder (such as the compiled css)
+                require('../utils/copyutils').copyAdditionalPackageResources();
             }
         }),
 

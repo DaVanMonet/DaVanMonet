@@ -57,3 +57,17 @@ exports.copyContentIndex = function()
 		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ destPath +'"'));
 	});
 }
+
+
+// Copy content index to web root
+exports.copyAdditionalPackageResources = function()
+{
+	const srcPath = path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/' + dvmConfig.directories.css_subDir);
+	const destPath = path.resolve(process.cwd(), dvmConfig.directories.dist_package + '/css');
+
+	fs.copy(srcPath, destPath, err =>
+	{
+		if (err) throw err;
+		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ destPath +'"'));
+	});
+}
