@@ -1,5 +1,3 @@
-
-
 module.exports = class DaVanMonet
 {
 	constructor(options = { verbose:false })
@@ -8,14 +6,15 @@ module.exports = class DaVanMonet
 		this.output = (this.options.verbose) ? (content) => console.log(content) : () => {};
 		this.exec = (cmd) =>
 		{
-			const result = require('child_process').execSync(cmd, { "cwd":process.cwd(), stdio: 'inherit' });
+			// "cwd":process.cwd(),
+			// "cwd":__dirname,
+			const result = require('child_process').execSync(cmd, { "cwd": process.cwd() , "stdio": 'inherit' });
 			return (result) ? result.toString().trim() : null;
 		}
 	}
 	StartDevServer()
 	{
-		
-		const result = this.exec("node dvm-build/dev-server.js");
+		const result = this.exec("node " + __dirname + "\\dev-server.js");
 		this.output(result)
 	}
 	BuildAll()
@@ -27,13 +26,13 @@ module.exports = class DaVanMonet
 	BuildPackage()
 	{
 		this.output('Build package...')
-		const result = this.exec("node dvm-build/build-patternlibrary.js");
+		const result = this.exec("node " + __dirname + "\\build-patternlibrary.js");
 		//this.output(result)
 	}
 	BuildWeb()
 	{
 		this.output('Build web...')
-		const result = this.exec("node dvm-build/build-dvm.js");
+		const result = this.exec("node " + __dirname + "\\build-dvm.js");
 		//this.output(result)
 	}
 
