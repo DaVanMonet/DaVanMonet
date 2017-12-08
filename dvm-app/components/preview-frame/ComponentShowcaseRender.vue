@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { iframeResizer } from 'iframe-resizer'
+
 export default {
   name: 'component-showcase-render',
   props: ['renderSource','requirejs', 'iframeContentHeight', 'repo'],
@@ -19,8 +21,11 @@ export default {
     onIframeLoad() {
       this.populateIframeWithRenderSource();
       //this.setIframeHeightToContentSize();
+      this.$root.iframeResizer = iframeResizer( { log: false }, 'iframe' );
+
       var iframeWin = this.$refs.iframe.contentWindow;
-      iframeWin.addEventListener('resize', this.setIframeHeightToContentSize);
+      
+      iframeWin.addEventListener('resize', () => { this.$refs.iframe.iFrameResizer.resize(); this.$parent.setHeight(this.$refs.iframe.clientHeight) });
     },
     populateIframeWithRenderSource() {
       // Add this.renderSource

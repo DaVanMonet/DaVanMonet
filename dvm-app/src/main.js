@@ -3,8 +3,6 @@ import 'babel-polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import { iframeResizer } from 'iframe-resizer'
-
 import DaVanMonet from '@/DaVanMonet.vue';
 
 // IE Polyfill
@@ -35,7 +33,6 @@ new Vue({
 		
 		// TODO: This should problaby be handled by a router instead
 		async loadPage(_vue, path) {
-			iframeResizer( { log: false }, 'iframe' );
 			return this.$refs.dvm.loadPage(_vue, path);
 		},
 

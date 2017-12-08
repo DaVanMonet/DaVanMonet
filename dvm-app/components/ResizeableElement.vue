@@ -61,16 +61,16 @@ export default {
 
       // Multiply mouseDeltaX with a factor 2 because ResizeableElement is centered in its parent
       const mouseDeltaX = (event.clientX - this.lastClientX) * 2;
-      const mouseDeltaY = event.clientY - this.lastClientY;
+      //const mouseDeltaY = event.clientY - this.lastClientY;
 
       const sizeWidth = this.sizeWidth === '100%' ? this.$el.offsetWidth : this.sizeWidth;
-      const sizeHeight = this.sizeHeight === '100%' ? this.$el.offsetHeight : this.sizeHeight;
+      //const sizeHeight = this.sizeHeight === '100%' ? this.$el.offsetHeight : this.sizeHeight;
 
       this.sizeWidth = clampInt(sizeWidth + mouseDeltaX, this.minWidth, this.maxWidth);
-      this.sizeHeight = clampInt(sizeHeight + mouseDeltaY, this.minHeight, this.maxHeight);
+      //this.sizeHeight = clampInt(sizeHeight + mouseDeltaY, this.minHeight, this.maxHeight);
 
       this.lastClientX = event.clientX;
-      this.lastClientY = event.clientY;
+      //this.lastClientY = event.clientY;
     },
     onWindowResize() {
       const parentWidth = this.$el.parentNode.offsetWidth;
@@ -95,7 +95,7 @@ export default {
       const parentWidth = this.$el.parentNode.offsetWidth;
       const parentHeight = this.$el.parentNode.offsetHeight;
 
-      this.maxWidth = parentWidth;
+      this.maxWidth = parentWidth - 2;
       this.maxHeight = Math.max(parentHeight, this.maxHeight);
 
       if (!this.sizeWidth) { this.sizeWidth = parentWidth; }
