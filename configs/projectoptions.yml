@@ -23,10 +23,10 @@ directories:
   dist_package: "dist/package"
   
   # JS output dir. Relative to dist_web
-  js_subDir: "/static/js"
+  js_subDir: "static/js"
 
   # CSS Output dir. Relative to dist_web
-  css_subDir: "/static/css"
+  css_subDir: "static/css"
   
   # Index files will be created here
   indexes: "dist/indexes"

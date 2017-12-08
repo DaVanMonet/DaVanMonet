@@ -18,7 +18,7 @@ export default {
   methods: {
     onIframeLoad() {
       this.populateIframeWithRenderSource();
-      this.setIframeHeightToContentSize();
+      //this.setIframeHeightToContentSize();
       var iframeWin = this.$refs.iframe.contentWindow;
       iframeWin.addEventListener('resize', this.setIframeHeightToContentSize);
     },
@@ -57,13 +57,13 @@ export default {
       //}
       
     },
-    setIframeHeightToContentSize() {
-      const iframeContentHeight = `${this.$refs.iframe.contentDocument.body.scrollHeight}px`;
+    // setIframeHeightToContentSize() {
+    //   const iframeContentHeight = `${this.$refs.iframe.contentDocument.body.scrollHeight}px`;
 
-      this.$refs.iframe.style.height = iframeContentHeight;
+    //   this.$refs.iframe.style.height = iframeContentHeight;
 
-      this.$emit('update:iframeContentHeight', iframeContentHeight);
-    },
+    //   this.$emit('update:iframeContentHeight', iframeContentHeight);
+    // },
   },
   mounted() {
     this.$refs.iframe.addEventListener('load', this.onIframeLoad);
