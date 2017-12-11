@@ -5,7 +5,7 @@
 
         <h3 class="heading heading--smaller" v-if="showcaseData.Title && showcaseIsOnlyComponent == false" v-html="showcaseData.Title"></h3>
         <div v-if="showcaseData.Preamble"><p v-html="showcaseData.Preamble"></p></div>
-        <div v-if="showcaseData.Content" v-html="showcaseData.Content"></div>
+        <item-richtext v-if="showcaseData.Content" :content="showcaseData.Content" collapsed></item-richtext>
       </div>
     </div>
      <div class="showcase__example" v-if="hasStates">
@@ -32,25 +32,32 @@
         :selectedStateTitle.sync="selectedStateTitle"
         :isSettingsDrawerExpanded.sync="isDetailExpanded"
         :cssBreakpoints="cssBreakpoints"
-        :selectedCssBreakpointId.sync="selectedCssBreakpointId"
+        :selectedCssBreakpointTitle.sync="selectedCssBreakpointTitle"
         :showcase-repo="showcaseRepo"
         :itemKey="itemKey"
         @onCssBreakpointChange="onCssBreakpointChange">
       </component-showcase-settings-drawer>
 
-      <div v-if="state.Title === selectedStateTitle" v-for="state in showcaseData.States"  :key="state.Title">
-        <component-showcase-source>
+      <div 
+        v-if="state.Title === selectedStateTitle" 
+        v-for="state in showcaseData.States"
+        :key="state.Title">
+        <div class="showcase__source-wrapper">
+        <component-showcase-source 
+          :source="state.PreviewMarkup"></component-showcase-source>
+        </div>
+        <!-- <component-showcase-source>
           <syntax-highlighter :source="state.PreviewMarkup" language="markup"></syntax-highlighter>
-        </component-showcase-source>
+        </component-showcase-source> -->
 
-        <ul class="showcase__source-controls">
+        <!-- <ul class="showcase__source-controls">
           <li>
             <copy-to-clipboard copied-title="Copied!" :copy-data="state.PreviewMarkup">
               <a href="javascript:;">Copy to clipboard</a>
             </copy-to-clipboard>
           </li>
           <li v-if="showcaseData.SourceUrl"><a class="link--secondary" :href="showcaseData.SourceUrl" target="_blank">Source</a></li>
-        </ul>
+        </ul> -->
       </div>
     </div>
   </div>
@@ -60,6 +67,7 @@
 import CopyToClipboard from '@/components/CopyToClipboard.vue';
 import SyntaxHighlighter from '@/components/SyntaxHighlighter.vue';
 import ResizeableElement from '@/components/ResizeableElement.vue';
+import ItemRichtext from '@/components/item/ItemRichtext';
 import ComponentShowcaseRender from '@/components/preview-frame/ComponentShowcaseRender.vue';
 import ComponentShowcaseSource from '@/components/preview-frame/ComponentShowcaseSource.vue';
 import ComponentShowcaseReposStylesheets from '@/components/preview-frame/ComponentShowcaseReposStylesheets.vue';
@@ -71,6 +79,7 @@ export default {
     CopyToClipboard,
     SyntaxHighlighter,
     ResizeableElement,
+    ItemRichtext,
     ComponentShowcaseRender,
     ComponentShowcaseSource,
     ComponentShowcaseReposStylesheets,
@@ -83,14 +92,15 @@ export default {
       selectedStateTitle: '',
       isDetailExpanded: false,
       iframeContentHeight: undefined,
-      selectedCssBreakpointId: undefined,
+      selectedCssBreakpointTitle: undefined,
       componentRepos: [],
     };
   },
   computed: {
     selectedCssBreakpoint() {
       if (this.cssBreakpoints) {
-        return this.cssBreakpoints.filter(cssBreakpoint => cssBreakpoint.id === this.selectedCssBreakpointId)[0];
+        let breakpoint = this.cssBreakpoints.filter(cssBreakpoint => cssBreakpoint.title === this.selectedCssBreakpointTitle)[0];
+        return breakpoint;
       }
     },
     showcaseRepo()
@@ -111,13 +121,18 @@ export default {
       const selectedCssBreakpoint = this.cssBreakpoints.filter(breakpoint => {
         return breakpoint.fromWidth <= fromWidth && breakpoint.toWidth >= fromWidth;
       })[0];
-
-      if (selectedCssBreakpoint && this.selectedCssBreakpointId !== selectedCssBreakpoint.id) {
-        this.selectedCssBreakpointId = selectedCssBreakpoint.id;
+      
+      if (selectedCssBreakpoint && this.selectedCssBreakpointTitle !== selectedCssBreakpoint.title) {
+        this.selectedCssBreakpointTitle = selectedCssBreakpoint.title;
+        this.$emit('onCssBreakpointChange', selectedCssBreakpoint);
+        this.$emit('update:selectedCssBreakpointTitle', this.selectedCssBreakpointTitle);
       }
     },
   },
-  created() {
+  created()
+  {
+
+
     // Set first showcase state as the selected state per default
     this.hasStates = (this.showcaseData.States.length > 0);
     if (this.hasStates) {
@@ -126,9 +141,8 @@ export default {
     }
     // Set preset CSS breakpoints and select the last breakpoint as selected per default
     //this.cssBreakpoints = CSS_BREAKPOINTS;
-    this.selectedCssBreakpointId = this.cssBreakpoints.slice(-1)[0].id;
-  
-  //Set repo information and add the stylesheet references
+    this.selectedCssBreakpointTitle = this.cssBreakpoints.slice(-1)[0].title;
+   //Set repo information and add the stylesheet references
     const repo = this.$root.getRepo();
     this.componentRepos.push(repo);
   },

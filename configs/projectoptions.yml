@@ -128,18 +128,15 @@ env:
   launchBrowser: false
   enableOnSitePreview: true
   cssBreakpoints:
-  - id: mobile
-    title: Mobile
+  - title: Mobile
     width: 375
     fromWidth: 0
     toWidth: 375
-  - id: tablet
-    title: Tablet
+  - title: Tablet
     width: 768
-    fromWidth: 376
+    fromWidth: 375
     toWidth: 999
-  - id: desktop
-    title: Desktop
+  - title: Desktop
     width: 100%
     fromWidth: 1000
     toWidth: 9007199254740990
