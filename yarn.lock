@@ -2906,6 +2906,10 @@ ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
 
+iframe-resizer@^3.5.15:
+  version "3.5.15"
+  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-3.5.15.tgz#67ae959cc07478cdfb71347ead8ebfa95bd9824a"
+
 ignore@^3.1.2:
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.5.tgz#c4e715455f6073a8d7e5dae72d2fc9d71663dba6"
@@ -4623,6 +4627,10 @@ raw-body@2.3.2:
     iconv-lite "0.4.19"
     unpipe "1.0.0"
 
+raw-loader@~0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
+
 rc@^1.1.7:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.2.tgz#d8ce9cb57e8d64d9c7badd9876c7c34cbe3c7077"
@@ -5043,6 +5051,12 @@ schema-utils@^0.3.0:
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.3.0.tgz#f5877222ce3e931edae039f17eb3716e7137f8cf"
   dependencies:
     ajv "^5.0.0"
+
+script-loader@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/script-loader/-/script-loader-0.7.2.tgz#2016db6f86f25f5cf56da38915d83378bb166ba7"
+  dependencies:
+    raw-loader "~0.5.1"
 
 scss-tokenizer@^0.2.3:
   version "0.2.3"
@@ -5811,6 +5825,10 @@ webpack-sources@^1.0.1:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
+webpack-zepto@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/webpack-zepto/-/webpack-zepto-0.0.1.tgz#a0f954798a795715c5c26bb109aa071c08fe31f4"
+
 webpack@^3.8.1:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.8.1.tgz#b16968a81100abe61608b0153c9159ef8bb2bd83"
@@ -5928,6 +5946,29 @@ yargs-parser@^7.0.0:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-7.0.0.tgz#8d0ac42f16ea55debd332caf4c4038b3e3f5dfd9"
   dependencies:
     camelcase "^4.1.0"
+
+yargs-parser@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-8.0.0.tgz#21d476330e5a82279a4b881345bf066102e219c6"
+  dependencies:
+    camelcase "^4.1.0"
+
+yargs@^10.0.3:
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-10.0.3.tgz#6542debd9080ad517ec5048fb454efe9e4d4aaae"
+  dependencies:
+    cliui "^3.2.0"
+    decamelize "^1.1.1"
+    find-up "^2.1.0"
+    get-caller-file "^1.0.1"
+    os-locale "^2.0.0"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^2.0.0"
+    which-module "^2.0.0"
+    y18n "^3.2.1"
+    yargs-parser "^8.0.0"
 
 yargs@^7.0.0:
   version "7.1.0"

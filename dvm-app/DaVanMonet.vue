@@ -75,7 +75,7 @@ export default {
 			_vue.projectConfig = Loader.ProjectConfig;
 			
 			this.isLocalhost = (window.location.hostname === "localhost");
-
+			
 			this.fetchData(this).then(() => 
 			{ 
 			});
@@ -117,11 +117,10 @@ export default {
 		parseLocationAndNavigate()
 		{
 			let pagepath = window.location.pathname;
-			if(this.isLocalhost)
+			const hash = window.location.hash;
+			if(this.isLocalhost && hash.length > 0)
 			{
-				const hash = window.location.hash
 				pagepath = hash.replace("#","");
-
 			}
 			this.loadPage(this, pagepath);
 		},
