@@ -3,16 +3,17 @@
  * 
  */
 
-var path = require('path')
-var utils = require('../utils/utils')
-var webpack = require('webpack')
-var buildSettings = require('../build-settings')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.dvm.base.conf')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const path = require('path')
+const utils = require('../utils/utils')
+const webpack = require('webpack')
+const buildSettings = require('../build-settings')
+const merge = require('webpack-merge')
+const baseWebpackConfig = require('./webpack.dvm.base.conf')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 
 const dvmConfig = require('../utils/load-config').dvmConfig();
 
@@ -118,7 +119,14 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: buildSettings.build.assetsRoot,
         ignore: ['.*']
       }
-    ])
+    ]),
+    new LifecyclePlugin({
+      "done": (compilation, options, pluginOptions) =>
+      {
+          // Copy additional resources into the web dist folder
+          require('../utils/copyutils').copyAdditionalWebResources();
+      }
+  }),
   ]
 })
 

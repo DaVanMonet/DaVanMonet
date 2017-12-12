@@ -156,9 +156,9 @@ build:
   web:
     files:
     - src: "./configs/.htaccess"
-      dest: "./"
+      dest: "./.htaccess"
     - src: "./configs/Web.config"
-      dest: "./"
+      dest: "./Web.config"
 
 structure:
 - title: Components
