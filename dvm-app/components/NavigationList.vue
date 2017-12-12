@@ -22,6 +22,10 @@
 export default {
   name: 'navigation-list',
   props: ['items', 'sourceDirectory', 'level'],
+  data()
+  {
+    return { currentPagePath : "" }
+  },
   methods:
   {
     getLinkHref(href)
@@ -47,8 +51,8 @@ export default {
         event.preventDefault();
         
         history.pushState('', linkname, href);
-
       }
+      this.currentPagePath = href;
       this.$root.loadPage(this,href);
       
     },
@@ -59,8 +63,18 @@ export default {
       //   return " is-active";
       // }
       // return "";
-      
+      console.log('this.currentPagePath',this.currentPagePath.substr(1))
+      console.log('item.href',item.href)
+      if(item.href && item.href === this.currentPagePath.substr(1))
+      {
+        return " is-active";
+      }
+      return "";
     }
+  },
+  mounted()
+  {
+    this.currentPagePath = window.location.pathname;
   }
 
 };
