@@ -58,13 +58,6 @@ export default {
     },
     getLinkClass(item)
     {
-      // if(href === window.location.pathname.substr(1))
-      // {
-      //   return " is-active";
-      // }
-      // return "";
-      console.log('this.currentPagePath',this.currentPagePath.substr(1))
-      console.log('item.href',item.href)
       if(item.href && item.href === this.currentPagePath.substr(1))
       {
         return " is-active";
