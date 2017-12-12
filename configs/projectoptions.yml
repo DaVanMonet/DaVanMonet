@@ -148,13 +148,11 @@ build:
     package: msdeploy.zip
   package:
     files:
-    - src: "./package.json"
-    - src: "./build/version.json"
-      dest: "./"
+    - src: "./configs/package.json"
     - src: "./configs/.npmrc"
-      dest: "./"
+      dest: "./.npmrc"
     - src: "./configs/package.nuspec"
-      dest: "./"
+      dest: "./package.nuspec"
   web:
     files:
     - src: "./configs/.htaccess"
