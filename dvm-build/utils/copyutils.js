@@ -18,7 +18,7 @@ exports.copyAssets = function()
 				const destPath = path.resolve(process.cwd(),dest);
 				fs.copy(srcPath, destPath, err =>
 				{
-					if (err) throw err;
+					if (err) console.error(err)
 					console.log(chalk.green('>> Copied "' + assetsItem.src + '" to "'+ dest +'"'));
 				});
 			});
@@ -34,13 +34,13 @@ exports.copySrc = function()
 
 	fs.copy(srcPath, distPackageDest, err =>
 	{
-		if (err) throw err;
+		if (err) console.error(err)
 		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ distPackageDest +'"'));
 	});
 	
 	fs.copy(srcPath, distWebDest, err =>
 	{
-	 	if (err) throw err;
+		if (err) console.error(err)
 	 	console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ distWebDest +'"'));
 	});
 }
@@ -53,21 +53,68 @@ exports.copyContentIndex = function()
 
 	fs.copy(srcPath, destPath, err =>
 	{
-		if (err) throw err;
+		if (err) console.error(err)
 		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ destPath +'"'));
 	});
 }
 
+// Copy additional package resources into the package dist folder
+exports.copyAdditionalWebResources = function()
+{
+	if(dvmConfig.build && dvmConfig.build.web && dvmConfig.build.web.files)
+	{
+		dvmConfig.build.web.files.filter(x => typeof x.src === "string").forEach((fileObj) =>
+		{
+			const dest = (fileObj.dest) ? fileObj.dest : (fileObj.src.lastIndexOf("/") > 3) ? fileObj.src.substring(fileObj.src.lastIndexOf("/")+1, fileObj.src.length) : fileObj.src;
+			const fileSrcPath = path.resolve(process.cwd(), fileObj.src);
+			const fileDestPath = path.resolve(process.cwd(), dvmConfig.directories.dist_package +"/" + dest);
+			if(fs.existsSync(fileSrcPath))
+			{
+				fs.copy(fileSrcPath, fileDestPath, err =>
+				{
+					if (err) console.error(err)
+					console.log(chalk.green('>> Copied "' + fileSrcPath + '" to "'+ fileDestPath +'"'));
+				});
+			}
+			else
+			{
+				console.log(chalk.orange('>> Could not find  "' + fileSrcPath + '. Is the configuration correct?'));
+			}
+		})
+	}
+}
 
-// Copy content index to web root
+// Copy additional package resources into the package dist folder
 exports.copyAdditionalPackageResources = function()
 {
-	const srcPath = path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/' + dvmConfig.directories.css_subDir);
-	const destPath = path.resolve(process.cwd(), dvmConfig.directories.dist_package + '/css');
+	const srcDirectoryPath = path.resolve(process.cwd(), dvmConfig.directories.dist_web + '/' + dvmConfig.directories.css_subDir);
+	const srcDirectoryDestPath = path.resolve(process.cwd(), dvmConfig.directories.dist_package + '/css');
 
-	fs.copy(srcPath, destPath, err =>
+	fs.copy(srcDirectoryPath, srcDirectoryDestPath, err =>
 	{
-		if (err) throw err;
-		console.log(chalk.green('>> Copied "' + srcPath + '" to "'+ destPath +'"'));
+		if (err) console.error(err)
+		console.log(chalk.green('>> Copied "' + srcDirectoryPath + '" to "'+ srcDirectoryDestPath +'"'));
 	});
+
+	if(dvmConfig.build && dvmConfig.build.package && dvmConfig.build.package.files)
+	{
+		dvmConfig.build.package.files.filter(x => typeof x.src === "string").forEach((fileObj) =>
+		{
+			const dest = (fileObj.dest) ? fileObj.dest : (fileObj.src.lastIndexOf("/") > 3) ? fileObj.src.substring(fileObj.src.lastIndexOf("/")+1, fileObj.src.length) : fileObj.src;
+			const fileSrcPath = path.resolve(process.cwd(), fileObj.src);
+			const fileDestPath = path.resolve(process.cwd(), dvmConfig.directories.dist_package +"/" + dest);
+			if(fs.existsSync(fileSrcPath))
+			{
+				fs.copy(fileSrcPath, fileDestPath, err =>
+				{
+					if (err) console.error(err)
+					console.log(chalk.green('>> Copied "' + fileSrcPath + '" to "'+ fileDestPath +'"'));
+				});
+			}
+			else
+			{
+				console.log(chalk.orange('>> Could not find  "' + fileSrcPath + '. Is the configuration correct?'));
+			}
+		})
+	}
 }

@@ -64,6 +64,7 @@ export default {
     .row
     {
       display: flex;
+      justify-content: space-between;
     }
   }
 

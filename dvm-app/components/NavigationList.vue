@@ -5,7 +5,7 @@
         <a
           v-bind:href="getLinkHref(item.href)"
           v-on:click="onNavigationClick"
-          class="davanmonet-nav-link"
+          :class="'davanmonet-nav-link' + getLinkClass(item)"
           >{{item.title}}</a>
       </span>
       <span class="davanmonet-nav-listiteminner" v-else>
@@ -51,7 +51,17 @@ export default {
       }
       this.$root.loadPage(this,href);
       
+    },
+    getLinkClass(item)
+    {
+      // if(href === window.location.pathname.substr(1))
+      // {
+      //   return " is-active";
+      // }
+      // return "";
+      
     }
   }
+
 };
 </script>

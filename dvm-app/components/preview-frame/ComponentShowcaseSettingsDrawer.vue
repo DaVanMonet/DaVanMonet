@@ -175,3 +175,22 @@ export default {
   }
 };
 </script>
+
+<style lang="less">
+a.showcase__repo-link
+{
+    color:#fff;
+    &:hover,
+    &:focus,
+    &:active
+    {
+      color:#fff;
+    }
+}
+
+.demo-form-group__label
+{
+  border-bottom: 1px dotted #fff;
+  margin-bottom: 0.5rem;
+}
+</style>

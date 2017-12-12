@@ -4,7 +4,7 @@
 # Use this to alter the look of DaVanMonet
 #-------------------------------------------------------------------------------
 project_info:
-  name: DaVanMonet
+  name: DaVanMonet Base
   logo: "/static/logo.svg"
   theme_style: default
 
@@ -148,19 +148,17 @@ build:
     package: msdeploy.zip
   package:
     files:
-    - src: "./package.json"
-    - src: "./build/version.json"
-      dest: "./"
+    - src: "./configs/package.json"
     - src: "./configs/.npmrc"
-      dest: "./"
+      dest: "./.npmrc"
     - src: "./configs/package.nuspec"
-      dest: "./"
+      dest: "./package.nuspec"
   web:
     files:
     - src: "./configs/.htaccess"
-      dest: "./"
+      dest: "./.htaccess"
     - src: "./configs/Web.config"
-      dest: "./"
+      dest: "./Web.config"
 
 structure:
 - title: Components
