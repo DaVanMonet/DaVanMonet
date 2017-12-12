@@ -4,7 +4,7 @@
 # Use this to alter the look of DaVanMonet
 #-------------------------------------------------------------------------------
 project_info:
-  name: DaVanMonet
+  name: DaVanMonet Base
   logo: "/static/logo.svg"
   theme_style: default
 

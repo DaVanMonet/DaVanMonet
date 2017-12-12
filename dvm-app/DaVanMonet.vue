@@ -2,10 +2,11 @@
     <div class="davanmonet-app">
         <!-- <component-showcase-csslinks :csslinks="targetIndex.items"></component-showcase-csslinks> -->
         <header class="davanmonet-header">
-            <a href="/" class="davanmonet-header-logolink"><img class="davanmonet-header-logo" src="/static/logo.svg"></a>
-            <nav class="davanmonet-header-nav">
-                <a href="/" class="davanmonet-header-nav-link">Home</a>
-            </nav>
+            <a href="/" class="davanmonet-header-logolink">
+				<img class="davanmonet-header-logo" src="/static/logo.svg" alt="">
+				<span class="davanmonet-header-logolinktext">DaVanMonet</span>
+			</a>
+            
             <a href="https://github.com/wezz/DaVanMonet" class="davanmonet-header-github-link" title="Go to the GitHub Repository"><img alt="Image of the github logo" class="davanmonet-header-github-logo" src="/static/github-mark.svg"></a>
         </header>
         <navigation 
@@ -88,7 +89,7 @@ export default {
 			}
 			if(_vue.projectConfig.project_info.name)
 			{
-				$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
+				$(".davanmonet-header-logolinktext").text(_vue.projectConfig.project_info.name);
 			}
 			if(_vue.projectConfig.project_info.logo)
 			{
