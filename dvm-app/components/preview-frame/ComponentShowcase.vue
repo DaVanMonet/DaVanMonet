@@ -10,7 +10,7 @@
     </div>
      <div class="showcase__example" v-if="hasStates">
       <component-showcase-repos-stylesheets :repos="componentRepos"></component-showcase-repos-stylesheets>
-      <div class="showcase__render-wrapper">
+      
         <resizeable-element
           ref="resizeableElement"
           @onWidthChange="onResizeableWidthChange"
@@ -25,7 +25,7 @@
             :iframeContentHeight.sync="iframeContentHeight">
           </component-showcase-render>
         </resizeable-element>
-      </div>
+      
   
       <component-showcase-settings-drawer
         :states="showcaseData.States"
@@ -148,3 +148,16 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+@import '../../styles/colors';
+
+.showcase__source-wrapper {
+    font-size:16px;
+    position: relative;
+    border-right: 1px solid @color--grey;
+    border-bottom: 1px solid @color--grey;
+    border-left: 1px solid @color--grey;
+  }
+
+</style>

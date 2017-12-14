@@ -78,7 +78,7 @@ exports.copyAdditionalWebResources = function()
 			}
 			else
 			{
-				console.log(chalk.orange('>> Could not find  "' + fileSrcPath + '. Is the configuration correct?'));
+				console.log(chalk.red('>> Could not find  "' + fileSrcPath + '. Is the configuration correct?'));
 			}
 		})
 	}
@@ -113,7 +113,7 @@ exports.copyAdditionalPackageResources = function()
 			}
 			else
 			{
-				console.log(chalk.orange('>> Could not find  "' + fileSrcPath + '. Is the configuration correct?'));
+				console.log(chalk.red('>> Could not find  "' + fileSrcPath + '. Is the configuration correct?'));
 			}
 		})
 	}
