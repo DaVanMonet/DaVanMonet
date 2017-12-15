@@ -11,9 +11,12 @@
 		"build-all": "npm run build-dvm && npm run build-pl",
 		"dev-pl": "node dvm-build/dev-server-patternlibrary.js",
 		"dev-debug": "node --inspect dvm-build/dev-server.js",
+
 		"test": "npm run test-unit && npm run test-e2e",
 		"test-unit": "mocha test/unit-tests.js",
-		"test-e2e": "mocha test/e2e-devserver-tests.js"
+		"test-e2e": "npm run test-e2e-devserver && npm run test-e2e-build",
+		"test-e2e-devserver": "mocha test/e2e-devserver-tests.js",
+		"test-e2e-build": "mocha test/e2e-build-tests.js"
 	},
 	"author": {
 		"name": "Wezz Balk",

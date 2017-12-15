@@ -20,6 +20,8 @@ describe("Dev Server", function () {
     })
 
     it("Returns markup (On Site Preview)", async function () {
+        this.timeout(20000);
+        
         request = require('async-request');
         let response = await request('http://localhost:9001/osp/component/example-component-guid-used-for-testing-dont-change/0/markup.html');
         
