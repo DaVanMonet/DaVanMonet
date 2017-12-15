@@ -106,21 +106,10 @@ devMiddleware.waitUntilValid(() => {
 
 const server = app.listen(port)
 
-// Start legacy grunt dev task
-// var sys = require('sys')
-// var exec = require('child_process').exec;
-// var child;
-// child = exec("grunt dev", function (error, stdout, stderr) {
-//   sys.print('stdout: ' + stdout);
-//   sys.print('stderr: ' + stderr);
-//   if (error !== null) {
-//     console.log('grunt dev error: ' + error);
-//   }
-// });
-
 module.exports = {
   ready: readyPromise,
   close: () => {
-    server.close()
+    console.log("Close server");
+    server.close(function() { app = null; })
   }
 }
