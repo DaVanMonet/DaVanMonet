@@ -4,14 +4,14 @@ const load_config = require("../dvm-build/utils/load-config");
 
 describe("Module: load-config.js", function () {
     it("Loads configuration from a YAML or JSON file", function () {
-        let dvmConfig = load_config.dvmConfig();
+        const dvmConfig = load_config.dvmConfig();
         expect(dvmConfig).to.be.an('object');
     })
 });
 
 describe("Module: create-content-index.js", function () {
-    var dvmConfig = load_config.dvmConfig();
-    var file_path = dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentIndexOutput;
+    const dvmConfig = load_config.dvmConfig();
+    const file_path = dvmConfig.directories.indexes + '/' + dvmConfig.indexing.contentIndexOutput;
     
     it("Generates a content index file", function () {
         let create_content_index = require("../dvm-build/utils/create-content-index");

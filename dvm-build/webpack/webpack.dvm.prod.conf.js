@@ -31,8 +31,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   devtool: buildSettings.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: buildSettings.build.assetsRoot,
-    filename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[name].[chunkhash].js'),
-    chunkFilename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[id].[chunkhash].js')
+    filename: path.posix.join(dvmConfig.directories.js_subDir, '[name].[chunkhash].js'),
+    chunkFilename: path.posix.join( dvmConfig.directories.css_subDir, '[id].[chunkhash].js')
   },
   plugins: [
     
@@ -51,7 +51,7 @@ var webpackConfig = merge(baseWebpackConfig, {
 
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[name].[contenthash].css')
+      filename: path.posix.join( dvmConfig.directories.css_subDir, '[name].[contenthash].css')
     }),
 
     // Compress extracted CSS. We are using this plugin so that possible
@@ -114,14 +114,14 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: buildSettings.build.assetsSubDirectory,
         ignore: ['.*']
       },
-      {
-        from: path.resolve(__dirname, '../../configs/web.config'),
-        to: buildSettings.build.assetsRoot,
-        ignore: ['.*']
-      }
+      // {
+      //   from: path.resolve(__dirname, '../../configs/web.config'),
+      //   to: buildSettings.build.assetsRoot,
+      //   ignore: ['.*']
+      // }
     ]),
     new LifecyclePlugin({
-      "done": (compilation, options, pluginOptions) =>
+      "emit": (compilation, options, pluginOptions) =>
       {
           // Copy additional resources into the web dist folder
           require('../utils/copyutils').copyAdditionalWebResources();

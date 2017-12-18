@@ -9,6 +9,7 @@
 		"build-dvm": "node dvm-build/build-dvm.js",
 		"build-pl": "node dvm-build/build-patternlibrary.js",
 		"build-all": "npm run build-dvm && npm run build-pl",
+		"build": "npm run build-all",
 		"dev-pl": "node dvm-build/dev-server-patternlibrary.js",
 		"dev-debug": "node --inspect dvm-build/dev-server.js",
 
