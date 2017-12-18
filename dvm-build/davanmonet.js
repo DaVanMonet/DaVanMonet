@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = class DaVanMonet
 {
 	constructor(options = { verbose:false })
@@ -14,7 +16,7 @@ module.exports = class DaVanMonet
 	}
 	StartDevServer()
 	{
-		const result = this.exec("node " + __dirname + "\\dev-server.js");
+		const result = this.exec("node " + path.join(__dirname, "dev-server.js"));
 		this.output(result)
 	}
 	BuildAll()
@@ -26,13 +28,13 @@ module.exports = class DaVanMonet
 	BuildPackage()
 	{
 		this.output('Build package...')
-		const result = this.exec("node " + __dirname + "\\build-patternlibrary.js");
+		const result = this.exec("node " + path.join(__dirname, "build-patternlibrary.js"));
 		//this.output(result)
 	}
 	BuildWeb()
 	{
 		this.output('Build web...')
-		const result = this.exec("node " + __dirname + "\\build-dvm.js");
+		const result = this.exec("node " + path.join(__dirname, "build-dvm.js"));
 		//this.output(result)
 	}
 
