@@ -148,7 +148,6 @@ export default
 		},
         showPreview(states)
         {
-            console.log(states)
             let shouldShow = true;
 			let statelist = states;
             if (typeof states.Preamble === "string")
