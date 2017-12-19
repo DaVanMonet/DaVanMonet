@@ -138,7 +138,7 @@ export default class PageLoader
 				
 				pageData["ComponentItems"].push(variantContent);
 			});
-			console.log('pageData',pageData)
+			console.log('Page rendered at ' + (new Date()).toString(),pageData)
 		}
 		return pageData;
 		
