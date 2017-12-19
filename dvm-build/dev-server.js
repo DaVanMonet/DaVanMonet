@@ -14,9 +14,13 @@ const proxyMiddleware = require('http-proxy-middleware')
 const webpackConfigDvm = require('./webpack/webpack.dvm.dev.conf')
 const webpackConfigPL = require('./webpack/webpack.patternlibrary.dev.conf')
 const webpackConfigProjectPL = require('./utils/load-config').getProjectPLConfig();
+const dvm_config = require('./utils/load-config').dvmConfig();
 const webpackConfig = [webpackConfigDvm, merge(webpackConfigPL,webpackConfigProjectPL)];
 
 const dvmConfig = require('./utils/load-config').dvmConfig();
+
+// Generate fresh contentindex.json
+require('./utils/create-content-index')(dvm_config);
 
 // default port where dev server listens for incoming traffic
 const port = dvmConfig.env.devSitePort
