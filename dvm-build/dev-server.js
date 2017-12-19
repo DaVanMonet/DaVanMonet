@@ -71,8 +71,6 @@ watch(path.posix.join(dvm_config.directories.src,"documentation/accessibility" )
 	},
 	(evt, name) =>
 	{
-		console.log('evt', evt)
-		console.log('name', name);
 		hotMiddleware.publish(
 		{
 			action: 'reload'

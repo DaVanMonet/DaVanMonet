@@ -18,7 +18,7 @@
         <strong class="davanmonet-nav-directory">{{item.title}}</strong>
       </span>
       <div v-if="item.items && item.items.length > 0">
-        <navigation-list :items="item.items" :source-directory="sourceDirectory" :level="level +1"></navigation-list>
+        <navigation-list :items="item.items" :source-directory="sourceDirectory" :level="level +1" :current-page-path="currentPagePath"></navigation-list>
       </div>
   </li>
   
@@ -28,11 +28,11 @@
 <script>
 export default {
   name: 'navigation-list',
-  props: ['items', 'sourceDirectory', 'level'],
+  props: ['items', 'sourceDirectory', 'level', 'currentPagePath'],
   data()
   {
     return {
-      currentPagePath : "",
+      //currentPagePath : "",
       expandChildren : (this.level > 2) ? ((this.items.length > 2) ? false : true) : true
     }
   },
@@ -62,9 +62,8 @@ export default {
         
         history.pushState('', linkname, href);
       }
-      this.currentPagePath = href;
+
       this.$root.loadPage(this,href);
-      
     },
     onExpandNavClick(item)
     {
@@ -82,7 +81,6 @@ export default {
   },
   mounted()
   {
-    this.currentPagePath = window.location.pathname;
     var activeItems = this.items.filter(x => x.href).filter(x =>{ return x.href === this.currentPagePath.substr(1) });
     if(activeItems.length)
     {
