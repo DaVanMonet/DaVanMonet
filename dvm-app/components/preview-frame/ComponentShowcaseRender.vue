@@ -21,13 +21,16 @@ export default {
     
     onIframeLoad() {
       this.populateIframeWithRenderSource();
-      this.$root.iframeResizer = iframeResizer( { log: false }, 'iframe' );
+      if(this.renderSource)
+      {
+        this.$root.iframeResizer = iframeResizer( { log: false }, 'iframe' );
 
-      var iframeWin = this.$refs.iframe.contentWindow;
+        var iframeWin = this.$refs.iframe.contentWindow;
 
-      this.$parent.$emit('register-iframe', this.$refs.iframe);
-      
-      iframeWin.addEventListener('resize', () => { this.$refs.iframe.iFrameResizer.resize(); this.$parent.setHeight(this.$refs.iframe.clientHeight) });
+        this.$parent.$emit('register-iframe', this.$refs.iframe);
+        
+        iframeWin.addEventListener('resize', () => { this.$refs.iframe.iFrameResizer.resize(); this.$parent.setHeight(this.$refs.iframe.clientHeight) });
+      }
     },
 
     populateIframeWithRenderSource() {
@@ -43,6 +46,7 @@ export default {
   },
 
   beforeDestroy() {
+    this.$root.iframeResizer = null;
     this.$refs.iframe.removeEventListener('load', this.onIframeLoad);
   },
 
