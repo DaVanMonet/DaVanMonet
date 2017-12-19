@@ -56,25 +56,21 @@ compiler.plugin('compilation', function(compilation)
 {
 	compilation.plugin('html-webpack-plugin-after-emit', function(data, callback)
 	{
-		hotMiddleware.publish(
-		{
-			action: 'reload'
-		});
+		hotMiddleware.publish({ action: 'reload' });
 		callback();
 	});
 });
 
-console.log('path.posix.join(dvm_config.directories.src,"documentation/accessibility" )',path.posix.join(dvm_config.directories.src,"documentation/accessibility" ))
-watch(path.posix.join(dvm_config.directories.src,"documentation/accessibility" ),
+watch(path.posix.join(dvm_config.directories.src),
 	{
+		recursive: true,
 		filter: (name) => name.indexOf('.md') > 0,
 	},
 	(evt, name) =>
 	{
-		hotMiddleware.publish(
-		{
-			action: 'reload'
-		});
+		// Generate fresh contentindex.json
+		require('./utils/create-content-index')(dvm_config);
+		hotMiddleware.publish({ action: 'reload' });
 	}
 )
 
