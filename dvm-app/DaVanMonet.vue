@@ -13,7 +13,8 @@
             class="davanmonet-navcontainer" 
             v-if="configLoaded == true"
             :navigation="navigation" 
-            :source-directory="projectConfig.directories.src"></navigation>
+            :source-directory="projectConfig.directories.src" 
+			:current-page-path="currentPagePath"></navigation>
         <main-content 
             class="davanmonet-maincontentcontainer" 
             v-if="configLoaded == true && maincontent"
@@ -47,7 +48,8 @@ export default {
     data() {
         return {
             configLoaded:false,
-            isLocalhost:false,
+			isLocalhost:false,
+			currentPagePath:"",
             navigation:[],
             maincontent:
             {
@@ -66,7 +68,9 @@ export default {
 	{
 		this.init(this);
     },
-    
+	mounted()
+	{
+	},
 	methods:
 	{
 		async init(_vue)
@@ -80,6 +84,8 @@ export default {
 			this.fetchData(this).then(() => 
 			{ 
 			});
+
+			this.currentPagePath = window.location.pathname;
 
 			// Rudimentary themeing support
 			// TODO: Get rid of jQuery dependency here
@@ -103,7 +109,7 @@ export default {
 			{
 				const _pageLoader = new PageLoader();
 				const pagedata = await _pageLoader.getPage(path);
-				
+				this.currentPagePath = path;
 				this.maincontent = pagedata;
 
 				// TODO: Emit as an event if needed

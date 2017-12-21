@@ -167,6 +167,8 @@ structure:
   path: global
 - title: Script Modules
   path: modules
+- title: Documentation
+  path: documentation
   
 onsitepreview:
   components:

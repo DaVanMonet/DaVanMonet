@@ -55,7 +55,7 @@ exports.dvmConfig = function()
             }
             
             // Assign structureFolders. Take structure from config if set, otherwise map file system. Save result to co config.
-            config.structureFolders = config.structure !== null ? config.structure : getDirs(config.directories.src).map(
+            config.structureFolders = config.structure !== null && config.structure.length > 0 ? config.structure : getDirs(config.directories.src).map(
                 folder => { 
                     return {
                         title: folder.charAt(0).toUpperCase() + folder.substr(1),
