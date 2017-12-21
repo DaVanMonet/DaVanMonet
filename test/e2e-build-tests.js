@@ -7,7 +7,7 @@ describe("Testing DvM build process", function()
 {
 	it("Builds DvM and Pattern Library", async function()
 	{
-		this.timeout(20000);
+		this.timeout(40000);
 		
 		const dvmConfig = load_config.dvmConfig();
 		let destinationsToVerify = [

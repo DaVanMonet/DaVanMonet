@@ -28,6 +28,7 @@ module.exports = function (assets, dests)
             {
                 if (err) throw err;
                 console.log(chalk.green('CSS copy emitted to ' + file_dest));
+                console.log(chalk.green('CSS file size: ' + Math.round((file_content.length / 1024) * 100) / 100 + ' kb'));
             });
         })
     }

@@ -34,15 +34,6 @@ rm(path.join(envConfig.build.assetsRoot, envConfig.build.assetsSubDirectory), er
 			chunkModules: false
 		}) + '\n\n')
 
-		// console.log(stats.toString(
-		// {
-		// 	colors: true,
-		// 	modules: false,
-		// 	children: false,
-		// 	chunks: false,
-		// 	chunkModules: false
-		// }));
-
 		if (stats.hasErrors())
 		{
 			console.log(chalk.red('  Build failed with errors.\n'))

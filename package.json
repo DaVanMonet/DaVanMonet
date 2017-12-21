@@ -12,7 +12,6 @@
 		"build": "npm run build-all",
 		"dev-pl": "node dvm-build/dev-server-patternlibrary.js",
 		"dev-debug": "node --inspect dvm-build/dev-server.js",
-
 		"test": "npm run test-unit && npm run test-e2e",
 		"test-unit": "mocha test/unit-tests.js",
 		"test-e2e": "npm run test-e2e-devserver && npm run test-e2e-build",

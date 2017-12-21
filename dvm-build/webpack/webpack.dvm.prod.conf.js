@@ -32,7 +32,7 @@ var webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: buildSettings.build.assetsRoot,
     filename: path.posix.join(dvmConfig.directories.js_subDir, '[name].[chunkhash].js'),
-    chunkFilename: path.posix.join( dvmConfig.directories.css_subDir, '[id].[chunkhash].js')
+    chunkFilename: path.posix.join( dvmConfig.directories.js_subDir, '[id].[chunkhash].js')
   },
   plugins: [
     
