@@ -109,9 +109,11 @@ export default {
 			{
 				const _pageLoader = new PageLoader();
 				const pagedata = await _pageLoader.getPage(path);
-				this.currentPagePath = path;
-				this.maincontent = pagedata;
-
+				if(pagedata.id && pagedata.id.length > 0 && pagedata.title && pagedata.title.length > 0)
+				{
+					this.currentPagePath = path;
+					this.maincontent = pagedata;
+				}
 				// TODO: Emit as an event if needed
 				//this.$nextTick(() =>
 				//{
@@ -141,14 +143,12 @@ export default {
 			const _pageLoader = new PageLoader();
 			const navigation = await _pageLoader.getNavigation();
 			_vue.navigation = navigation;
-
+			
 			const startpagecontent = await _pageLoader.loadMDFile("index");
 			if(typeof startpagecontent === "string" && startpagecontent.length > 0)
 			{
 				_vue.maincontent.MainBody = Marked(startpagecontent);
 			}
-			
-
 			_vue.parseLocationAndNavigate();
 			_vue.configLoaded = true;
 		}
