@@ -50,8 +50,6 @@ export default
         {
             // Add this.renderSource
 			const renderElm = this.$refs.iframe.contentDocument.body.querySelector('.showcase__render');
-			console.log('this.stateData', this.stateData)
-            console.log('this.renderSource', this.renderSource)
             renderElm.innerHTML = this.renderSource;
         }
 
