@@ -38,6 +38,16 @@ Then issue simplu run 'npm run dev':
 npm run dev
 ```
 
+## Writing documentation
+Documentation is written in [Markdown](https://daringfireball.net/projects/markdown/). 
+A page visible on the website can consist of multiple markdown files. They will be automatically combined if they have the same component id (See primary.md and secondary.md in the button folder).
+
+Code snipplets will be split up from the first H2 (using bangs) to the end of the closest code snipplet end.
+To show H2's on the documentation you need to use the dash -- annotation. The headline before a code snipplet will be the name of it's state.
+
+You can show only the code and hide the preview by using "nopreview" in the title. See Accessibility Do's and Don's for an example.
+
+
 ## Configuration file (JSON or YAML)
 Default configuration resides in /configs/projectoptions.yml
 It can be a JSON file as well. Just specify the correct path to the options file in your gruntfile configuration.

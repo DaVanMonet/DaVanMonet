@@ -88,7 +88,8 @@ export default {
 
       // Set local isCollapsed bool based on passed prop. and if there are
       // multiple children to actually collapse.
-      this.canCollapse = this.collapsed && this.$refs.richtext.children.length > 1;
+      //this.canCollapse = this.collapsed && this.$refs.richtext.children.length > 1;
+      this.canCollapse = false;
       this.isCollapsed = this.collapsed;
     }
   },

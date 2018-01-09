@@ -2,8 +2,9 @@
     <div class="showcase">
         <div class="showcase__header row">
             <div class="col-md-8 col-sm-12">
-
+                <span v-if="showcaseData.private === true" class="showcase_privatecomponent">Non public</span>
                 <h3 class="heading heading--smaller" v-if="showcaseData.Title && showcaseIsOnlyComponent == false" v-html="showcaseData.Title"></h3>
+                
                 <div v-if="showcaseData.Preamble">
                     <p v-html="showcaseData.Preamble"></p>
                 </div>
