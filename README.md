@@ -49,6 +49,10 @@ You can change where the system will put compiled css and where your source file
 ### Index Options
 The system will create an index of all the documentation (also used by the preview), this will specify where that index is saved and what metadata to add to the index.
 
+For keys to index we recommend relying only on strings. If a index key is not present in the documentation metadata it will not be included per documentation file.
+
+The one exception of this is the key "private". If it is present in the configuration we will always cast it to a boolean.
+
 ### Compilation
 Add target files here. These can be anything that Webpack can understand. By default Less, Sass and JS (es6) is supported, but you can add more loaders to Webbpack for other languages.
 

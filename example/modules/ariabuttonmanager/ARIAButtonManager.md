@@ -1,6 +1,7 @@
 ﻿---
 title: ARIA Button manager
 guid: e2fdcfd8-d001-4854-9a15-91d9c41da495
+private: true
 requirejs: jquery,modules/ariabuttonmanager/ARIAButtonManager, modules/ariabuttonmanager/ARIAButtonManagerAdditionalBehavior, modules/managedinitiation/ManagedModuleBase
 ----
 # ARIA Button manager

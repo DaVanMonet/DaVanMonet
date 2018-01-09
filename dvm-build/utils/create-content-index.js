@@ -34,7 +34,13 @@ module.exports = function()
         const parsedFile = matter(filecontent);
         config.indexing.keysToOutput.forEach((key) =>
         {
-            if (typeof parsedFile["data"][key] === "string")
+            console.log('parsedFile["data"][key],',key, parsedFile["data"][key])
+            const valuetype = typeof parsedFile["data"][key];
+            if(key === "private")
+            {
+                filemetadata[key] = parsedFile["data"][key] === true    ;
+            }
+            else if (valuetype !== "undefined")
             {
                 // Only save metadata that's specified in the project configuration
                 filemetadata[key] = parsedFile["data"][key];

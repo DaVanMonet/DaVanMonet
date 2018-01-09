@@ -54,6 +54,7 @@ indexing:
   - guid
   - variantid
   - componentid
+  - private
   #- requirejs
 
 
