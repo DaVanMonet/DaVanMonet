@@ -2,17 +2,19 @@
     <div class="davanmonet-app">
         <!-- <component-showcase-csslinks :csslinks="targetIndex.items"></component-showcase-csslinks> -->
         <header class="davanmonet-header">
-            <a href="/" class="davanmonet-header-logolink"><img class="davanmonet-header-logo" src="/static/logo.svg"></a>
-            <nav class="davanmonet-header-nav">
-                <a href="/" class="davanmonet-header-nav-link">Home</a>
-            </nav>
+            <a href="/" class="davanmonet-header-logolink">
+				<img class="davanmonet-header-logo" src="/static/logo.svg" alt="">
+				<span class="davanmonet-header-logolinktext">DaVanMonet</span>
+			</a>
+            
             <a href="https://github.com/wezz/DaVanMonet" class="davanmonet-header-github-link" title="Go to the GitHub Repository"><img alt="Image of the github logo" class="davanmonet-header-github-logo" src="/static/github-mark.svg"></a>
         </header>
         <navigation 
             class="davanmonet-navcontainer" 
             v-if="configLoaded == true"
             :navigation="navigation" 
-            :source-directory="projectConfig.directories.src"></navigation>
+            :source-directory="projectConfig.directories.src" 
+			:current-page-path="currentPagePath"></navigation>
         <main-content 
             class="davanmonet-maincontentcontainer" 
             v-if="configLoaded == true && maincontent"
@@ -46,7 +48,8 @@ export default {
     data() {
         return {
             configLoaded:false,
-            isLocalhost:false,
+			isLocalhost:false,
+			currentPagePath:"",
             navigation:[],
             maincontent:
             {
@@ -65,7 +68,9 @@ export default {
 	{
 		this.init(this);
     },
-    
+	mounted()
+	{
+	},
 	methods:
 	{
 		async init(_vue)
@@ -75,10 +80,12 @@ export default {
 			_vue.projectConfig = Loader.ProjectConfig;
 			
 			this.isLocalhost = (window.location.hostname === "localhost");
-
+			
 			this.fetchData(this).then(() => 
 			{ 
 			});
+
+			this.currentPagePath = window.location.pathname;
 
 			// Rudimentary themeing support
 			// TODO: Get rid of jQuery dependency here
@@ -88,7 +95,7 @@ export default {
 			}
 			if(_vue.projectConfig.project_info.name)
 			{
-				$(".davanmonet-header-nav-link").text(_vue.projectConfig.project_info.name);
+				$(".davanmonet-header-logolinktext").text(_vue.projectConfig.project_info.name);
 			}
 			if(_vue.projectConfig.project_info.logo)
 			{
@@ -102,7 +109,7 @@ export default {
 			{
 				const _pageLoader = new PageLoader();
 				const pagedata = await _pageLoader.getPage(path);
-				
+				this.currentPagePath = path;
 				this.maincontent = pagedata;
 
 				// TODO: Emit as an event if needed
@@ -117,11 +124,10 @@ export default {
 		parseLocationAndNavigate()
 		{
 			let pagepath = window.location.pathname;
-			if(this.isLocalhost)
+			const hash = window.location.hash;
+			if(this.isLocalhost && hash.length > 0)
 			{
-				const hash = window.location.hash
 				pagepath = hash.replace("#","");
-
 			}
 			this.loadPage(this, pagepath);
 		},

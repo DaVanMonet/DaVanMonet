@@ -26,7 +26,9 @@ new Vue({
 	el: '#davanmonet-app',
 	template: '<DaVanMonet ref="dvm" />',
 	//router,
+	
 	components: { DaVanMonet },
+
 	methods: {
 		
 		// TODO: This should problaby be handled by a router instead

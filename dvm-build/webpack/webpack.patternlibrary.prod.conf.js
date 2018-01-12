@@ -27,7 +27,6 @@ const prodConfig = {
             safe: true
             }
         }),
-
         new LifecyclePlugin({
             "done": (compilation, options, pluginOptions) =>
             {
@@ -39,7 +38,7 @@ const prodConfig = {
 
                 // If configured, move specified assets to external folder
                 require('../utils/copyutils').copyAssets();
-
+                
                 // Copy additional resources into the package folder (such as the compiled css)
                 require('../utils/copyutils').copyAdditionalPackageResources();
             }
@@ -48,6 +47,7 @@ const prodConfig = {
         new LifecyclePlugin({
             "done": (compilation, options, pluginOptions) =>
             {
+                console.log('create version file etc')
                 if (undefined === compilation.compilation.records.chunks)
                 {
                     return;

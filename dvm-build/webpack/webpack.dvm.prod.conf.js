@@ -3,16 +3,17 @@
  * 
  */
 
-var path = require('path')
-var utils = require('../utils/utils')
-var webpack = require('webpack')
-var buildSettings = require('../build-settings')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.dvm.base.conf')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const path = require('path')
+const utils = require('../utils/utils')
+const webpack = require('webpack')
+const buildSettings = require('../build-settings')
+const merge = require('webpack-merge')
+const baseWebpackConfig = require('./webpack.dvm.base.conf')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 
 const dvmConfig = require('../utils/load-config').dvmConfig();
 
@@ -30,8 +31,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   devtool: buildSettings.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: buildSettings.build.assetsRoot,
-    filename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[name].[chunkhash].js'),
-    chunkFilename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[id].[chunkhash].js')
+    filename: path.posix.join(dvmConfig.directories.js_subDir, '[name].[chunkhash].js'),
+    chunkFilename: path.posix.join( dvmConfig.directories.js_subDir, '[id].[chunkhash].js')
   },
   plugins: [
     
@@ -50,7 +51,7 @@ var webpackConfig = merge(baseWebpackConfig, {
 
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: path.posix.join(dvmConfig.directories.dist_web, dvmConfig.directories.css_subDir, '[name].[contenthash].css')
+      filename: path.posix.join( dvmConfig.directories.css_subDir, '[name].[contenthash].css')
     }),
 
     // Compress extracted CSS. We are using this plugin so that possible
@@ -113,12 +114,19 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: buildSettings.build.assetsSubDirectory,
         ignore: ['.*']
       },
+      // {
+      //   from: path.resolve(__dirname, '../../configs/web.config'),
+      //   to: buildSettings.build.assetsRoot,
+      //   ignore: ['.*']
+      // }
+    ]),
+    new LifecyclePlugin({
+      "emit": (compilation, options, pluginOptions) =>
       {
-        from: path.resolve(__dirname, '../../configs/web.config'),
-        to: buildSettings.build.assetsRoot,
-        ignore: ['.*']
+          // Copy additional resources into the web dist folder
+          require('../utils/copyutils').copyAdditionalWebResources();
       }
-    ])
+  }),
   ]
 })
 

@@ -13,6 +13,11 @@ var webpackConfig = require('./webpack/webpack.dvm.prod.conf')
 var spinner = ora('building for production...')
 spinner.start()
 
+var _resolve
+const readyPromise = new Promise(resolve => {
+  _resolve = resolve
+})
+
 rm(path.join(envConfig.build.assetsRoot, envConfig.build.assetsSubDirectory), err =>
 {
 	if (err) throw err
@@ -20,15 +25,6 @@ rm(path.join(envConfig.build.assetsRoot, envConfig.build.assetsSubDirectory), er
 	{
 		spinner.stop()
 		if (err) throw err
-		process.stdout.write(stats.toString(
-		{
-			colors: true,
-			modules: false,
-			children: false,
-			chunks: false,
-			chunkModules: false
-		}) + '\n\n')
-
 		console.log(stats.toString(
 		{
 			colors: true,
@@ -36,7 +32,7 @@ rm(path.join(envConfig.build.assetsRoot, envConfig.build.assetsSubDirectory), er
 			children: false,
 			chunks: false,
 			chunkModules: false
-		}));
+		}) + '\n\n')
 
 		if (stats.hasErrors())
 		{
@@ -49,5 +45,11 @@ rm(path.join(envConfig.build.assetsRoot, envConfig.build.assetsSubDirectory), er
 			'  Tip: built files are meant to be served over an HTTP server.\n' +
 			'  Opening index.html over file:// won\'t work.\n'
 		))
+
+		_resolve()
 	})
 })
+
+module.exports = {
+	ready: readyPromise
+}

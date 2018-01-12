@@ -4,7 +4,7 @@
 # Use this to alter the look of DaVanMonet
 #-------------------------------------------------------------------------------
 project_info:
-  name: DaVanMonet
+  name: DaVanMonet Base
   logo: "/static/logo.svg"
   theme_style: default
 
@@ -23,10 +23,10 @@ directories:
   dist_package: "dist/package"
   
   # JS output dir. Relative to dist_web
-  js_subDir: "/static/js"
+  js_subDir: "static/js"
 
   # CSS Output dir. Relative to dist_web
-  css_subDir: "/static/css"
+  css_subDir: "static/css"
   
   # Index files will be created here
   indexes: "dist/indexes"
@@ -128,18 +128,15 @@ env:
   launchBrowser: false
   enableOnSitePreview: true
   cssBreakpoints:
-  - id: mobile
-    title: Mobile
+  - title: Mobile
     width: 375
     fromWidth: 0
     toWidth: 375
-  - id: tablet
-    title: Tablet
+  - title: Tablet
     width: 768
-    fromWidth: 376
+    fromWidth: 375
     toWidth: 999
-  - id: desktop
-    title: Desktop
+  - title: Desktop
     width: 100%
     fromWidth: 1000
     toWidth: 9007199254740990
@@ -151,19 +148,17 @@ build:
     package: msdeploy.zip
   package:
     files:
-    - src: "./package.json"
-    - src: "./build/version.json"
-      dest: "./"
+    - src: "./configs/package.json"
     - src: "./configs/.npmrc"
-      dest: "./"
+      dest: "./.npmrc"
     - src: "./configs/package.nuspec"
-      dest: "./"
+      dest: "./package.nuspec"
   web:
     files:
     - src: "./configs/.htaccess"
-      dest: "./"
+      dest: "./.htaccess"
     - src: "./configs/Web.config"
-      dest: "./"
+      dest: "./Web.config"
 
 structure:
 - title: Components
@@ -172,6 +167,8 @@ structure:
   path: global
 - title: Script Modules
   path: modules
+- title: Documentation
+  path: documentation
   
 onsitepreview:
   components:

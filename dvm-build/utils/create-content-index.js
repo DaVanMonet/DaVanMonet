@@ -115,6 +115,6 @@ module.exports = function()
     console.log(chalk.yellow(
         "\n# Indexed " + totalfilecount
         + " files in " + structureitems.length
-        + " structure folders and saved it to " + config.directories.indexes + '/'+ config.indexing.contentIndexOutput.substring(config.indexing.contentIndexOutput.lastIndexOf("/") + 1,
+        + " structure folders and saved it to " + config.directories.indexes + '/'+ config.indexing.contentIndexOutput.toString().substring(config.indexing.contentIndexOutput.lastIndexOf("/") + 1,
         config.indexing.contentIndexOutput.length)));
 }

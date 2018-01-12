@@ -36,10 +36,10 @@ module.exports = {
         let HTMLSnipplets = [];
 
         markdownSnipplets.forEach(function(snipplet) {
-            const regExtGetHTMLSnipplet = /```html\n(.+)\n```/gim;
+            const regExtGetHTMLSnipplet = /```html[\n\r]((.|[\r\n])+)[\n\r]```/gim;
             let snip = regExtGetHTMLSnipplet.exec(snipplet.content);
             
-            if(snip !== null)
+            if (snip !== null)
                 snip.some((match, groupIndex) => {
                     if (groupIndex === 1) {
                         HTMLSnipplets.push(match);

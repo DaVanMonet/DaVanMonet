@@ -1,104 +1,148 @@
 /****** CSS variables *****/
 
-@dark-primary-color: #0097A7;
-@default-primary-color: #00BCD4;
-@light-primary-color: #B2EBF2;
-@text-primary-color: #FFFFFF;
-@accent-color: #607D8B;
-@primary-text-color: #212121;
-@secondary-text-color: #757575;
-@divider-color: #BDBDBD;
+
+/*
+
+//link color: #00BCD4
+link rgb(83,109,254)
+
+action link color: rgb(83,109,254)
+action link hover: #616161
+text color: #757575
+
+grey background: // #EFEFEF
+
+background color
+rgb(0,150,136)
+
+Accent color
+rgb(83, 109, 254);
+*/
+
+@import 'colors';
+
 @page-maxwidth: 1180px;
 
 
-@GridGap:2.4rem;
-@Font : 'Calibri', sans-serif;
-@SidebarWidthDesktop:24rem;
-@HeaderHeightDesktop:8.7rem;
+@GridGap: 2.4rem;
+@Font : "Roboto", "Helvetica", "Arial", sans-serif;
+@SidebarWidthDesktop: 24rem;
+@HeaderHeightDesktop: 7.5rem;
+
 
 /****** Main styles ******/
 
-html
-{
+html {
 	font-size: 62.5%;
-	margin:0;
-	padding:0;
+	margin: 0;
+	padding: 0;
 	height: 100%;
-	width:100%;
-}
-body
-{
-	margin:0;
-	padding:0;
-	min-height: 100%;
-	overflow-y:scroll;
+	width: 100%;
 }
 
-*
-{
+body {
+	
+}
+
+* {
 	box-sizing: border-box;
 }
+
+.davanmonet-body
+{
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+	color:#757575;
+	overflow-y: scroll;
+}
+
 
 .davanmonet-app {
 	// display: grid;
 	// grid-template-columns: 1fr 3fr;
 	// grid-gap: 0;
-	height: 100%;
-	font-size:0;
+	min-height: 100%;
+	font-size: 0;
 	overflow: hidden;
-	
+
+	a
+	{
+		text-decoration: none;
+		color: rgb(83,109,254);
+		&:hover,
+		&:focus,
+		&:active
+		{
+			color:#616161;
+		}
+	}
 }
 
-input, button, select, optgroup, textarea
-{
-	font-size:inherit;
+input,
+button,
+select,
+optgroup,
+textarea {
+	font-size: inherit;
+	font-family: @Font;
 }
+
+
 /****** Header *******/
 
 .davanmonet-header {
 	//grid-column: ~"1 / -1";
-	width:100%;
+	display: flex;
+	align-items: center;
+	width: 100%;
 	background-color: @default-primary-color;
 	font-size: 2rem;
 	padding: @GridGap @GridGap @GridGap/2 @GridGap;
-	border-bottom: 5px solid @dark-primary-color;
 	overflow: hidden;
 	font-family: @Font;
-	max-height:@HeaderHeightDesktop;
+	max-height: @HeaderHeightDesktop;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+	flex-flow: row;
+	justify-content: space-between;
+	position: relative;
+	z-index: 3;
 }
 
 
-.davanmonet-header-nav {
-	display: inline-block;
-}
-
-.davanmonet-header-nav-link {
-	display: inline-block;
-	text-decoration: none;
-	font-size: 25px;
-	color: @text-primary-color;
-	padding: 0.5rem 1.2rem 0.5rem 0;
-}
-
-.davanmonet-header-nav-link:focus,
-.davanmonet-header-nav-link:active,
-.davanmonet-header-nav-link:hover {
-	color: @dark-primary-color;
-}
-
-.davanmonet-header-logolink {
-	display: block;
-	width: 180px;
-	float: left;
+a.davanmonet-header-logolink {
+	display: flex;
+	align-items: baseline;
 	margin-right: @GridGap;
+	color:#fff;
+	&:hover,
+	&:focus,
+	&:active
+	{
+		color:#fff;
+	}
 }
 
-.davanmonet-header-logo {
+.davanmonet-header-logo
+{
 	max-width: 100%;
+	width: 180px;
+}
+
+.davanmonet-header-logolinktext
+{
+	margin-left: @GridGap;
+	font-size: 2.5rem;
+	
+	@media (max-width:35em)
+	{
+		display: none;
+	}
+	
 }
 
 .davanmonet-header-github-link {
-	float: right;;
+	float: right;
 	display: block;
 	width: 40px;
 }
@@ -110,80 +154,69 @@ input, button, select, optgroup, textarea
 
 .davanmonet-maincontentcontainer {
 	display: block;
-	width:calc(100% ~"-" @SidebarWidthDesktop);
+	width: calc(100% ~"-" @SidebarWidthDesktop);
 	min-height: calc(100% ~"-" @HeaderHeightDesktop);
 	margin: 0;
-	font-size: 20px;
+	font-size: 1.5rem;
 	float: left;
-	padding:@GridGap;
+	padding: @GridGap;
 	font-family: @Font;
 }
-.davanmonet-maincontent-headline
-{
-	margin-top:0;
+
+.davanmonet-maincontent-headline {
+	margin-top: 0;
 }
-.davanmonet-maincontent-mainbody
-{
-	> h1
-	{
-		margin-top:0;
+
+.davanmonet-maincontent-mainbody {
+	>h1 {
+		margin-top: 0;
 	}
 }
 
-.davanmonet-idtext
-{
-	font-size:14px;
-	label
-	{
+.davanmonet-idtext {
+	font-size: 1.3rem;
+	label {
 		display: inline-block;
-		min-width:10rem;
+		min-width: 10rem;
 		font-weight: bold;
 	}
-	input
-	{
-		width:calc(100% ~"-" 12rem);
+	input {
+		width: calc(100% ~"-" 12rem);
 		display: inline-block;
 		border: 0;
 	}
 }
 
+
 /* Sidebar navigation */
 
-.davanmonet-navcontainer {
-	height:calc(100% ~"-" @HeaderHeightDesktop);
-	width:@SidebarWidthDesktop;
+.davanmonet-navcontainer
+{
+	min-height: calc(100vh ~"-" @HeaderHeightDesktop);
+	width: @SidebarWidthDesktop;
 	float: left;
 	display: block;
-	background:#f2f3f3;
+	background: #EFEFEF;
 	font-family: @Font;
-	padding:@GridGap @GridGap/2;
+	padding: @GridGap 0;
+	position: relative;
+	font-size:1.3rem;
+	z-index: 2;
 }
 
-.davanmonet-nav
-{
-	
-	
-	
-}
+.davanmonet-nav {}
 
 .davanmonet-nav-list {
 	padding: 0;
-	margin:1rem 0 0 0;
-	list-style:none;
-	font-size: 16px;
-	
-	// border-right: 1px @divider-color) solid;
-	// padding-right: 20px;
-	&[data-listlevel="2"]
-	{
-	//	border-left:4px solid #ccc;
+	margin: 0.5rem 0;
+	list-style: none;
+	&[data-listlevel="2"] {
+		//	border-left:4px solid #ccc;
 	}
-	&[data-listlevel="3"]
-	{
+	&[data-listlevel="3"] {
 		//border-left:4px solid #9D9D9D;
 	}
-	&[data-listlevel="4"]
-	{
+	&[data-listlevel="4"] {
 		//border-left:4px solid #676767;
 	}
 }
@@ -191,50 +224,58 @@ input, button, select, optgroup, textarea
 .davanmonet-nav-listitem
 {
 	display: block;
-	padding:.3rem 0;
+	padding: .3rem 0;
 }
-.davanmonet-nav-listiteminner 
-{
+
+.davanmonet-nav-listiteminner {
 	display: block;
-	
-	[data-listlevel="2"] &
-	{
-		margin-left:0rem;
+	[data-listlevel="1"] > li > & {
+		padding-left: 1rem;
+		border-bottom: 1px solid #747474;
 	}
-	[data-listlevel="3"] &
-	{
-		margin-left:1rem;
+	[data-listlevel="2"] > li > & {
+		padding-left: 1.5rem;
+		
 	}
-	[data-listlevel="4"] &
-	{
-		margin-left:2rem;
+	[data-listlevel="3"] > li > & {
+		padding-left: 2rem;
+	}
+	[data-listlevel="4"] > li > & {
+		padding-left: 2.5rem;
 	}
 }
 
-.davanmonet-nav-directory
-{
+.davanmonet-nav-directory {
+	color:darken(#757575, 20%);
 	display: block;
-	border-bottom: 1px dotted #747474;
-	padding-left: 0.5rem;
+	
+	
 }
 
 
 .davanmonet-nav-link {
 	display: bottom;
-	text-decoration: none;
-	color: @secondary-text-color;
-	padding-left: 0.5rem;
-
+	text-decoration: none; //color: @secondary-text-color;
+	//padding-left: 0.5rem;
+	&:hover,
+	&:focus,
+	&:active {
+		//color: @dark-primary-color;
+	}
+	&.is-active
+	{
+		color:#000;
+	}
 }
 
-.davanmonet-nav-link:hover,
-.davanmonet-nav-link:focus,
-.davanmonet-nav-link:active {
-	color: @dark-primary-color;
-}
-
-.visually-hidden
+.davanmonet-nav-expandlink
 {
+	cursor:pointer;
+}
+
+.davanmonet-nav-link {}
+
+.visually-hidden {
 	position: absolute;
 	clip: rect(1px, 1px, 1px, 1px);
 	padding: 0;

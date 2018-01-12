@@ -16,6 +16,11 @@ const webpackConfig = merge(webpackProdConf, webpackConfigProjectPL)
 // Load config
 const dvm_config = require('./utils/load-config').dvmConfig();
 
+var _resolve
+const readyPromise = new Promise(resolve => {
+  _resolve = resolve
+})
+
 rm(path.join(dvm_config.directories.dist_package), err =>
 {
     if (err) throw err
@@ -34,14 +39,6 @@ rm(path.join(dvm_config.directories.dist_package), err =>
             chunkModules: false
         }) + '\n\n')
 
-        console.log(stats.toString({
-            colors: true,
-            modules: false,
-            children: false,
-            chunks: false,
-            chunkModules: false
-        }));
-
         if (stats.hasErrors()) {
             console.log(chalk.red('  Build failed with errors.\n'))
             process.exit(1)
@@ -52,5 +49,11 @@ rm(path.join(dvm_config.directories.dist_package), err =>
             '  Tip: built files are meant to be served over an HTTP server.\n' +
             '  Opening index.html over file:// won\'t work.\n'
         ))
+
+        _resolve();
     });
 });
+
+module.exports = {
+	ready: readyPromise
+}

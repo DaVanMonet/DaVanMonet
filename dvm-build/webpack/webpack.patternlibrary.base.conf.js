@@ -20,7 +20,10 @@ const { additionalRules,  additionalPlugins } = require('../utils/cssfile-rulege
 module.exports = {
     name: "patternlibrary",
     
-    entry: dvmConfig.compilation.entry,
+    entry: {
+      ...dvmConfig.compilation.entry,
+      'preview-frame.js': path.resolve(__dirname, '../../dvm-app/src/preview-frame.js')
+    },
     
     output: {
       path: dvmConfig.directories.dist_web_abs(),
@@ -40,7 +43,7 @@ module.exports = {
     plugins: [
 
       new webpack.DefinePlugin({
-        __MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), require("../../package.json").config.configFile)), // This is set in package.json //process.env.npm_package_config_configFile
+        __MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json //process.env.npm_package_config_configFile
         __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs()),
         __CONTENT_INDEX_PATH__: JSON.stringify(dvmConfig.directories.indexes_abs() + '/' + dvmConfig.indexing.contentIndexOutput)
       }),
