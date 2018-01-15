@@ -7,8 +7,9 @@ project_info:
   name: DaVanMonet Base
   logo: "/static/logo.svg"
   theme_style: default
+  repourl: "https://github.com/wezz/DaVanMonet"
 
-
+  
 #-------------------------------------------------------------------------------
 # Path settings
 #-------------------------------------------------------------------------------

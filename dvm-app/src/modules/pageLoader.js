@@ -140,7 +140,7 @@ export default class PageLoader
 				
 				pageData["ComponentItems"].push(variantContent);
 			});
-			console.log('Page rendered at ' + (new Date()).toString(),pageData)
+			//console.log('Page rendered at ' + (new Date()).toString(),pageData)
 		}
 		return pageData;
 		

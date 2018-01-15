@@ -34,7 +34,6 @@ module.exports = function()
         const parsedFile = matter(filecontent);
         config.indexing.keysToOutput.forEach((key) =>
         {
-            console.log('parsedFile["data"][key],',key, parsedFile["data"][key])
             const valuetype = typeof parsedFile["data"][key];
             if(key === "private")
             {
