@@ -30,6 +30,20 @@ const prodConfig = {
         new LifecyclePlugin({
             "done": (compilation, options, pluginOptions) =>
             {
+
+                console.log('create version file etc')
+                require("../utils/create-version-file")();
+                if (undefined === compilation.compilation.records.chunks)
+                {
+                    return;
+                }
+                else
+                {
+                    // Generate targetindex.json
+                    let chunks = compilation.compilation.records.chunks.byName;
+                    require('../utils/create-target-index.js')(chunks);
+                }
+
                 // If configured, move specified assets to external folder
                 require('../utils/copyutils').copySrc();
                 
@@ -44,24 +58,7 @@ const prodConfig = {
             }
         }),
 
-        new LifecyclePlugin({
-            "done": (compilation, options, pluginOptions) =>
-            {
-                console.log('create version file etc')
-                if (undefined === compilation.compilation.records.chunks)
-                {
-                    return;
-                }
-                else
-                {
-                    // Generate targetindex.json
-                    let chunks = compilation.compilation.records.chunks.byName;
-                    require('../utils/create-target-index.js')(chunks);
-                }
-
-                require("../utils/create-version-file")();
-            }
-        }),
+       
 
         new HtmlWebpackPlugin({
             filename: 'showcase-render-iframe.html',

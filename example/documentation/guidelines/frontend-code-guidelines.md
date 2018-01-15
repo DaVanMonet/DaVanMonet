@@ -1,10 +1,14 @@
 ---
 title: Front-end Code Guidelines
----
+componentid: frontend-code-guidelines
+variantid: regular
+guid: 57717e42-5f83-41e8-9b90-934baf1806a8
+----
 
 # Frontend Code Guidelines
 
-## CSS naming convention
+CSS naming convention
+--
 We use a BEM inspired convention that is simplified and without as many rules.
 
 The principles are as follows:

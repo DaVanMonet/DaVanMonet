@@ -2,8 +2,9 @@
     <div class="showcase">
         <div class="showcase__header row">
             <div class="col-md-8 col-sm-12">
-
+                <span v-if="showcaseData.private === true" class="showcase_privatecomponent">Non public</span>
                 <h3 class="heading heading--smaller" v-if="showcaseData.Title && showcaseIsOnlyComponent == false" v-html="showcaseData.Title"></h3>
+                
                 <div v-if="showcaseData.Preamble">
                     <p v-html="showcaseData.Preamble"></p>
                 </div>
@@ -41,24 +42,27 @@
 				:showcase-repo="showcaseRepo" :itemKey="itemKey" 
 				@onCssBreakpointChange="onCssBreakpointChange">
             </component-showcase-settings-drawer>
-			
 
+            <template v-if="showPreview(showcaseData.States)">
             <div 
-				v-if="state.Title === selectedStateTitle && showPreview(showcaseData.States)" 
+				v-if="state.Title === selectedStateTitle" 
 				v-for="state in showcaseData.States" 
 				:key="state.Title" >
-					<div class="showcase__source-wrapper">
+					<div class="showcase__source-wrapper abc">
                     	<component-showcase-source :source="state.PreviewMarkup"></component-showcase-source>
 					</div>
             </div>
+            </template>
             <template v-else class="showcase">
-                <div class="showcase_source-content">
-                    <h3 v-if="cleanStateContent(state.Title)" v-html="cleanStateContent(state.Title)"></h3>
-                    <div v-if="cleanStateContent(state.Preamble)" v-html="cleanStateContent(state.Preamble)"></div>
-                </div>
-                <div class="showcase__source-wrapper">
-                    <component-showcase-source :source="state.PreviewMarkup"></component-showcase-source>
-                </div>
+                <template v-for="state in showcaseData.States">
+                    <div class="showcase_source-content">
+                        <h3 v-if="cleanStateContent(state.Title)" v-html="cleanStateContent(state.Title)"></h3>
+                        <div v-if="cleanStateContent(state.Preamble)" v-html="cleanStateContent(state.Preamble)"></div>
+                    </div>
+                    <div class="showcase__source-wrapper 123">
+                        <component-showcase-source :source="state.PreviewMarkup"></component-showcase-source>
+                    </div>
+                </template>
             </template>
         </div>
     </div>
@@ -158,10 +162,10 @@ export default
 			{
 				if(shouldShow)
 				{
-					shouldShow = [state.Preamble, state.Title, state.markdownsource].filter(x => x.indexOf('nopreview') !== -1).length === 0;
+                    shouldShow = [state.Preamble, state.Title, state.markdownsource].filter(x => x.indexOf('nopreview') !== -1).length === 0;
+                    
 				}
 			});
-
             return shouldShow;
         }
     },

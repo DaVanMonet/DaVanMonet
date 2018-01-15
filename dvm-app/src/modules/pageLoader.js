@@ -104,6 +104,7 @@ export default class PageLoader
 					"componentid":variant["componentid"],
 					"variantid":variant["variantid"],
 					"Title":variant["title"],
+					"private":variant["private"] === true,
 					"Content":"",
 					"States":[],
 					"requirejs":""
@@ -113,6 +114,7 @@ export default class PageLoader
 				
 				// Load .md file contents
 				let markdownContent = await base.loadMDFile(filepath);
+				
 				// Extract code snipplets from markdown
 				let snipplets = base.dataStructureParser.getCodeSnipplets(markdownContent);
 				if(snipplets.length > 0)
@@ -138,7 +140,7 @@ export default class PageLoader
 				
 				pageData["ComponentItems"].push(variantContent);
 			});
-			console.log('Page rendered at ' + (new Date()).toString(),pageData)
+			//console.log('Page rendered at ' + (new Date()).toString(),pageData)
 		}
 		return pageData;
 		
