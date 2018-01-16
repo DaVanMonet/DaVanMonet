@@ -18,9 +18,9 @@ export default class DataStructureParser
 		// We match ## as headline for a snipplet
 		this.regex =
 		{
-			findSnipplet : new RegExp("((?:##)(.|\w|\W|\r|\n)*?(```$))","gim"),
-			findMarkdownH2:  new RegExp("(?:##)(.|\r|\n)*?^","gim"),
-			findMarkdownCodeblock: new RegExp("(```html)(.|\w|\W|\r|\n)*?(```)", "gim")
+			findSnipplet : new RegExp("((?:\n## )(.|\w|\W|\r|\n)*?(```$))","gim"),
+			findMarkdownH2:  new RegExp("(?:\n## )(.|\r|\n)*?^","gim"),
+			findMarkdownCodeblock: new RegExp("(```[A-z]+)(.|\w|\W|\r|\n)*?(```)", "gim")
 		};
 		
 		this._configuration = {
@@ -82,7 +82,7 @@ export default class DataStructureParser
 					
 					// Fetch codeblock
 					let codeMatch = this.matchFromRegEx(text, base.regex.findMarkdownCodeblock);
-					let code = (codeMatch.length > 0) ? codeMatch[0].replace(/```html/ig,"").replace(/```/ig,"").trim() : "";
+					let code = (codeMatch.length > 0) ? codeMatch[0].replace(/(```[A-z]+)/ig,"").replace(/```/ig,"").trim() : "";
 
 					// Fetch comment by removing code and headline
 					let parsedContent = Marked(text);

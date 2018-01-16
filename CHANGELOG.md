@@ -10,6 +10,9 @@
 
 ### Changed
 - Changed repository icon
+- RegExp for matching code snipplets has improved matching abilities.
+
+
 
 ## [1.1.5] - 2018-01-15
 A bunch of fixes and adjustments to ensure we have the same functionality as on the old grunt version of the project.
