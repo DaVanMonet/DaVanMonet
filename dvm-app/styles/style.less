@@ -141,16 +141,29 @@ a.davanmonet-header-logolink {
 	
 }
 
-.davanmonet-header-github-link {
+.davanmonet-header-repository-link {
 	float: right;
 	display: block;
-	width: 40px;
+	width: 24px;
+
+	path
+	{
+		fill:#fff;
+		transition:fill .15s ease;
+	}
+
+	&:hover,
+	&:focus,
+	&:active
+	{
+		path
+		{
+			fill:#ddd;
+		}
+	}
 }
 
-.davanmonet-header-github-logo {
-	display: block;
-	max-width: 100%;
-}
+
 
 
 .davanmonet-pagecontainer

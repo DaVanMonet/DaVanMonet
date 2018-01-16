@@ -8,6 +8,9 @@
 ### Added
 - Navigation now has a toggle 
 
+### Changed
+- Changed repository icon
+
 ## [1.1.5] - 2018-01-15
 A bunch of fixes and adjustments to ensure we have the same functionality as on the old grunt version of the project.
 
