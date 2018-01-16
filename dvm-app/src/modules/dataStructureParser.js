@@ -88,9 +88,17 @@ export default class DataStructureParser
 					let parsedContent = Marked(text);
 					let markup = document.createElement('div');
 					markup.innerHTML = parsedContent;
+					let codeTag = markup.querySelectorAll("code");
+					let language = "";
+					if(codeTag && codeTag[0])
+					{
+						language = codeTag[0].className.replace("lang-",'');
+					}
 					let itemsToRemove = markup.querySelectorAll('h2, h3, h4, pre');
 					itemsToRemove.forEach((item) => { item.parentNode.removeChild(item); })
 					
+					
+
 					let description = markup.innerHTML;
 					let item = 
 					{
@@ -99,6 +107,7 @@ export default class DataStructureParser
 						PreviewMarkup:code,
 						RenderSource:code,
 						Preamble: description,
+						Language: language,
 						parsedcontent : parsedContent,
 						markdownsource : text
 					};

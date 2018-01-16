@@ -11,7 +11,11 @@
 ### Changed
 - Changed repository icon
 - RegExp for matching code snipplets has improved matching abilities.
+- Accessibility documentation update
+- Removed unnecessary documentation
 
+### Fixed
+- Made sure we support more languages in the syntax highlighter
 
 
 ## [1.1.5] - 2018-01-15
