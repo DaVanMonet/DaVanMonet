@@ -40,8 +40,9 @@ export default {
   mounted() {
     const prismElement = this.$el.querySelector('code');
     let beautifiedSource;
-
+    
     switch (this.language) {
+      case 'html':
       case 'markup': {
         beautifiedSource = htmlBeautify.html_beautify(this.source, BEAUTIFY_CONFIG);
         break;

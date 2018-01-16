@@ -11,23 +11,25 @@
             
             <a v-if="projectConfig && projectConfig.project_info && projectConfig.project_info.repourl" 
 			:href="projectConfig.project_info.repourl" 
-			class="davanmonet-header-github-link" title="Go to the GitHub Repository"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.579 31.775"><title>Asset 2</title><path d="M16.288 0a16.29 16.29 0 0 0-5.148 31.747c.815.15 1.112-.354 1.112-.785 0-.387-.014-1.41-.022-2.77-4.53.983-5.487-2.185-5.487-2.185a4.314 4.314 0 0 0-1.81-2.383c-1.478-1.01.113-.99.113-.99a3.422 3.422 0 0 1 2.5 1.68 3.468 3.468 0 0 0 4.74 1.353 3.48 3.48 0 0 1 1.035-2.178c-3.62-.412-7.42-1.81-7.42-8.052a6.3 6.3 0 0 1 1.677-4.37 5.86 5.86 0 0 1 .16-4.312s1.368-.438 4.48 1.67a15.44 15.44 0 0 1 8.155 0c3.11-2.108 4.475-1.67 4.475-1.67a5.85 5.85 0 0 1 .162 4.31 6.286 6.286 0 0 1 1.673 4.372c0 6.258-3.81 7.635-7.437 8.038a3.888 3.888 0 0 1 1.106 3.017c0 2.178-.02 3.935-.02 4.47 0 .435.293.94 1.12.782A16.292 16.292 0 0 0 16.288 0z" fill="#fff" fill-rule="evenodd"/></svg></a>
+			class="davanmonet-header-repository-link" title="Go to the Repository"><svg style="width:24px;height:24px" viewBox="0 0 24 24"><path d="M12,3C7.58,3 4,4.79 4,7C4,9.21 7.58,11 12,11C16.42,11 20,9.21 20,7C20,4.79 16.42,3 12,3M4,9V12C4,14.21 7.58,16 12,16C16.42,16 20,14.21 20,12V9C20,11.21 16.42,13 12,13C7.58,13 4,11.21 4,9M4,14V17C4,19.21 7.58,21 12,21C16.42,21 20,19.21 20,17V14C20,16.21 16.42,18 12,18C7.58,18 4,16.21 4,14Z" /></svg></a>
         </header>
-        <navigation 
-            class="davanmonet-navcontainer" 
-            v-if="configLoaded == true"
-            :navigation="navigation" 
-            :source-directory="projectConfig.directories.src" 
-			:current-page-path="currentPagePath"></navigation>
-        <main-content 
-            class="davanmonet-maincontentcontainer" 
-            v-if="configLoaded == true && maincontent"
-            :content="maincontent"
-            :css-breakpoints="projectConfig.env.cssBreakpoints"
-            ></main-content>
-        <div v-if="configLoaded == false">
-            Loading...
-        </div>
+		<div class="davanmonet-pagecontainer">
+			<navigation 
+				class="davanmonet-navcontainer" 
+				v-if="configLoaded == true"
+				:navigation="navigation" 
+				:source-directory="projectConfig.directories.src" 
+				:current-page-path="currentPagePath"></navigation>
+			<main-content 
+				class="davanmonet-maincontentcontainer" 
+				v-if="configLoaded == true && maincontent"
+				:content="maincontent"
+				:css-breakpoints="projectConfig.env.cssBreakpoints"
+				></main-content>
+			<div v-if="configLoaded == false">
+				Loading...
+			</div>
+		</div>
     </div>
 </template>
 

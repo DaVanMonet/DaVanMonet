@@ -141,15 +141,34 @@ a.davanmonet-header-logolink {
 	
 }
 
-.davanmonet-header-github-link {
+.davanmonet-header-repository-link {
 	float: right;
 	display: block;
-	width: 40px;
+	width: 24px;
+
+	path
+	{
+		fill:#fff;
+		transition:fill .15s ease;
+	}
+
+	&:hover,
+	&:focus,
+	&:active
+	{
+		path
+		{
+			fill:#ddd;
+		}
+	}
 }
 
-.davanmonet-header-github-logo {
-	display: block;
-	max-width: 100%;
+
+
+
+.davanmonet-pagecontainer
+{
+	display: flex;
 }
 
 .davanmonet-maincontentcontainer {
@@ -161,6 +180,16 @@ a.davanmonet-header-logolink {
 	float: left;
 	padding: @GridGap;
 	font-family: @Font;
+	transition:width 0.15s ease;
+	[data-menuvisible="true"]  + &
+	{
+		
+	}
+
+	[data-menuvisible="false"]  + &
+	{
+		width: calc(100% ~"-" 4rem);
+	}
 }
 
 .davanmonet-maincontent-headline {
@@ -194,6 +223,7 @@ a.davanmonet-header-logolink {
 {
 	min-height: calc(100vh ~"-" @HeaderHeightDesktop);
 	width: @SidebarWidthDesktop;
+	transition:width 0.15s ease;
 	float: left;
 	display: block;
 	background: #EFEFEF;
@@ -202,6 +232,14 @@ a.davanmonet-header-logolink {
 	position: relative;
 	font-size:1.3rem;
 	z-index: 2;
+	&[data-menuvisible="true"]
+	{
+		
+	}
+	&[data-menuvisible="false"]
+	{
+		width:4rem;
+	}
 }
 
 .davanmonet-nav {}

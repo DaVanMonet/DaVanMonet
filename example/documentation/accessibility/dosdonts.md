@@ -56,9 +56,30 @@ Using a link that doesn't go anywhere is bad practice and confusing. Use a regul
 <a href="#" onclick="...">X</a>
 ```
 
-## Do use title attribute on icon button/links
+## nopreview Do use title attribute on icon button/links
 If a button only contains a icon (such as on a share link or a close button) we need to indicate what the button actually does.
 
 ```html
 <button class="share-facebook" aria-label="Share this page on facebook">(Facebook icon)</button>
+```
+
+## nopreview Do preserve active state
+Make sure selectable elements have a indication for when a user has navigated to a link/button using the keyboard
+
+```css
+button:hover,
+button:focus,
+button:active
+{
+	border:2px solid #666;
+}
+```
+
+## nopreview Don't remove outline
+If you have not made a specific visual indication you should not remove outline
+```css
+button
+{
+	outline:0;
+}
 ```

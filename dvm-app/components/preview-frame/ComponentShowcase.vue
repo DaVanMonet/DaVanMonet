@@ -48,8 +48,8 @@
 				v-if="state.Title === selectedStateTitle" 
 				v-for="state in showcaseData.States" 
 				:key="state.Title" >
-					<div class="showcase__source-wrapper abc">
-                    	<component-showcase-source :source="state.PreviewMarkup"></component-showcase-source>
+					<div class="showcase__source-wrapper">
+                    	<component-showcase-source :source="state.PreviewMarkup" :language="state.Language"></component-showcase-source>
 					</div>
             </div>
             </template>
@@ -59,8 +59,8 @@
                         <h3 v-if="cleanStateContent(state.Title)" v-html="cleanStateContent(state.Title)"></h3>
                         <div v-if="cleanStateContent(state.Preamble)" v-html="cleanStateContent(state.Preamble)"></div>
                     </div>
-                    <div class="showcase__source-wrapper 123">
-                        <component-showcase-source :source="state.PreviewMarkup"></component-showcase-source>
+                    <div class="showcase__source-wrapper">
+                        <component-showcase-source :source="state.PreviewMarkup" :language="state.Language"></component-showcase-source>
                     </div>
                 </template>
             </template>
@@ -163,7 +163,6 @@ export default
 				if(shouldShow)
 				{
                     shouldShow = [state.Preamble, state.Title, state.markdownsource].filter(x => x.indexOf('nopreview') !== -1).length === 0;
-                    
 				}
 			});
             return shouldShow;
@@ -194,7 +193,7 @@ export default
 @import '../../styles/colors';
 
 .showcase__source-wrapper {
-    font-size: 16px;
+    font-size: 12px;
 	position: relative;
 	
     border-right: 1px solid @color--grey;

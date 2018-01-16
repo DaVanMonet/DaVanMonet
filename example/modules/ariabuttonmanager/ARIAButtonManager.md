@@ -23,6 +23,8 @@ If a button only has the attribute aria-controls it will default to be a close b
 
 Additional features
 --
+
+
 ### data-triggerevent="buttontype[parentobject|triggername]"
 This property will take a button type (toggle, close, tab) and toggle-isvisible, toggle-ishidden.
 It will trigger an event on the object with the name specified.
