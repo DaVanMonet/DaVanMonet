@@ -3,7 +3,7 @@ import _ from 'lodash/fp/object'; // We only need the objet merge function
 export default class Loader
 {
     
-    static LoadData()
+    static async LoadData()
     {
         if (Loader.HasLoaded)
             return;
@@ -31,6 +31,9 @@ export default class Loader
         // Load content index
         Loader.ContentIndex = require(__CONTENT_INDEX_PATH__);
 
+        // Load content index
+        Loader.VersionData = await fetch("./version.json").then(r => r.json());
+
         Loader.HasLoaded = true;
     }
 }
@@ -38,4 +41,5 @@ export default class Loader
 Loader.ContentIndex = {};
 Loader.TargetIndex = {};
 Loader.ProjectConfig = {};
+Loader.VersionData = {};
 Loader.HasLoaded = false;

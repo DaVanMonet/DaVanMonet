@@ -38,7 +38,15 @@ const devConfig = {
     new webpack.HotModuleReplacementPlugin(),
 
     new webpack.NoEmitOnErrorsPlugin(),
+    
+    new LifecyclePlugin({
+        "done": (compilation, options, pluginOptions) =>
+        {
 
+            console.log('create version file etc')
+            require("../utils/create-version-file")();
+        }
+    }),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'showcase-render-iframe.html',

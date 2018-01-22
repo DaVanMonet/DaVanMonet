@@ -18,6 +18,7 @@
 				class="davanmonet-navcontainer" 
 				v-if="configLoaded == true"
 				:navigation="navigation" 
+				:version-data="versionData"
 				:source-directory="projectConfig.directories.src" 
 				:current-page-path="currentPagePath"></navigation>
 			<main-content 
@@ -62,7 +63,8 @@ export default {
                 Title:null,
                 Preamble:null,
                 MainBody:"<p>This project does not yet have a startpage. Create a index.md file in the root folder of your style source</p>"
-            },
+			},
+			versionData:{},
             projectConfig:{},
             contentIndex:{},
             targetIndex:{},
@@ -84,6 +86,7 @@ export default {
 			await Loader.LoadData();
 			
 			_vue.projectConfig = Loader.ProjectConfig;
+			_vue.versionData = Loader.VersionData;
 			this.isLocalhost = (window.location.hostname === "localhost");
 			
 			this.fetchData(this).then(() => 
