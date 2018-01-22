@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.9] - 2018-01-22
+
+### Fixed
+- Fixed bug with the wrong version file not loading on subpages
 
 ## [1.1.8] - 2018-01-22
 
