@@ -114,7 +114,7 @@ export default {
 			{
 				const _pageLoader = new PageLoader();
 				const pagedata = await _pageLoader.getPage(path);
-				if(pagedata.id && pagedata.id.length > 0 && pagedata.title && pagedata.title.length > 0)
+				if(pagedata.id && pagedata.id.length > 0 || pagedata.title && pagedata.title.length > 0)
 				{
 					this.currentPagePath = path;
 					this.maincontent = pagedata;

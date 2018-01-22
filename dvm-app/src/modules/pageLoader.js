@@ -73,8 +73,6 @@ export default class PageLoader
 		let navigationalData = this._navigationLookup[href];
 		if(typeof indexData !== "undefined")
 		{
-			
-			
 			//When theres is a file matching and no "variants" are present.
 			pageData.id = indexData["guid"];
 			pageData.Title = indexData["title"];
@@ -95,7 +93,6 @@ export default class PageLoader
 			//This variable is what we use to match a the MD files with what is contained in the navigational structure
 			pageData.id = navigationalData["guid"];
 			pageData.title = navigationalData["title"];
-			
 			await variants.forEach(async (variant, i) =>
 			{
 				let variantContent =

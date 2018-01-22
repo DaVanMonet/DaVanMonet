@@ -1,9 +1,12 @@
 # Changelog
 
 
-## [Unreleased]
+## [1.1.7] - 2018-01-22
 
-## [1.1.6] - 2018-01-xx
+### Fixed
+- Fixed bug with pages that has multiple components did not load as intended
+
+## [1.1.6] - 2018-01-16
 
 ### Added
 - Navigation now has a toggle 
