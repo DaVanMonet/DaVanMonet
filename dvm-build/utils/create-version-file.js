@@ -4,13 +4,19 @@ const dvmConfig = require('../utils/load-config').dvmConfig();
 module.exports = function()
 {
 	const packageJsonContent = require(process.cwd() + "/package.json");
-	var davanmonetVersion = packageJsonContent.version;
-	if(packageJsonContent && packageJsonContent.dependencies && packageJsonContent.dependencies.davanmonet)
+	let davanmonetVersion = packageJsonContent.version;
+	if(packageJsonContent)
 	{
-		davanmonetVersion = "packageJsonContent.dependencies.davanmonet";
+		if(packageJsonContent.devDependencies && packageJsonContent.devDependencies.davanmonet)
+		{
+			davanmonetVersion = packageJsonContent.devDependencies.davanmonet;
+		}
+		else if(packageJsonContent.dependencies && packageJsonContent.dependencies.davanmonet)
+		{
+			davanmonetVersion = packageJsonContent.dependencies.davanmonet;
+		}
 	}
 	
-
 	const versionFileContent = { "version": packageJsonContent.version, "davanmonetVersion":davanmonetVersion };
 	
 	const fileStringContent = JSON.stringify(versionFileContent, null, "\t");

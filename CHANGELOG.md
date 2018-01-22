@@ -1,7 +1,15 @@
 # Changelog
 
 
+## [1.1.8] - 2018-01-22
+
+### Fixed
+- Fixed bug with the wrong versions being shown on below navigation
+
 ## [1.1.7] - 2018-01-22
+
+### Added
+- Added current version of project and DaVanMonet under the navigation
 
 ### Fixed
 - Fixed bug with pages that has multiple components did not load as intended

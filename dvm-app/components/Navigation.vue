@@ -10,8 +10,9 @@
          @click="toggleNavigation()"><svg style="width:24px;height:24px" viewBox="0 0 24 24"><path d="M19,3H16.3H7.7H5A2,2 0 0,0 3,5V7.7V16.4V19A2,2 0 0,0 5,21H7.7H16.4H19A2,2 0 0,0 21,19V16.3V7.7V5A2,2 0 0,0 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z" /></svg></button>
         <navigation-list v-if="menuIsOpen" :items="navigation" :source-directory="sourceDirectory" :current-page-path="currentPagePath" :level="1"></navigation-list>
 
-        <div v-if="versionData && versionData.davanmonetVersion">
-            DaVanMonet Version: <span v-html="versionData.davanmonetVersion"></span>
+        <div v-if="versionData && versionData.davanmonetVersion" class="davanmonet-nav-versioninfo">
+            <div>DaVanMonet Version: <span v-html="versionData.davanmonetVersion"></span></div>
+            <div>Project Version: <span v-html="versionData.version"></span></div>
         </div>
     </nav>
 </template>
@@ -86,6 +87,12 @@ export default
 .davanmonet-nav-hidemenu
 {
     
+}
+
+.davanmonet-nav-versioninfo
+{
+    padding-left:1rem;
+    font-size:11px;
 }
 
 </style>
