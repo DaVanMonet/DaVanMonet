@@ -32,7 +32,7 @@ const prodConfig = {
             {
 
                 console.log('create version file etc')
-                require("../utils/create-version-file")();
+                require("../utils/create-version-file").createFile();
                 if (undefined === compilation.compilation.records.chunks)
                 {
                     return;

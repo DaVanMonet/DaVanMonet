@@ -173,6 +173,10 @@ structure:
   path: documentation
   
 onsitepreview:
+  # styleTargets: ## Optionally specify which css files should be included. Otherwise, all css targets will be included
+  # - "main.css"
   components:
-  - guid: button-guid-used-for-testing-dont-change
-    hook: "#main-content > p:nth-child(2)"
+  - guid: button-guid-used-for-testing-dont-change ## Which component to use
+    hook: "#main-content > p:nth-child(2)" ## Where in the DOM to inject the component
+    # inject_pos: "append" ## Append position, after, before, append or prepend
+    # wrapper: <div class="someclass"></div> ## Component markup will be wrapped by this element

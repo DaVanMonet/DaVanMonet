@@ -44,7 +44,7 @@ const devConfig = {
         {
 
             console.log('create version file etc')
-            require("../utils/create-version-file")();
+            require("../utils/create-version-file").createFile();
         }
     }),
     // https://github.com/ampedandwired/html-webpack-plugin

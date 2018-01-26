@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import Zepto from 'webpack-zepto';
 
 import Loader from '../../dvm-app/src/modules/Loader';
@@ -8,7 +9,20 @@ Zepto(function ($) {
     const dvmConfig = Loader.ProjectConfig;
 
     var api_endpoint = "http://localhost:" + dvmConfig.env.devSitePort + '/';
-    
+
+    // Add css entries to site head
+    for (let entry of Object.keys(dvmConfig.compilation.targets).filter(e => e.endsWith('.css')))
+    {
+        // Check if this entry should be included
+        if (typeof dvmConfig.onsitepreview.styleTargets === "object"
+        && dvmConfig.onsitepreview.styleTargets.indexOf(entry) < 0)
+        {
+            continue;
+        }
+
+        $('head').append('<link rel="stylesheet" href="' + api_endpoint + 'static/css/' + entry + '" type="text/css" />');
+    }
+
     $.each(dvmConfig.onsitepreview.components, function(i, item) {
         loadComponent(item);
     });
@@ -33,12 +47,6 @@ Zepto(function ($) {
     
     // Inject the markup using specified otions
     function injectComponentMarkupAtSelector(markup, cmpnt_info) {
-        
-        // Add css entries to site head
-        for (let entry of Object.keys(dvmConfig.compilation.targets).filter(e => e.endsWith('.css')))
-        {
-            $('head').append('<link rel="stylesheet" href="' + api_endpoint + 'static/css/' + entry + '" type="text/css" />');
-        }
         
         markup = $(markup);
 

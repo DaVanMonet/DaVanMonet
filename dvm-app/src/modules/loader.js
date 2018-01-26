@@ -32,7 +32,7 @@ export default class Loader
         Loader.ContentIndex = require(__CONTENT_INDEX_PATH__);
 
         // Load content index
-        Loader.VersionData = await fetch("/version.json").then(r => r.json());
+        Loader.VersionData = require('../../../dvm-build/utils/get-version').getJson();
 
         Loader.HasLoaded = true;
     }
