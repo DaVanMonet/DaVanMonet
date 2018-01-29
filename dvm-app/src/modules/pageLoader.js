@@ -56,12 +56,11 @@ export default class PageLoader
 	{
 		var base = this;
 		await this.loadData();
-		
 		if(href.indexOf('/') === 0)
 		{
 			href = href.substr(1);
 		}
-
+		href = decodeURI(href);
 		let pageData =
 		{
 			"id":"",
