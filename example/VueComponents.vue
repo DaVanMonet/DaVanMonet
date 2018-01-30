@@ -7,7 +7,7 @@ if(appRenderEl)
 {
 	window.addEventListener('message', (message) =>
 	{
-		if(message.data === "showcaseMarkupIsInserted" && showcaseMarkupIsInserted === false)
+		if(typeof message.data === "string" && message.data.indexOf('render-vue') === 0 && showcaseMarkupIsInserted === false)
 		{
 			initializeComponents();
 		}

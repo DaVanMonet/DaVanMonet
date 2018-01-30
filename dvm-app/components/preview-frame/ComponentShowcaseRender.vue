@@ -57,7 +57,7 @@ export default
                 // Before we only used innerHTML but that makes all tags into lowercase. Now we parse the source to HTML to keep the tag casing
                 //renderElm.innerHTML = this.renderSource;
                 renderElm.setAttribute('data-hascontent',true);
-                this.$refs.iframe.contentWindow.postMessage('showcaseMarkupIsInserted',window.location.origin)
+                this.$refs.iframe.contentWindow.postMessage('render-' + this.stateData.Language,window.location.origin)
             }
         }
 
