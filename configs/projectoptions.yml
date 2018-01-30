@@ -56,6 +56,7 @@ indexing:
   - variantid
   - componentid
   - private
+  - vue
   #- requirejs
 
 
@@ -86,6 +87,8 @@ compilation:
     print.css:
     - "**/*_print.less"
     - "**/**/*_print.less"
+    vuecomponents:
+    - "VueComponents.vue"
   
   # Create source maps for JS and CSS
   sourceMaps: true

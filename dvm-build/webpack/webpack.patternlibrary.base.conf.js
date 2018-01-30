@@ -10,6 +10,8 @@ const webpack = require('webpack');
 const fs = require('fs-extra')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+const vueLoaderConfig = require('./vue-loader.conf')
+
 const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 const ContentIndexResolver = require('../plugins/content-index-resolver');
 
@@ -34,6 +36,7 @@ module.exports = {
     resolve: {
       extensions: ['.ts', '.js', '.json', '.yml'],
       alias: {
+        'vue$': 'vue/dist/vue.esm.js',
         [dvmConfig.directories.configs]: dvmConfig.directories.configs_abs(),
         [dvmConfig.directories.indexes]: dvmConfig.directories.indexes_abs()
       },
@@ -52,6 +55,7 @@ module.exports = {
       // Emit CSS copies via LifeCycle plugin
       new LifecyclePlugin({"emit": (compilation, options, pluginOptions) =>
       {
+        console.log('######## __dirname', __dirname)
         // Save css files to configuration directory
         let cssDestinations = [];
         if (dvmConfig.compilation.emitCssCopies === true)
@@ -81,7 +85,11 @@ module.exports = {
           test: /\.yml$/,
           loader: 'yml-loader'
         },
-
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader',
+          options: vueLoaderConfig
+        },
         ...additionalRules
 
       ]

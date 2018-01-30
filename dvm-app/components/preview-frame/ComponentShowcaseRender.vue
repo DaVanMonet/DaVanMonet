@@ -48,9 +48,17 @@ export default
 
         populateIframeWithRenderSource()
         {
-            // Add this.renderSource
-			const renderElm = this.$refs.iframe.contentDocument.body.querySelector('.showcase__render');
-            renderElm.innerHTML = this.renderSource;
+            if(this.renderSource)
+            {
+                const renderElm = this.$refs.iframe.contentDocument.body.querySelector('.showcase__render');
+                const parser = new window.DOMParser();
+                const parsedSource = parser.parseFromString(this.renderSource, "text/xml");                
+                renderElm.append(parsedSource.documentElement);
+                // Before we only used innerHTML but that makes all tags into lowercase. Now we parse the source to HTML to keep the tag casing
+                //renderElm.innerHTML = this.renderSource;
+                renderElm.setAttribute('data-hascontent',true);
+                this.$refs.iframe.contentWindow.postMessage('showcaseMarkupIsInserted',window.location.origin)
+            }
         }
 
     },

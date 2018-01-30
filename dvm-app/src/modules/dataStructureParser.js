@@ -65,7 +65,7 @@ export default class DataStructureParser
 		return markup.innerHTML;
 	}
 
-	getCodeSnipplets(markdowntext)
+	getCodeSnipplets(markdowntext, variant)
 	{
 		let snippletsTexts = this.extractCodeSnipplets(markdowntext);
 		let snipplets = [];
@@ -90,15 +90,22 @@ export default class DataStructureParser
 					markup.innerHTML = parsedContent;
 					let codeTag = markup.querySelectorAll("code");
 					let language = "";
+					let additionalScripts = [];
 					if(codeTag && codeTag[0])
 					{
 						language = codeTag[0].className.replace("lang-",'');
 					}
 					let itemsToRemove = markup.querySelectorAll('h2, h3, h4, pre');
 					itemsToRemove.forEach((item) => { item.parentNode.removeChild(item); })
-					
-					
 
+					//Manage different types of frameworks such as Vue, React etc
+					if(language.length > 0 && ['vue'].indexOf(language) > -1)
+					{
+						if(typeof variant[language] !== "undefined")
+						{
+							additionalScripts = additionalScripts.concat(variant[language]);
+						}
+					}
 					let description = markup.innerHTML;
 					let item = 
 					{
@@ -109,9 +116,9 @@ export default class DataStructureParser
 						Preamble: description,
 						Language: language,
 						parsedcontent : parsedContent,
-						markdownsource : text
+						markdownsource : text,
+						additionalScripts : additionalScripts
 					};
-					
 					snipplets.push(item);
 				}
 			});

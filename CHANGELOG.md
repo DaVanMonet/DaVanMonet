@@ -2,6 +2,9 @@
 
 ## [1.1.11] - 2018-01-29
 
+### Added
+- Support for preview of Vue components
+
 ### Fixed
 - Fixed bug with being unable to load pages that have a space in the parent folder or filename.
 

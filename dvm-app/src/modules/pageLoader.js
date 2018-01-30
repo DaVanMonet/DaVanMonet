@@ -112,7 +112,7 @@ export default class PageLoader
 				let markdownContent = await base.loadMDFile(filepath);
 				
 				// Extract code snipplets from markdown
-				let snipplets = base.dataStructureParser.getCodeSnipplets(markdownContent);
+				let snipplets = base.dataStructureParser.getCodeSnipplets(markdownContent, variant);
 				if(snipplets.length > 0)
 				{
 					//Add additional information to each state (Set by the indexing metadata)
