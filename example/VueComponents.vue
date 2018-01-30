@@ -1,6 +1,7 @@
 <script>
 import Vue from 'vue';
-import VueExampleComponent from './components/VueComponents/VueExampleComponent.vue';
+import VueExampleComponent from './components/Vue Components/VueExampleComponent.vue';
+
 const appRenderEl =  document.getElementById('showcase__render');
 let showcaseMarkupIsInserted = false;
 if(appRenderEl)
@@ -12,9 +13,6 @@ if(appRenderEl)
 			initializeComponents();
 		}
 	}, false);
-}
-else
-{
 }
 
 function initializeComponents()

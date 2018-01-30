@@ -51,13 +51,35 @@ export default
             if(this.renderSource)
             {
                 const renderElm = this.$refs.iframe.contentDocument.body.querySelector('.showcase__render');
-                const parser = new window.DOMParser();
-                const parsedSource = parser.parseFromString(this.renderSource, "text/xml");                
-                renderElm.append(parsedSource.documentElement);
-                // Before we only used innerHTML but that makes all tags into lowercase. Now we parse the source to HTML to keep the tag casing
-                //renderElm.innerHTML = this.renderSource;
-                renderElm.setAttribute('data-hascontent',true);
-                this.$refs.iframe.contentWindow.postMessage('render-' + this.stateData.Language,window.location.origin)
+                if(renderElm)
+                {
+                    if(this.stateData.Language === "html")
+                    {
+                        // We only use innerHTML if we use actual markup.
+                        renderElm.innerHTML = this.renderSource;
+                    }
+                    else
+                    {
+                        // We use the DOM parser with XML to make sure we keep the letter casing
+                        const parser = new window.DOMParser();
+                        const contentRoot = '<root>'+ this.renderSource +'</root>';
+                        const parsedSource = parser.parseFromString(contentRoot, "text/xml");                
+                        if(parsedSource.documentElement && parsedSource.documentElement.children.length > 0)
+                        {
+                            for (var child of parsedSource.documentElement.children)
+                            {
+                                renderElm.append(child);
+                            }
+                        }
+                    }
+                    
+                    renderElm.setAttribute('data-hascontent',true);
+                    this.$refs.iframe.contentWindow.postMessage('render-' + this.stateData.Language,window.location.origin)
+                }
+                else
+                {
+                    console.error('Unable to insert preview markup into iframe')
+                }
             }
         }
 

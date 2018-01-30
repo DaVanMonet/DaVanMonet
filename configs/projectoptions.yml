@@ -89,6 +89,8 @@ compilation:
     - "**/**/*_print.less"
     vuecomponents:
     - "VueComponents.vue"
+    reactcomponents:
+    - "ReactComponents.jsx"
   
   # Create source maps for JS and CSS
   sourceMaps: true

@@ -77,10 +77,9 @@ module.exports = {
           exclude: /node_modules/,
           loader: 'babel-loader',
           query: {
-            presets:[ 'stage-2' ]
+            presets:[ 'stage-2', 'react' ]
           }
         },
-
         {
           test: /\.yml$/,
           loader: 'yml-loader'

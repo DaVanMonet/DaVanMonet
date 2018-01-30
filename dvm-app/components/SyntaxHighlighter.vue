@@ -1,6 +1,6 @@
 <template>
 	<div class="showcase__source code">
-		<pre :class="`line-numbers language-${this.language}`"><code :class="`line-numbers language-${this.language}`"></code></pre>
+		<pre :class="`line-numbers language-${this.hightlightLanguage}`"><code :class="`line-numbers language-${this.hightlightLanguage}`"></code></pre>
 	</div>
 </template>
 
@@ -34,6 +34,7 @@ export default {
 	},
 	data() {
 		return {
+			hightlightLanguage:'',
 			highlightedSource: '',
 		};
 	},
@@ -43,15 +44,16 @@ export default {
 		let beautifiedSource = "";
 		if(this.language)
 		{
-			let language = "";
+			
 			switch (this.language) 
 			{
+				case 'react':
 				case 'vue':
 				case 'html':
 				case 'markup':
 				{
 					beautifiedSource = htmlBeautify.html_beautify(this.source, BEAUTIFY_CONFIG);
-					language = 'html';
+					this.hightlightLanguage = 'html';
 					break;
 				}
 
@@ -59,7 +61,7 @@ export default {
 				case 'scss':
 				{
 					beautifiedSource = cssBeautify.css_beautify(this.source, BEAUTIFY_CONFIG);
-					language = 'css';
+					this.hightlightLanguage = 'css';
 					break;
 				}
 
@@ -67,16 +69,16 @@ export default {
 				case 'javascript':
 				{
 					beautifiedSource = jsBeautify.js_beautify(this.source, BEAUTIFY_CONFIG);
-					language = 'javascript';
+					this.hightlightLanguage = 'javascript';
 					break;
 				}
 
 				default: break;
 			}
-			if(language)
+			if(this.hightlightLanguage && beautifiedSource && prism.languages[this.hightlightLanguage])
 			{
-				prismElement.innerHTML = prism.highlight(beautifiedSource, prism.languages[language]);
-
+				const highlightedCode = prism.highlight(beautifiedSource, prism.languages[this.hightlightLanguage]);
+				prismElement.innerHTML = highlightedCode;
 				prism.highlightElement(prismElement);
 			}
 			else

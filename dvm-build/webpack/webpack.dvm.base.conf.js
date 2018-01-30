@@ -80,7 +80,7 @@ module.exports = {
         exclude: /.*node_modules((?!davanmonet).)*$/,
         loader: 'babel-loader',
         query: {
-          presets:[ 'stage-2' ]
+          presets:[ 'stage-2', 'react' ]
         }
       },
       {
