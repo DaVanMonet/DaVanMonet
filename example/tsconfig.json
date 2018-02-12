@@ -11,8 +11,8 @@
 		"emitBOM": false,
 		"isolatedModules": false,
 		"jsx": "react",
-		"experimentalDecorators": false,
-		"emitDecoratorMetadata": false,
+		"emitDecoratorMetadata": true,
+   		"experimentalDecorators": true,
 		"declaration": false,
 		"noImplicitAny": false,
 		"noImplicitUseStrict": false,
@@ -22,9 +22,13 @@
 		"suppressImplicitAnyIndexErrors": true,
 		"sourceMap": false,
 		"moduleResolution": "node",
-		"types" : ["jquery","requirejs"],
+		"typeRoots": [
+		"node_modules/@types"
+		],
+		"types" : [],
 		"lib":
 		[
+			"es2017",
 			"dom",
 			"es5",
 			"es2015.collection",

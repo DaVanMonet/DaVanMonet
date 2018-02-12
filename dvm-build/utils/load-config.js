@@ -40,7 +40,7 @@ exports.dvmConfig = function()
                 console.error("Configuration Schema errors: ")
                 
                 config.getErrors().forEach(e =>
-                    console.log(e.fieldSchema.name + ": " + e.errorMessage));
+                    console.error(e.fieldSchema.name + ": " + e.errorMessage));
 
                 throw new Error("Configuration Schema Error");
             }

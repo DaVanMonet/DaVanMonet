@@ -26,7 +26,6 @@ export default {
   created() {
     const classnames = this.html.className.split('-');
     const codeElementFromItem = Array.prototype.slice.call(this.html.querySelectorAll('code'))[0];
-    console.log('classnames',classnames)
     this.language = classnames[classnames.length-1];
     this.code = this.htmlDecode(codeElementFromItem.innerHTML);
   },

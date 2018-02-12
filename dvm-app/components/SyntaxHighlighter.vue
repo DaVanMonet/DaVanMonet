@@ -48,6 +48,8 @@ export default {
 			switch (this.language) 
 			{
 				case 'react':
+				case 'angular':
+				case 'ng':
 				case 'vue':
 				case 'html':
 				case 'markup':
