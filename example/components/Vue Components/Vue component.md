@@ -1,5 +1,5 @@
 ﻿---
-title: Vue component examle
+title: Vue component example
 guid: vue-component-example-1
 componentid: vue-component-example
 ----

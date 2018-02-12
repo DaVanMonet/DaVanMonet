@@ -1,5 +1,5 @@
 ﻿---
-title: React component examle
+title: React component example
 guid: react-component-example-1
 componentid: react-component-example
 ----
