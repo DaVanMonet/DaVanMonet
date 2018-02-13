@@ -42,7 +42,6 @@ module.exports = {
 	plugins: [
 		// Here we're using the DefinePlugin to create some constants
 		// that can be accessed from the application code
-		new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './client')),
 		new webpack.DefinePlugin({
 			__MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json //process.env.npm_package_config_configFile
 			__USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs()),
@@ -78,6 +77,15 @@ module.exports = {
 							"sourceMap": false,
 							"import": false
 						}
+					},
+					{
+						"loader": "postcss-loader",
+						"options":
+						{
+							"ident": "postcss",
+							"plugins": require('autoprefixer'),
+							"sourceMap": false
+						}
 					}
 				]
 			},
@@ -91,8 +99,7 @@ module.exports = {
 					{
 						loader: 'awesome-typescript-loader',
 						options: { configFileName: 'example/tsconfig.json' }
-					},
-					'angular2-template-loader'
+					}
 				]
 			},
 			{
@@ -105,13 +112,13 @@ module.exports = {
 				loader: 'yml-loader'
 			},
 			{
-				test: /\.jsx?$/,
-				exclude: /.*node_modules((?!davanmonet).)*$/,
-				loader: 'babel-loader',
-				query: {
-					presets:[ 'stage-2', 'react' ]
-				}
-			},
+                test: /\.jsx?$/,
+                exclude: /.*node_modules((?!davanmonet).)*$/,
+                loader: 'babel-loader',
+                query: {
+                    presets:[ 'stage-2' ]
+                }
+            },
 			{
 				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
 				loader: 'url-loader',

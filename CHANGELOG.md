@@ -1,11 +1,10 @@
 # Changelog
 
-## [1.1.11] - 2018-02-12
+## [1.1.11] - 2018-02-13
 
 ### Added
 - Support for preview of Vue components
-- Basic support for preview of React components
-- Basic support for preview of Angular components
+- Expanded support for rendering of different types of content (such as react & angular). Requires additional configuration (See PatternLibraryExample)
 
 ### Fixed
 - Fixed bug with being unable to load pages that have a space in the parent folder or filename.

@@ -52,7 +52,6 @@ module.exports = {
 	},
 
 	plugins: [
-		new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './client')),
 		new webpack.DefinePlugin(
 		{
 			__MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json //process.env.npm_package_config_configFile
@@ -112,28 +111,17 @@ module.exports = {
 				"loader": "raw-loader"
 			},
 			{
-				test: /\.tsx?$/,
-				loader: [
-					{
-						loader: 'awesome-typescript-loader',
-						options: { configFileName: 'example/tsconfig.json' }
-					},
-					'angular2-template-loader'
-				]
-			},
-			{ // Load .js/.jsx files though babel-loader
-				test: /\.jsx?$/,
-				exclude: /node_modules/,
-				loader: 'babel-loader',
-				query:
-				{
-					presets: ['stage-2', 'react']
-				}
-			},
-			{
 				test: /\.yml$/,
 				loader: 'yml-loader'
 			},
+			{
+                test: /\.jsx?$/,
+                exclude: /.*node_modules((?!davanmonet).)*$/,
+                loader: 'babel-loader',
+                query: {
+                    presets:[ 'stage-2' ]
+                }
+            },
 			{
 				test: /\.vue$/,
 				loader: 'vue-loader',
