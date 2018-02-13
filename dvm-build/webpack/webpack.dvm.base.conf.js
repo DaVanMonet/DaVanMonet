@@ -42,10 +42,7 @@ module.exports = {
 	plugins: [
 		// Here we're using the DefinePlugin to create some constants
 		// that can be accessed from the application code
-		new webpack.ContextReplacementPlugin(
-			/angular(\\|\/)core(\\|\/)@angular/,
-			__dirname
-		),
+		new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './client')),
 		new webpack.DefinePlugin({
 			__MAIN_CONFIG_PATH__: JSON.stringify(path.resolve(process.cwd(), process.env.npm_package_config_configFile)), // This is set in package.json //process.env.npm_package_config_configFile
 			__USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs()),
