@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.13] - 2018-03-13
+
+### Fixed
+- Fixed error message from Vue
 
 ## [1.1.12] - 2018-03-13
 
