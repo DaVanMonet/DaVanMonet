@@ -33,7 +33,7 @@ In your package.json
   },
 ```
 
-Then issue simplu run 'npm run dev':
+Then simply start the project in development mode:
 ```shell
 npm run dev
 ```
@@ -83,7 +83,7 @@ This makes it possible for developers to choose which port to run the dev enviro
 ## On Site Preview
 In order to use On Site Preview, onSitePreview.js need to be loaded on the target site, like this:
 ```html
-<script src="http://localhost:9003/static/onSitePreview.js"></script>
+<script src="http://localhost:9001/ospClient.js"></script>
 ```
 ### Config
 Below is an example config snippet for On Site Preview.
@@ -112,18 +112,15 @@ The "onsitepreview" object should be at the root level of the configuration tree
 
 ### Deployment
 ```shell
-grunt davanmonet:build
+npm run build
 ```
-Compiles the css and copies the required assets over to the build folder, the content of the build folder is ready to be hosted on a IIS website.
+Compiles the project into the Dist folder. The build will generate three folders. 
+1. *Indexes* contains information about what documentation is contained in the project
+2. *Package* contains the compiled css and the source ready to be published as a npm package
+3. *Web* contains everything you need to deploy a pattern library website on IIS (or Apache).
 
 ### Development
 ```shell
-grunt davanmonet:dev
+npm run dev
 ```
 This will create the css and start a webserver so you can preview your work
-
-### Create indexes
-```shell
-grunt davanmonet:createindexes
-```
-This is used in the previous steps. It creates the content (documentation) and the target (outputed css) indexes.

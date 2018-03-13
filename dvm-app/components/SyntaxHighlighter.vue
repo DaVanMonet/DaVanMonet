@@ -52,6 +52,8 @@ export default {
 				case 'ng':
 				case 'vue':
 				case 'html':
+				case 'bash':
+				case 'shell':
 				case 'markup':
 				{
 					beautifiedSource = htmlBeautify.html_beautify(this.source, BEAUTIFY_CONFIG);
