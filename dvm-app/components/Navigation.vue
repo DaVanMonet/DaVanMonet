@@ -93,6 +93,11 @@ export default
 {
     padding-left:1rem;
     font-size:11px;
+    
+    [data-menuvisible="false"] &
+    {
+        display: none;
+    }
 }
 
 </style>
