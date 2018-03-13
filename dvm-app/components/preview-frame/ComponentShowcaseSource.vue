@@ -39,7 +39,10 @@ export default {
 
 /* _showcase default */
 
-	.showcase { margin-bottom: 7.5rem; }
+	.showcase
+	{
+		margin-bottom: 7.5rem;
+	}
 
 	.showcase__example
 	{

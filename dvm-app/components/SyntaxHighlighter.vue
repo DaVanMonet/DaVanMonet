@@ -81,7 +81,7 @@ export default {
 			{
 				const highlightedCode = prism.highlight(beautifiedSource, prism.languages[this.hightlightLanguage]);
 				prismElement.innerHTML = highlightedCode;
-				prism.highlightElement(prismElement);
+				//prism.highlightElement(prismElement);
 			}
 			else
 			{

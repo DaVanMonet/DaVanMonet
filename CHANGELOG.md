@@ -1,5 +1,11 @@
 # Changelog
 
+
+## [1.1.12] - 2018-03-13
+
+### Fixed
+- Code highlighting wasn't styled
+
 ## [1.1.11] - 2018-02-13
 
 ### Added
