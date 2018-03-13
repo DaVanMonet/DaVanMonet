@@ -1,6 +1,5 @@
 /****** CSS variables *****/
 
-
 /*
 
 //link color: #00BCD4
@@ -40,20 +39,17 @@ html {
 	width: 100%;
 }
 
-body {
-	
-}
+body {}
 
 * {
 	box-sizing: border-box;
 }
 
-.davanmonet-body
-{
+.davanmonet-body {
 	margin: 0;
 	padding: 0;
 	min-height: 100%;
-	color:#757575;
+	color: #757575;
 	overflow-y: scroll;
 }
 
@@ -66,15 +62,13 @@ body {
 	font-size: 0;
 	overflow: hidden;
 
-	a
-	{
+	a {
 		text-decoration: none;
-		color: rgb(83,109,254);
+		color: rgb(83, 109, 254);
 		&:hover,
 		&:focus,
-		&:active
-		{
-			color:#616161;
+		&:active {
+			color: #616161;
 		}
 	}
 }
@@ -114,31 +108,27 @@ a.davanmonet-header-logolink {
 	display: flex;
 	align-items: baseline;
 	margin-right: @GridGap;
-	color:#fff;
+	color: #fff;
 	&:hover,
 	&:focus,
-	&:active
-	{
-		color:#fff;
+	&:active {
+		color: #fff;
 	}
 }
 
-.davanmonet-header-logo
-{
+.davanmonet-header-logo {
 	max-width: 100%;
 	width: 180px;
 }
 
-.davanmonet-header-logolinktext
-{
+.davanmonet-header-logolinktext {
 	margin-left: @GridGap;
 	font-size: 2.5rem;
-	
-	@media (max-width:35em)
-	{
+
+	@media (max-width: 35em) {
 		display: none;
 	}
-	
+
 }
 
 .davanmonet-header-repository-link {
@@ -146,19 +136,16 @@ a.davanmonet-header-logolink {
 	display: block;
 	width: 24px;
 
-	path
-	{
-		fill:#fff;
-		transition:fill .15s ease;
+	path {
+		fill: #fff;
+		transition: fill .15s ease;
 	}
 
 	&:hover,
 	&:focus,
-	&:active
-	{
-		path
-		{
-			fill:#ddd;
+	&:active {
+		path {
+			fill: #ddd;
 		}
 	}
 }
@@ -166,8 +153,7 @@ a.davanmonet-header-logolink {
 
 
 
-.davanmonet-pagecontainer
-{
+.davanmonet-pagecontainer {
 	display: flex;
 }
 
@@ -180,14 +166,10 @@ a.davanmonet-header-logolink {
 	float: left;
 	padding: @GridGap;
 	font-family: @Font;
-	transition:width 0.15s ease;
-	[data-menuvisible="true"]  + &
-	{
-		
-	}
+	transition: width 0.15s ease;
+	[data-menuvisible="true"]+& {}
 
-	[data-menuvisible="false"]  + &
-	{
+	[data-menuvisible="false"]+& {
 		width: calc(100% ~"-" 4rem);
 	}
 }
@@ -199,6 +181,15 @@ a.davanmonet-header-logolink {
 .davanmonet-maincontent-mainbody {
 	>h1 {
 		margin-top: 0;
+	}
+	h1 {
+		font-size: 3rem;
+	}
+	h2 {
+		font-size: 2.5rem;
+	}
+	h3 {
+		font-size: 2rem;
 	}
 }
 
@@ -219,26 +210,21 @@ a.davanmonet-header-logolink {
 
 /* Sidebar navigation */
 
-.davanmonet-navcontainer
-{
+.davanmonet-navcontainer {
 	min-height: calc(100vh ~"-" @HeaderHeightDesktop);
 	width: @SidebarWidthDesktop;
-	transition:width 0.15s ease;
+	transition: width 0.15s ease;
 	float: left;
 	display: block;
 	background: #EFEFEF;
 	font-family: @Font;
 	padding: @GridGap 0;
 	position: relative;
-	font-size:1.3rem;
+	font-size: 1.3rem;
 	z-index: 2;
-	&[data-menuvisible="true"]
-	{
-		
-	}
-	&[data-menuvisible="false"]
-	{
-		width:4rem;
+	&[data-menuvisible="true"] {}
+	&[data-menuvisible="false"] {
+		width: 4rem;
 	}
 }
 
@@ -259,35 +245,34 @@ a.davanmonet-header-logolink {
 	}
 }
 
-.davanmonet-nav-listitem
-{
+.davanmonet-nav-listitem {
 	display: block;
 	padding: .3rem 0;
 }
 
 .davanmonet-nav-listiteminner {
 	display: block;
-	[data-listlevel="1"] > li > & {
+	[data-listlevel="1"]>li>& {
 		padding-left: 1rem;
 		border-bottom: 1px solid #747474;
 	}
-	[data-listlevel="2"] > li > & {
+	[data-listlevel="2"]>li>& {
 		padding-left: 1.5rem;
-		
+
 	}
-	[data-listlevel="3"] > li > & {
+	[data-listlevel="3"]>li>& {
 		padding-left: 2rem;
 	}
-	[data-listlevel="4"] > li > & {
+	[data-listlevel="4"]>li>& {
 		padding-left: 2.5rem;
 	}
 }
 
 .davanmonet-nav-directory {
-	color:darken(#757575, 20%);
+	color: darken(#757575, 20%);
 	display: block;
-	
-	
+
+
 }
 
 
@@ -300,15 +285,13 @@ a.davanmonet-header-logolink {
 	&:active {
 		//color: @dark-primary-color;
 	}
-	&.is-active
-	{
-		color:#000;
+	&.is-active {
+		color: #000;
 	}
 }
 
-.davanmonet-nav-expandlink
-{
-	cursor:pointer;
+.davanmonet-nav-expandlink {
+	cursor: pointer;
 }
 
 .davanmonet-nav-link {}

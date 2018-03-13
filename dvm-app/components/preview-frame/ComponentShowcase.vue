@@ -55,11 +55,11 @@
             </template>
             <template v-else class="showcase">
                 <template v-for="state in showcaseData.States">
-                    <div class="showcase_source-content">
+                    <div class="showcase_source-content" v-bind:key="state.Title">
                         <h3 v-if="cleanStateContent(state.Title)" v-html="cleanStateContent(state.Title)"></h3>
                         <div v-if="cleanStateContent(state.Preamble)" v-html="cleanStateContent(state.Preamble)"></div>
                     </div>
-                    <div class="showcase__source-wrapper">
+                    <div class="showcase__source-wrapper" v-bind:key="state.Title">
                         <component-showcase-source :source="state.PreviewMarkup" :language="state.Language"></component-showcase-source>
                     </div>
                 </template>

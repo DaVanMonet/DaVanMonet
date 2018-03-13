@@ -1,5 +1,16 @@
 # Changelog
 
+
+## [1.1.12] - 2018-03-13
+
+### Added
+- Better documentation for On Site Preview functionality
+
+### Fixed
+- Code highlighting wasn't styled
+- We now hide the version info when the menu is closed
+
+
 ## [1.1.11] - 2018-02-13
 
 ### Added

@@ -52,6 +52,8 @@ export default {
 				case 'ng':
 				case 'vue':
 				case 'html':
+				case 'bash':
+				case 'shell':
 				case 'markup':
 				{
 					beautifiedSource = htmlBeautify.html_beautify(this.source, BEAUTIFY_CONFIG);
@@ -81,7 +83,7 @@ export default {
 			{
 				const highlightedCode = prism.highlight(beautifiedSource, prism.languages[this.hightlightLanguage]);
 				prismElement.innerHTML = highlightedCode;
-				prism.highlightElement(prismElement);
+				//prism.highlightElement(prismElement);
 			}
 			else
 			{
