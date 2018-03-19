@@ -53,7 +53,7 @@ export default
                 const renderElm = this.$refs.iframe.contentDocument.body.querySelector('.showcase__render');
                 if(renderElm)
                 {
-                    if(this.stateData.Language === "html")
+                    if(this.stateData.Language === "html" || this.stateData.Language === "angular")
                     {
                         // We only use innerHTML if we use actual markup.
                         renderElm.innerHTML = this.renderSource;
