@@ -26,6 +26,12 @@ export default
 
         onIframeLoad()
         {
+            var parser = document.createElement('a');
+            parser.href = window.location.href;
+            //console.log(parser.pathname);
+
+            this.$refs.iframe.src = this.$refs.iframe.src + "#" + parser.pathname;
+            
             this.populateIframeWithRenderSource();
             if (this.renderSource)
             {
