@@ -8,7 +8,16 @@ module.exports = function(chunks, writeFile = true)
     console.log(chalk.magenta(">> Creating target index file"));
     
     let targetIndex = { items: [] };
-    Object.keys(chunks).forEach(target => targetIndex.items.push(path.posix.join(dvmConfig.directories.css_subDir, target)));
+
+    // Add css targets
+    Object.keys(chunks)
+        .filter(c => c.indexOf('.css') > -1)
+        .forEach(target => targetIndex.items.push(path.posix.join(dvmConfig.directories.css_subDir, target)));
+
+    // Add other targets
+    Object.keys(chunks)
+        .filter(c => c.indexOf('.css') === -1)
+        .forEach(target => targetIndex.items.push(path.posix.join(target)));
     
     // Save index to file
     if (writeFile)
