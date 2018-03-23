@@ -57,7 +57,11 @@ exports.startServer = function(app) {
     // Send preview markup for selected state of selected component
     app.get(subdir + '/standalone/component/:guid/:state/preview.html', function (req, res) {
         
-        let html = "<!DOCTYPE html><html><head><meta charset='utf-8'><title>Component Test Bed Preview</title>";
+        let html = "<!DOCTYPE html><html><head>";
+        html += "<meta name='viewport' content='width=device-width, initial-scale=1.0' />";
+        html += "<meta charset='utf-8'>";
+        html += "<title>Component Test Bed Preview</title>";
+        html += "<style>body { margin: 0; }</style>";
 
         // Add css entries
         for (let entry of Object.keys(dvmConfig.compilation.targets).filter(e => e.endsWith('.css')))
