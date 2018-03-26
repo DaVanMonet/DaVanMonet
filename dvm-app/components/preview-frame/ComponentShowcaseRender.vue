@@ -28,7 +28,6 @@ export default
         {
             var parser = document.createElement('a');
             parser.href = window.location.href;
-            //console.log(parser.pathname);
 
             this.$refs.iframe.src = this.$refs.iframe.src + "#" + parser.pathname;
             

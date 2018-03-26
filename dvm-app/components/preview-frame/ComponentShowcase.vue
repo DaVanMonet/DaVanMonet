@@ -60,6 +60,7 @@
                         <div v-if="cleanStateContent(state.Preamble)" v-html="cleanStateContent(state.Preamble)"></div>
                     </div>
                     <div class="showcase__source-wrapper" v-bind:key="state.Title + 'wrapper'">
+                        
                         <component-showcase-source :source="state.PreviewMarkup" :language="state.Language"></component-showcase-source>
                     </div>
                 </template>
@@ -170,7 +171,6 @@ export default
     },
     created()
     {
-        console.log(this.showcaseData);
 
         // Set first showcase state as the selected state per default
         this.hasStates = (this.showcaseData.States.length > 0);

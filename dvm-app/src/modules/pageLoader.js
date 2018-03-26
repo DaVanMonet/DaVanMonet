@@ -1,4 +1,4 @@
-import Marked from 'marked';
+var md = require('markdown-it')();
 import Loader from '@/src/modules/loader';
 import DataStructureParser from '@/src/modules/dataStructureParser';
 
@@ -21,6 +21,7 @@ export default class PageLoader
 		this._indexLookup = {};
 		this._navigationLookup = {};
 		this._targetindex = {};
+		this._pageDataSchema = {};
 		this.dataStructureParser = new DataStructureParser();
 		
 		this._configuration = {
@@ -37,9 +38,11 @@ export default class PageLoader
 
 	async loadData()
 	{
+		
 		if(this._state.dataLoaded === false)
 		{
 			await Loader.LoadData();
+			
 			
 			this._projectConfig = Loader.ProjectConfig;
 			this._contentindex = Loader.ContentIndex;
@@ -48,6 +51,11 @@ export default class PageLoader
 			this._indexLookup = await this.dataStructureParser.createIndexLookup();
 			this._navigationLookup = await this.dataStructureParser.createIndexNavigationLookup();
 			
+			this._pageDataSchema = require('../../../dvm-build/schema/pagedata-schema-' + this._projectConfig.project_info.pagedata_schemaversion);
+			if(typeof this._pageDataSchema !== "function")
+			{
+				console.error("Unable to load Page Data schema for version " + this._projectConfig.project_info.pagedata_schemaversion);
+			}
 			this._state.dataLoaded = true;
 		}
 	}
@@ -70,13 +78,10 @@ export default class PageLoader
 		};
 		let indexData = this._indexLookup[href];
 		let navigationalData = this._navigationLookup[href];
+
+
 		if(typeof indexData !== "undefined")
 		{
-			//When theres is a file matching and no "variants" are present.
-			pageData.id = indexData["guid"];
-			pageData.Title = indexData["title"];
-			
-
 			var variants = [];
 			// Structure only contains one file.
 			if(indexData["type"] === "file")
@@ -91,9 +96,16 @@ export default class PageLoader
 			}
 			//This variable is what we use to match a the MD files with what is contained in the navigational structure
 			pageData.id = navigationalData["guid"];
-			pageData.title = navigationalData["title"];
+			if(pageData.id === null && typeof navigationalData["componentid"] === "string")
+			{
+				pageData.id = navigationalData["componentid"];
+			}
+
+			pageData.Title = navigationalData["title"];
+			
 			await variants.forEach(async (variant, i) =>
 			{
+				
 				let variantContent =
 				{
 					"id":variant["guid"],
@@ -106,29 +118,35 @@ export default class PageLoader
 					"requirejs":""
 				};
 				let filepath = variant["shortpath"];
-
 				
 				// Load .md file contents
 				let markdownContent = await base.loadMDFile(filepath);
-				
-				// Extract code snipplets from markdown
-				let snipplets = base.dataStructureParser.getCodeSnipplets(markdownContent, variant);
-				if(snipplets.length > 0)
+				let cleanedMarkdown = "";
+
+				//Extract code snipplets from markdown
+				if(this._projectConfig.project_info.pagedata_schemaversion === "1.0")
 				{
-					//Add additional information to each state (Set by the indexing metadata)
-					if(typeof variant["requirejs"] === "string")
+					let snipplets = base.dataStructureParser.getCodeSnipplets(markdownContent, variant);
+					if(snipplets.length > 0)
 					{
-						snipplets.forEach(snipplet => snipplet["requirejs"] = variant["requirejs"])
+						//Add additional information to each state (Set by the indexing metadata)
+						if(typeof variant["requirejs"] === "string")
+						{
+							snipplets.forEach(snipplet => snipplet["requirejs"] = variant["requirejs"])
+						}
+						
+						variantContent.States = variantContent.States.concat(snipplets);
 					}
-					
-					variantContent.States = variantContent.States.concat(snipplets);
+
+					// Clean from metadata, (states?) etc.
+					cleanedMarkdown = base.dataStructureParser.cleanMarkdown(markdownContent, { removeMetadata : true, removeSnipplets : true });
 				}
-
-				// Clean from metadata, (states?) etc.
-				let cleanedMarkdown = base.dataStructureParser.cleanMarkdown(markdownContent, { removeMetadata : true, removeSnipplets : true });
-
+				if(this._projectConfig.project_info.pagedata_schemaversion === "2.0")
+				{
+					cleanedMarkdown = base.dataStructureParser.cleanMarkdown(markdownContent, { removeMetadata : true});
+				}
 				// Parse what's left from the markdown files
-				let parsedMarkdown = Marked(cleanedMarkdown, { sanitize: false });
+				let parsedMarkdown = md.render(cleanedMarkdown);
 
 				//Removes H1 etc.
 				let adjustedContent = base.dataStructureParser.adjustMarkdownMarkup(parsedMarkdown);
@@ -138,6 +156,17 @@ export default class PageLoader
 			});
 			//console.log('Page rendered at ' + (new Date()).toString(),pageData)
 		}
+		const validatedPageData = new this._pageDataSchema(pageData);
+
+		if(validatedPageData.isErrors())
+        {
+            console.error("Configuration Schema errors: ")
+            
+            validatedPageData.getErrors().forEach(e =>
+                console.error(e.fieldSchema.name + ": " + e.errorMessage));
+
+            throw new Error("Configuration Schema Error");
+        }
 		return pageData;
 		
 	}

@@ -1,4 +1,5 @@
 import _ from 'lodash/fp/object'; // We only need the objet merge function
+const config_schema = require('../../../dvm-build/schema/config-schema');
 
 export default class Loader
 {
@@ -26,7 +27,25 @@ export default class Loader
                 _.merge(mainconfig, userConfig);
             }
         }
-        Loader.ProjectConfig = mainconfig;
+
+        let config = new config_schema(mainconfig); 
+        
+
+        if(config.isErrors())
+        {
+            console.error("Configuration Schema errors: ")
+            
+            config.getErrors().forEach(e =>
+                console.error(e.fieldSchema.name + ": " + e.errorMessage));
+
+            throw new Error("Configuration Schema Error");
+        }
+
+        if(typeof config.project_info.pagedata_schemaversion !== "string")
+        {
+            config.project_info.pagedata_schemaversion = "1.0";
+        }
+        Loader.ProjectConfig = config;
 
         // Load content index
         Loader.ContentIndex = require(__CONTENT_INDEX_PATH__);

@@ -36,7 +36,7 @@
 
 <script>
 import $ from 'jquery';
-import Marked from 'marked';
+var md = require('markdown-it')();
 
 import Loader from '@/src/modules/loader.js';
 import PageLoader from '@/src/modules/pageLoader.js';
@@ -155,7 +155,7 @@ export default {
 			const startpagecontent = await _pageLoader.loadMDFile("index");
 			if(typeof startpagecontent === "string" && startpagecontent.length > 0)
 			{
-				_vue.maincontent.MainBody = Marked(startpagecontent);
+				_vue.maincontent.MainBody = md.render(startpagecontent);
 			}
 			_vue.parseLocationAndNavigate();
 			_vue.configLoaded = true;

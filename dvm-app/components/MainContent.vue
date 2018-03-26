@@ -42,7 +42,7 @@ export default {
       input.select();
       try {
       let copyresult = document.execCommand('copy');
-      console.log('Result of copy to clipboard', copyresult)
+      console.info('Result of copy to clipboard', copyresult)
       } catch(e)
       {
         console.error('Could not copy to clipboard');

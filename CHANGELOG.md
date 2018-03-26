@@ -1,8 +1,12 @@
 # Changelog
 
+## [1.1.17] - 2018-03-23
+### Added
+- Replaced Marked with markdown-it
+
 ## [1.1.16] - 2018-03-23
 ### Added
--Added meta viewport and removed body margin on standalone component preview
+- Added meta viewport and removed body margin on standalone component preview
 
 ## [1.1.15] - 2018-03-22
 ### Added

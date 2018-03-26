@@ -8,6 +8,7 @@ project_info:
   logo: "/static/logo.svg"
   theme_style: default
   repourl: "https://github.com/wezz/DaVanMonet"
+  pagedata_schemaversion: "1.0"
 
   
 #-------------------------------------------------------------------------------

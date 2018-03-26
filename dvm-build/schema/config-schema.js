@@ -1,29 +1,28 @@
 // https://www.npmjs.com/package/schema-object
 const SchemaObject = require('schema-object');
 const path = require('path');
-
-// Schema types
-const NON_EMPTY_STRING = { type: String, minLength: 1 };
-const REQUIRED_NON_EMPTY_STRING = { type: NON_EMPTY_STRING, required: true }
+const SDT = require("./schema-datatypes");
 
 // Configuration schema
 const ConfigSchema = new SchemaObject({
     
     project_info: {
-        name: REQUIRED_NON_EMPTY_STRING,
-        logo: NON_EMPTY_STRING,
-        theme_style: NON_EMPTY_STRING
+        name: SDT.REQUIRED_NON_EMPTY_STRING,
+        logo: SDT.NON_EMPTY_STRING,
+        theme_style: SDT.NON_EMPTY_STRING,
+        repourl:  SDT.NON_EMPTY_STRING,
+        pagedata_schemaversion: { type: SDT.NON_EMPTY_STRING, default: "1.0"}
     },
 
     directories: {
-        src: REQUIRED_NON_EMPTY_STRING,
-        dist_web: REQUIRED_NON_EMPTY_STRING,
-        dist_package: REQUIRED_NON_EMPTY_STRING,
-        js_subDir: REQUIRED_NON_EMPTY_STRING,
-        css_subDir: REQUIRED_NON_EMPTY_STRING,
-        indexes: REQUIRED_NON_EMPTY_STRING,
-        configs: REQUIRED_NON_EMPTY_STRING,
-        cssCopies: REQUIRED_NON_EMPTY_STRING
+        src: SDT.REQUIRED_NON_EMPTY_STRING,
+        dist_web: SDT.REQUIRED_NON_EMPTY_STRING,
+        dist_package: SDT.REQUIRED_NON_EMPTY_STRING,
+        js_subDir: SDT.REQUIRED_NON_EMPTY_STRING,
+        css_subDir: SDT.REQUIRED_NON_EMPTY_STRING,
+        indexes: SDT.REQUIRED_NON_EMPTY_STRING,
+        configs: SDT.REQUIRED_NON_EMPTY_STRING,
+        cssCopies: SDT.REQUIRED_NON_EMPTY_STRING
     },
 
     userconfig: {
@@ -32,9 +31,9 @@ const ConfigSchema = new SchemaObject({
     },
 
     indexing: {
-        contentIndexOutput: { type: NON_EMPTY_STRING, default: 'contentindex.json' },
-        targetIndexOutput: { type: NON_EMPTY_STRING, default: 'targetindex.json' },
-        keysToOutput: { type: Array, arrayType: NON_EMPTY_STRING }
+        contentIndexOutput: { type: SDT.NON_EMPTY_STRING, default: 'contentindex.json' },
+        targetIndexOutput: { type: SDT.NON_EMPTY_STRING, default: 'targetindex.json' },
+        keysToOutput: { type: Array, arrayType: SDT.NON_EMPTY_STRING }
     },
 
     compilation: {

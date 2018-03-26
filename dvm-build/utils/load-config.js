@@ -7,7 +7,7 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const _ = require('lodash');
 const globby = require('globby');
-const config_schema = require('./config-schema');
+const config_schema = require('../schema/config-schema');
 
 
 const isType = (val, type) => (typeof val === type && (type !== "string" || (type === "string" && val.length > 0)));
@@ -34,7 +34,7 @@ exports.dvmConfig = function()
         if (fs.existsSync(config_path))
         {
             // Load JSON or YAML base confg file
-            var config = new config_schema(loadConfigFile(config_path));
+            let config = new config_schema(loadConfigFile(config_path));
             if(config.isErrors())
             {
                 console.error("Configuration Schema errors: ")
@@ -48,10 +48,10 @@ exports.dvmConfig = function()
             // If we have a user config file configured
             if (config.userconfig_abs().length > 0) {
                 // Load JSON or YAML user config file
-                var config_user = loadConfigFile(config.userconfig_abs());
+                let config_user = loadConfigFile(config.userconfig_abs());
                 
                 // Merge to a single config
-                var config = _.merge(config, config_user);
+                config = _.merge(config, config_user);
             }
             
             // Assign structureFolders. Take structure from config if set, otherwise map file system. Save result to co config.
@@ -97,7 +97,7 @@ exports.getProjectPLConfig = function()
         // Set path to the webpackConfig file set in package.json, or use deafult path
         var default_path = process.cwd() + "/config/webpack.conf.js";
         var config_path = process.cwd() + '/' + process.env.npm_package_config_webpackConfig || default_path;
-        
+
         if (fs.existsSync(config_path))
         {
             var config = require(config_path);

@@ -87,7 +87,7 @@ export default {
 			}
 			else
 			{
-				console.log('Language was not taken care of: ', this.language)
+				console.error('Language was not taken care of: ', this.language)
 			}
 		}
 		else

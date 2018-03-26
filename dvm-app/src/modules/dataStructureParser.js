@@ -1,4 +1,4 @@
-import Marked from 'marked';
+var md = require('markdown-it')();
 import Loader from '@/src/modules/loader';
 
 export default class DataStructureParser
@@ -49,7 +49,8 @@ export default class DataStructureParser
 
 	adjustMarkdownMarkup(markuptext, options =
 		{
-			removeH1 : true
+			removeH1 : true,
+			addLanguageClassToPre : true
 		})
 	{
 		let markup = document.createElement('div');
@@ -62,6 +63,17 @@ export default class DataStructureParser
 				h1.parentNode.removeChild(h1);
 			})
 		}
+
+		if(options.addLanguageClassToPre)
+		{
+			let preArray = markup.querySelectorAll('pre');
+			preArray.forEach((pre)=>
+			{
+				const codeClassName = pre.querySelector("code").className;
+				pre.className += (codeClassName) ? ' ' + codeClassName : '';
+			});
+		}
+
 		return markup.innerHTML;
 	}
 
@@ -85,7 +97,7 @@ export default class DataStructureParser
 					let code = (codeMatch.length > 0) ? codeMatch[0].replace(/(```[A-z]+)/ig,"").replace(/```/ig,"").trim() : "";
 
 					// Fetch comment by removing code and headline
-					let parsedContent = Marked(text);
+					let parsedContent = md.render(text);
 					let markup = document.createElement('div');
 					markup.innerHTML = parsedContent;
 					let codeTag = markup.querySelectorAll("code");
@@ -93,7 +105,8 @@ export default class DataStructureParser
 					let additionalScripts = [];
 					if(codeTag && codeTag[0])
 					{
-						language = codeTag[0].className.replace("lang-",'');
+						let codeTagClass = codeTag[0].className.replace("language-",'')
+						language = codeTagClass.replace("lang-",'');
 					}
 					let itemsToRemove = markup.querySelectorAll('h2, h3, h4, pre');
 					itemsToRemove.forEach((item) => { item.parentNode.removeChild(item); })
