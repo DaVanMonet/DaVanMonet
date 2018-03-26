@@ -1,4 +1,6 @@
+import componentPreviewPlugin from "../../../dvm-build/utils/markdown-it-componentpreview";
 var md = require('markdown-it')();
+md.use(require("markdown-it-container"), componentPreviewPlugin.name, componentPreviewPlugin.config);
 import Loader from '@/src/modules/loader';
 import DataStructureParser from '@/src/modules/dataStructureParser';
 
