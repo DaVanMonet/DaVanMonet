@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.16] - 2018-03-23
+### Added
+-Added meta viewport and removed body margin on standalone component preview
+
+## [1.1.15] - 2018-03-22
+### Added
+- Added component path to iframe URL, updated targetindex script to generate correct paths for other files than CSS
+- Fixed problem with angular and attributes
+
 ## [1.1.13] - 2018-03-13
 
 ### Fixed
