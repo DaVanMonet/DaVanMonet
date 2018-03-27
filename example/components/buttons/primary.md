@@ -20,29 +20,4 @@ We have two version of this button. One is the _base_ state and the other is the
 ```html
 <button class="button button-primary" disabled>Disabled Button</button>
 ```
-
-# Third state
-```html
-<button class="button button-primary" disabled>Third Button</button>
-```
-
-*Fourth state*
-```html
-<button class="button button-primary" disabled>Fourth Button</button>
-```
-
-```html
-<button class="button button-primary" disabled>Untitled Button</button>
-```
-
-_Blah state_
-```html
-<button class="button button-primary" disabled>Bleh Button</button>
-```
 :::
-
-
-## Third button without tied state
-```html
-<button class="button button-primary">Non tied state Button text</button>
-```

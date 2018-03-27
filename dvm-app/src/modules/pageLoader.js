@@ -64,6 +64,7 @@ export default class PageLoader
 
 	async getPage(href)
 	{
+		
 		var base = this;
 		await this.loadData();
 		if(href.indexOf('/') === 0)
@@ -80,8 +81,7 @@ export default class PageLoader
 		};
 		let indexData = this._indexLookup[href];
 		let navigationalData = this._navigationLookup[href];
-
-
+		
 		if(typeof indexData !== "undefined")
 		{
 			var variants = [];
@@ -157,19 +157,21 @@ export default class PageLoader
 				pageData["ComponentItems"].push(variantContent);
 			});
 			//console.log('Page rendered at ' + (new Date()).toString(),pageData)
+
+			const validatedPageData = new this._pageDataSchema(pageData);
+			if(validatedPageData.isErrors())
+			{
+				console.error("Configuration Schema errors: ")
+				
+				validatedPageData.getErrors().forEach(e =>
+					console.error(e.fieldSchema.name + ": " + e.errorMessage));
+
+				throw new Error("Configuration Schema Error");
+			}
+			
+			return pageData;
 		}
-		const validatedPageData = new this._pageDataSchema(pageData);
-
-		if(validatedPageData.isErrors())
-        {
-            console.error("Configuration Schema errors: ")
-            
-            validatedPageData.getErrors().forEach(e =>
-                console.error(e.fieldSchema.name + ": " + e.errorMessage));
-
-            throw new Error("Configuration Schema Error");
-        }
-		return pageData;
+		return null;
 		
 	}
 

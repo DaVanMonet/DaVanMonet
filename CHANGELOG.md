@@ -1,8 +1,9 @@
 # Changelog
 
-## [1.1.17] - 2018-03-23
+## [1.1.17] - 2018-03-27
 ### Added
 - Replaced Marked with markdown-it
+- Changed how we show preview components
 
 ## [1.1.16] - 2018-03-23
 ### Added

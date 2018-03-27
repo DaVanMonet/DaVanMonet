@@ -24,7 +24,7 @@ The use of alt tags is very important for SEO and users with visual disabilities
 <img alt="Cute cat" src="/catimage.jpg">
 ```
 
-## nopreview Don't
+## Don't
 ```html
 <img src="/catimage.jpg">
 ```
@@ -37,7 +37,7 @@ Labels play an important role for how a user can interact with a form
 <input type="text" id="usernameinput" name="username">
 ```
 
-## nopreview Don't
+## Don't
 ```html
 <label>Username: <input type="text" id="usernameinput" name="username"></label>
 <div>Username: <input type="text" name="username"></div>
@@ -51,19 +51,19 @@ Using a link that doesn't go anywhere is bad practice and confusing. Use a regul
 <button class="closemodal" aria-label="Close the modal">X</button>
 ```
 
-## nopreview Don't
+## Don't
 ```html
 <a href="#" onclick="...">X</a>
 ```
 
-## nopreview Do use title attribute on icon button/links
+## Do use title attribute on icon button/links
 If a button only contains a icon (such as on a share link or a close button) we need to indicate what the button actually does.
 
 ```html
 <button class="share-facebook" aria-label="Share this page on facebook">(Facebook icon)</button>
 ```
 
-## nopreview Do preserve active state
+## Do preserve active state
 Make sure selectable elements have a indication for when a user has navigated to a link/button using the keyboard
 
 ```css
@@ -75,7 +75,7 @@ button:active
 }
 ```
 
-## nopreview Don't remove outline
+## Don't remove outline
 If you have not made a specific visual indication you should not remove outline
 ```css
 button

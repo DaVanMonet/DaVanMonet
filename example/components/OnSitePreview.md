@@ -10,7 +10,7 @@ To use this feature; this project need to be run in "dev" mode. This feature is 
 
 You can preview this feature on this [page](/example/components/OnSitePreview.html) (This will only work if in development mode).
 
-## nopreview Configuration
+## Configuration
 Below is an example config snippet for On Site Preview.
 
 The "onsitepreview" object should be at the root level of the configuration tree, preferrably in the user config file (user-conf.json).
@@ -40,7 +40,7 @@ Make sure the "hook" setting corresponds to the correct path where you want to i
 npm run dev
 ```
 
-## nopreview 2. Add the script for On Site Preview in your other project
+## 2. Add the script for On Site Preview in your other project
 The port is dependant on the port you set in the configuration.
 
 ```html
