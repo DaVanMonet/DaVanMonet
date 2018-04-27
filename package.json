@@ -1,7 +1,7 @@
 {
 	"name": "davanmonet",
 	"description": "A pattern library system",
-	"version": "1.1.17",
+	"version": "1.2.0",
 	"license": "UNLICENSED",
 	"private": false,
 	"scripts": {
@@ -143,6 +143,8 @@
 		"not ie <= 8"
 	],
 	"devDependencies": {
-		"mocha": "^4.0.1"
+		"mocha": "^4.0.1",
+		"optimize-js-plugin": "0.0.4",
+		"uglifyjs-webpack-plugin": "^1.2.5"
 	}
 }

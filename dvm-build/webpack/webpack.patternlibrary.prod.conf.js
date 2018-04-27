@@ -9,6 +9,8 @@ var baseWebpackConfig = require('./webpack.patternlibrary.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const OptimizeJsPlugin = require("optimize-js-plugin");
 const LifecyclePlugin = require('../plugins/webpack-lifecycle-plugin');
 
 const dvmConfig = require('../utils/load-config').dvmConfig();
@@ -26,6 +28,14 @@ const prodConfig = {
             cssProcessorOptions: {
             safe: true
             }
+        }),
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                safari10: true
+            }
+        }),
+        new OptimizeJsPlugin({
+            sourceMap: false
         }),
         new LifecyclePlugin({
             "done": (compilation, options, pluginOptions) =>
@@ -57,23 +67,6 @@ const prodConfig = {
                 require('../utils/copyutils').copyAdditionalPackageResources();
             }
         }),
-
-       
-
-        new HtmlWebpackPlugin({
-            filename: 'showcase-render-iframe.html',
-            template: path.resolve(__dirname, '../../dvm-app/static/showcase-render-iframe.html'),
-            inject: true,
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeAttributeQuotes: true
-                // more options:
-                // https://github.com/kangax/html-minifier#options-quick-reference
-            },
-            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-            chunksSortMode: 'dependency'
-            }),
 
     ]
 
