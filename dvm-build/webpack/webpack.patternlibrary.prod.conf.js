@@ -68,6 +68,21 @@ const prodConfig = {
             }
         }),
 
+        new HtmlWebpackPlugin({
+            filename: 'showcase-render-iframe.html',
+            template: path.resolve(__dirname, '../../dvm-app/static/showcase-render-iframe.html'),
+            inject: true,
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+                // more options:
+                // https://github.com/kangax/html-minifier#options-quick-reference
+            },
+            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+            chunksSortMode: 'dependency'
+        }),
+
     ]
 
 };
