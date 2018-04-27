@@ -1,7 +1,7 @@
 {
 	"name": "davanmonet",
 	"description": "A pattern library system",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"license": "UNLICENSED",
 	"private": false,
 	"scripts": {
@@ -112,7 +112,9 @@
 		"webpack-zepto": "0.0.1",
 		"yargs": "^10.0.3",
 		"yml-loader": "^2.1.0",
-		"zepto": "^1.2.0"
+		"zepto": "^1.2.0",
+		"optimize-js-plugin": "0.0.4",
+		"uglifyjs-webpack-plugin": "^1.2.5"
 	},
 	"homepage": "https://github.com/wezz/DaVanMonet",
 	"repository": {
@@ -144,7 +146,5 @@
 	],
 	"devDependencies": {
 		"mocha": "^4.0.1",
-		"optimize-js-plugin": "0.0.4",
-		"uglifyjs-webpack-plugin": "^1.2.5"
 	}
 }
