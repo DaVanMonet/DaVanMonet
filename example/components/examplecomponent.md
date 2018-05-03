@@ -21,6 +21,3 @@ This file is an example of how you should structure your documentation
 </div>
 ```
 :::
-
-
-:::iframe(https://github.sebank.se/pages/seb-style/bootstrap/v2/#/accordion,600)
