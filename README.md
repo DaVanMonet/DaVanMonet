@@ -42,9 +42,13 @@ npm run dev
 Documentation is written in [Markdown](https://daringfireball.net/projects/markdown/). 
 A page visible on the website can consist of multiple markdown files. They will be automatically combined if they have the same component id (See primary.md and secondary.md in the button folder).
 
-To create a component preview, wrap a code segment with _:::componentpreview_ 
+To create a component preview, wrap a code segment with _:::componentpreview_
 If a component has multiple states just add more code segments with a headline above the code to name the state. See the example documentation in this project
 
+## Iframes
+In some cases, the built-in preview frame might not work for you. In that case you can create a static HTML-file instead, and display it using an iframe. Use this markdown to cerate an iframe: _:::iframe(url/to/your-file.html)_
+
+If you include the client script for [iFrame Resizer](https://github.com/davidjbradshaw/iframe-resizer) in the document in the iframe, it will automatically resize itself to fit the content. You can also specify the height in the markdown, like this: _:::iframe(url/to/your-file.html,600)_. Width will always be 100%.
 
 ## Configuration file (JSON or YAML)
 Default configuration resides in /configs/projectoptions.yml
