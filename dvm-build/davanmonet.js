@@ -37,9 +37,4 @@ module.exports = class DaVanMonet
 		const result = this.exec("node " + path.join(__dirname, "build-dvm.js"));
 		//this.output(result)
 	}
-
-	
-
 }
-
-

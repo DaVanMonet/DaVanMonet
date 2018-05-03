@@ -1,7 +1,9 @@
 //markdown-it-componentpreview.js
-import componentPreviewPlugin from "../../../dvm-build/utils/markdown-it-componentpreview";
-var md = require('markdown-it')();
-md.use(require("markdown-it-container"), componentPreviewPlugin.name, componentPreviewPlugin.config);
+// import componentPreviewPlugin from "./markdown-it-componentpreview";
+// import mdIframePlugin from "./markdown-it-iframe";
+//var md = require('markdown-it')();
+//md.use(require("markdown-it-container"), mdIframePlugin.name, mdIframePlugin.config);
+//md.use(require("markdown-it-container"), componentPreviewPlugin.name, componentPreviewPlugin.config);
 import Loader from '@/src/modules/loader';
 
 export default class DataStructureParser

@@ -1,26 +1,23 @@
 //https://github.com/markdown-it/markdown-it-container
 var md = require('markdown-it')();
-const name  = "componentpreview";
-const matchRegEx = /^componentpreview\s+(.*)$/ig;
+const name  = "iframe";
+
 const pluginConfiguration =
 {
 	validate: function(val)
 	{
-		return val.trim().indexOf('componentpreview') !== -1;
+		return val.trim().indexOf('iframe') !== -1;
 	},
 	render: function(tokens, idx)
-	{
+	{	
 		if (tokens[idx].nesting === 1)
 		{
-			
-			// opening tag
-			return '<div data-componentpreview>\n';
-
+			var params = /\(([^)]+)\)/.exec(tokens[idx].info)[1].split(',');
+			return '<iframe class="md-iframe" src="' + params[0] + '" height="' + params[1] + '"></iframe>\n';
 		}
 		else
 		{
-			// closing tag
-			return '\n</div>\n';
+			return '';
 		}
 	}
 };
