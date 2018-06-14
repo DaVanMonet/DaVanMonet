@@ -121,15 +121,15 @@ export default {
     setSizeElementVisible() {
       if (!this.size.width || !this.size.height) { return; }
 
-      if (this.sizeElementVisibilityTimeout) {
-        clearTimeout(this.sizeElementVisibilityTimeout);
-      }
+      // if (this.sizeElementVisibilityTimeout) {
+      //   clearTimeout(this.sizeElementVisibilityTimeout);
+      // }
 
       this.isSizeElementVisible = true;
 
-      this.sizeElementVisibilityTimeout = setTimeout(() => {
-        this.isSizeElementVisible = false;
-      }, this.sizeElementVisibilityTimeoutDuration);
+      // this.sizeElementVisibilityTimeout = setTimeout(() => {
+      //   this.isSizeElementVisible = false;
+      // }, this.sizeElementVisibilityTimeoutDuration);
     },
   },
   watch: {
