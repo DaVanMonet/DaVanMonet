@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div v-if="size.width && size.height" :class="{ 'resizeable-element__size--is-visible': isSizeElementVisible }" class="resizeable-element__size">{{ size.width }} × {{ size.height }}</div>
+  <div v-if="size.width && size.height" :class="{ 'resizeable-element__size--is-visible': isSizeElementVisible }" class="resizeable-element__size"><input type="number" v-model.number="sizeWidth">px × {{ size.height }}</div>
   <div class="resizeable-element__wrapper">
     <div class="resizeable-element" :style="[size]">
       <slot></slot>
@@ -19,7 +19,7 @@ export default {
   name: 'resizeable-element',
   data() {
     return {
-      sizeWidth: undefined,
+      sizeWidth:  undefined,
       sizeHeight: undefined,
       minWidth: 100, // TODO: Arbitrary for now, think of logic for this?
       minHeight: 100, // TODO: Arbitrary for now, think of logic for this?
@@ -250,7 +250,7 @@ export default {
     opacity: 0;
     position: absolute;
     z-index: 10;
-    top: -1.5rem;
+    top: -3rem;
     right: 0rem;
     color: darken(@color--grey, 20%);
     white-space: nowrap;
@@ -259,6 +259,14 @@ export default {
     &.resizeable-element__size--is-visible {
       opacity: 1;
       pointer-events: all;
+    }
+
+    input {
+      color: darken(@color--grey, 20%);
+      font-size: 12px;
+      padding: 3px;
+      width: 55px;
+      text-align: right;
     }
   }
 
