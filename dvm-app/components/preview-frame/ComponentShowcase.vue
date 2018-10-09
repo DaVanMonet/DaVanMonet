@@ -172,6 +172,8 @@ export default
     created()
     {
 
+        console.log("Showcase Data: ", this.showcaseData);
+
         // Set first showcase state as the selected state per default
         this.hasStates = (this.showcaseData.States.length > 0);
         if (this.hasStates)

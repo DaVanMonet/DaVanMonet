@@ -17,7 +17,7 @@ module.exports = function(chunks, writeFile = true)
     // Add other targets
     Object.keys(chunks)
         .filter(c => c.indexOf('.css') === -1)
-        .forEach(target => targetIndex.items.push(path.posix.join(target)));
+        .forEach(target => targetIndex.items.push(path.posix.join(dvmConfig.directories.css_subDir, target)));
     
     // Save index to file
     if (writeFile)
