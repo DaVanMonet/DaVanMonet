@@ -8,7 +8,7 @@ module.exports = {
     index: path.resolve(dvmConfig.directories.dist_web_abs(), 'index.html'),
     assetsRoot: dvmConfig.directories.dist_web_abs(),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: dvmConfig.directories.publicPath || '/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

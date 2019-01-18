@@ -15,6 +15,13 @@ project_info:
 # Path settings
 #-------------------------------------------------------------------------------
 directories:
+
+  # This is the base path where the site is hosted.
+  # Examples:
+  # If it is hosted at http://www.example.com/, enter '/'
+  # If it is hosted at http://www.example.com/dvm/, enter '/dvm'
+  publicPath: '/'
+
   # Path to the pattern library source files
   src: "example"
 

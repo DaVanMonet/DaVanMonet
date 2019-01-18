@@ -15,6 +15,7 @@ const ConfigSchema = new SchemaObject({
     },
 
     directories: {
+        publicPath: { type: SDT.NON_EMPTY_STRING, default: "/" },
         src: SDT.REQUIRED_NON_EMPTY_STRING,
         dist_web: SDT.REQUIRED_NON_EMPTY_STRING,
         dist_package: SDT.REQUIRED_NON_EMPTY_STRING,
