@@ -1,5 +1,5 @@
 const cors = require('cors');
-const requireUncached = require('require-uncached');
+const requireUncached = require('import-fresh');
 const fs = require('fs-extra');
 const chalk = require('chalk');
 const eol = require('eol');
