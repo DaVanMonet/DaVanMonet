@@ -3,7 +3,7 @@
         <!-- <component-showcase-csslinks :csslinks="targetIndex.items"></component-showcase-csslinks> -->
         <header class="davanmonet-header">
             <a href="/" class="davanmonet-header-logolink">
-				<img class="davanmonet-header-logo" src="/static/logo.svg" alt="">
+				<img class="davanmonet-header-logo" :src="publicPath + '/static/logo.svg'" alt="">
 				<span class="davanmonet-header-logolinktext" 
 				v-if="projectConfig && projectConfig.project_info" 
 				v-html="projectConfig.project_info.name">DaVanMonet</span>
@@ -71,6 +71,17 @@ export default {
             pageLookup:{}
         }
     },
+
+	computed: {
+		publicPath: function () {
+			if (this.projectConfig
+			&& this.projectConfig.directories
+			&& this.projectConfig.directories.public_path)
+				return this.projectConfig.directories.public_path;
+			else
+				return '/';
+		}
+	},
     
     created: function ()
 	{
