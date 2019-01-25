@@ -45,7 +45,7 @@ import SyntaxHighlighter from '@/components/SyntaxHighlighter';
 import ResizeableElement from '@/components/ResizeableElement.vue';
 import ComponentShowcaseRender from '@/components/preview-frame/ComponentShowcaseRender.vue';
 import ComponentShowcaseSource from '@/components/preview-frame/ComponentShowcaseSource.vue';
-import ComponentShowcaseReposStylesheets from '@/components/preview-frame/ComponentShowcaseReposStylesheets.vue';
+//import ComponentShowcaseReposStylesheets from '@/components/preview-frame/ComponentShowcaseReposStylesheets.vue';
 import ComponentShowcaseSettingsDrawer from '@/components/preview-frame/ComponentShowcaseSettingsDrawer.vue';
 
 export default
@@ -56,7 +56,7 @@ export default
 		ResizeableElement,
 		ComponentShowcaseRender,
         ComponentShowcaseSource,
-        ComponentShowcaseReposStylesheets,
+        //ComponentShowcaseReposStylesheets,
         ComponentShowcaseSettingsDrawer,
 	},
     props: ['projectconfig','html'],

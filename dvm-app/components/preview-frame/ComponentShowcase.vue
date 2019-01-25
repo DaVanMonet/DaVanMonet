@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="showcase__example" v-if="hasStates">
-            <component-showcase-repos-stylesheets :repos="componentRepos"></component-showcase-repos-stylesheets>
+            <!-- <component-showcase-repos-stylesheets :repos="componentRepos"></component-showcase-repos-stylesheets> -->
 
             <resizeable-element 
 				ref="resizeableElement" 
@@ -77,7 +77,7 @@ import ResizeableElement from '@/components/ResizeableElement.vue';
 import ItemRichtext from '@/components/item/ItemRichtext';
 import ComponentShowcaseRender from '@/components/preview-frame/ComponentShowcaseRender.vue';
 import ComponentShowcaseSource from '@/components/preview-frame/ComponentShowcaseSource.vue';
-import ComponentShowcaseReposStylesheets from '@/components/preview-frame/ComponentShowcaseReposStylesheets.vue';
+//import ComponentShowcaseReposStylesheets from '@/components/preview-frame/ComponentShowcaseReposStylesheets.vue';
 import ComponentShowcaseSettingsDrawer from '@/components/preview-frame/ComponentShowcaseSettingsDrawer.vue';
 
 export default
@@ -91,7 +91,7 @@ export default
         ItemRichtext,
         ComponentShowcaseRender,
         ComponentShowcaseSource,
-        ComponentShowcaseReposStylesheets,
+        //ComponentShowcaseReposStylesheets,
         ComponentShowcaseSettingsDrawer,
     },
     props: ['showcaseData', "cssBreakpoints", "showcaseIsOnlyComponent", "itemKey"],

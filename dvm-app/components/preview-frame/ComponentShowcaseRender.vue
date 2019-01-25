@@ -1,15 +1,11 @@
 <template>
     <div class="showcase__render-iframe-wrapper">
-        <iframe ref="iframe" class="showcase__render-iframe" src="/showcase-render-iframe.html" scrolling="no" :data-repo-name="repo.Name" :data-repo-id="'id-'+ repo.RepoId"></iframe>
+        <iframe ref="iframe" class="showcase__render-iframe" :src="public_path + '/showcase-render-iframe.html'" scrolling="no" :data-repo-name="repo.Name" :data-repo-id="'id-'+ repo.RepoId"></iframe>
     </div>
 </template>
 
 <script>
-import
-{
-    iframeResizer
-}
-from 'iframe-resizer'
+import { iframeResizer } from 'iframe-resizer'
 
 export default
 {
@@ -23,7 +19,6 @@ export default
     ],
     methods:
     {
-
         onIframeLoad()
         {
             var parser = document.createElement('a');
@@ -88,6 +83,13 @@ export default
             }
         }
 
+    },
+
+    computed:
+    {
+        public_path() {
+            return this.$root.projectconfig.directories.public_path;
+        }
     },
 
     mounted()

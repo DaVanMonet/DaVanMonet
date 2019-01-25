@@ -40,8 +40,8 @@ export default {
   {
     getLinkHref(href)
     {
-      href = "/" + href;
-      if(this.$root.isLocalhost)
+      href = this.$root.getConfig().directories.public_path + "/" + href;
+      if(this.$root.getConfig().directories.use_hash)
       {
         href = "#" + href;
       }
@@ -52,7 +52,7 @@ export default {
       const link = event.target;
       const linkname = link.innerText;
       let href = link.attributes.href.value;
-      if(this.$root.isLocalhost)
+      if(this.$root.getConfig().directories.use_hash)
       {
         href = href.replace("#","");
       }

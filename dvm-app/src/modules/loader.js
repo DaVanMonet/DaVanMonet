@@ -1,4 +1,4 @@
-import _ from 'lodash/fp/object'; // We only need the objet merge function
+import _ from 'lodash/fp/object'; // We only need the object merge function
 const config_schema = require('../../../dvm-build/schema/config-schema');
 
 export default class Loader
@@ -45,6 +45,9 @@ export default class Loader
         {
             config.project_info.pagedata_schemaversion = "1.0";
         }
+
+        config.dev_mode = typeof webpackHotUpdate !== "undefined";
+
         Loader.ProjectConfig = config;
 
         // Load content index

@@ -8,7 +8,7 @@ module.exports = {
     index: path.resolve(dvmConfig.directories.dist_web_abs(), 'index.html'),
     assetsRoot: dvmConfig.directories.dist_web_abs(),
     assetsSubDirectory: 'static',
-    assetsPublicPath: dvmConfig.directories.publicPath || '/',
+    assetsPublicPath: dvmConfig.directories.public_path || '/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -26,7 +26,7 @@ module.exports = {
     env: require('./dev.env'),
     assetsRoot: path.resolve(__dirname, '../../dvm-app'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: dvmConfig.directories.public_path || '/',
     index: path.resolve(__dirname, '../../dvm-app/index.html'),
     proxyTable: {},
     // CSS Sourcemaps off by default because relative paths are "buggy"

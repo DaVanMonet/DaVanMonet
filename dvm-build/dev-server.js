@@ -40,7 +40,7 @@ const compiler = webpack(webpackConfig)
 // https://github.com/webpack/webpack-dev-middleware
 const devMiddleware = require('webpack-dev-middleware')(compiler,
 {
-	publicPath: "/",
+	publicPath: dvmConfig.directories.public_path,
 	quiet: true
 })
 
@@ -100,7 +100,7 @@ app.use(hotMiddleware)
 // serve pure static assets
 var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.assetsSubDirectory);
 app.use(staticPath, express.static('./dvm-app/static'))
-app.use('/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs()))
+app.use(dvmConfig.directories.public_path + '/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs()))
 app.use("/version.json", express.static('./dist/web/version.json'))
 
 // Add asset paths that are configured for dev access

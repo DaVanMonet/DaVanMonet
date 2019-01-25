@@ -20,6 +20,14 @@ function resolve (dir) {
 }
 
 const prodConfig = {
+
+    output:
+	{
+		path: dvmConfig.directories.dist_web_abs(),
+		filename: '[name].js',
+		publicPath: dvmConfig.directories.public_path
+    },
+    
     plugins: [
         
         // Compress extracted CSS. We are using this plugin so that possible

@@ -139,6 +139,8 @@ export default {
 			{
 				pagepath = hash.replace("#","");
 			}
+
+			console.log(pagepath);
 			this.loadPage(this, pagepath);
 		},
 		
