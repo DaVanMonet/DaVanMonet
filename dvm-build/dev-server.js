@@ -100,7 +100,9 @@ app.use(hotMiddleware)
 // serve pure static assets
 var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.assetsSubDirectory);
 app.use(staticPath, express.static('./dvm-app/static'))
-app.use(dvmConfig.directories.public_path + '/' + dvmConfig.directories.src, express.static(dvmConfig.directories.src_abs()))
+let servePath = dvmConfig.directories.public_path + '/' + dvmConfig.directories.src;
+servePath = servePath.replace('//', '/');
+app.use(servePath, express.static(dvmConfig.directories.src_abs()));
 app.use("/version.json", express.static('./dist/web/version.json'))
 
 // Add asset paths that are configured for dev access

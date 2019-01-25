@@ -20,13 +20,13 @@ directories:
   # Examples:
   # If it is hosted at http://www.example.com/, enter '/'
   # If it is hosted at http://www.example.com/dvm/, enter '/dvm'
-  public_path: '/dist/web'
+  # public_path: '/dist/web'
   
   # Set this to true to separate routing section of the URL with a hash.
   # Example:
   # false: http://www.example.com/component/button
   # true: http://www.example.com/#/component/button
-  use_hash: true
+  # use_hash: true
 
   # Path to the pattern library source files
   src: "example"

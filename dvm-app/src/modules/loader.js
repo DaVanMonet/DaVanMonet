@@ -46,6 +46,11 @@ export default class Loader
             config.project_info.pagedata_schemaversion = "1.0";
         }
 
+        if(typeof config.directories.public_path !== "string")
+        {
+            config.directories.public_path = "/";
+        }
+
         config.dev_mode = typeof webpackHotUpdate !== "undefined";
 
         Loader.ProjectConfig = config;
