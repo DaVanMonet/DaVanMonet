@@ -22,17 +22,23 @@ describe("Dev Server", function () {
     it("Returns markup (On Site Preview)", async function () {
         this.timeout(20000);
         const dvmConfig = load_config.dvmConfig();
-        request = require('async-request');
+       // request = require('async-request');
         
-        let response = await request('http://localhost:'+ dvmConfig.env.devSitePort +'/osp/component/example-component-guid-used-for-testing-dont-change/0/markup.html');
+		//let response = await request('http://localhost:'+ dvmConfig.env.devSitePort +'/osp/component/example-component-guid-used-for-testing-dont-change/0/markup.html');
+		fetch('http://localhost:'+ dvmConfig.env.devSitePort +'/osp/component/example-component-guid-used-for-testing-dont-change/0/markup.html').then((request) =>
+		{
+			let response = request.body();
+
+			let expectedMarkup0 = '<div class="examplecomponent">\n    <h2 class="examplecomponent-headline">Headline for example component</h2>\n</div>';
+			expect(response.body).to.be.equal(expectedMarkup0);
+
+			devServer.close();
+
+			// Exit process (because express will be blocking)
+			setTimeout(x => process.exit(0), 10);
+		}).catch(() => { setTimeout(x => process.exit(0), 10); })
         
-        let expectedMarkup0 = '<div class="examplecomponent">\n    <h2 class="examplecomponent-headline">Headline for example component</h2>\n</div>';
-        expect(response.body).to.be.equal(expectedMarkup0);
-
-        devServer.close();
-
-        // Exit process (because express will be blocking)
-        setTimeout(x => process.exit(0), 10);
+        
     });
     
 });

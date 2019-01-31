@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.6] - 2019-01-21
+### Added
+- Updated dependencies. Might contain things that doesn't work. Not yet upgraded to webpack 4.
+
 ## [1.1.17] - 2018-03-27
 ### Added
 - Replaced Marked with markdown-it
