@@ -40,8 +40,8 @@ export default {
   {
     getLinkHref(href)
     {
-      href = this.$root.getConfig().directories.public_path + "/" + href;
-      href = href.replace('//', '/');
+      //href = this.$root.getConfig().directories.public_path + "/" + href;
+      //href = href.replace('//', '/');
       if(this.$root.getConfig().directories.use_hash)
       {
         href = "#" + href;

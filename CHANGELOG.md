@@ -1,6 +1,14 @@
 # Changelog
 
-## [1.5.6] - 2019-01-21
+## [1.4.1] - 2019-01-31
+### Added
+- Bug fix for navigation when hosting on GH pages
+
+## [1.4.0] - 2019-01-31
+### Added
+- Updated handling of paths, in order to make DvM compatible with GitHub pages.
+
+## [1.3.6] - 2019-01-21
 ### Added
 - Updated dependencies. Might contain things that doesn't work. Not yet upgraded to webpack 4.
 
