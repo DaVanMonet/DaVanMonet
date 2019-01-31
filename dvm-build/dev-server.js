@@ -102,6 +102,7 @@ var staticPath = path.posix.join(envConfig.dev.assetsPublicPath, envConfig.dev.a
 app.use(staticPath, express.static('./dvm-app/static'))
 let servePath = dvmConfig.directories.public_path + '/' + dvmConfig.directories.src;
 servePath = servePath.replace('//', '/');
+console.log(servePath);
 app.use(servePath, express.static(dvmConfig.directories.src_abs()));
 app.use("/version.json", express.static('./dist/web/version.json'))
 

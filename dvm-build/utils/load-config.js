@@ -75,6 +75,12 @@ exports.dvmConfig = function()
                 config.compilation.entry[target_name] = e;
             }
 
+            // Make sure this property exists
+            if(typeof config.directories.public_path !== "string")
+            {
+                config.directories.public_path = "/";
+            }
+
             cachedConfig.dvmConfig = config;
 
             return config;

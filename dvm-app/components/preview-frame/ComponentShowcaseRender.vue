@@ -88,7 +88,10 @@ export default
     computed:
     {
         public_path() {
-            return this.$root.projectconfig.directories.public_path;
+            let path = this.$root.projectconfig.directories.public_path;
+            if (path === '/')
+                path = '';
+            return path;
         }
     },
 

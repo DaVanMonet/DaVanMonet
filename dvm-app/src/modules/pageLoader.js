@@ -70,8 +70,6 @@ export default class PageLoader
 		var base = this;
 		await this.loadData();
 
-		console.log("Load url: ", href);
-
 		if(this._projectConfig.directories.use_hash)
 		{
 			href = href.replace("#","");
@@ -79,10 +77,14 @@ export default class PageLoader
 
 		if(href.indexOf(this._projectConfig.directories.public_path) === 0)
 		{
-			href = href.substr(this._projectConfig.directories.public_path.length + 1);
+			href = href.slice(1);
 		}
+
 		href = decodeURI(href);
-		console.log(href);
+		
+		href = href.replace('//', '/');
+		console.log('getPage: ', href);
+
 		let pageData =
 		{
 			"id":"",
@@ -191,7 +193,7 @@ export default class PageLoader
 	async loadMDFile(filepath)
 	{
 		await this.loadData();
-		const requestbase = "//" + window.location.host + this._projectConfig.directories.public_path + "/";
+		const requestbase = "//" + (window.location.host + this._projectConfig.directories.public_path + "/").replace('//', '/');
 		const fullpath = requestbase + this._projectConfig.directories.src + "/" + filepath + '.md';
 		const filereq = await fetch(fullpath);
 		const filecontent = await filereq.text();
