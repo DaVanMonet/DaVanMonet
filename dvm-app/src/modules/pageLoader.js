@@ -83,7 +83,6 @@ export default class PageLoader
 		href = decodeURI(href);
 		
 		href = href.replace('//', '/');
-		console.log('getPage: ', href);
 
 		let pageData =
 		{
@@ -193,7 +192,10 @@ export default class PageLoader
 	async loadMDFile(filepath)
 	{
 		await this.loadData();
-		const requestbase = "//" + (window.location.host + this._projectConfig.directories.public_path + "/").replace('//', '/');
+		const md_base = this._projectConfig.directories.public_path_markdown
+						|| this._projectConfig.directories.public_path
+						|| "";
+		const requestbase = "//" + (window.location.host + md_base + "/").replace('//', '/');
 		const fullpath = requestbase + this._projectConfig.directories.src + "/" + filepath + '.md';
 		const filereq = await fetch(fullpath);
 		const filecontent = await filereq.text();
