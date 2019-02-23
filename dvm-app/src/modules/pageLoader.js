@@ -195,7 +195,13 @@ export default class PageLoader
 		const md_base = this._projectConfig.directories.public_path_markdown
 						|| this._projectConfig.directories.public_path
 						|| "";
-		const requestbase = "//" + (window.location.host + md_base + "/").replace('//', '/');
+		
+		let requestbase = "";
+		if (md_base.indexOf('http')) {
+			requestbase = md_base;
+		} else {
+			requestbase = "//" + (window.location.host + md_base + "/").replace('//', '/');
+		}
 		const fullpath = requestbase + this._projectConfig.directories.src + "/" + filepath + '.md';
 		const filereq = await fetch(fullpath);
 		const filecontent = await filereq.text();
