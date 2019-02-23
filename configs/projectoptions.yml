@@ -20,13 +20,18 @@ directories:
   # Examples:
   # If it is hosted at http://www.example.com/, enter '/'
   # If it is hosted at http://www.example.com/dvm/, enter '/dvm'
-  public_path: '/dist/web'
+  #public_path: '/dist/web'
+
+  # Use this if you need to specify a different base path for loading markdown files.
+  # This is useful when hosting as a GitHub-page, since you might need to load md-files
+  # from /raw/*** in order to get raw markdown instead of pre-rendered HTML
+  #public_path_markdown: '/path/to/markdown-files'
   
   # Set this to true to separate routing section of the URL with a hash.
   # Example:
   # false: http://www.example.com/component/button
   # true: http://www.example.com/#/component/button
-  use_hash: true
+  #use_hash: true
 
   # Path to the pattern library source files
   src: "example"

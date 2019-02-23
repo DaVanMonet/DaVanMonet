@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.4.2] - 2019-02-01
+### Added
+- Added option to specify separate URL for markdown files
+
 ## [1.4.1] - 2019-01-31
 ### Added
 - Bug fix for navigation when hosting on GH pages
