@@ -197,7 +197,7 @@ export default class PageLoader
 						|| "";
 		
 		let requestbase = "";
-		if (md_base.indexOf('http')) {
+		if (md_base.indexOf('http') > -1) {
 			requestbase = md_base;
 		} else {
 			requestbase = "//" + (window.location.host + md_base + "/").replace('//', '/');
