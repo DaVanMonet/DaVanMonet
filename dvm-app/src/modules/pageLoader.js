@@ -192,10 +192,15 @@ export default class PageLoader
 	async loadMDFile(filepath)
 	{
 		await this.loadData();
-		const md_base = this._projectConfig.directories.public_path_markdown
+		let md_base = this._projectConfig.directories.public_path_markdown
 						|| this._projectConfig.directories.public_path
 						|| "";
 		
+		// The value from above don't apply in dev mode
+		if (webpackHotUpdate) {
+			md_base = "";
+		}
+
 		let requestbase = "";
 		if (md_base.indexOf('http') > -1) {
 			requestbase = md_base;
