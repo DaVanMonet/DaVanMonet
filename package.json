@@ -1,7 +1,7 @@
 {
 	"name": "davanmonet",
 	"description": "A pattern library system",
-	"version": "1.4.2",
+	"version": "1.4.3-beta.2",
 	"license": "UNLICENSED",
 	"private": false,
 	"scripts": {
@@ -16,7 +16,8 @@
 		"test-unit": "mocha test/unit-tests.js",
 		"test-e2e": "npm run test-e2e-devserver && npm run test-e2e-build",
 		"test-e2e-devserver": "mocha test/e2e-devserver-tests.js",
-		"test-e2e-build": "mocha test/e2e-build-tests.js"
+		"test-e2e-build": "mocha test/e2e-build-tests.js",
+		"package-lock-sanitizer": "package-lock-sanitizer"
 	},
 	"author": {
 		"name": "Wezz Balk",
@@ -142,7 +143,14 @@
 		"last 2 versions",
 		"not ie <= 8"
 	],
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run package-lock-sanitizer && git add package-lock.json"
+		}
+	},
 	"devDependencies": {
-		"mocha": "^4.0.1"
+		"husky": "^1.3.1",
+		"mocha": "^4.0.1",
+		"package-lock-sanitizer": "^1.0.0"
 	}
 }
