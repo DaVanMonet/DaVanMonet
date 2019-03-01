@@ -3,7 +3,7 @@
         <!-- <component-showcase-csslinks :csslinks="targetIndex.items"></component-showcase-csslinks> -->
         <header class="davanmonet-header">
             <a href="/" class="davanmonet-header-logolink">
-				<img class="davanmonet-header-logo" :src="(publicPath + projectConfig.project_info.logo).replace('//', '/')" alt="">
+				<img class="davanmonet-header-logo" :src="logoPath" alt="">
 				<span class="davanmonet-header-logolinktext" 
 				v-if="projectConfig && projectConfig.project_info" 
 				v-html="projectConfig.project_info.name">DaVanMonet</span>
@@ -80,6 +80,15 @@ export default {
 				return this.projectConfig.directories.public_path;
 			else
 				return '/';
+		},
+		logoPath: function () {
+			if (this.publicPath
+			&& this.projectConfig
+			&& this.projectConfig.project_info
+			&& this.projectConfig.project_info.logo)
+				return (this.publicPath + this.projectConfig.project_info.logo).replace('//', '/');
+			else
+				return (this.publicPath + '/static/logo.svg').replace('//', '/');
 		}
 	},
     
