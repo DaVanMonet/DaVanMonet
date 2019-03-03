@@ -197,7 +197,7 @@ export default class PageLoader
 						|| "";
 		
 		// The value from above don't apply in dev mode
-		if (webpackHotUpdate) {
+		if (typeof webpackHotUpdate !== "undefined") {
 			md_base = "";
 		}
 
