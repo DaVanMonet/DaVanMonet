@@ -2,7 +2,7 @@
     <div class="davanmonet-app">
         <!-- <component-showcase-csslinks :csslinks="targetIndex.items"></component-showcase-csslinks> -->
         <header class="davanmonet-header">
-            <a href="/" class="davanmonet-header-logolink">
+            <a :href="publicPath" class="davanmonet-header-logolink">
 				<img class="davanmonet-header-logo" :src="logoPath" alt="">
 				<span class="davanmonet-header-logolinktext" 
 				v-if="projectConfig && projectConfig.project_info" 
