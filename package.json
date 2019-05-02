@@ -1,7 +1,7 @@
 {
 	"name": "davanmonet",
 	"description": "A pattern library system",
-	"version": "1.4.7",
+	"version": "0.0.0-semantically-released",
 	"license": "UNLICENSED",
 	"private": false,
 	"scripts": {
@@ -17,7 +17,9 @@
 		"test-e2e": "npm run test-e2e-devserver && npm run test-e2e-build",
 		"test-e2e-devserver": "mocha test/e2e-devserver-tests.js",
 		"test-e2e-build": "mocha test/e2e-build-tests.js",
-		"package-lock-sanitizer": "package-lock-sanitizer"
+		"package-lock-sanitizer": "package-lock-sanitizer",
+		"travis-deploy-once": "travis-deploy-once --pro",
+		"semantic-release": "semantic-release"
 	},
 	"author": {
 		"name": "Wezz Balk",
@@ -27,7 +29,25 @@
 		"dvm": "./dvm-build/bin/dvm.js"
 	},
 	"config": {
-		"configFile": "./configs/projectoptions.yml"
+		"configFile": "./configs/projectoptions.yml",
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"release": {
+		"branches": [
+			"master",
+			{
+				"name": "next",
+				"prerelease": "next",
+				"channel": "next"
+			}
+		]
+	},
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
 	},
 	"dependencies": {
 		"@types/node": "^10.12.18",
@@ -145,12 +165,21 @@
 	],
 	"husky": {
 		"hooks": {
+			"commit-msg": "commitlint --edit",
 			"pre-commit": "npm run package-lock-sanitizer && git add package-lock.json"
 		}
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^7.5.2",
+		"@commitlint/config-conventional": "^7.5.0",
+		"cz-conventional-changelog": "^2.1.0",
 		"husky": "^1.3.1",
 		"mocha": "^4.0.1",
-		"package-lock-sanitizer": "^1.0.0"
+		"package-lock-sanitizer": "^1.0.0",
+		"semantic-release": "^15.13.3",
+		"travis-deploy-once": "^5.0.11"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }
