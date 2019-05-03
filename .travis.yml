@@ -14,7 +14,7 @@ script:
 - npm run build
 
 after_success:
-- npm run travis-deploy-once "npm run semantic-release"
+- npm run semantic-release
 
 # before_deploy:
 # - npm run build-demo-site
