@@ -155,7 +155,7 @@ export default {
 		{
 			let pagepath = window.location.pathname;
 			const hash = window.location.hash;
-			if(this.isLocalhost && hash.length > 0)
+			if((this.isLocalhost || this.projectConfig.directories.use_hash) && hash.length > 0)
 			{
 				pagepath = hash.replace("#","");
 			}
