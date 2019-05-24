@@ -106,7 +106,7 @@ compilation:
     print.css:
     - "**/*_print.less"
     - "**/**/*_print.less"
-    vuecomponents:
+    vuecomponents.js:
     - "VueComponents.vue"
     
 
@@ -195,7 +195,7 @@ structure:
   path: documentation
   
 onsitepreview:
-  # styleTargets: ## Optionally specify which css files should be included. Otherwise, all css targets will be included
+  # styleTargets: ## Optionally specify which css/js files should be included. Otherwise, all css/js targets will be included
   # - "main.css"
   components:
   - guid: button-guid-used-for-testing-dont-change ## Which component to use

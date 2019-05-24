@@ -86,6 +86,19 @@ exports.startServer = function(app) {
 
         html += codeSnipplets[state];
 
+        // Add js entries
+        for (let entry of Object.keys(dvmConfig.compilation.targets).filter(e => e.endsWith('.js')))
+        {
+            // Check if this entry should be included
+            if (typeof dvmConfig.onsitepreview.styleTargets === "object"
+            && dvmConfig.onsitepreview.styleTargets.indexOf(entry) < 0)
+            {
+                continue;
+            }
+
+            html += '<script src="/' + entry + '.js"></script>';
+        }
+
         html += "</body></html>"
 
         // Send markup for the desired state
