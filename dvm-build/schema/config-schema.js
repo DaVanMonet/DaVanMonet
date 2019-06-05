@@ -30,7 +30,7 @@ const ConfigSchema = new SchemaObject({
 
     userconfig: {
         type: String,
-        default: path.resolve(__dirname, '../../configs/local-conf.json')
+        default: path.resolve(__dirname, '../../configs/local-conf.yml')
     },
 
     indexing: {
@@ -98,7 +98,7 @@ const ConfigSchema = new SchemaObject({
             if (this.userconfig && this.userconfig.lenth > 0)
                 return path.resolve(process.cwd(), this.userconfig);
             else
-                return path.resolve(__dirname, '../../configs/local-conf.json');
+                return this.userconfig;
         }
     }
 

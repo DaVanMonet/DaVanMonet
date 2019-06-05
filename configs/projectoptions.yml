@@ -60,7 +60,7 @@ directories:
   cssCopies: '../DaVanMonetCopyTest'
 
 # If user config is present, the settings in it will override the ones in this file
-userconfig: "configs/local-conf.json"
+#userconfig: "configs/local-conf.yml"
 
 
 #-------------------------------------------------------------------------------
