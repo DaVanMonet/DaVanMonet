@@ -48,10 +48,11 @@ exports.dvmConfig = function()
             // If we have a user config file configured
             if (config.userconfig_abs().length > 0) {
                 // Load JSON or YAML user config file
-                let config_user = loadConfigFile(config.userconfig_abs());
+                const user_config = loadConfigFile(config.userconfig_abs());
+                const base_config = loadConfigFile(config_path);
                 
                 // Merge to a single config
-                config = _.merge(config, config_user);
+                config = new config_schema(_.merge(base_config, user_config));
             }
             
             // Assign structureFolders. Take structure from config if set, otherwise map file system. Save result to co config.
