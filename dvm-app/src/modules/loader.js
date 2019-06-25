@@ -20,12 +20,16 @@ export default class Loader
         
         // Look for user config and extend the default config if present
         if(typeof __USER_CONFIG_PATH__ === "string" && __USER_CONFIG_PATH__.length > 0)
-        {
-            let userConfig =  require(__USER_CONFIG_PATH__);
-            
-            if(typeof userConfig === "object")
-            {
-                mainconfig = _.merge(mainconfig, userConfig);
+        {   
+            try {
+                let userConfig = require(__USER_CONFIG_PATH__);
+                
+                if(typeof userConfig === "object")
+                {
+                    mainconfig = _.merge(mainconfig, userConfig);
+                }
+            } catch(e) {
+                console.warn('Failed to compile user config (does ' + __USER_CONFIG_PATH__ + ' exit?)');
             }
         }
 
