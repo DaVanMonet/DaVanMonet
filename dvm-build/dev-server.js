@@ -1,5 +1,3 @@
-require('./check-versions')()
-
 const envConfig = require('./build-settings')
 if (!process.env.NODE_ENV)
 {
