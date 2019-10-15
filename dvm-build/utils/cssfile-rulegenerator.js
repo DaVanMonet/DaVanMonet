@@ -49,6 +49,10 @@ module.exports = function()
 
 	} // for
 
+	let postCssLoader = [];
+	if (dvmConfig.compilation.postcss === true)
+		postCssLoader = [{loader: 'postcss-loader'}];
+
 	// Create neccesary loaders
 	for (ls_key in loader_specs)
 	{
@@ -59,9 +63,7 @@ module.exports = function()
 				use: [{
 					loader: "css-loader" // 2. Translates CSS into CommonJS
 				},
-				{
-					loader:'postcss-loader'
-				},
+				...postCssLoader,
 				{
 					loader: loader_specs[ls_key].loader, // 1. Preprocess
 					options: loader_specs[ls_key].options

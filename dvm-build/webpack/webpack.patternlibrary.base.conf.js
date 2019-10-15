@@ -94,9 +94,6 @@ module.exports = {
 							"sourceMap": false,
 							"import": false
 						}
-					},
-					{
-						"loader": "postcss-loader"
 					}
 				]
 			},
