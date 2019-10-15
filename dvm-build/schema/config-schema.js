@@ -46,6 +46,7 @@ const ConfigSchema = new SchemaObject({
         sourceMaps: Boolean,
         emitCssCopies: Boolean,
         copyAssetsToFolder: Boolean,
+        postcss: Boolean,
 
         // This will be populated dynamically
         entry: 'any'

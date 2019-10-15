@@ -94,15 +94,6 @@ module.exports = {
 							"sourceMap": false,
 							"import": false
 						}
-					},
-					{
-						"loader": "postcss-loader",
-						"options":
-						{
-							"ident": "postcss",
-							"plugins": require('autoprefixer'),
-							"sourceMap": false
-						}
 					}
 				]
 			},
