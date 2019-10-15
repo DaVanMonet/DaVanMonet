@@ -60,11 +60,7 @@ module.exports = function()
 					loader: "css-loader" // 2. Translates CSS into CommonJS
 				},
 				{
-					loader:'postcss-loader',
-					options:
-					{
-						plugins:[require('autoprefixer')]
-					}
+					loader:'postcss-loader'
 				},
 				{
 					loader: loader_specs[ls_key].loader, // 1. Preprocess
