@@ -41,9 +41,11 @@ module.exports = function() {
         test: /\.s[c|a]ss$/,
         loader: "sass-loader",
         options: {
-          includePaths: scssIncPaths.map(incPath =>
-            path.resolve(process.cwd(), incPath)
-          )
+          sassOptions: {
+            includePaths: scssIncPaths.map(incPath =>
+              path.resolve(process.cwd(), incPath)
+            )
+          }
         }
       };
 
