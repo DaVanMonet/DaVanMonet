@@ -90,6 +90,8 @@ compilation:
   # Files can be of any format that Webpack can understand. By default there
   # are loaders for LESS, SASS and JS configured in DvM
   targets:
+    sass.css:
+      - "**/*.scss"
     main.css:
       - "**/*.less"
       - "!**/*_inline.less"
