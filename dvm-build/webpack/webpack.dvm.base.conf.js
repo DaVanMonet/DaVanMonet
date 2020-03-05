@@ -6,9 +6,8 @@
 const path = require("path");
 const utils = require("../utils/utils");
 const buildSettings = require("../build-settings");
-const vueLoaderConfig = require("./vue-loader.conf");
+const { VueLoaderPlugin } = require("vue-loader");
 const webpack = require("webpack");
-const fs = require("fs");
 
 const dvmConfig = require("../utils/load-config").dvmConfig();
 const ContentIndexResolver = require("../plugins/content-index-resolver");
@@ -64,7 +63,9 @@ module.exports = {
         }
         // ...
       });
-    }
+    },
+
+    new VueLoaderPlugin()
   ],
 
   module: {
@@ -91,6 +92,31 @@ module.exports = {
         ]
       },
       {
+        test: /\.scss$/,
+        use: ["vue-style-loader", "css-loader", "sass-loader"]
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          "vue-style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              indentedSyntax: true,
+              // sass-loader version >= 8
+              sassOptions: {
+                indentedSyntax: true
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.less$/,
+        use: ["vue-style-loader", "css-loader", "less-loader"]
+      },
+      {
         test: /\.html$/,
         loader: "raw-loader"
       },
@@ -105,8 +131,7 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loader: "vue-loader",
-        options: vueLoaderConfig
+        loader: "vue-loader"
       },
       {
         test: /\.yml$/,
@@ -117,7 +142,7 @@ module.exports = {
         exclude: /.*node_modules((?!davanmonet).)*$/,
         loader: "babel-loader",
         query: {
-          presets: ["@babel/preset-env"]
+          presets: ["@babel/env"]
         }
       },
       {
