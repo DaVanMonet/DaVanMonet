@@ -15,6 +15,8 @@ const ContentIndexResolver = require("../plugins/content-index-resolver");
 module.exports = {
   name: "davanmonet",
 
+  performance: { hints: false },
+
   entry: {
     app: [path.resolve(__dirname, "../../dvm-app/src/main.js")]
   },

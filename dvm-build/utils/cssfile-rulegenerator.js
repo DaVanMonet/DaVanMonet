@@ -51,7 +51,7 @@ module.exports = function() {
     } // sass
   } // for
 
-  const postCssLoader = [];
+  let postCssLoader = [];
   if (dvmConfig.compilation.postcss === true)
     postCssLoader = [{ loader: "postcss-loader" }];
 
