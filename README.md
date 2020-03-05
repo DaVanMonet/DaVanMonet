@@ -76,6 +76,9 @@ Add target files here. These can be anything that Webpack can understand. By def
 
 The option compileIndividualFiles will create one less file per source files. 
 
+#### PostCSS
+This setting enables postcss-loader. For this to work, you need to create a postcss.config.js file in your project root. [Read more about how to configure Post CSS here](https://github.com/postcss/postcss-loader).
+
 ### Env
 Settings for ports etc
 

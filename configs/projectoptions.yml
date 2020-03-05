@@ -1,5 +1,4 @@
 ---
-
 #-------------------------------------------------------------------------------
 # Use this to alter the look of DaVanMonet
 #-------------------------------------------------------------------------------
@@ -10,12 +9,10 @@ project_info:
   repourl: "https://github.com/wezz/DaVanMonet"
   pagedata_schemaversion: "2.0"
 
-  
 #-------------------------------------------------------------------------------
 # Path settings
 #-------------------------------------------------------------------------------
 directories:
-
   # This is the base path where the site is hosted.
   # Examples:
   # If it is hosted at http://www.example.com/, enter '/'
@@ -26,7 +23,7 @@ directories:
   # This is useful when hosting as a GitHub-page, since you might need to load md-files
   # from /raw/*** in order to get raw markdown instead of pre-rendered HTML
   #public_path_markdown: '/path/to/markdown-files'
-  
+
   # Set this to true to separate routing section of the URL with a hash.
   # Example:
   # false: http://www.example.com/component/button
@@ -38,16 +35,16 @@ directories:
 
   # This can be used as the web root when servring as a website
   dist_web: "dist/web"
-  
+
   # This can be used to build a NPM  or NuGet package
   dist_package: "dist/package"
-  
+
   # JS output dir. Relative to dist_web
   js_subDir: "static/js"
 
   # CSS Output dir. Relative to dist_web
   css_subDir: "static/css"
-  
+
   # Index files will be created here
   indexes: "dist/indexes"
 
@@ -57,11 +54,10 @@ directories:
   # DvM will output css-files to this directory when in dev-mode, if this feature
   # is enabled in compile settings. (see below)
   # Production mode css files will also be copied here during build
-  cssCopies: '../DaVanMonetCopyTest'
+  cssCopies: "../DaVanMonetCopyTest"
 
 # If user config is present, the settings in it will override the ones in this file
-userconfig: "configs/local-conf.json"
-
+#userconfig: "configs/local-conf.yml"
 
 #-------------------------------------------------------------------------------
 # Indexing settings
@@ -70,14 +66,13 @@ indexing:
   contentIndexOutput: contentindex.json
   targetIndexOutput: targetindex.json
   keysToOutput:
-  - title
-  - guid
-  - variantid
-  - componentid
-  - private
-  - vue
+    - title
+    - guid
+    - variantid
+    - componentid
+    - private
+    - vue
   #- requirejs
-
 
 #-------------------------------------------------------------------------------
 # Compiler settings
@@ -89,28 +84,26 @@ compilation:
     scss:
       compileIndividualFiles: false
       lint: false
-  
+
   # Targets. Each target will be built to a separate output file.
   # All entried specified in the file array for the target will be included.
   # Files can be of any format that Webpack can understand. By default there
   # are loaders for LESS, SASS and JS configured in DvM
   targets:
     main.css:
-    - "**/*.less"
-    - "!**/*_inline.less"
-    - "!**/*_print.less"
-    - "!**/*_exclude.less"
+      - "**/*.less"
+      - "!**/*_inline.less"
+      - "!**/*_print.less"
+      - "!**/*_exclude.less"
     inline.css:
-    - "**/*_inline.less"
-    - "**/**/*_inline.less"
+      - "**/*_inline.less"
+      - "**/**/*_inline.less"
     print.css:
-    - "**/*_print.less"
-    - "**/**/*_print.less"
-    vuecomponents:
-    - "VueComponents.vue"
-    
+      - "**/*_print.less"
+      - "**/**/*_print.less"
+    # vuecomponents.js:
+    # - "VueComponents.vue"
 
-  
   # Create source maps for JS and CSS
   sourceMaps: true
 
@@ -120,31 +113,18 @@ compilation:
   # If set to true, assets specified in the assets array (see below), will be copied during build
   copyAssetsToFolder: false
 
-  # Settings for css-minification
-  minifycss:
-    report: min
-    level: 2
-
-  # Settings for PostCSS
-  postcss:
-    map: true
-    processors:
-    - name: autoprefixer
-      options:
-        browsers:
-        - last 2 versions
-
+  # Use PostCSS? Requires separate PostCSS config.
+  postcss: false
 
 #-------------------------------------------------------------------------------
 # Asset settings
 #-------------------------------------------------------------------------------
 assets:
-- src: "example/assets"
-  dev_access: "/test/fonts"
-  dest: 
-  - "dist/web/assets-output"
-  - "dist/package/assets-output"
-
+  - src: "example/assets"
+    dev_access: "/test/fonts"
+    dest:
+      - "dist/web/assets-output"
+      - "dist/package/assets-output"
 
 #-------------------------------------------------------------------------------
 # Environment settings
@@ -154,19 +134,18 @@ env:
   launchBrowser: false
   enableOnSitePreview: true
   cssBreakpoints:
-  - title: Mobile
-    width: 375
-    fromWidth: 0
-    toWidth: 375
-  - title: Tablet
-    width: 768
-    fromWidth: 375
-    toWidth: 999
-  - title: Desktop
-    width: 100%
-    fromWidth: 1000
-    toWidth: 9007199254740990
-
+    - title: Mobile
+      width: 375
+      fromWidth: 0
+      toWidth: 375
+    - title: Tablet
+      width: 768
+      fromWidth: 375
+      toWidth: 999
+    - title: Desktop
+      width: 100%
+      fromWidth: 1000
+      toWidth: 9007199254740990
 
 build:
   mswebdeploy:
@@ -174,31 +153,31 @@ build:
     package: msdeploy.zip
   package:
     files:
-    - src: "./configs/package.json"
-    - src: "./configs/.npmrc"
-      dest: "./.npmrc"
-    - src: "./configs/package.nuspec"
-      dest: "./package.nuspec"
+      - src: "./configs/package.json"
+      - src: "./configs/.npmrc"
+        dest: "./.npmrc"
+      - src: "./configs/package.nuspec"
+        dest: "./package.nuspec"
   web:
     files:
-    - src: "./configs/.htaccess"
-      dest: "./.htaccess"
-    - src: "./configs/Web.config"
-      dest: "./Web.config"
+      - src: "./configs/.htaccess"
+        dest: "./.htaccess"
+      - src: "./configs/Web.config"
+        dest: "./Web.config"
 
 structure:
-- title: Components
-  path: components
-- title: General styles
-  path: global
-- title: Documentation
-  path: documentation
-  
+  - title: Components
+    path: components
+  - title: General styles
+    path: global
+  - title: Documentation
+    path: documentation
+
 onsitepreview:
-  # styleTargets: ## Optionally specify which css files should be included. Otherwise, all css targets will be included
+  # styleTargets: ## Optionally specify which css/js files should be included. Otherwise, all css/js targets will be included
   # - "main.css"
   components:
-  - guid: button-guid-used-for-testing-dont-change ## Which component to use
-    hook: "#main-content > p:nth-child(2)" ## Where in the DOM to inject the component
-    # inject_pos: "append" ## Append position, after, before, append or prepend
-    # wrapper: <div class="someclass"></div> ## Component markup will be wrapped by this element
+    - guid: button-guid-used-for-testing-dont-change ## Which component to use
+      hook: "#main-content > p:nth-child(2)" ## Where in the DOM to inject the component
+      # inject_pos: "append" ## Append position, after, before, append or prepend
+      # wrapper: <div class="someclass"></div> ## Component markup will be wrapped by this element
