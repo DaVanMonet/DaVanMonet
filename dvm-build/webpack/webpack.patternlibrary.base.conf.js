@@ -29,7 +29,7 @@ module.exports = {
   },
 
   output: {
-    path: dvmConfig.directories.dist_web_abs(),
+    path: dvmConfig.dist_web_abs(),
     filename: "[name].js",
     publicPath: "/"
   },
@@ -38,8 +38,8 @@ module.exports = {
     extensions: [".ts", ".js", ".json", ".yml", ".ts"],
     alias: {
       vue$: "vue/dist/vue.esm.js",
-      [dvmConfig.directories.configs]: dvmConfig.directories.configs_abs(),
-      [dvmConfig.directories.indexes]: dvmConfig.directories.indexes_abs()
+      [dvmConfig.directories.configs]: dvmConfig.configs_abs(),
+      [dvmConfig.directories.indexes]: dvmConfig.indexes_abs()
     },
     plugins: [ContentIndexResolver]
   },
@@ -51,9 +51,7 @@ module.exports = {
       ), // This is set in package.json //process.env.npm_package_config_configFile
       __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs()),
       __CONTENT_INDEX_PATH__: JSON.stringify(
-        dvmConfig.directories.indexes_abs() +
-          "/" +
-          dvmConfig.indexing.contentIndexOutput
+        dvmConfig.indexes_abs() + "/" + dvmConfig.indexing.contentIndexOutput
       ),
       __PACKAGE_JSON__: JSON.stringify(process.cwd() + "/package.json")
     }),

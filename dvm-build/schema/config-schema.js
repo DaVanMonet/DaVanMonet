@@ -1,23 +1,28 @@
 // https://www.npmjs.com/package/schema-object
-const SchemaObject = require('schema-object');
-const path = require('path');
 const SDT = require("./schema-datatypes");
 
 // Configuration schema
-const ConfigSchema = new SchemaObject({
-    
+const ConfigSchema = {
+  id: "/ConfigSchema",
+  type: "object",
+  properties: {
     project_info: {
+      type: "object",
+      properties: {
         name: SDT.REQUIRED_NON_EMPTY_STRING,
         logo: SDT.NON_EMPTY_STRING,
         theme_style: SDT.NON_EMPTY_STRING,
-        repourl:  SDT.NON_EMPTY_STRING,
-        pagedata_schemaversion: { type: SDT.NON_EMPTY_STRING, default: "1.0"}
+        repourl: SDT.NON_EMPTY_STRING,
+        pagedata_schemaversion: { type: SDT.NON_EMPTY_STRING }
+      }
     },
 
     directories: {
-        public_path: { type: SDT.NON_EMPTY_STRING, default: "/" },
-        public_path_markdown: { type: String },
-        use_hash: { type: Boolean, default: false },
+      type: "object",
+      properties: {
+        public_path: { type: SDT.NON_EMPTY_STRING },
+        public_path_markdown: { type: "string" },
+        use_hash: { type: "boolean" },
         src: SDT.REQUIRED_NON_EMPTY_STRING,
         dist_web: SDT.REQUIRED_NON_EMPTY_STRING,
         dist_package: SDT.REQUIRED_NON_EMPTY_STRING,
@@ -26,83 +31,74 @@ const ConfigSchema = new SchemaObject({
         indexes: SDT.REQUIRED_NON_EMPTY_STRING,
         configs: SDT.REQUIRED_NON_EMPTY_STRING,
         cssCopies: SDT.REQUIRED_NON_EMPTY_STRING
+      }
     },
 
     userconfig: {
-        type: String,
-        default: path.resolve(__dirname, '../../configs/local-conf.yml')
+      type: "string"
     },
 
     indexing: {
-        contentIndexOutput: { type: SDT.NON_EMPTY_STRING, default: 'contentindex.json' },
-        targetIndexOutput: { type: SDT.NON_EMPTY_STRING, default: 'targetindex.json' },
-        keysToOutput: { type: Array, arrayType: SDT.NON_EMPTY_STRING }
+      type: "object",
+      properties: {
+        contentIndexOutput: {
+          type: SDT.NON_EMPTY_STRING
+        },
+        targetIndexOutput: {
+          type: SDT.NON_EMPTY_STRING
+        },
+        keysToOutput: { type: "array", arrayType: SDT.NON_EMPTY_STRING }
+      }
     },
 
     compilation: {
+      type: "object",
+      properties: {
         // TODO: Add schema for compilers and targets
-        compilers: 'any',
-        targets: 'any',
-        sourceMaps: Boolean,
-        emitCssCopies: Boolean,
-        copyAssetsToFolder: Boolean,
-        postcss: Boolean,
+        compilers: { type: "any" },
+        targets: { type: "any" },
+        sourceMaps: { type: "any" },
+        emitCssCopies: { type: "boolean" },
+        copyAssetsToFolder: { type: "boolean" },
+        postcss: { type: "boolean" },
 
         // This will be populated dynamically
-        entry: 'any'
+        entry: { type: "any" }
+      }
     },
 
     assets: {
-        type: Array,
-        arrayType: Object
+      type: "array",
+      arrayType: "object"
     },
 
     env: {
-        devSitePort: { type: Number, default: 9001 },
-        launchBrowser: Boolean,
-        enableOnSitePreview: Boolean,
-        cssBreakpoints: { type: Array, arrayType: Object }
+      type: "object",
+      properties: {
+        devSitePort: { type: "number" },
+        launchBrowser: { type: "boolean" },
+        enableOnSitePreview: { type: "boolean" },
+        cssBreakpoints: { type: "array", arrayType: "object" }
+      }
     },
 
     // TODO: This needs to be looked over. Copying to package can be done through assets, and destination path is set in directories.
-    build: Object,
+    build: { type: "object" },
 
     structure: {
-        type: Array,
-        arrayType: Object
+      type: "array",
+      arrayType: "object"
     },
 
-    // This is dynamically generated
-    structureFolders: Array,
+    structureFolders: { type: "array" },
 
     onsitepreview: {
-        components: { type: Array, arrayType: Object }
+      type: "object",
+      properties: {
+        components: { type: "array", arrayType: "object" }
+      }
     }
-
-}, {
-    
-    // It should not matter which case is used in a config file
-    keyIgnoreCase: true,
-
-    methods: {
-        
-        // These can be used to get resolved, absolute paths
-        src_abs: function () { return path.resolve(process.cwd(), this.src) },
-        dist_web_abs: function () { return path.resolve(process.cwd(), this.dist_web) },
-        dist_package_abs: function () { return path.resolve(process.cwd(), this.dist_package) },
-        indexes_abs: function () { return path.resolve(process.cwd(), this.indexes) },
-        configs_abs: function () { return path.resolve(process.cwd(), this.configs) },
-        cssCopies_abs: function () { return path.resolve(process.cwd(), this.cssCopies) },
-
-        // This one needs special attention, since it might be empty
-        userconfig_abs: function () {
-            if (this.userconfig && this.userconfig.lenth > 0)
-                return path.resolve(process.cwd(), this.userconfig);
-            else
-                return this.userconfig;
-        }
-    }
-
-});
+  }
+};
 
 module.exports = ConfigSchema;
