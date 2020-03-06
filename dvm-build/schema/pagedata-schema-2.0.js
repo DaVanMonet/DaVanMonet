@@ -7,7 +7,7 @@ const PageDataSchema = {
   Title: SDT.NON_EMPTY_STRING,
   Preamble: SDT.OPTIONAL_STRING,
   ComponentItems: {
-    type: Array,
+    type: "array",
     arrayType: ComponentItemSchema
   }
 };

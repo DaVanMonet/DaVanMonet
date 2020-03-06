@@ -9,9 +9,10 @@ const _ = require("lodash");
 const globby = require("globby");
 const config_schema = require("../schema/config-schema");
 const json_validator = new (require("jsonschema").Validator)();
+const config_defaults = require("./config-defaults");
 
 // These can be used to get resolved, absolute paths
-const configHelperMethods = function() {
+const config_helper_methods = function() {
   this.src_abs = function() {
     return path.resolve(process.cwd(), this.directories.src);
   };
@@ -44,24 +45,6 @@ const configHelperMethods = function() {
   };
 };
 
-const defaults = {
-  project_info: {
-    pagedata_schemaversion: "1.0"
-  },
-  directories: {
-    public_path: "/",
-    use_hash: false
-  },
-  userconfig: path.resolve(__dirname, "../../configs/local-conf.yml"),
-  indexing: {
-    contentIndexOutput: "contentindex.json",
-    targetIndexOutput: "targetindex.json"
-  },
-  env: {
-    devSitePort: 9001
-  }
-};
-
 const isType = (val, type) =>
   typeof val === type &&
   (type !== "string" || (type === "string" && val.length > 0));
@@ -91,8 +74,8 @@ exports.dvmConfig = function() {
     if (fs.existsSync(config_path)) {
       // Load JSON or YAML base confg file
       const config = Object.assign(
-        new configHelperMethods(),
-        _.merge(defaults, loadConfigFile(config_path))
+        new config_helper_methods(),
+        _.merge(config_defaults, loadConfigFile(config_path))
       );
 
       const validation = json_validator.validate(config, config_schema);
