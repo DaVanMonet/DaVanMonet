@@ -1,86 +1,96 @@
-const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const dvmConfig = require('../utils/load-config').dvmConfig();
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const dvmConfig = require("../utils/load-config").dvmConfig();
 
-module.exports = function()
-{
-	let additionalPlugins = [];
-	let additionalRules = []
+module.exports = function() {
+  let additionalPlugins = [];
+  let additionalRules = [];
 
-	let loader_specs = {};
-	
-	// Loop targets
-	for (t_key of Object.keys(dvmConfig.compilation.targets)
-		.filter(t => t.endsWith('.css'))) // We only care about CSS targets here
-	{
-		let t = dvmConfig.compilation.targets[t_key];
+  let loader_specs = {};
 
-		// Look for less files
-		if (loader_specs['less'] === undefined
-		&& t.find(f => f.endsWith('.less')))
-		{
-			loader_specs['less'] = {
-				test: /\.less$/,
-				loader: 'less-loader'
-			}
+  // Loop targets
+  for (t_key of Object.keys(dvmConfig.compilation.targets).filter(t =>
+    t.endsWith(".css")
+  )) {
+    // We only care about CSS targets here
+    let t = dvmConfig.compilation.targets[t_key];
 
-			continue;
-		} // less
+    // Look for less files
+    if (
+      loader_specs["less"] === undefined &&
+      t.find(f => f.endsWith(".less"))
+    ) {
+      loader_specs["less"] = {
+        test: /\.less$/,
+        loader: "less-loader"
+      };
 
-		// Look for sass files
-		if (loader_specs['sass'] === undefined
-		&& t.find(f => f.endsWith('.sass') || f.endsWith('.scss')))
-		{
-			// Include paths for SCSS
-			var scssIncPaths = dvmConfig.compilation.compilers.scss.includePaths || [];
+      continue;
+    } // less
 
-			loader_specs['sass'] = {
-				test: /\.s[c|a]ss$/,
-				loader: 'sass-loader',
-				options: {
-					includePaths: scssIncPaths.map(
-						incPath => path.resolve(process.cwd(), incPath)
-					)
-				}
-			}
+    // Look for sass files
+    if (
+      loader_specs["sass"] === undefined &&
+      t.find(f => f.endsWith(".sass") || f.endsWith(".scss"))
+    ) {
+      // Include paths for SCSS
+      var scssIncPaths =
+        dvmConfig.compilation.compilers.scss.includePaths || [];
 
-			continue;
-		} // sass
+      loader_specs["sass"] = {
+        test: /\.s[c|a]ss$/,
+        loader: "sass-loader",
+        options: {
+          sassOptions: {
+            includePaths: scssIncPaths.map(incPath =>
+              path.resolve(process.cwd(), incPath)
+            )
+          }
+        }
+      };
 
-	} // for
+      continue;
+    } // sass
+  } // for
 
-	let postCssLoader = [];
-	if (dvmConfig.compilation.postcss === true)
-		postCssLoader = [{loader: 'postcss-loader'}];
+  let postCssLoader = [];
+  if (dvmConfig.compilation.postcss === true)
+    postCssLoader = [{ loader: "postcss-loader" }];
 
-	// Create neccesary loaders
-	for (ls_key in loader_specs)
-	{
-		let loader = {
-			test: loader_specs[ls_key].test,
-			use: ['css-hot-loader?fileMap=css/{fileName}'].concat(ExtractTextPlugin.extract({ // Use css-hot-loader to enable hot-loading in dev mode
-				fallback: "style-loader", // 3. Load with extract text plugin, or fall back to style loader
-				use: [{
-					loader: "css-loader" // 2. Translates CSS into CommonJS
-				},
-				...postCssLoader,
-				{
-					loader: loader_specs[ls_key].loader, // 1. Preprocess
-					options: loader_specs[ls_key].options
-				}]
-			}))
-		}
+  // Create neccesary loaders
+  for (ls_key in loader_specs) {
+    const specifiedLoader = {
+      loader: loader_specs[ls_key].loader, // 1. Preprocess
+      options: loader_specs[ls_key].options
+    };
+    const miniCssExtractLoader = {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        // only enable hot in development
+        hmr: process.env.NODE_ENV === "development",
+        // if hmr does not work, this is a forceful method.
+        reloadAll: true
+      }
+    };
+    const loader = {
+      test: loader_specs[ls_key].test,
+      use: [
+        miniCssExtractLoader,
+        "css-loader",
+        ...postCssLoader,
+        specifiedLoader
+      ]
+    };
 
-		additionalRules.push(loader);
-	}
+    additionalRules.push(loader);
+  }
 
-	
+  // Create plugin dependencies
+  additionalPlugins.push(
+    new MiniCssExtractPlugin({
+      filename: dvmConfig.directories.css_subDir + "/[name]"
+    })
+  );
 
-	// Create plugin dependencies
-	additionalPlugins.push(
-		new ExtractTextPlugin({
-			filename: dvmConfig.directories.css_subDir + '/[name]'
-		}));
-
-	return { additionalRules,  additionalPlugins };
-}
+  return { additionalRules, additionalPlugins };
+};

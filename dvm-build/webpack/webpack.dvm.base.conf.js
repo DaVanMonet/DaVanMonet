@@ -6,15 +6,16 @@
 const path = require("path");
 const utils = require("../utils/utils");
 const buildSettings = require("../build-settings");
-const vueLoaderConfig = require("./vue-loader.conf");
+const { VueLoaderPlugin } = require("vue-loader");
 const webpack = require("webpack");
-const fs = require("fs");
 
 const dvmConfig = require("../utils/load-config").dvmConfig();
 const ContentIndexResolver = require("../plugins/content-index-resolver");
 
 module.exports = {
   name: "davanmonet",
+
+  performance: { hints: false },
 
   entry: {
     app: [path.resolve(__dirname, "../../dvm-app/src/main.js")]
@@ -34,8 +35,8 @@ module.exports = {
     alias: {
       vue$: "vue/dist/vue.esm.js",
       "@": path.resolve(__dirname, "../../dvm-app"),
-      [dvmConfig.directories.configs]: dvmConfig.directories.configs_abs(),
-      [dvmConfig.directories.indexes]: dvmConfig.directories.indexes_abs()
+      [dvmConfig.directories.configs]: dvmConfig.configs_abs(),
+      [dvmConfig.directories.indexes]: dvmConfig.indexes_abs()
     },
     plugins: [ContentIndexResolver] // ContentIndexResolver will generate contentindex.json if it does not exist
   },
@@ -49,9 +50,7 @@ module.exports = {
       ), // This is set in package.json //process.env.npm_package_config_configFile
       __USER_CONFIG_PATH__: JSON.stringify(dvmConfig.userconfig_abs()),
       __CONTENT_INDEX_PATH__: JSON.stringify(
-        dvmConfig.directories.indexes_abs() +
-          "/" +
-          dvmConfig.indexing.contentIndexOutput
+        dvmConfig.indexes_abs() + "/" + dvmConfig.indexing.contentIndexOutput
       ),
       __PACKAGE_JSON__: JSON.stringify(process.cwd() + "/package.json")
     }),
@@ -64,7 +63,9 @@ module.exports = {
         }
         // ...
       });
-    }
+    },
+
+    new VueLoaderPlugin()
   ],
 
   module: {
@@ -91,6 +92,31 @@ module.exports = {
         ]
       },
       {
+        test: /\.scss$/,
+        use: ["vue-style-loader", "css-loader", "sass-loader"]
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          "vue-style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              indentedSyntax: true,
+              // sass-loader version >= 8
+              sassOptions: {
+                indentedSyntax: true
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.less$/,
+        use: ["vue-style-loader", "css-loader", "less-loader"]
+      },
+      {
         test: /\.html$/,
         loader: "raw-loader"
       },
@@ -105,8 +131,7 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loader: "vue-loader",
-        options: vueLoaderConfig
+        loader: "vue-loader"
       },
       {
         test: /\.yml$/,
@@ -117,7 +142,7 @@ module.exports = {
         exclude: /.*node_modules((?!davanmonet).)*$/,
         loader: "babel-loader",
         query: {
-          presets: ["@babel/preset-env"]
+          presets: ["@babel/env"]
         }
       },
       {
