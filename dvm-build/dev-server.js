@@ -43,7 +43,11 @@ const devMiddleware = require("webpack-dev-middleware")(compiler, {
   stats: {
     colors: true,
     entrypoints: false,
-    children: false
+    children: true,
+    modules: false,
+    chunks: false,
+    assets: false,
+    warnings: true
   }
 });
 
@@ -97,12 +101,11 @@ let servePath =
   dvmConfig.directories.public_path + "/" + dvmConfig.directories.src;
 servePath = servePath.replace("//", "/");
 console.log(servePath);
-app.use(servePath, express.static(dvmConfig.directories.src_abs()));
+app.use(servePath, express.static(dvmConfig.src_abs()));
 app.use("/version.json", express.static("./dist/web/version.json"));
 
 // Add asset paths that are configured for dev access
 dvmConfig.assets
-  .toArray()
   .filter(a => a.dev_access && typeof a.dev_access == "string")
   .forEach(asset => {
     console.log(

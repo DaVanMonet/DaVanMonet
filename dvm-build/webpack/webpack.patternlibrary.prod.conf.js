@@ -21,7 +21,7 @@ const prodConfig = {
   mode: "production",
 
   output: {
-    path: dvmConfig.directories.dist_web_abs(),
+    path: dvmConfig.dist_web_abs(),
     filename: "[name].js",
     publicPath: dvmConfig.directories.public_path
   },
