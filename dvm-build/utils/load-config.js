@@ -10,6 +10,7 @@ const globby = require("globby");
 const config_schema = require("../schema/config-schema");
 const json_validator = new (require("jsonschema").Validator)();
 const config_defaults = require("./config-defaults");
+const chalk = require("chalk");
 
 // These can be used to get resolved, absolute paths
 const config_helper_methods = function() {
@@ -73,12 +74,12 @@ exports.dvmConfig = function() {
 
     if (fs.existsSync(config_path)) {
       // Load JSON or YAML base confg file
-      const config = Object.assign(
+      let config = Object.assign(
         new config_helper_methods(),
         _.merge(config_defaults, loadConfigFile(config_path))
       );
 
-      const validation = json_validator.validate(config, config_schema);
+      let validation = json_validator.validate(config, config_schema);
       if (validation.errors.length > 0) {
         console.error("Configuration Schema errors: ");
         validation.errors.forEach(e => console.error(e));
@@ -90,15 +91,23 @@ exports.dvmConfig = function() {
         // Load JSON or YAML user config file
         try {
           const user_config = loadConfigFile(config.userconfig_abs());
-          const base_config = loadConfigFile(config_path);
 
           // Merge to a single config
-          config = new config_schema(_.merge(base_config, user_config));
+          config = _.merge(config, user_config);
+          validation = json_validator.validate(config, config_schema);
+          if (validation.errors.length > 0) {
+            console.error("Configuration Schema errors: ");
+            validation.errors.forEach(e => console.error(e));
+            throw new Error("Configuration Schema Error");
+          }
         } catch (e) {
           console.warn(
-            "Failed to load user config (does " +
-              config.userconfig_abs() +
-              " exit?)"
+            chalk.inverse.yellow("WARNING:") +
+              " " +
+              chalk.yellow(
+                "Failed to load user config due to the following error: \n",
+                e
+              )
           );
         }
       }
