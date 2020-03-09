@@ -30,7 +30,8 @@ const ConfigSchema = {
         css_subDir: SDT.REQUIRED_NON_EMPTY_STRING,
         indexes: SDT.REQUIRED_NON_EMPTY_STRING,
         configs: SDT.REQUIRED_NON_EMPTY_STRING,
-        cssCopies: SDT.REQUIRED_NON_EMPTY_STRING
+        cssCopies: SDT.REQUIRED_NON_EMPTY_STRING,
+        jsCopies: SDT.NON_EMPTY_STRING
       }
     },
 
@@ -59,6 +60,7 @@ const ConfigSchema = {
         targets: { type: "any" },
         sourceMaps: { type: "any" },
         emitCssCopies: { type: "boolean" },
+        emitJsCopies: { type: "boolean" },
         copyAssetsToFolder: { type: "boolean" },
         postcss: { type: "boolean" },
 
