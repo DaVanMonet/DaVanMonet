@@ -58,13 +58,16 @@ module.exports = {
 
     // Emit CSS copies
     new HookPlugin({
-      emit: stats => {
+      emit: compilation => {
         // Save css files to configuration directory
         let cssDestinations = [];
         if (dvmConfig.compilation.emitCssCopies === true) {
           cssDestinations.push(dvmConfig.directories.cssCopies);
         }
-        require("../utils/emit-css-copies.js")(stats.assets, cssDestinations);
+        require("../utils/emit-css-copies.js")(
+          compilation.getAssets(),
+          cssDestinations
+        );
       }
     }),
 
