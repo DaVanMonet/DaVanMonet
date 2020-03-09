@@ -12,8 +12,6 @@ module.exports = function(assets, dests) {
 
   for (asset of assets) {
     const name = asset.name.replace(".js.js", ".js");
-    console.log("Asset name: ", name.split("/").slice(-1)[0]);
-    console.log("JS targets: ", jsTargets);
     if (!jsTargets.includes(name.split("/").slice(-1)[0])) continue;
 
     // Get filename from the key, which might be a longer path
