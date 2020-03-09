@@ -56,6 +56,11 @@ directories:
   # Production mode css files will also be copied here during build
   cssCopies: "../DaVanMonetCopyTest"
 
+  # DvM will output js-files to this directory when in dev-mode, if this feature
+  # is enabled in compile settings. (see below)
+  # Production mode js files will also be copied here during build
+  jsCopies: "../DaVanMonetCopyTest"
+
 # If user config is present, the settings in it will override the ones in this file
 #userconfig: "configs/local-conf.yml"
 
@@ -103,14 +108,17 @@ compilation:
     print.css:
       - "**/*_print.less"
       - "**/**/*_print.less"
-    # vuecomponents.js:
-    # - "VueComponents.vue"
+    test.js:
+      - "test.js"
 
   # Create source maps for JS and CSS
   sourceMaps: true
 
   # If set to true, CSS files will be emitted to the cssCopies directory during development
   emitCssCopies: true
+
+  # If set to true, JS files will be emitted to the jsCopies directory during development
+  emitJsCopies: true
 
   # If set to true, assets specified in the assets array (see below), will be copied during build
   copyAssetsToFolder: false

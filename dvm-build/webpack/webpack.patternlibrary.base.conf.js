@@ -56,18 +56,19 @@ module.exports = {
       __PACKAGE_JSON__: JSON.stringify(process.cwd() + "/package.json")
     }),
 
-    // Emit CSS copies
+    // Emit CSS and JS copies
     new HookPlugin({
       emit: compilation => {
-        // Save css files to configuration directory
-        let cssDestinations = [];
         if (dvmConfig.compilation.emitCssCopies === true) {
-          cssDestinations.push(dvmConfig.directories.cssCopies);
+          require("../utils/emit-css-copies.js")(compilation.getAssets(), [
+            dvmConfig.directories.cssCopies
+          ]);
         }
-        require("../utils/emit-css-copies.js")(
-          compilation.getAssets(),
-          cssDestinations
-        );
+        if (dvmConfig.compilation.emitJsCopies === true) {
+          require("../utils/emit-js-copies.js")(compilation.getAssets(), [
+            dvmConfig.directories.jsCopies
+          ]);
+        }
       }
     }),
 
