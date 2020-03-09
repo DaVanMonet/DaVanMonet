@@ -5,14 +5,20 @@ module.exports = function(assets, dests) {
   // Set destination to an array and iterate
   const destinations = typeof dests === "string" ? [dests] : dests;
 
-  // Iterate asset keys ending with .css
-  for (a_key of Object.keys(assets).filter(k => k.endsWith(".css"))) {
-    // Get filename from the key, which might be a longer path
-    const file_name = a_key.replace(/^.*[\\\/]/, "");
+  for (asset of assets) {
+    const source = asset.source.source();
+    const size = asset.source.size();
+    const listmap = asset.source.listMap();
+    const node = asset.source.node();
+  }
 
-    // Get file content by joining entries from the Webpack asset children array
-    const children = assets[a_key].children || [assets[a_key]];
-    let file_content = children.map(r => r._value).join("");
+  // Iterate asset keys ending with .css
+  for (asset of assets) {
+    if (!asset.name.endsWith(".css")) continue;
+
+    // Get filename from the key, which might be a longer path
+    const file_name = asset.name.replace(/^.*[\\\/]/, "");
+    const file_content = asset.source.source();
 
     // Iterate destinations
     destinations.forEach(dest => {
