@@ -89,6 +89,8 @@ compilation:
     scss:
       compileIndividualFiles: false
       lint: false
+      # implementation: 'sass' # Set to change sass implementation from node-sass (possible values: sass or node-sass. Remove for node-sass)
+
 
   # Targets. Each target will be built to a separate output file.
   # All entried specified in the file array for the target will be included.
