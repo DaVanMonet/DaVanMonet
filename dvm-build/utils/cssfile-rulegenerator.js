@@ -37,6 +37,8 @@ module.exports = function() {
       var scssIncPaths =
         dvmConfig.compilation.compilers.scss.includePaths || [];
 
+      var implementation = dvmConfig.compilation.compilers.scss.implementation;
+
       loader_specs["sass"] = {
         test: /\.s[c|a]ss$/,
         loader: "sass-loader",
@@ -48,6 +50,10 @@ module.exports = function() {
           }
         }
       };
+
+      if (implementation) {
+        loader_specs["sass"].options.implementation = require(implementation);
+      }
 
       continue;
     } // sass
