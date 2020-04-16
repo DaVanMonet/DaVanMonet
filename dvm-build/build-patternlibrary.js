@@ -28,10 +28,14 @@ rm(path.join(dvm_config.directories.dist_package), err => {
   require("./utils/create-content-index")(dvm_config);
 
   webpack(webpackConfig, function(err, stats) {
+    if (err) throw err;
+
+    if (!stats) return;
+
     stats.compilation.children = stats.compilation.children.filter(
       c => c.getStats().hasWarnings() || c.getStats().hasErrors()
     );
-    if (err) throw err;
+
     process.stdout.write(
       stats.toString({
         colors: true,
