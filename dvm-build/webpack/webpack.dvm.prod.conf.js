@@ -90,17 +90,20 @@ var webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: "dependency"
     }),
 
-    // keep module.id stable when vender modules does not change
-    new webpack.HashedModuleIdsPlugin(),
-
     // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, "../../dvm-app/static"),
-        to: buildSettings.build.assetsSubDirectory,
-        ignore: [".*"]
-      }
-    ]),
+    new CopyWebpackPlugin({
+      patterns:[
+        {
+          from: path.resolve(__dirname, "../../dvm-app/static"),
+          to: buildSettings.build.assetsSubDirectory,
+          globOptions: {
+            dot: true,
+            gitignore: true,
+            ignore: [".*"]
+          }
+        }
+      ]
+    }),
     new HookPlugin({
       emit: require("../utils/copyutils").copyAdditionalWebResources
     })
