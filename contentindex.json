@@ -1,0 +1,212 @@
+{
+	"structure": [
+		{
+			"title": "Components",
+			"shortpath": "components",
+			"longpath": "example/components",
+			"items": [
+				{
+					"filename": "OnSitePreview.md",
+					"filepath": "components/OnSitePreview.md",
+					"shortpath": "components/OnSitePreview",
+					"longpath": "example/components/OnSitePreview.md",
+					"type": "file",
+					"title": "On Site Preview",
+					"guid": "4ae9a305-c42d-4d4c-bfd8-ce076f5a7fad",
+					"componentid": "component-buttons-another",
+					"private": false
+				},
+				{
+					"filename": "examplecomponent.md",
+					"filepath": "components/examplecomponent.md",
+					"shortpath": "components/examplecomponent",
+					"longpath": "example/components/examplecomponent.md",
+					"type": "file",
+					"title": "Example component",
+					"guid": "example-component-guid-used-for-testing-dont-change",
+					"componentid": "example-component",
+					"private": false
+				},
+				{
+					"title": "Vue components",
+					"shortpath": "Vue Components",
+					"longpath": "example/components/Vue Components",
+					"items": [
+						{
+							"filename": "Vue component.md",
+							"filepath": "components/Vue Components/Vue component.md",
+							"shortpath": "components/Vue Components/Vue component",
+							"longpath": "example/components/Vue Components/Vue component.md",
+							"type": "file",
+							"title": "Vue component example",
+							"guid": "vue-component-example-1",
+							"componentid": "vue-component-example",
+							"private": false
+						}
+					],
+					"filecount": 1,
+					"directorycount": 0,
+					"type": "directory"
+				},
+				{
+					"title": "Buttons",
+					"shortpath": "buttons",
+					"longpath": "example/components/buttons",
+					"items": [
+						{
+							"filename": "Another_button.md",
+							"filepath": "components/buttons/Another_button.md",
+							"shortpath": "components/buttons/Another_button",
+							"longpath": "example/components/buttons/Another_button.md",
+							"type": "file",
+							"title": "Another button",
+							"guid": "ad6ae421-11f7-4702-8a58-c523db96dcdb",
+							"componentid": "component-buttons-another",
+							"private": false
+						},
+						{
+							"filename": "primary.md",
+							"filepath": "components/buttons/primary.md",
+							"shortpath": "components/buttons/primary",
+							"longpath": "example/components/buttons/primary.md",
+							"type": "file",
+							"title": "Primary button",
+							"guid": "button-guid-used-for-testing-dont-change",
+							"variantid": "primary",
+							"componentid": "component-buttons-standard",
+							"private": false
+						},
+						{
+							"filename": "secondary.md",
+							"filepath": "components/buttons/secondary.md",
+							"shortpath": "components/buttons/secondary",
+							"longpath": "example/components/buttons/secondary.md",
+							"type": "file",
+							"title": "Secondary button",
+							"guid": "ad6ae427-11f7-4702-8a58-c523db96dcdb",
+							"variantid": "secondary",
+							"componentid": "component-buttons-standard",
+							"private": false
+						},
+						{
+							"filename": "thirdbutton.md",
+							"filepath": "components/buttons/thirdbutton.md",
+							"shortpath": "components/buttons/thirdbutton",
+							"longpath": "example/components/buttons/thirdbutton.md",
+							"type": "file",
+							"title": "third button",
+							"guid": "17e2999b-7d8c-48a9-b710-9ff70164ff3b",
+							"componentid": "component-buttons-thirdvariant",
+							"private": false
+						}
+					],
+					"filecount": 4,
+					"directorycount": 0,
+					"type": "directory"
+				}
+			],
+			"filecount": 2,
+			"directorycount": 2,
+			"type": "directory"
+		},
+		{
+			"title": "General styles",
+			"shortpath": "global",
+			"longpath": "example/global",
+			"items": [
+				{
+					"filename": "aria-attributes.md",
+					"filepath": "global/aria-attributes.md",
+					"shortpath": "global/aria-attributes",
+					"longpath": "example/global/aria-attributes.md",
+					"type": "file",
+					"title": "ARIA Attributes",
+					"guid": "394c9fd5-c332-4a82-b02f-54cf030735d8",
+					"private": false
+				}
+			],
+			"filecount": 1,
+			"directorycount": 0,
+			"type": "directory"
+		},
+		{
+			"title": "Documentation",
+			"shortpath": "documentation",
+			"longpath": "example/documentation",
+			"items": [
+				{
+					"title": "Accessibility",
+					"shortpath": "accessibility",
+					"longpath": "example/documentation/accessibility",
+					"items": [
+						{
+							"filename": "dosdonts.md",
+							"filepath": "documentation/accessibility/dosdonts.md",
+							"shortpath": "documentation/accessibility/dosdonts",
+							"longpath": "example/documentation/accessibility/dosdonts.md",
+							"type": "file",
+							"title": "Do's and don'ts",
+							"guid": "42fcb1a8-4885-4b43-9909-a82d42d247ce",
+							"variantid": "regular",
+							"componentid": "accessibility-dosdonts",
+							"private": false
+						},
+						{
+							"filename": "testing.md",
+							"filepath": "documentation/accessibility/testing.md",
+							"shortpath": "documentation/accessibility/testing",
+							"longpath": "example/documentation/accessibility/testing.md",
+							"type": "file",
+							"title": "Accessibility testing",
+							"guid": "764b1496-243d-43f3-88c1-81fab6d732fb",
+							"variantid": "regular",
+							"componentid": "accessibility-testing",
+							"private": false
+						}
+					],
+					"filecount": 2,
+					"directorycount": 0,
+					"type": "directory",
+					"description": ""
+				},
+				{
+					"title": "Guidelines",
+					"shortpath": "guidelines",
+					"longpath": "example/documentation/guidelines",
+					"items": [
+						{
+							"filename": "css-naming-convention.md",
+							"filepath": "documentation/guidelines/css-naming-convention.md",
+							"shortpath": "documentation/guidelines/css-naming-convention",
+							"longpath": "example/documentation/guidelines/css-naming-convention.md",
+							"type": "file",
+							"title": "CSS Naming convention",
+							"guid": "a0810990-04c6-4539-95c5-554fe3cd480f",
+							"variantid": "regular",
+							"componentid": "css-naming-convention",
+							"private": false
+						},
+						{
+							"filename": "js-naming-convention.md",
+							"filepath": "documentation/guidelines/js-naming-convention.md",
+							"shortpath": "documentation/guidelines/js-naming-convention",
+							"longpath": "example/documentation/guidelines/js-naming-convention.md",
+							"type": "file",
+							"title": "JS Naming convention",
+							"guid": "672ee691-252c-48ef-b25e-a429cac2923f",
+							"variantid": "regular",
+							"componentid": "js-naming-conventions",
+							"private": false
+						}
+					],
+					"filecount": 2,
+					"directorycount": 0,
+					"type": "directory"
+				}
+			],
+			"filecount": 0,
+			"directorycount": 2,
+			"type": "directory"
+		}
+	]
+}

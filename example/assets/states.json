@@ -1,0 +1,11 @@
+[
+{
+	"title": "Base",
+	"previewMarkup": "<button class=\"seb-button seb-button--primary\">Primary</button><button class=\"seb-button seb-button--primary\">Primary with icon<svg class=\"seb-button__icon\"><use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"/icons/seb-icons.svg#icon--example-icon\"></use></svg></button>",
+	"renderSource": "<button class=\"seb-button seb-button--primary\">Primary</button><button class=\"seb-button seb-button--primary\">Primary with icon<svg class=\"seb-button__icon\"><use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"/icons/seb-icons.svg#icon--example-icon\"></use></svg></button>"
+},
+{
+	"title": "Disabled ",
+	"previewMarkup": "<button class=\"seb-button seb-button--primary\" disabled>Primary</button><button class=\"seb-button seb-button--primary\" disabled>Primary with icon<svg class=\"seb-button__icon\"><use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"/icons/seb-icons.svg#icon--example-icon\"></use></svg></button>",
+	"renderSource": "<button class=\"seb-button seb-button--primary\" disabled>Primary</button><button class=\"seb-button seb-button--primary\" disabled>Primary with icon<svg class=\"seb-button__icon\"><use xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"/icons/seb-icons.svg#icon--example-icon\"></use></svg></button>"
+}]

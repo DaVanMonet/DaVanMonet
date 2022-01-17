@@ -1,0 +1,24 @@
+@import (reference) "../variables";
+@import (reference) "../mixins";
+
+html
+{
+	font-size: 62.5%; // This defines 1rem to be 10px when viewed on a regular screen. Adjusting this font-size will proportionately scale all items sized with rem
+}
+html *
+{
+	box-sizing: border-box;
+	
+}
+
+body
+{
+	color: @BodyTextColor;
+	font-family: @FontFallback;
+	.font-size(16);
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	margin:0;
+	padding:0;
+}

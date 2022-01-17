@@ -1,0 +1,18 @@
+@import (reference) "variables.less";
+
+.font-size(@sizeValue)
+{
+	@remValue: (@sizeValue / 10);
+	@pxValue: (@sizeValue * 1);
+	font-size: ~"@{pxValue}px";
+	font-size: ~"@{remValue}rem";
+}
+
+.font-size(@fallbackFontSize, @webfontSize)
+{
+	.font-size(@fallbackFontSize);
+	.is-fontsloaded &
+	{
+		.font-size(@webfontSize);
+	}
+}
