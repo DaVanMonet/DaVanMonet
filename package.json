@@ -165,7 +165,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^4.3.8",
     "mocha": "^7.2.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.1.1",
     "package-lock-sanitizer": "^1.0.1",
     "semantic-release": "^17.4.2",
     "travis-deploy-once": "^5.0.11"
