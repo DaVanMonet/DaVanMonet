@@ -167,7 +167,7 @@
     "mocha": "^7.2.0",
     "node-fetch": "^2.6.1",
     "package-lock-sanitizer": "^1.0.1",
-    "semantic-release": "^17.4.2",
+    "semantic-release": "^19.0.3",
     "travis-deploy-once": "^5.0.11"
   },
   "publishConfig": {
