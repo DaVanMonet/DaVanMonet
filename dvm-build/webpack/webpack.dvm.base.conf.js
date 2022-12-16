@@ -6,11 +6,27 @@
 const path = require("path");
 const utils = require("../utils/utils");
 const buildSettings = require("../build-settings");
-const { VueLoaderPlugin } = require("vue-loader");
 const webpack = require("webpack");
+const { VueLoaderPlugin } = require('vue-loader')
 
 const dvmConfig = require("../utils/load-config").dvmConfig();
-const ContentIndexResolver = require("../plugins/content-index-resolver");
+const ContentIndexResolvePlugin = require("../plugins/content-index-resolver");
+
+class LogErrorsPlugin {
+  apply(compiler) {
+    compiler.hooks.done.tap(
+      'Log Errors Plugin',
+      (
+        stats
+      ) => {
+        if (stats.compilation.errors && stats.compilation.errors.length) {
+          console.log(stats.compilation.errors);
+          process.exit(1);
+        }
+      }
+    );
+  }
+}
 
 module.exports = {
   name: "davanmonet",
@@ -38,7 +54,11 @@ module.exports = {
       [dvmConfig.directories.configs]: dvmConfig.configs_abs(),
       [dvmConfig.directories.indexes]: dvmConfig.indexes_abs()
     },
-    plugins: [ContentIndexResolver] // ContentIndexResolver will generate contentindex.json if it does not exist
+    plugins: [new ContentIndexResolvePlugin()], // ContentIndexResolver will generate contentindex.json if it does not exist
+    fallback: { 
+      path: require.resolve("path-browserify"),
+      url: require.resolve("url")
+    }
   },
 
   plugins: [
@@ -55,21 +75,16 @@ module.exports = {
       __PACKAGE_JSON__: JSON.stringify(process.cwd() + "/package.json")
     }),
 
-    function() {
-      this.plugin("done", function(stats) {
-        if (stats.compilation.errors && stats.compilation.errors.length) {
-          console.log(stats.compilation.errors);
-          process.exit(1);
-        }
-        // ...
-      });
-    },
-
+    new LogErrorsPlugin(),
     new VueLoaderPlugin()
   ],
 
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: "vue-loader"
+      },
       {
         test: /\.css$/,
         use: [
@@ -122,16 +137,12 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        loader: [
+        use: [
           {
             loader: "awesome-typescript-loader",
             options: { configFileName: "example/tsconfig.json" }
           }
         ]
-      },
-      {
-        test: /\.vue$/,
-        loader: "vue-loader"
       },
       {
         test: /\.yml$/,
@@ -141,7 +152,7 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /.*node_modules((?!davanmonet).)*$/,
         loader: "babel-loader",
-        query: {
+        options: {
           presets: ["@babel/env"]
         }
       },

@@ -8,7 +8,7 @@ const opn = require("opn");
 const path = require("path");
 const express = require("express");
 const webpack = require("webpack");
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const proxyMiddleware = require("http-proxy-middleware");
 const webpackConfigDvm = require("./webpack/webpack.dvm.dev.conf");
 const webpackConfigPL = require("./webpack/webpack.patternlibrary.dev.conf");
@@ -53,7 +53,6 @@ const devMiddleware = require("webpack-dev-middleware")(compiler, {
 
 // https://github.com/glenjamin/webpack-hot-middleware
 const hotMiddleware = require("webpack-hot-middleware")(compiler, {
-  log: false,
   heartbeat: 2000
 });
 

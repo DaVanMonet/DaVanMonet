@@ -1,25 +1,19 @@
-const fs = require('fs');
-const dvmConfig = require('../utils/load-config').dvmConfig();
+const fs = require("fs");
+const dvmConfig = require("../utils/load-config").dvmConfig();
 
-module.exports = {
-    apply: function(resolver) {
-        resolver.plugin('file', function(request, callback) {
-        
+module.exports = class ContentIndexResolvePlugin {
+  apply(resolver) {
+    resolver.hooks.file.tap(
+      "Content Index Resolver Plugin",
+      (request) => {
         // Check if we're trying to resolve contentindex
-        if (request.path.endsWith(dvmConfig.indexing.contentIndexOutput)) {
-
-            // Generate the index if it does not already exist
-            if (fs.existsSync(request.path) === false)
-            {
-                require('../utils/create-content-index')();
-            }
-            
-            callback();
+        if (request.path === `${dvmConfig.indexes_abs()}/${dvmConfig.indexing.contentIndexOutput}`) {
+          // Generate the index if it does not already exist
+          if (fs.existsSync(request.path) === false) {
+            require("../utils/create-content-index")();
+          }
         }
-        else {
-            callback();
-        }
-
-        });
-    }
+      }
+    );
+  }
 };

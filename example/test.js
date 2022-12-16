@@ -1,3 +1,5 @@
-export default testFunction = function() {
+const testFunction = function() {
   console.log("test");
 };
+
+export default testFunction;

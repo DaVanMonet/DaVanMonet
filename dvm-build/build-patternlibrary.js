@@ -6,7 +6,7 @@ const path = require("path");
 var rm = require("rimraf");
 const chalk = require("chalk");
 const webpack = require("webpack");
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 
 // Load webpack configs
 const webpackProdConf = require("./webpack/webpack.patternlibrary.prod.conf");
