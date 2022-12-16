@@ -67,7 +67,6 @@ export default class PageLoader {
             this._projectConfig.project_info.pagedata_schemaversion
         );
       }
-      console.log(this._pageDataSchema);
       this._state.dataLoaded = true;
     }
   }

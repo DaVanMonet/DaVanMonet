@@ -5,17 +5,16 @@
 
 var utils = require("../utils/utils");
 var webpack = require("webpack");
-var merge = require("webpack-merge");
+var { merge } = require("webpack-merge");
 var path = require("path");
 var baseWebpackConfig = require("./webpack.patternlibrary.base.conf");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 const HookPlugin = require("../plugins/hook-plugin");
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function(name) {
   baseWebpackConfig.entry[name] = [
-    path.resolve(__dirname, "../../dvm-build/patternlibrary-hr-client")
+    'webpack-hot-middleware/client?noInfo=true&reload=true&name=patternlibrary'
   ].concat(baseWebpackConfig.entry[name]);
 });
 
@@ -26,16 +25,9 @@ const devConfig = {
     ospClient: path.resolve(__dirname, "../onsitepreview/client.js")
   },
 
-  module: {
-    //rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
-  },
-  // cheap-module-eval-source-map is faster for development
-  devtool: "#cheap-module-eval-source-map",
   plugins: [
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
-
-    new webpack.NoEmitOnErrorsPlugin(),
 
     new HookPlugin({
       done: _ => {
@@ -52,10 +44,17 @@ const devConfig = {
       ),
       inject: true,
       excludeChunks: ["ospClient"]
-    }),
+    })
+  ],
 
-    new FriendlyErrorsPlugin()
-  ]
+  devServer: {
+    static: './dist',
+   hot: true,
+  },
+
+  optimization: {
+    runtimeChunk: 'single',
+  }
 };
 
 module.exports = merge(baseWebpackConfig, devConfig);

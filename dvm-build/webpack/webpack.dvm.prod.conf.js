@@ -7,12 +7,12 @@ const path = require("path");
 const utils = require("../utils/utils");
 const webpack = require("webpack");
 const buildSettings = require("../build-settings");
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const baseWebpackConfig = require("./webpack.dvm.base.conf");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const HookPlugin = require("../plugins/hook-plugin");
 
@@ -25,7 +25,7 @@ var env =
 
 var webpackConfig = merge(baseWebpackConfig, {
   mode: "production",
-  devtool: buildSettings.build.productionSourceMap ? "#source-map" : false,
+  devtool: buildSettings.build.productionSourceMap ? "source-map" : false,
   output: {
     path: buildSettings.build.assetsRoot,
     filename: path.posix.join(
@@ -40,11 +40,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   optimization: {
     usedExports: true,
     minimizer: [
-      new TerserPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: false // Must be set to true if using source-maps in production
-      })
+      `...`,
+      new CssMinimizerPlugin()
     ]
   },
   plugins: [
@@ -59,14 +56,6 @@ var webpackConfig = merge(baseWebpackConfig, {
         dvmConfig.directories.css_subDir,
         "[name].[contenthash].css"
       )
-    }),
-
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: {
-        safe: true
-      }
     }),
 
     // generate dist index.html with correct asset hash for caching.
@@ -85,9 +74,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         removeAttributeQuotes: true
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: "dependency"
+      }
     }),
 
     // copy custom static assets
@@ -104,6 +91,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         }
       ]
     }),
+    
     new HookPlugin({
       emit: require("../utils/copyutils").copyAdditionalWebResources
     })

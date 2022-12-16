@@ -4,12 +4,11 @@
  */
 
 const path = require("path");
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const baseWebpackConfig = require("./webpack.patternlibrary.base.conf");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 const HookPlugin = require("../plugins/hook-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const dvmConfig = require("../utils/load-config").dvmConfig();
 
@@ -29,22 +28,12 @@ const prodConfig = {
   optimization: {
     usedExports: true,
     minimizer: [
-      new TerserPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: false // Must be set to true if using source-maps in production
-      })
+      `...`,
+      new CssMinimizerPlugin()
     ]
   },
 
   plugins: [
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: {
-        safe: true
-      }
-    }),
     new HookPlugin({
       done: stats => {
         console.log("create version file etc");
@@ -82,9 +71,7 @@ const prodConfig = {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: "dependency"
+      }
     })
   ]
 };

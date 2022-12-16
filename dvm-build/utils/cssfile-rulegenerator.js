@@ -70,13 +70,7 @@ module.exports = function() {
       options: loader_specs[ls_key].options
     };
     const miniCssExtractLoader = {
-      loader: MiniCssExtractPlugin.loader,
-      options: {
-        // only enable hot in development
-        hmr: process.env.NODE_ENV === "development",
-        // if hmr does not work, this is a forceful method.
-        reloadAll: true
-      }
+      loader: MiniCssExtractPlugin.loader
     };
     const loader = {
       test: loader_specs[ls_key].test,

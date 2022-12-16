@@ -7,8 +7,7 @@ const path = require("path");
 const webpack = require("webpack");
 
 const HookPlugin = require("../plugins/hook-plugin");
-const ContentIndexResolver = require("../plugins/content-index-resolver");
-const { VueLoaderPlugin } = require("vue-loader");
+const ContentIndexResolvePlugin = require("../plugins/content-index-resolver");
 
 const dvmConfig = require("../utils/load-config").dvmConfig();
 
@@ -41,7 +40,11 @@ module.exports = {
       [dvmConfig.directories.configs]: dvmConfig.configs_abs(),
       [dvmConfig.directories.indexes]: dvmConfig.indexes_abs()
     },
-    plugins: [ContentIndexResolver]
+    plugins: [new ContentIndexResolvePlugin()],
+    fallback: { 
+      path: require.resolve("path-browserify"),
+      url: require.resolve("url")
+    }
   },
 
   plugins: [
@@ -56,7 +59,7 @@ module.exports = {
       __PACKAGE_JSON__: JSON.stringify(process.cwd() + "/package.json")
     }),
 
-    // Emit CSS and JS copies
+    //Emit CSS and JS copies
     new HookPlugin({
       emit: compilation => {
         if (dvmConfig.compilation.emitCssCopies === true) {
@@ -71,8 +74,6 @@ module.exports = {
         }
       }
     }),
-
-    new VueLoaderPlugin(),
 
     ...additionalPlugins
   ],
@@ -104,13 +105,9 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /.*node_modules((?!davanmonet).)*$/,
         loader: "babel-loader",
-        query: {
+        options: {
           presets: ["@babel/env"]
         }
-      },
-      {
-        test: /\.vue$/,
-        loader: "vue-loader"
       },
       ...additionalRules
     ]
