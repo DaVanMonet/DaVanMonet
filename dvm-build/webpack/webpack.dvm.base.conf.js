@@ -158,6 +158,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        type: 'javascript/auto',
         loader: "url-loader",
         options: {
           limit: 10000,
@@ -166,6 +167,7 @@ module.exports = {
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        type: 'javascript/auto',
         loader: "url-loader",
         options: {
           limit: 10000,
@@ -174,6 +176,7 @@ module.exports = {
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        type: 'javascript/auto',
         loader: "url-loader",
         options: {
           limit: 10000,

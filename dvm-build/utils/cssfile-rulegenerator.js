@@ -76,7 +76,10 @@ module.exports = function() {
       test: loader_specs[ls_key].test,
       use: [
         miniCssExtractLoader,
-        "css-loader",
+        {
+          loader: "css-loader",
+          options: { url: false }
+        },
         ...postCssLoader,
         specifiedLoader
       ]
