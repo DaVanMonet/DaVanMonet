@@ -82,12 +82,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       patterns:[
         {
           from: path.resolve(__dirname, "../../dvm-app/static"),
-          to: buildSettings.build.assetsSubDirectory,
-          globOptions: {
-            dot: true,
-            gitignore: true,
-            ignore: [".*"]
-          }
+          to: buildSettings.build.assetsSubDirectory
         }
       ]
     }),
