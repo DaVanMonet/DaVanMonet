@@ -26,7 +26,7 @@ module.exports = {
     env: require("./dev.env"),
     assetsRoot: path.resolve(__dirname, "../../dvm-app"),
     assetsSubDirectory: "static",
-    assetsPublicPath: dvmConfig.directories.public_path || "/",
+    assetsPublicPath: "/",
     index: path.resolve(__dirname, "../../dvm-app/index.html"),
     proxyTable: {},
     // CSS Sourcemaps off by default because relative paths are "buggy"

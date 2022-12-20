@@ -89,7 +89,7 @@ export default
     {
         public_path() {
             let path = this.$root.projectconfig.directories.public_path;
-            if (path === '/')
+            if (path === '/' || typeof __webpack_hot_middleware_reporter__ !== "undefined")
                 path = '';
             return path;
         }

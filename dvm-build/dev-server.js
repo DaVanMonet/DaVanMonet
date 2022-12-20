@@ -39,7 +39,7 @@ const compiler = webpack(webpackConfig);
 
 // https://github.com/webpack/webpack-dev-middleware
 const devMiddleware = require("webpack-dev-middleware")(compiler, {
-  publicPath: dvmConfig.directories.public_path,
+  publicPath: '/',
   stats: {
     colors: true,
     entrypoints: false,
