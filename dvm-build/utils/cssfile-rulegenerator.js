@@ -78,7 +78,10 @@ module.exports = function() {
         miniCssExtractLoader,
         {
           loader: "css-loader",
-          options: { url: false }
+          options: {
+            url: false,
+            import: false
+          }
         },
         ...postCssLoader,
         specifiedLoader
