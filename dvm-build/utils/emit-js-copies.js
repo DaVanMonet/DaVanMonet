@@ -10,9 +10,8 @@ module.exports = function(assets, dests) {
     t.endsWith(".js")
   );
 
-  for (asset of assets) {
+  for (asset of assets.filter((a) => a.name.endsWith('.js') && !a.name.endsWith('.css.js'))) {
     const name = asset.name.replace(".js.js", ".js");
-    if (!jsTargets.includes(name.split("/").slice(-1)[0])) continue;
 
     // Get filename from the key, which might be a longer path
     const file_name = name.replace(/^.*[\\\/]/, "");
